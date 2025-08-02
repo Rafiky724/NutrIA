@@ -1,0 +1,1 @@
+# Imagenes o cosas estaticas del sistema
