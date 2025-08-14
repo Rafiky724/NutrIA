@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -59,9 +60,9 @@ export default function Login() {
 
               <p className="mt-4 text-sm font_brown poppins-light">
                 ¿Haz olvidado la contraseña?{" "}
-                <a href="#" className="font-semibold hover:underline">
+                <Link to="#" className="font-semibold hover:underline">
                   Restablecer
-                </a>
+                </Link>
               </p>
             </div>
           </div>
