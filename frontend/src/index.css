@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/* Text Colors */
+.font_gray {
+    color: #595951;
+}
+
+.font_brown {
+    color: #260B01;
+}
+
+/* Background Colors */
+.bg_white_card {
+    background-color: #FCFCFC;
+}
+
+.bg_inputs {
+    background-color:  #F2F0EB
+}
+
+.bg_yellow {
+    background-color: #EFB920;
+}
+
+.bg_brown {
+    background-color: #260B01;
+}
+
+/* Tipografia */
+.poppins-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
