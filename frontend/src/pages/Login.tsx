@@ -16,7 +16,7 @@ export default function Login() {
         <div className="min-h-screen flex flex-col items-center justify-center">
           <div className="bg_white_card w-80 h-auto sm:w-xl lg:w-3xl p-8 rounded-3xl shadow-md text-center">
             <div className="flex items-center justify-center gap-5 mb-20">
-              <img className="w-15" src="/SVG/Icono.svg" alt="Icono" />
+              <img className="w-15" src="/SVG/Datos.svg" alt="Icono" />
               <h2 className="text-lg font_brown poppins-bold">
                 Iniciar sesión
               </h2>
@@ -67,6 +67,16 @@ export default function Login() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="absolute top-5 left-5 z-10 w-10">
+        <Link to="/">
+          <img
+            src="/SVG/Flecha.svg"
+            alt="Volver al inicio"
+            className="w-auto h-auto cursor-pointer"
+          />
+        </Link>
       </div>
 
       <div className="absolute bottom-0 z-10 w-35 sm:w-3xs ">

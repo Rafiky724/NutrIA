@@ -5,7 +5,7 @@ export default function Init() {
     <>
       <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center ">
         <div className="min-h-screen flex flex-col items-center justify-center relative mx-auto my-auto">
-          <div className="w-sm md:w-md">
+          <div className="w-2xs md:w-xs 2xl:w-md">
             <img src="./Logo.png" alt="Logo NutrIA" className="w-auto h-auto" />
           </div>
           <div className="text-center poppins-medium text-3xl">
@@ -30,7 +30,7 @@ export default function Init() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 z-10 w-35 sm:w-3xs ">
+        <div className="absolute bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
           <img
             src="/Background/FrutaBack1.png"
             alt="Logo NutrIA"
@@ -38,7 +38,7 @@ export default function Init() {
           />
         </div>
 
-        <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-3xs">
+        <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
           <img
             src="/Background/FrutaBack2.png"
             alt="Logo NutrIA"
