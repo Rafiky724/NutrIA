@@ -1,9 +1,13 @@
 import type { SubmitHandler } from "react-hook-form";
 import type { FormData } from "../types";
 import { useMultiStepForm } from "../hooks/useMultiStepForm";
+import { Link } from "react-router-dom";
 import Step1 from "../components/formSteps/Step1";
 import Step2 from "../components/formSteps/Step2";
-import { Link } from "react-router-dom";
+import Step3 from "../components/formSteps/Step3";
+import Step4 from "../components/formSteps/Step4";
+import Step5 from "../components/formSteps/Step5";
+import Step6 from "../components/formSteps/Step6";
 
 export default function Form() {
   const {
@@ -28,7 +32,11 @@ export default function Form() {
 
   const fieldNames: (keyof FormData)[][] = [
     ["edad", "genero", "peso", "altura"], // Step 1
-    ["otro"], // Step 2
+    ["objetivo"], // Step 2
+    ["actividad"], // Step 3
+    ["tieneEnfermedad"], // Step 4
+    ["enfermedad"], //Step 5
+    ["enfermedad"], //Step 6
   ];
 
   const handleNext = async () => {
@@ -44,8 +52,34 @@ export default function Form() {
       getValues={getValues}
       errors={errors}
     />,
-    <Step2 register={register} errors={errors} />,
+    <Step2
+      register={register}
+      errors={errors}
+      onSelectObjetivo={(objetivo) => setValue("objetivo", objetivo)}
+      nextStep={nextStep}
+    />,
+    <Step3
+      register={register}
+      errors={errors}
+      onSelectActividad={(actividad) => setValue("actividad", actividad)}
+      nextStep={nextStep}
+    />,
+    <Step4
+      register={register}
+      errors={errors}
+      onSelectTieneEnfermedad={(tieneEnfermedad) =>
+        setValue("tieneEnfermedad", tieneEnfermedad)
+      }
+      nextStep={nextStep}
+    />,
+    <Step5
+      register={register}
+      onSelectEnfermedad={(enfermedad) => setValue("enfermedad", enfermedad)}
+    />,
+    <Step6 />,
   ];
+
+  const progress = ((step + 1) / steps.length) * 100;
 
   return (
     <>
@@ -76,18 +110,19 @@ export default function Form() {
             </div>
 
             <div className="flex justify-between pt-4">
-              {step < steps.length - 1 ? (
+              {(step === 0 || step === 4) && (
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="w-full bg_yellow font_brown poppins-bold px-4 py-2 rounded-3xl cursor-pointer"
+                  className="w-80 mx-auto bg_yellow font_brown poppins-bold px-4 py-2 rounded-3xl cursor-pointer"
                 >
                   Continuar
                 </button>
-              ) : (
+              )}
+              {step === 5 && (
                 <button
                   type="submit"
-                  className="w-full bg_yellow font_brown poppins-bold px-4 py-2 rounded-3xl cursor-pointer"
+                  className="w-80 mx-auto bg_yellow font_brown poppins-bold px-4 py-2 rounded-3xl cursor-pointer"
                 >
                   Continuar
                 </button>
@@ -95,6 +130,13 @@ export default function Form() {
             </div>
           </form>
         </div>
+      </div>
+
+      <div className="absolute top-8 w-60 md:w-90 h-3 bg_brown rounded-full left-1/2 transform -translate-x-1/2">
+        <div
+          className="h-full bg-yellow-500 rounded-l-full"
+          style={{ width: `${progress}%` }}
+        ></div>
       </div>
 
       <div className="absolute bottom-0 z-10 w-35 sm:w-3xs">

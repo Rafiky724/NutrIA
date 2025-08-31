@@ -6,11 +6,11 @@ export type Actividad = 'No hago ejercicio' | 'Ocasional (1-2 veces por semana)'
 
 export type TieneEnfermedad = 'Sí' | 'No'
 
-export type Cardiovasculares = 'Hipertensión arterial' | 'Hipercolesterolemia' | 'Triglicéridos elevados'
+// export type Cardiovasculares = 'Hipertensión arterial' | 'Hipercolesterolemia' | 'Triglicéridos elevados'
 
-export type Digestivas = 'Enfermedad celiaca' | 'Intolerancia a la lactosa' | 'Síndrome de intestino irritable' | 'Enfermedad de Crohn / Colitis Ulcerosa'
+// export type Digestivas = 'Enfermedad celiaca' | 'Intolerancia a la lactosa' | 'Síndrome de intestino irritable' | 'Enfermedad de Crohn / Colitis Ulcerosa'
 
-export type Metabolicas = 'Diabetes tipo 1 y tipo 2' | 'Resistencia a la insulina/prediabetes' | 'Hipotiroidismo' | 'Sindrome metabólico'
+// export type Metabolicas = 'Diabetes tipo 1 y tipo 2' | 'Resistencia a la insulina/prediabetes' | 'Hipotiroidismo' | 'Sindrome metabólico'
 
 export type FormData = {
   edad: number;
@@ -20,7 +20,5 @@ export type FormData = {
   objetivo: Objetivo;
   actividad: Actividad;
   tieneEnfermedad: TieneEnfermedad;
-  cardiovasculares: Cardiovasculares;
-  digestivas: Digestivas;
-  metabolicas: Metabolicas;
+  enfermedad: string
 };
