@@ -23,7 +23,12 @@ export default function Step4({
   const handleSelect = (selectedOption: "Sí" | "No") => {
     setSelected(selectedOption);
     onSelectTieneEnfermedad(selectedOption);
-    nextStep();
+    if (selectedOption === "No") {
+      nextStep();
+      nextStep();
+    } else {
+      nextStep();
+    }
   };
 
   return (
