@@ -1,9 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
+import RestablecerModal from "../components/UI/RestablecerModal";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
+  const [mostrarModal, setMostrarModal] = useState(false);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -60,9 +62,13 @@ export default function Login() {
 
               <p className="mt-4 text-sm font_brown poppins-light">
                 ¿Haz olvidado la contraseña?{" "}
-                <Link to="#" className="font-semibold hover:underline">
+                <button
+                  type="button"
+                  onClick={() => setMostrarModal(true)}
+                  className="font-semibold hover:underline cursor-pointer"
+                >
                   Restablecer
-                </Link>
+                </button>
               </p>
             </div>
           </div>
@@ -94,6 +100,11 @@ export default function Login() {
           className="w-auto h-auto"
         />
       </div>
+
+      <RestablecerModal
+        isOpen={mostrarModal}
+        onClose={() => setMostrarModal(false)}
+      />
     </>
   );
 }
