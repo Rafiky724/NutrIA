@@ -22,7 +22,7 @@ export default function Step1({
   register,
   setValue,
   getValues,
-  errors,
+  // errors,
 }: Step1Props) {
   const [showEdadModal, setShowEdadModal] = useState(false);
   const [showGeneroModal, setShowGeneroModal] = useState(false);
@@ -41,25 +41,25 @@ export default function Step1({
       label: "Edad",
       value: getValues("edad") ? `${getValues("edad")} años` : "",
       onClick: () => setShowEdadModal(true),
-      error: errors.edad?.message,
+      // error: errors.edad?.message,
     },
     {
       label: "Género",
       value: getValues("genero") || "",
       onClick: () => setShowGeneroModal(true),
-      error: errors.genero?.message,
+      // error: errors.genero?.message,
     },
     {
       label: "Peso",
       value: getValues("peso") ? `${getValues("peso")} kg` : "",
       onClick: () => setShowPesoModal(true),
-      error: errors.peso?.message,
+      // error: errors.peso?.message,
     },
     {
       label: "Altura",
       value: getValues("altura") ? `${getValues("altura")} cm` : "",
       onClick: () => setShowAlturaModal(true),
-      error: errors.altura?.message,
+      // error: errors.altura?.message,
     },
   ];
 
@@ -73,7 +73,7 @@ export default function Step1({
             className="w-auto h-auto"
           />
         </div>
-        <div className="poppins-bold">
+        <div className="poppins-bold text-xl">
           <h2>Datos Personales</h2>
         </div>
       </div>
@@ -107,11 +107,11 @@ export default function Step1({
                 </svg>
               </div>
             </div>
-            {campo.error && (
+            {/* {campo.error && (
               <p className="text-red-500 text-sm poppins-medium mt-1">
                 {campo.error}
               </p>
-            )}
+            )} */}
           </div>
         ))}
       </div>
