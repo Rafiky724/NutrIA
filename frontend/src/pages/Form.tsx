@@ -76,7 +76,11 @@ export default function Form() {
       register={register}
       onSelectEnfermedad={(enfermedad) => setValue("enfermedad", enfermedad)}
     />,
-    <Step6 />,
+    <Step6
+      register={register}
+      onSelectTipoDieta={(tipoDieta) => setValue("tipoDieta", tipoDieta)}
+      nextStep={nextStep}
+    />,
   ];
 
   const progress = ((step + 1) / steps.length) * 100;
@@ -119,12 +123,12 @@ export default function Form() {
                   Continuar
                 </button>
               )}
-              {step === 5 && (
+              {step === 6 && (
                 <button
                   type="submit"
                   className="w-80 mx-auto bg_yellow font_brown poppins-bold px-4 py-2 rounded-3xl cursor-pointer"
                 >
-                  Continuar
+                  Finalizar
                 </button>
               )}
             </div>
