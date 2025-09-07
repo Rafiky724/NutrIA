@@ -120,7 +120,7 @@ export default function ModalEdad({ onSelectEdad, onClose }: Props) {
         <div className="flex justify-between gap-4">
           <button
             onClick={calcularEdad}
-            className="w-60 mx-auto bg_yellow font_brown poppins-bold py-2 rounded-full transition"
+            className="w-60 mx-auto bg_yellow font_brown poppins-bold py-2 rounded-full transition cursor-pointer"
           >
             Aceptar
           </button>
