@@ -1,45 +1,26 @@
 import { useEffect, useState } from "react";
-import type { FieldErrors, UseFormRegister } from "react-hook-form";
-import type { FormData } from "../../types";
+import type { UseFormRegister } from "react-hook-form";
+import type { Actividad, FormData } from "../../types";
 
 type Step3Props = {
   register: UseFormRegister<FormData>;
-  errors: FieldErrors<FormData>;
-  onSelectActividad: (
-    actividad:
-      | "No hago ejercicio"
-      | "Ocasional (1-2 veces por semana)"
-      | "Regular (3-4 veces por semana)"
-      | "Frecuente (5 o más veces)"
-  ) => void;
+  onSelectActividad: (actividad: Actividad) => void;
   nextStep: () => void;
 };
 
 export default function Step3({
   register,
-  // errors,
   onSelectActividad,
   nextStep,
 }: Step3Props) {
-  const [selected, setSelected] = useState<
-    | "No hago ejercicio"
-    | "Ocasional (1-2 veces por semana)"
-    | "Regular (3-4 veces por semana)"
-    | "Frecuente (5 o más veces)"
-    | null
-  >(null);
+  const [selected, setSelected] = useState<Actividad>();
 
   useEffect(() => {
     register("actividad", { required: "La actividad es obligatoria" });
   }, [register]);
 
   const handleSelect = (
-    selectedOption:
-      | "No hago ejercicio"
-      | "Ocasional (1-2 veces por semana)"
-      | "Regular (3-4 veces por semana)"
-      | "Frecuente (5 o más veces)"
-  ) => {
+    selectedOption: Actividad) => {
     setSelected(selectedOption);
     onSelectActividad(selectedOption); // Pasa la opción seleccionada al formulario principal
     nextStep();

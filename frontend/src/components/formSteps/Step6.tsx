@@ -14,9 +14,7 @@ export default function Step6({
   onSelectTipoDieta,
   nextStep,
 }: Step6Props) {
-  const [selected, setSelected] = useState<"Presupuesto" | "Disponible" | null>(
-    null
-  );
+  const [selected, setSelected] = useState<"Presupuesto" | "Disponible">();
 
   useEffect(() => {
     register("tipoDieta", { required: "La pregunta es obligatoria" });
@@ -55,23 +53,15 @@ export default function Step6({
             <button
               type="button"
               onClick={() => handleSelect("Presupuesto")}
-              className={`w-60 md:w-80 xl:w-md mx-auto py-2 rounded-xl cursor-pointer text-lg ${
-                selected === "Presupuesto"
-                  ? "bg_brown text-white"
-                  : "bg_yellow font_brown"
-              }`}
+              className={`w-60 md:w-80 xl:w-md mx-auto py-2 rounded-2xl cursor-pointer text-lg custom-bg mb-4`}
             >
               <h4
-                className={`poppins-bold text-left px-4 ${
-                  selected === "Presupuesto" ? "text-white" : "font_brown"
-                } text-sm md:text-lg`}
+                className={`poppins-bold text-left px-4 text-sm md:text-lg`}
               >
                 Basada en presupuesto
               </h4>
               <p
-                className={`text-sm mt-2 text-left poppins-medium px-4 pb-2 ${
-                  selected === "Presupuesto" ? "text-white" : "font_brown"
-                } md:block hidden`}
+                className={`text-sm mt-2 text-left poppins-medium px-4 pb-2 md:block hidden`}
               >
                 La dieta se ajustará a un presupuesto semanal, incluyendo los alimentos que selecciones.
               </p>
@@ -80,23 +70,15 @@ export default function Step6({
             <button
               type="button"
               onClick={() => handleSelect("Disponible")}
-              className={`w-60 md:w-80 xl:w-md mx-auto py-2 rounded-xl cursor-pointer text-lg ${
-                selected === "Disponible"
-                  ? "bg_brown text-white"
-                  : "bg_yellow font_brown"
-              }`}
+              className={`w-60 md:w-80 xl:w-md mx-auto py-2 rounded-2xl cursor-pointer text-lg custom-bg`}
             >
               <h4
-                className={`poppins-bold text-left px-4 ${
-                  selected === "Disponible" ? "text-white" : "font_brown"
-                } text-sm md:text-lg`}
+                className={`poppins-bold text-left px-4 text-sm md:text-lg`}
               >
                 Basada en alimentos disponibles
               </h4>
               <p
-                className={`text-sm mt-2 text-left poppins-medium px-4 pb-2 ${
-                  selected === "Disponible" ? "text-white" : "font_brown"
-                } md:block hidden`}
+                className={`text-sm mt-2 text-left poppins-medium px-4 pb-2 md:block hidden`}
               >
                 La dieta se ajustará a lo que tengas en casa o a lo que tengas fácil acceso.
               </p>

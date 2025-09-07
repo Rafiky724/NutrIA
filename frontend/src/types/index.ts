@@ -8,13 +8,9 @@ export type TieneEnfermedad = 'Sí' | 'No'
 
 export type TipoDieta = 'Presupuesto' | 'Disponible'
 
-export type TipoActividad = 'Pesas' | 'Cardio' | 'Funcional' | 'Yoga'
+export type TipoActividad = 'Pesas / Gimnasio' | 'Cardio (correr, nadar, bici...)' | 'Funcional / CrossFit' | 'Yoga / Movilidad'
 
-// export type Cardiovasculares = 'Hipertensión arterial' | 'Hipercolesterolemia' | 'Triglicéridos elevados'
-
-// export type Digestivas = 'Enfermedad celiaca' | 'Intolerancia a la lactosa' | 'Síndrome de intestino irritable' | 'Enfermedad de Crohn / Colitis Ulcerosa'
-
-// export type Metabolicas = 'Diabetes tipo 1 y tipo 2' | 'Resistencia a la insulina/prediabetes' | 'Hipotiroidismo' | 'Sindrome metabólico'
+export type Presupuesto = 'Muy bajo' | 'Bajo' | 'Estándar' | 'Alto' | 'Muy alto'
 
 export type FormData = {
   edad: number;
@@ -27,4 +23,5 @@ export type FormData = {
   enfermedad: string;
   tipoDieta: TipoDieta;
   tipoActividad: TipoActividad;
+  presupuesto: Presupuesto;
 };
