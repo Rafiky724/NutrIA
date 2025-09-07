@@ -54,27 +54,19 @@ export default function Step2({
         el equilibrio adecuado entre calorías y nutrientes.
       </div>
 
-      <div className="flex flex-col gap-4 mt-6">
+      <div className="flex flex-col gap-4 mt-6 ">
         <button
           type="button"
           onClick={() => handleSelect("Bajar de peso")}
-          className={`w-60 md:w-80 xl:w-xl mx-auto py-2 rounded-xl cursor-pointer text-lg ${
-            selected === "Bajar de peso"
-              ? "bg_brown text-white"
-              : "bg_yellow font_brown"
-          }`}
+          className={`w-60 md:w-80 xl:w-xl mx-auto py-2 rounded-xl cursor-pointer text-lg custom-bg`}
         >
           <h4
-            className={`poppins-bold text-left px-4 ${
-              selected === "Bajar de peso" ? "text-white" : "font_brown"
-            } text-sm md:text-lg`}
+            className={`poppins-bold text-left px-4 text-sm md:text-lg`}
           >
             Bajar de peso
           </h4>
           <p
-            className={`text-sm mt-2 text-left poppins-medium px-4 pb-2 ${
-              selected === "Bajar de peso" ? "text-white" : "font_brown"
-            } md:block hidden`}
+            className={`text-sm mt-2 text-left poppins-regular px-4 pb-2 md:block hidden`}
           >
             Elige esta opción si tu objetivo es reducir grasa corporal de forma
             saludable.
@@ -84,23 +76,15 @@ export default function Step2({
         <button
           type="button"
           onClick={() => handleSelect("Mantener")}
-          className={`w-60 md:w-80 xl:w-xl mx-auto py-2 rounded-xl cursor-pointer text-lg ${
-            selected === "Mantener"
-              ? "bg_brown text-white"
-              : "bg_yellow font_brown"
-          }`}
+          className={`w-60 md:w-80 xl:w-xl mx-auto py-2 rounded-xl cursor-pointer text-lg custom-bg`}
         >
           <h4
-            className={`poppins-bold text-left px-4 ${
-              selected === "Mantener" ? "text-white" : "font_brown"
-            } text-sm md:text-lg`}
+            className={`poppins-bold text-left px-4 text-sm md:text-lg`}
           >
             Mantener
           </h4>
           <p
-            className={`text-sm mt-2 text-left poppins-medium px-4 pb-2 ${
-              selected === "Mantener" ? "text-white" : "font_brown"
-            } md:block hidden`}
+            className={`text-sm mt-2 text-left poppins-regular px-4 pb-2  md:block hidden`}
           >
             Ideal si quieres conservar tu peso actual y seguir una alimentación
             equilibrada.
@@ -110,23 +94,15 @@ export default function Step2({
         <button
           type="button"
           onClick={() => handleSelect("Ganar masa muscular")}
-          className={`w-60 md:w-80 xl:w-xl mx-auto py-2 rounded-xl cursor-pointer text-lg ${
-            selected === "Ganar masa muscular"
-              ? "bg_brown text-white"
-              : "bg_yellow font_brown"
-          }`}
+          className={`w-60 md:w-80 xl:w-xl mx-auto py-2 rounded-xl cursor-pointer text-lg custom-bg`}
         >
           <h4
-            className={`poppins-bold text-left px-4 ${
-              selected === "Ganar masa muscular" ? "text-white" : "font_brown"
-            } text-sm md:text-lg`}
+            className={`poppins-bold text-left px-4 text-sm md:text-lg`}
           >
             Ganar masa muscular
           </h4>
           <p
-            className={`text-sm mt-2 text-left poppins-medium px-4 pb-2 ${
-              selected === "Ganar masa muscular" ? "text-white" : "font_brown"
-            } md:block hidden`}
+            className={`text-sm mt-2 text-left poppins-regular px-4 pb-2 md:block hidden`}
           >
             Recomendado si buscas aumentar tu peso mediante el desarrollo
             muscular.

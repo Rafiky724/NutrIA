@@ -70,38 +70,18 @@ export default function Step3({
         <button
           type="button"
           onClick={() => handleSelect("No hago ejercicio")}
-          className={`w-60 md:w-80 xl:w-md mx-auto py-2 rounded-2xl cursor-pointer text-lg ${
-            selected === "No hago ejercicio"
-              ? "bg_brown text-white"
-              : "bg_yellow font_brown"
-          } text-sm md:text-lg`}
+          className={`w-60 xl:w-sm mx-auto py-2 rounded-2xl cursor-pointer poppins-medium text-sm md:text-lg custom-bg`}
         >
-          <h4
-            className={`poppins-bold text-left px-4 ${
-              selected === "No hago ejercicio" ? "text-white" : "font_brown"
-            }`}
-          >
-            No hago ejercicio
-          </h4>
+          <h4 className={`text-center px-4`}>No hago ejercicio</h4>
         </button>
 
         {/* Opción "Ocasional (1-2 veces por semana)" */}
         <button
           type="button"
           onClick={() => handleSelect("Ocasional (1-2 veces por semana)")}
-          className={`w-60 md:w-80 xl:w-md mx-auto py-2 rounded-2xl cursor-pointer text-lg ${
-            selected === "Ocasional (1-2 veces por semana)"
-              ? "bg_brown text-white"
-              : "bg_yellow font_brown"
-          } text-sm md:text-lg`}
+          className={`w-60 xl:w-sm mx-auto py-2 rounded-2xl cursor-pointer poppins-medium text-sm md:text-lg custom-bg`}
         >
-          <h4
-            className={`poppins-bold text-left px-4 ${
-              selected === "Ocasional (1-2 veces por semana)"
-                ? "text-white"
-                : "font_brown"
-            }`}
-          >
+          <h4 className={`text-center px-4`}>
             Ocasional (1-2 veces por semana)
           </h4>
         </button>
@@ -110,48 +90,20 @@ export default function Step3({
         <button
           type="button"
           onClick={() => handleSelect("Regular (3-4 veces por semana)")}
-          className={`w-60 md:w-80 xl:w-md mx-auto py-2 rounded-2xl cursor-pointer text-lg ${
-            selected === "Regular (3-4 veces por semana)"
-              ? "bg_brown text-white"
-              : "bg_yellow font_brown"
-          } text-sm md:text-lg`}
+          className={`w-60 xl:w-sm mx-auto py-2 rounded-2xl cursor-pointer poppins-medium text-sm md:text-lg custom-bg`}
         >
-          <h4
-            className={`poppins-bold text-left px-4 ${
-              selected === "Regular (3-4 veces por semana)"
-                ? "text-white"
-                : "font_brown"
-            }`}
-          >
-            Regular (3-4 veces por semana)
-          </h4>
+          <h4 className={`text-center px-4`}>Regular (3-4 veces por semana)</h4>
         </button>
 
         {/* Opción "Frecuente (5 o más veces)" */}
         <button
           type="button"
           onClick={() => handleSelect("Frecuente (5 o más veces)")}
-          className={`w-60 md:w-80 xl:w-md mx-auto py-2 rounded-2xl cursor-pointer text-lg ${
-            selected === "Frecuente (5 o más veces)"
-              ? "bg_brown text-white"
-              : "bg_yellow font_brown"
-          } text-sm md:text-lg`}
+          className={`w-60 xl:w-sm mx-auto py-2 rounded-2xl cursor-pointer poppins-medium text-sm md:text-lg custom-bg`}
         >
-          <h4
-            className={`poppins-bold text-left px-4 ${
-              selected === "Frecuente (5 o más veces)"
-                ? "text-white"
-                : "font_brown"
-            }`}
-          >
-            Frecuente (5 o más veces)
-          </h4>
+          <h4 className={`text-center px-4`}>Frecuente (5 o más veces)</h4>
         </button>
       </div>
-
-      {/* {errors.actividad && (
-        <p className="text-red-500 text-sm mt-2">{errors.actividad.message}</p>
-      )} */}
     </div>
   );
 }

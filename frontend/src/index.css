@@ -2,32 +2,32 @@
 
 /* Text Colors */
 .font_gray {
-    color: #595951;
+  color: #595951;
 }
 
 .font_brown {
-    color: #260B01;
+  color: #260b01;
 }
 
 .font_inputs {
-    background-color:  #F2F0EB
+  background-color: #f2f0eb;
 }
 
 /* Background Colors */
 .bg_white_card {
-    background-color: #FCFCFC;
+  background-color: #fcfcfc;
 }
 
 .bg_inputs {
-    background-color:  #F2F0EB
+  background-color: #f2f0eb;
 }
 
 .bg_yellow {
-    background-color: #EFB920;
+  background-color: #efb920;
 }
 
 .bg_brown {
-    background-color: #260B01;
+  background-color: #260b01;
 }
 
 /* Tipografia */
@@ -47,4 +47,15 @@
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   font-style: normal;
+}
+
+.custom-bg {
+  background-color: #efb920; /* bg_yellow */
+  color: #260b01;
+  transition: background-color 0.3s ease;
+  transition: color 0.3s ease
+}
+.custom-bg:hover {
+  background-color: #260b01; /* bg_brown */
+  color: white;
 }
