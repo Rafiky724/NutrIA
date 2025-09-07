@@ -58,7 +58,7 @@ export default function Step4({
             <button
               type="button"
               onClick={() => handleSelect("Sí")}
-              className="w-40 mx-auto py-2 rounded-full cursor-pointer text-lg bg_yellow font_brown hover:bg-yellow-400 transition"
+              className="w-40 lg:w-80 mx-auto py-2 rounded-full cursor-pointer text-lg custom-bg"
             >
               <h4 className="poppins-bold text-center px-4">Sí</h4>
             </button>
@@ -66,7 +66,7 @@ export default function Step4({
             <button
               type="button"
               onClick={() => handleSelect("No")}
-              className="w-40 mx-auto py-2 rounded-full cursor-pointer text-lg bg_yellow font_brown hover:bg-yellow-400 transition"
+              className="w-40 lg:w-80 mx-auto py-2 rounded-full cursor-pointer text-lg custom-bg"
             >
               <h4 className="poppins-bold text-center px-4">No</h4>
             </button>
