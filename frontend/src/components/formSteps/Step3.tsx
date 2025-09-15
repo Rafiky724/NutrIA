@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import type { UseFormRegister } from "react-hook-form";
-import type { Actividad, FormData } from "../../types";
+import type { FormData } from "../../types";
+
+type Actividad = "No hago" | "Ocasional" | "Regular" | "Frecuente";
 
 type Step3Props = {
   register: UseFormRegister<FormData>;
@@ -13,14 +15,13 @@ export default function Step3({
   onSelectActividad,
   nextStep,
 }: Step3Props) {
-  const [selected, setSelected] = useState<Actividad>();
+  const [, setSelected] = useState<Actividad>();
 
   useEffect(() => {
     register("actividad", { required: "La actividad es obligatoria" });
   }, [register]);
 
-  const handleSelect = (
-    selectedOption: Actividad) => {
+  const handleSelect = (selectedOption: Actividad) => {
     setSelected(selectedOption);
     onSelectActividad(selectedOption); // Pasa la opción seleccionada al formulario principal
     nextStep();
@@ -50,7 +51,7 @@ export default function Step3({
         {/* Opción "No hago ejercicio" */}
         <button
           type="button"
-          onClick={() => handleSelect("No hago ejercicio")}
+          onClick={() => handleSelect("No hago")}
           className={`w-60 xl:w-sm mx-auto py-2 rounded-2xl cursor-pointer poppins-medium text-sm md:text-lg custom-bg`}
         >
           <h4 className={`text-center px-4`}>No hago ejercicio</h4>
@@ -59,7 +60,7 @@ export default function Step3({
         {/* Opción "Ocasional (1-2 veces por semana)" */}
         <button
           type="button"
-          onClick={() => handleSelect("Ocasional (1-2 veces por semana)")}
+          onClick={() => handleSelect("Ocasional")}
           className={`w-60 xl:w-sm mx-auto py-2 rounded-2xl cursor-pointer poppins-medium text-sm md:text-lg custom-bg`}
         >
           <h4 className={`text-center px-4`}>
@@ -70,7 +71,7 @@ export default function Step3({
         {/* Opción "Regular (3-4 veces por semana)" */}
         <button
           type="button"
-          onClick={() => handleSelect("Regular (3-4 veces por semana)")}
+          onClick={() => handleSelect("Regular")}
           className={`w-60 xl:w-sm mx-auto py-2 rounded-2xl cursor-pointer poppins-medium text-sm md:text-lg custom-bg`}
         >
           <h4 className={`text-center px-4`}>Regular (3-4 veces por semana)</h4>
@@ -79,7 +80,7 @@ export default function Step3({
         {/* Opción "Frecuente (5 o más veces)" */}
         <button
           type="button"
-          onClick={() => handleSelect("Frecuente (5 o más veces)")}
+          onClick={() => handleSelect("Frecuente")}
           className={`w-60 xl:w-sm mx-auto py-2 rounded-2xl cursor-pointer poppins-medium text-sm md:text-lg custom-bg`}
         >
           <h4 className={`text-center px-4`}>Frecuente (5 o más veces)</h4>

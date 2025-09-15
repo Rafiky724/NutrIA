@@ -1,12 +1,14 @@
 import { useState } from "react";
 
+type Genero = 'Hombre' | 'Mujer'
+
 type Props = {
-  onSelectGenero: (genero: "Hombre" | "Mujer") => void;
+  onSelectGenero: (genero: Genero) => void;
   onClose: () => void;
 };
 
 export default function ModalGenero({ onSelectGenero, onClose }: Props) {
-  const [selected, setSelected] = useState<"Hombre" | "Mujer" | null>(null);
+  const [selected, setSelected] = useState<Genero>();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">

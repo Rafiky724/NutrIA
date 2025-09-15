@@ -40,7 +40,7 @@ export default function ModalEdad({ onSelectEdad, onClose }: Props) {
       edad--;
     }
 
-    if (edad < 0 || edad > 120) {
+    if (edad < 18 || edad > 60) {
       setError("Edad inválida");
       return;
     }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type {
-  FieldErrors,
   UseFormGetValues,
   UseFormRegister,
   UseFormSetValue,
@@ -15,15 +14,9 @@ type Step1Props = {
   register: UseFormRegister<FormData>;
   setValue: UseFormSetValue<FormData>;
   getValues: UseFormGetValues<FormData>;
-  errors: FieldErrors<FormData>;
 };
 
-export default function Step1({
-  register,
-  setValue,
-  getValues,
-  // errors,
-}: Step1Props) {
+export default function Step1({ register, setValue, getValues }: Step1Props) {
   const [showEdadModal, setShowEdadModal] = useState(false);
   const [showGeneroModal, setShowGeneroModal] = useState(false);
   const [showPesoModal, setShowPesoModal] = useState(false);
@@ -41,25 +34,21 @@ export default function Step1({
       label: "Edad",
       value: getValues("edad") ? `${getValues("edad")} años` : "",
       onClick: () => setShowEdadModal(true),
-      // error: errors.edad?.message,
     },
     {
       label: "Género",
-      value: getValues("genero") || "",
+      value: getValues("genero"),
       onClick: () => setShowGeneroModal(true),
-      // error: errors.genero?.message,
     },
     {
       label: "Peso",
       value: getValues("peso") ? `${getValues("peso")} kg` : "",
       onClick: () => setShowPesoModal(true),
-      // error: errors.peso?.message,
     },
     {
       label: "Altura",
       value: getValues("altura") ? `${getValues("altura")} cm` : "",
       onClick: () => setShowAlturaModal(true),
-      // error: errors.altura?.message,
     },
   ];
 
@@ -80,7 +69,8 @@ export default function Step1({
 
       <div className="poppins-medium font_brown my-10 text-left text-md">
         <p>
-          Empecemos con los básico. Esto nos ayudará a calcular tus necesidades nutricionales.
+          Empecemos con los básico. Esto nos ayudará a calcular tus necesidades
+          nutricionales.
         </p>
       </div>
 
@@ -107,11 +97,6 @@ export default function Step1({
                 </svg>
               </div>
             </div>
-            {/* {campo.error && (
-              <p className="text-red-500 text-sm poppins-medium mt-1">
-                {campo.error}
-              </p>
-            )} */}
           </div>
         ))}
       </div>

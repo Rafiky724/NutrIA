@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import RestablecerModal from "../components/UI/RestablecerModal";
+import RestablecerModal from "../components/UI/RestablecerContrasenaModal";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -35,7 +35,7 @@ export default function Login() {
                   <input
                     type="email"
                     value={email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-4 py-2 rounded-full bg_inputs focus:outline-none focus:ring-1 focus:ring-yellow-500"
                   />
                 </div>

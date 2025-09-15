@@ -1,34 +1,27 @@
-import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import type { UseFormRegister } from "react-hook-form";
 import type { FormData } from "../../types";
 import { useEffect, useState } from "react";
 
 type Step2Props = {
   register: UseFormRegister<FormData>;
-  errors: FieldErrors<FormData>;
-  onSelectObjetivo: (
-    objetivo: "Bajar de peso" | "Mantener" | "Ganar masa muscular"
-  ) => void;
+  onSelectObjetivo: (objetivo: string) => void;
   nextStep: () => void;
 };
 
+type Objetivo = "Bajar de peso" | "Mantener" | "Ganar masa muscular" | "";
+
 export default function Step2({
   register,
-  // errors,
   onSelectObjetivo,
   nextStep,
 }: Step2Props) {
-  const [selected, setSelected] = useState<
-    "Bajar de peso" | "Mantener" | "Ganar masa muscular" | null
-  >(null);
+  const [, setSelected] = useState<Objetivo>("");
 
   useEffect(() => {
-    // Registrar el campo objetivo con validación
     register("objetivo", { required: "El objetivo es obligatorio" });
   }, [register]);
 
-  const handleSelect = (
-    selectedOption: "Bajar de peso" | "Mantener" | "Ganar masa muscular"
-  ) => {
+  const handleSelect = (selectedOption: Objetivo) => {
     setSelected(selectedOption);
     onSelectObjetivo(selectedOption); // Pasa la opción seleccionada al formulario principal
     nextStep();
@@ -60,9 +53,7 @@ export default function Step2({
           onClick={() => handleSelect("Bajar de peso")}
           className={`w-60 md:w-80 xl:w-xl mx-auto py-2 rounded-xl cursor-pointer text-lg custom-bg`}
         >
-          <h4
-            className={`poppins-bold text-left px-4 text-sm md:text-lg`}
-          >
+          <h4 className={`poppins-bold text-left px-4 text-sm md:text-lg`}>
             Bajar de peso
           </h4>
           <p
@@ -78,9 +69,7 @@ export default function Step2({
           onClick={() => handleSelect("Mantener")}
           className={`w-60 md:w-80 xl:w-xl mx-auto py-2 rounded-xl cursor-pointer text-lg custom-bg`}
         >
-          <h4
-            className={`poppins-bold text-left px-4 text-sm md:text-lg`}
-          >
+          <h4 className={`poppins-bold text-left px-4 text-sm md:text-lg`}>
             Mantener
           </h4>
           <p
@@ -96,9 +85,7 @@ export default function Step2({
           onClick={() => handleSelect("Ganar masa muscular")}
           className={`w-60 md:w-80 xl:w-xl mx-auto py-2 rounded-xl cursor-pointer text-lg custom-bg`}
         >
-          <h4
-            className={`poppins-bold text-left px-4 text-sm md:text-lg`}
-          >
+          <h4 className={`poppins-bold text-left px-4 text-sm md:text-lg`}>
             Ganar masa muscular
           </h4>
           <p
@@ -109,10 +96,6 @@ export default function Step2({
           </p>
         </button>
       </div>
-
-      {/* {errors.objetivo && (
-        <p className="text-red-500 text-sm mt-2">{errors.objetivo.message}</p>
-      )} */}
     </>
   );
 }

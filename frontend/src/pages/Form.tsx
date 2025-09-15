@@ -18,7 +18,6 @@ export default function Form() {
     trigger,
     setValue,
     getValues,
-    formState: { errors },
     step,
     nextStep,
     prevStep,
@@ -50,15 +49,9 @@ export default function Form() {
   };
 
   const steps = [
-    <Step1
-      register={register}
-      setValue={setValue}
-      getValues={getValues}
-      errors={errors}
-    />,
+    <Step1 register={register} setValue={setValue} getValues={getValues} />,
     <Step2
       register={register}
-      errors={errors}
       onSelectObjetivo={(objetivo) => setValue("objetivo", objetivo)}
       nextStep={nextStep}
     />,
@@ -69,7 +62,6 @@ export default function Form() {
     />,
     <Step4
       register={register}
-      errors={errors}
       onSelectTieneEnfermedad={(tieneEnfermedad) =>
         setValue("tieneEnfermedad", tieneEnfermedad)
       }
@@ -83,15 +75,21 @@ export default function Form() {
       register={register}
       onSelectTipoDieta={(tipoDieta) => setValue("tipoDieta", tipoDieta)}
       nextStep={nextStep}
+      prevStep={prevStep}
     />,
     <Step7
       register={register}
-      onSelectActividad={(tipoActividad) => setValue("tipoActividad", tipoActividad)}
-      nextStep={nextStep}
+      onSelectPresupuesto={(presupuesto) =>
+        setValue("presupuesto", presupuesto)
+      }
     />,
     <Step8
       register={register}
-      onSelectPresupuesto={(presupuesto) => setValue("presupuesto", presupuesto)}
+      onSelectActividad={(tipoActividad) =>
+        setValue("tipoActividad", tipoActividad)
+      }
+      nextStep={nextStep}
+      prevStep={prevStep}
     />,
   ];
 
@@ -115,18 +113,18 @@ export default function Form() {
                     className="w-auto h-auto cursor-pointer"
                   />
                 </Link>
-              ) : (
+              ) : step !== 5 && step !== 7 ? (
                 <img
                   src="/SVG/Flecha.svg"
                   alt="Volver al paso anterior"
                   className="w-auto h-auto cursor-pointer"
                   onClick={prevStep}
                 />
-              )}
+              ) : null}
             </div>
 
             <div className="flex justify-between pt-4">
-              {(step === 0 || step === 4 || step === 7) && (
+              {(step === 0 || step === 4 || step === 6) && (
                 <button
                   type="button"
                   onClick={handleNext}
