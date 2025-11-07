@@ -11,4 +11,5 @@ export type FormData = {
   tipoActividad: string;
   presupuesto: string;
   cantidadComidas: string[];
+  ingredientes: string[];
 };

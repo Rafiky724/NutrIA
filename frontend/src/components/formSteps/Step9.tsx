@@ -46,6 +46,7 @@ const opcionesComidas: Comida[] = [
     selectedIcon: "/SVG/Platos/Snack.svg",
   },
 ];
+
 export default function Step9({
   register,
   onSelectCantidadComidas,

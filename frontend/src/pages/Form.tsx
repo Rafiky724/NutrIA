@@ -1,7 +1,7 @@
 import type { SubmitHandler } from "react-hook-form";
 import type { FormData } from "../types";
 import { useMultiStepForm } from "../hooks/useMultiStepForm";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Step1 from "../components/formSteps/Step1";
 import Step2 from "../components/formSteps/Step2";
 import Step3 from "../components/formSteps/Step3";
@@ -11,6 +11,8 @@ import Step6 from "../components/formSteps/Step6";
 import Step7 from "../components/formSteps/Step7";
 import Step8 from "../components/formSteps/Step8";
 import Step9 from "../components/formSteps/Step9";
+import Step10 from "../components/formSteps/Step10";
+import Step11 from "../components/formSteps/Step11";
 
 export default function Form() {
   const {
@@ -24,12 +26,16 @@ export default function Form() {
     prevStep,
   } = useMultiStepForm();
 
+  const navigate = useNavigate(); // Hook para redirigir
+
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const stored = JSON.parse(localStorage.getItem("datosNutrIA") || "[]");
     const updated = [...stored, data];
     localStorage.setItem("datosNutrIA", JSON.stringify(updated));
 
     console.log("Formulario guardado:", updated);
+
+    navigate("/register");
   };
 
   const fieldNames: (keyof FormData)[][] = [
@@ -42,6 +48,7 @@ export default function Form() {
     ["presupuesto"], //Step 7
     ["tipoActividad"], //Step 8
     ["cantidadComidas"], //Step 9
+    ["ingredientes"], //Step 10
   ];
 
   const handleNext = async () => {
@@ -100,6 +107,14 @@ export default function Form() {
       }
       nextStep={nextStep}
     />,
+    <Step10
+      register={register}
+      onSelectIngredientes={(ingredientes) =>
+        setValue("ingredientes", ingredientes)
+      }
+      nextStep={nextStep}
+    />,
+    <Step11 />,
   ];
 
   const progress = ((step + 1) / steps.length) * 100;
@@ -133,7 +148,7 @@ export default function Form() {
             </div>
 
             <div className="flex justify-between pt-4">
-              {(step === 0 || step === 4 || step === 6 || step === 8 ) && (
+              {(step === 0 || step === 4 || step === 6 || step === 8) && (
                 <button
                   type="button"
                   onClick={handleNext}
@@ -142,12 +157,12 @@ export default function Form() {
                   Continuar
                 </button>
               )}
-              {step === 9 && (
+              {step === 10 && (
                 <button
                   type="submit"
                   className="w-80 mx-auto bg_yellow font_brown poppins-bold px-4 py-2 rounded-3xl cursor-pointer"
                 >
-                  Finalizar
+                  Crear Cuenta
                 </button>
               )}
             </div>
