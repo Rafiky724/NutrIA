@@ -1,3 +1,4 @@
+"""
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from app.core.config import settings
@@ -22,3 +23,10 @@ async def get_db():
             yield db
         finally:
             await db.close()
+"""
+
+from motor.motor_asyncio import AsyncIOMotorClient
+from .config import settings
+
+client = AsyncIOMotorClient(settings.MONGO_URI)
+db = client[settings.DB_NAME]

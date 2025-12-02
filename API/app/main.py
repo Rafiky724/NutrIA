@@ -1,10 +1,12 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from app.routes.auth_routes import router as auth_router
+#from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import router as api_router
+#from app.routes import router as api_router
 
 app = FastAPI()
 
+"""
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
@@ -19,7 +21,9 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
+"""
+app.include_router(auth_router)
 
 @app.get("/")
-def read_root():
+async def read_root():
     return {"message": "NutrIA API"}
