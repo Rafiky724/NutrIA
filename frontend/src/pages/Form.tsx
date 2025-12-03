@@ -13,6 +13,7 @@ import Step8 from "../components/formSteps/Step8";
 import Step9 from "../components/formSteps/Step9";
 import Step10 from "../components/formSteps/Step10";
 import Step11 from "../components/formSteps/Step11";
+import Step2_1 from "../components/formSteps/Step2_1";
 
 export default function Form() {
   const {
@@ -41,6 +42,7 @@ export default function Form() {
   const fieldNames: (keyof FormData)[][] = [
     ["edad", "genero", "peso", "altura"], // Step 1
     ["objetivo"], // Step 2
+    ["pesoObjetivo", "velocidad"], // Step 2_1
     ["actividad"], // Step 3
     ["tieneEnfermedad"], // Step 4
     ["enfermedad"], //Step 5
@@ -64,6 +66,7 @@ export default function Form() {
       onSelectObjetivo={(objetivo) => setValue("objetivo", objetivo)}
       nextStep={nextStep}
     />,
+    <Step2_1 register={register} setValue={setValue} getValues={getValues} />,
     <Step3
       register={register}
       onSelectActividad={(actividad) => setValue("actividad", actividad)}
@@ -137,7 +140,7 @@ export default function Form() {
                     className="w-auto h-auto cursor-pointer"
                   />
                 </Link>
-              ) : step !== 5 && step !== 7 ? (
+              ) : step !== 6 && step !== 8 ? (
                 <img
                   src="/SVG/Flecha.svg"
                   alt="Volver al paso anterior"
@@ -148,7 +151,11 @@ export default function Form() {
             </div>
 
             <div className="flex justify-between pt-4">
-              {(step === 0 || step === 4 || step === 6 || step === 8) && (
+              {(step === 0 ||
+                step === 2 ||
+                step === 5 ||
+                step === 7 ||
+                step === 9) && (
                 <button
                   type="button"
                   onClick={handleNext}
@@ -157,7 +164,7 @@ export default function Form() {
                   Continuar
                 </button>
               )}
-              {step === 10 && (
+              {step === 11 && (
                 <button
                   type="submit"
                   className="w-80 mx-auto bg_yellow font_brown poppins-bold px-4 py-2 rounded-3xl cursor-pointer"

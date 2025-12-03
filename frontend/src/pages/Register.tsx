@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, type ChangeEvent, type FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -10,17 +10,17 @@ export default function Register() {
     contraseña: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // Aquí puedes guardar los datos en localStorage o enviarlos a tu backend
     console.log("Datos de registro:", formData);
 
     // Redirigir al Home después de registrar
-    navigate("/Home");
+    navigate("/PlanDiario");
   };
 
   return (
@@ -116,11 +116,21 @@ export default function Register() {
 
         <button
           type="submit"
-          className="w-80 mx-auto bg_yellow font_brown poppins-bold px-4 py-2 rounded-3xl cursor-pointer mt-4"
+          className="w-40 md:w-80 mx-auto bg_yellow font_brown poppins-bold px-4 py-2 rounded-3xl cursor-pointer mt-4"
         >
           Crear Cuenta
         </button>
       </form>
+
+      <div className="absolute top-5 left-5 z-10 w-10">
+        <Link to={"/"}>
+          <img
+            src="/SVG/Flecha.svg"
+            alt="Volver al inicio"
+            className="w-auto h-auto cursor-pointer"
+          />
+        </Link>
+      </div>
 
       {/* Fondo decorativo abajo */}
       <div className="absolute bottom-0 left-0 z-10 w-35 sm:w-3xs">

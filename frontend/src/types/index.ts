@@ -4,6 +4,8 @@ export type FormData = {
   peso: number;
   altura: number;
   objetivo: string;
+  pesoObjetivo: number;
+  velocidad: string;
   actividad: string;
   tieneEnfermedad: string;
   enfermedad: string;

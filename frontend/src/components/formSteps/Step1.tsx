@@ -5,10 +5,10 @@ import type {
   UseFormSetValue,
 } from "react-hook-form";
 import type { FormData } from "../../types";
-import ModalGenero from "../UI/ModalGenero";
-import ModalEdad from "../UI/ModalEdad";
-import ModalPeso from "../UI/ModalPeso";
-import ModalAltura from "../UI/ModalAltura";
+import ModalGenero from "../UI/Modals/ModalGenero";
+import ModalEdad from "../UI/Modals/ModalEdad";
+import ModalPeso from "../UI/Modals/ModalPeso";
+import ModalAltura from "../UI/Modals/ModalAltura";
 
 type Step1Props = {
   register: UseFormRegister<FormData>;
