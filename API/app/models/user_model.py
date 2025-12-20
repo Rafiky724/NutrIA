@@ -43,9 +43,20 @@ class UserModel:
             "peso_actual": data["peso_actual"],
             "fecha_registro": datetime.now(),
             "nivel_actividad": data["nivel_actividad"],
+            #Objetivo"tipo_objetivo": data["tipo_objetivo"],
+            #Objetivo"peso_objetivo": data["peso_objetivo"],
+            #Plan"cantidad_comidas": data["cantidad_comidas"],
+            "enfermedad": data["enfermedad"],
+            "tipo_actividad": data["tipo_actividad"],
+            #Plan"tipo_dieta": data["tipo_dieta"],
+            #Plan"velocidad_dieta": data["velocidad_dieta"],
+            #Despensa"ingredientes": data["ingredientes"],
+
             "gemas_acumuladas": 0,
             "ultimo_login": None,
             "ultima_actualizacion_peso": None,
-            "activo": True
+            "activo": True,
+            "tiene_plan": False,
+            "id_plan": None,
 
         }
