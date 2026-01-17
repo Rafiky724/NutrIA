@@ -4,6 +4,7 @@ from bson import ObjectId
 from app.controllers.plan_controller import PlanController
 from app.controllers.objetivo_controller import ObjetivoController
 from app.controllers.dias_controller import DiasController
+from app.controllers.user_controller import UserController
 from app.core.database import db
 from fastapi import HTTPException
 import json
@@ -67,17 +68,17 @@ class DietaController:
         promt = DietaController.build_dieta_prompt(current_user, despensa, objetivo, plan)
     
         
-        response_text = await ask_llm(promt)
-
+        response_text = await ask_llm(promt, model="gemini-2.5-flash")
+        """
         guardar_respuesta = {
             "id_usuario": user_id,
             "dieta": response_text
         }
-        await db.dietasProvisional.insert_one(guardar_respuesta)
+        await db.dietasProvisional.insert_one(guardar_respuesta)"""
 
         #print("RESPONSE DIETA:", response_text)
         #print("PROMPT DIETA:", promt)
-        
+
         """
         response = await db.dietasProvisional.find_one({"id_usuario": user_id})
         response_text = response["dieta"]"""
@@ -106,6 +107,8 @@ class DietaController:
 
                 if dias_docs:
                     await DiasController.build_dias_from_dieta(dias_docs, session=session)
+                
+                await UserController.update_tiene_plan(user_id, session=session)
 
         return {200: "Dieta creada y almacenada exitosamente"}
 
@@ -118,7 +121,7 @@ class DietaController:
         - NO agregues texto adicional
         - NO agregues explicaciones
         - Usa exactamente la estructura solicitada
-        - Usa null cuando no tengas certeza exacta
+        - Usa null cuando no tengas certeza exacta (excepto en el precio, siempre has un estimado)
         - Todos los valores numéricos deben ser números, no strings
         DATOS DEL USUARIO:
         - Género: {user.get("genero")}
@@ -131,7 +134,7 @@ class DietaController:
         - Peso objetivo: {objetivo.get("peso_objetivo")} kg
         - Tipo de dieta: {plan.get("tipo_dieta")}
         - Velocidad de dieta: {plan.get("velocidad_dieta")}
-        - Presupuesto semanal: {plan.get("presupuesto_semanal")}
+        - Presupuesto semanal: {plan.get("presupuesto_semanal")} (si hay un valor de presupuesto, ajústate a eso. Si no, ignora este campo pero aún así pon precios)
         - Comidas por día: {plan.get("cantidad_comidas")}
         ENFERMEDADES:
         - Enfermedades: {plan.get("enfermedad")}
@@ -276,6 +279,7 @@ class DietaController:
                 "proteinas": data.get("proteina"),
                 "carbohidratos": data.get("carbs"),
                 "grasas": data.get("grasas"),
+                "precio_estimado": data.get("precio_estimado"),
                 "completada": False,
                 "verificada": False,
                 "ingredientes": ingredientes
@@ -298,7 +302,7 @@ class DietaController:
             "proteinas_totales": proteinas_total,
             "carbohidratos_totales": carbs_total,
             "grasas_totales": grasas_total,
-            "costo_total": None,
+            #"costo_total": None,
 
             "completado": False,
             "comidas": comidas,

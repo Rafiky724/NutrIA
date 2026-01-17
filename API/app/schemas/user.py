@@ -47,3 +47,5 @@ class UserResponse(BaseModel):
     fecha_registro: date
     gemas_acumuladas: int
 
+class UserTienePlanResponse(BaseModel):
+    tiene_plan: bool
