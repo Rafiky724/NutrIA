@@ -1,3 +1,4 @@
+from bson import ObjectId
 from fastapi import HTTPException
 from app.controllers.despensa_controller import DespensaController
 from app.controllers.plan_controller import PlanController
@@ -78,3 +79,32 @@ class UserController:
         token = create_access_token(token_data)
 
         return {"access_token": token, "token_type": "bearer"}
+    
+
+    @staticmethod
+    async def update_tiene_plan(user_id: str, session=None):
+
+        """Update the 'tiene_plan' field for a user."""
+        await db.users.update_one(
+            {"_id": user_id},
+            {"$set": {"tiene_plan": True}},
+            session=session
+        )
+
+    @staticmethod
+    async def get_tiene_plan(user_id: ObjectId) -> dict:
+        user = await db.users.find_one(
+            {"_id": user_id},
+            {"_id": 0, "tiene_plan": 1}
+        )
+
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="Usuario no encontrado"
+            )
+
+        # Fallback defensivo
+        return {
+            "tiene_plan": bool(user.get("tiene_plan", False))
+        }
