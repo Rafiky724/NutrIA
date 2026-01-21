@@ -11,6 +11,8 @@ import json
 from app.core.llm import ask_llm
 import re
 
+from app.schemas.estado_dia import IniciarDietaRequest
+
 class DietaController:
 
     DIAS_SEMANA = [
@@ -349,3 +351,83 @@ class DietaController:
             if unicodedata.category(c) != "Mn"
         )
         return texto
+    
+    @staticmethod
+    async def iniciar_dieta(current_user: ObjectId, payload: IniciarDietaRequest) -> dict:
+        hoy = datetime.now().date()
+
+        if payload.tipo_inicio == "hoy":
+            fecha_inicio = hoy
+        elif payload.tipo_inicio == "manana":
+            fecha_inicio = hoy + timedelta(days=1)
+        else:
+            fecha_inicio = payload.fecha_inicio
+
+        plan = await db.planes.find_one(
+            {"id_usuario": ObjectId(current_user["_id"]), "activo": True},
+            {"_id": 1}
+        )
+
+        if not plan:
+            raise HTTPException(status_code=404, detail="Plan activo no encontrado")
+
+        dia = DietaController.DIAS_SEMANA[fecha_inicio.weekday()]
+
+        dia_doc = await db.dias.find_one(
+            {
+                "id_plan": plan["_id"],
+                "dia_semana": dia.lower()
+            },
+            {"_id": 0}
+        )
+
+        if not dia_doc:
+            raise Exception("No existe una dieta para la fecha seleccionada")
+        
+        comidas = dia_doc["comidas"]
+        
+        if payload.tipo_inicio == "hoy":
+            index = next(
+                (i for i, c in enumerate(comidas)
+                if c["tipo_comida"].lower() == payload.siguiente_comida.lower()),
+                None
+            )
+
+            if index is None:
+                raise Exception("La comida indicada no existe en la dieta")
+
+        else:
+            index = 0
+
+        estado_dia = {
+            "user_id": ObjectId(current_user["_id"]),
+            "fecha": str(fecha_inicio),
+            "dia_semana": dia_doc["dia_semana"],
+            "comida_actual_index": index,
+            "ultima_comida_completada": None,
+            "macros_consumidos": {
+                "calorias": 0,
+                "proteinas": 0,
+                "carbohidratos": 0,
+                "grasas": 0
+            },
+            "inicio_dia": None,
+            "fin_dia": None
+        }
+
+        async with await db.client.start_session() as session:
+            async with session.start_transaction():
+                await db.estados_dia.replace_one(
+                    {"user_id": estado_dia["user_id"]},
+                    estado_dia,
+                    upsert=True,
+                    session=session
+                )
+
+                await db.planes.update_one(
+                    {"_id": plan["_id"]},
+                    {"$set": {"dia_actualizar_dieta": payload.dia_actualizar_dieta}},
+                    session=session
+                )
+
+        return {200: "Dieta empezada exitosamente"}
