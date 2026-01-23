@@ -9,7 +9,7 @@
   --color-brown: #260b01;
   --color-yellow: #efb920;
   --color-inputs: #f2f0eb;
-  --color-white-card: #fcfcfc;
+  --color-white: #fcfcfc;
 
   /* Fonts */
   --font-primary: "Poppins", sans-serif;
@@ -36,9 +36,6 @@
 /* =========================
    BACKGROUNDS
 ========================= */
-.bg-card {
-  background-color: var(--color-white-card);
-}
 
 .bg-input {
   background-color: var(--color-inputs);
@@ -78,7 +75,6 @@
 .text-brown {
   color: var(--color-brown);
 }
-
 
 /*  */
 
