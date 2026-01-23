@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import ResetModal from "../../components/UI/ResetModal";
+import ResetModal from "../../components/Modals/ResetModal";
 import { loginUser } from "../../services/authService";
 import { getHasPlan } from "../../services/userService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
