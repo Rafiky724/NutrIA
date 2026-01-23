@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { UseFormRegister } from "react-hook-form";
 import type { Budget, FormData } from "../../types";
+import { options } from "../../data/optionsPrice";
 
 type Props = {
   register: UseFormRegister<FormData>;
@@ -26,14 +27,6 @@ export default function BudgetSelectionForm({
     onSelectBudget(budget);
   };
 
-  const opciones: { label: Budget; price: string }[] = [
-    { label: "Muy bajo", price: "$80.000 COP" },
-    { label: "Bajo", price: "$100.000 COP" },
-    { label: "Estándar", price: "$130.000 COP" },
-    { label: "Alto", price: "$160.000 COP" },
-    { label: "Muy alto", price: "+$200.000 COP" },
-  ];
-
   return (
     <>
       <div className="flex items-center justify-center space-x-10">
@@ -54,7 +47,7 @@ export default function BudgetSelectionForm({
       </div>
 
       <div className="w-xs mx-auto space-y-4">
-        {opciones.map(({ label, price }) => (
+        {options.map(({ label, price }) => (
           <div
             key={label}
             onClick={() => handleSelect(label)}
