@@ -29,7 +29,7 @@ export default function Init() {
             </Link>
             <small className="mt-5 text-gray ft-light opacity-95">
               ¿Tienes cuenta?{" "}
-              <span className="text-brown ft-medium">
+              <span className="text-brown ft-medium hover:underline">
                 <Link to="/Login">Inicia sesión</Link>
               </span>
             </small>
