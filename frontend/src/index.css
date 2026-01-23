@@ -1,59 +1,92 @@
 @import "tailwindcss";
 
-/* Text Colors */
-.font_gray {
-  color: #595951;
+/* =========================
+   DESIGN TOKENS
+========================= */
+:root {
+  /* Colors */
+  --color-gray: #46463f;
+  --color-brown: #260b01;
+  --color-yellow: #efb920;
+  --color-inputs: #f2f0eb;
+  --color-white-card: #fcfcfc;
+
+  /* Fonts */
+  --font-primary: "Poppins", sans-serif;
 }
 
-.font_brown {
-  color: #260b01;
-}
-
-.font_inputs {
-  background-color: #f2f0eb;
-}
-
-/* Background Colors */
-.bg_white_card {
-  background-color: #fcfcfc;
-}
-
-.bg_inputs {
-  background-color: #f2f0eb;
-}
-
-.bg_yellow {
-  background-color: #efb920;
-}
-
-.bg_brown {
-  background-color: #260b01;
-}
-
-/* Tipografia */
-.poppins-light {
-  font-family: "Poppins", sans-serif;
+/* =========================
+   TYPOGRAPHY
+========================= */
+.ft-light {
+  font-family: var(--font-primary);
   font-weight: 300;
-  font-style: normal;
 }
 
-.poppins-medium {
-  font-family: "Poppins", sans-serif;
+.ft-medium {
+  font-family: var(--font-primary);
   font-weight: 500;
-  font-style: normal;
 }
 
-.poppins-bold {
-  font-family: "Poppins", sans-serif;
+.ft-bold {
+  font-family: var(--font-primary);
   font-weight: 700;
-  font-style: normal;
 }
+
+/* =========================
+   BACKGROUNDS
+========================= */
+.bg-card {
+  background-color: var(--color-white-card);
+}
+
+.bg-input {
+  background-color: var(--color-inputs);
+}
+
+.bg-yellow {
+  background-color: var(--color-yellow);
+}
+
+.bg-brown {
+  background-color: var(--color-brown);
+}
+
+/* =========================
+   COMPONENTS
+========================= */
+.btn-primary {
+  background-color: var(--color-yellow);
+  color: var(--color-brown);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-brown);
+  color: #fff;
+}
+
+/* =========================
+   TEXT COLORS
+========================= */
+.text-gray {
+  color: var(--color-gray);
+}
+
+.text-brown {
+  color: var(--color-brown);
+}
+
+
+/*  */
 
 .custom-bg {
   background-color: #efb920; /* bg_yellow */
   color: #260b01;
   transition: background-color 0.3s ease;
-  transition: color 0.3s ease
+  transition: color 0.3s ease;
 }
 .custom-bg:hover {
   background-color: #260b01; /* bg_brown */
