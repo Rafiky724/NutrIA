@@ -18,7 +18,7 @@ export const OptionsMeals: Meal[] = [
     },
     {
         label: "Snack2",
-        icon: "/SVG/Dishes/Dark/SnackDark.svg",
+        icon: "/SVG/Dishes/Dark/Snack.svg",
         selectedIcon: "/SVG/Dishes/Light/Snack.svg",
     },
     {
@@ -28,7 +28,7 @@ export const OptionsMeals: Meal[] = [
     },
     {
         label: "Snack3",
-        icon: "/SVG/Dishes/Dark/SnackDark.svg",
+        icon: "/SVG/Dishes/Dark/Snack.svg",
         selectedIcon: "/SVG/Dishes/Light/Snack.svg",
     },
 ];
