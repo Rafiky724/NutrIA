@@ -89,9 +89,7 @@ export default function DietPreferenceForm({
         </button>
       </div>
 
-      <div className="absolute top-5 left-5 z-10 w-10">
-        <ArrowReturn onClick={handlePrevStep} />
-      </div>
+      <ArrowReturn onClick={handlePrevStep} />
     </>
   );
 }
