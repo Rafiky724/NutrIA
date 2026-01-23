@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { UseFormRegister } from "react-hook-form";
 import type { FormData, HasDisease } from "../../types";
 
-type Step4Props = {
+type Props = {
   register: UseFormRegister<FormData>;
   onSelectHasDisease: (hasDisease: HasDisease) => void;
   nextStep: () => void;
@@ -12,7 +12,7 @@ export default function HealthConditionCheckForm({
   register,
   onSelectHasDisease,
   nextStep,
-}: Step4Props) {
+}: Props) {
   const [, setSelected] = useState<HasDisease>();
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function HealthConditionCheckForm({
         >
           <h4 className="ft-medium text-center px-4">No</h4>
         </button>
-      </div>{" "}
+      </div>
     </div>
   );
 }
