@@ -22,7 +22,7 @@ export default function Init() {
           </div>
           <div className="mt-10 flex flex-col items-center">
             <Link
-              to="/Form"
+              to="/form"
               className="ft-medium bg-yellow px-15 py-2 rounded-2xl "
             >
               Empezar
@@ -30,7 +30,7 @@ export default function Init() {
             <small className="mt-5 text-gray ft-light opacity-95">
               ¿Tienes cuenta?{" "}
               <span className="text-brown ft-medium hover:underline">
-                <Link to="/Login">Inicia sesión</Link>
+                <Link to="/login">Inicia sesión</Link>
               </span>
             </small>
           </div>
