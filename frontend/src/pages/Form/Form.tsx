@@ -203,7 +203,7 @@ export default function Form() {
         <ProgressBar progress={progress} />
       </div>
 
-      <div className="absolute bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
         <FruitLeft />
       </div>
 
