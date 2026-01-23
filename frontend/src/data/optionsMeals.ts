@@ -1,34 +1,36 @@
 import type { Meal } from "../types";
 
-export const optionsMeals: Meal[] = [
+export const OptionsMeals: Meal[] = [
     {
         label: "Desayuno",
-        icon: "/SVG/Platos/Dark/DesayunoDark.svg",
-        selectedIcon: "/SVG/Platos/Desayuno.svg",
+        icon: "/SVG/Dishes/Dark/Breakfast.svg",
+        selectedIcon: "/SVG/Dishes/Light/Breakfast.svg",
     },
     {
         label: "Snack1",
-        icon: "/SVG/Platos/Dark/SnackDark.svg",
-        selectedIcon: "/SVG/Platos/Snack.svg",
+        icon: "/SVG/Dishes/Dark/Snack.svg",
+        selectedIcon: "/SVG/Dishes/Light/Snack.svg",
     },
     {
         label: "Almuerzo",
-        icon: "/SVG/Platos/Dark/AlmuerzoDark.svg",
-        selectedIcon: "/SVG/Platos/Almuerzo.svg",
+        icon: "/SVG/Dishes/Dark/Lunch.svg",
+        selectedIcon: "/SVG/Dishes/Light/Lunch.svg",
     },
     {
         label: "Snack2",
-        icon: "/SVG/Platos/Dark/SnackDark.svg",
-        selectedIcon: "/SVG/Platos/Snack.svg",
+        icon: "/SVG/Dishes/Dark/SnackDark.svg",
+        selectedIcon: "/SVG/Dishes/Light/Snack.svg",
     },
     {
         label: "Cena",
-        icon: "/SVG/Platos/Dark/CenaDark.svg",
-        selectedIcon: "/SVG/Platos/Cena.svg",
+        icon: "/SVG/Dishes/Dark/Dinner.svg",
+        selectedIcon: "/SVG/Dishes/Light/Dinner.svg",
     },
     {
         label: "Snack3",
-        icon: "/SVG/Platos/Dark/SnackDark.svg",
-        selectedIcon: "/SVG/Platos/Snack.svg",
+        icon: "/SVG/Dishes/Dark/SnackDark.svg",
+        selectedIcon: "/SVG/Dishes/Light/Snack.svg",
     },
 ];
+
+export const MainMeals = ["Desayuno", "Almuerzo", "Cena"];
