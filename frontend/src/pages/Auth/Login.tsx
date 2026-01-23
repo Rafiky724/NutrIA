@@ -44,16 +44,16 @@ export default function Login() {
     try {
       // Login
       const response = await loginUser({ email, password });
-      // Verificar si tiene plan
-      const HasPlanResponse = await getHasPlan();
       // Guardar token
       localStorage.setItem("token", response.access_token);
+      // Verificar si tiene plan
+      const HasPlanResponse = await getHasPlan();
       // Redirección según plan
       if (HasPlanResponse.has_plan) {
-        navigate("/PreHome", { replace: true });
+        navigate("/preHome", { replace: true });
         // navigate("/Home", { replace: true });
       } else {
-        navigate("/TodoListo", { replace: true });
+        navigate("/dietCreationReady", { replace: true });
       }
     } catch (error: unknown) {
       // Borrar token
