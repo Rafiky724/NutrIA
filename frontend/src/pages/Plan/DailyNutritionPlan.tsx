@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ObjectiveService } from "../../services/fechaObjetivoService";
+import { ObjectiveService } from "../../services/ObjectiveService";
 import type { Macros } from "../../types";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
