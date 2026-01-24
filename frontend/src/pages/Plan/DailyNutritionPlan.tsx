@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ObjetivoService } from "../../services/fechaObjetivoService";
 import type { Macros } from "../../types";
+import FruitLeft from "../../components/Decoration/FruitLeft";
+import FruitRight from "../../components/Decoration/FruitRight";
 
 export default function DailyNutritionPlan() {
   const navigate = useNavigate();
@@ -157,7 +159,6 @@ export default function DailyNutritionPlan() {
             ))}
           </div>
 
-          {/* BOTÓN */}
           <button
             onClick={handleContinue}
             disabled={loading}
@@ -168,17 +169,12 @@ export default function DailyNutritionPlan() {
         </div>
       </div>
 
-      {/* Frutas */}
-      <img
-        src="/Background/FrutaBack1.png"
-        className="absolute bottom-0 left-0 z-10 w-40"
-        alt=""
-      />
-      <img
-        src="/Background/FrutaBack2.png"
-        className="absolute bottom-0 right-0 z-10 w-40"
-        alt=""
-      />
+      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+        <FruitLeft />
+      </div>
+      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+        <FruitRight />
+      </div>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { PlanService } from "../../services/planService"; // Asegúrate de la ruta
+import FruitLeft from "../../components/Decoration/FruitLeft";
+import FruitRight from "../../components/Decoration/FruitRight";
 
 export default function DietPlanReady() {
   const navigate = useNavigate();
@@ -65,7 +67,6 @@ export default function DietPlanReady() {
             </div>
           </div>
 
-          {/* Botón */}
           <button
             onClick={handleContinue}
             className="mx-auto bg-yellow text-brown ft-medium px-6 py-3 rounded-3xl mt-6 cursor-pointer w-2xs"
@@ -75,21 +76,11 @@ export default function DietPlanReady() {
         </div>
       </div>
 
-      {/* Frutas decorativas */}
-      <div className="absolute bottom-0 z-10 w-35 sm:w-3xs">
-        <img
-          src="/Background/FrutaBack1.png"
-          alt="Decoración fruta izquierda"
-          className="w-auto h-auto"
-        />
+      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+        <FruitLeft />
       </div>
-
-      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-3xs">
-        <img
-          src="/Background/FrutaBack2.png"
-          alt="Decoración fruta derecha"
-          className="w-auto h-auto"
-        />
+      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+        <FruitRight />
       </div>
     </>
   );
