@@ -50,7 +50,7 @@ export default function Login() {
       const HasPlanResponse = await getHasPlan();
       // Redirección según plan
       if (HasPlanResponse.has_plan) {
-        navigate("/preHome", { replace: true });
+        navigate("/weeklyMealPlan", { replace: true });
         // navigate("/Home", { replace: true });
       } else {
         navigate("/dietCreationReady", { replace: true });
