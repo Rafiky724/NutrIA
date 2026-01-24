@@ -18,7 +18,7 @@ export const DietService = {
             });
 
             return data;
-        } catch (error: any) {
+        } catch (error) {
             console.error("Error creando dieta:", error);
             throw error;
         }
@@ -48,8 +48,8 @@ export const DietService = {
             );
 
             return data;
-        } catch (error: any) {
-            console.error("Error iniciando dieta:", error.response?.data || error.message);
+        } catch (error) {
+            console.error("Error iniciando dieta");
             throw error;
         }
     },
