@@ -8,7 +8,7 @@ export default function DietPlanReady() {
 
   const handleContinue = async () => {
     try {
-      const macros = await PlanService.getMacrosDiarios();
+      const macros = await PlanService.getDailyMacros();
 
       localStorage.setItem("macrosDiarios", JSON.stringify(macros));
 
