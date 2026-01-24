@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DietaService } from "../../services/dietaService";
+import { DietService } from "../../services/dietaService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 
@@ -23,7 +23,7 @@ export default function DietCreationReady() {
     setLoading(true);
     setError(null);
     try {
-      const message = await DietaService.crearDieta();
+      const message = await DietService.createDiet();
       console.log("Dieta creada:", message);
 
       navigate("/dietPlanReady");
