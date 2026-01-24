@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DaysService, type DayPlan } from "../../services/diasService";
+import { DaysService, type DayPlan } from "../../services/daysService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import type { TargetDates } from "../../types";
