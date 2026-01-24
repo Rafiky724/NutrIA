@@ -6,7 +6,7 @@ export default function LoadingPage() {
     <LoadingScreen
       Icon={LoadingIcon}
       title="CARGANDO"
-      subtitle={`Esto puede tardar unos segundos.\nEstamos creando tu dieta personalizada`}
+      subtitle={`Esto puede tardar unos segundos.\nEstamos creando tu dieta personalizada.`}
     />
   );
 }
