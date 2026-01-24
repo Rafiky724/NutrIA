@@ -11,7 +11,7 @@ export const PlanService = {
                 throw new Error("Usuario no autenticado");
             }
 
-            const { data } = await axiosClient.get<Macros>(PLAN_ENDPOINTS.MACROS_DIARIOS, {
+            const { data } = await axiosClient.get<Macros>(PLAN_ENDPOINTS.MACROS_DAILY, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
@@ -19,7 +19,7 @@ export const PlanService = {
             });
 
             return data;
-        } catch (error: any) {
+        } catch (error) {
             console.error("Error obteniendo macronutrientes diarios:", error);
             throw error;
         }
