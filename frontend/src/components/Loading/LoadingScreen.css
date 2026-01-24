@@ -4,20 +4,15 @@
   background-color: #f6f5f2;
   background-image: url("/Background/Back.png");
   background-repeat: repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .loading-center {
-  text-align: center;
   animation: fadeIn 0.6s ease-in-out;
 }
 
 .loading-icon {
-  width: 90px;
-  height: 90px;
-  margin: 0 auto 12px;
+  width: 100px;
+  height: 100px;
   animation: pulse 1.5s infinite ease-in-out;
 }
 
@@ -27,16 +22,9 @@
 }
 
 .loading-title {
-  font-size: 1.6rem;
   font-weight: 700;
   color: #4b5e2a;
   margin-bottom: 12px;
-}
-
-.loading-subtitle {
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.4;
 }
 
 /* Animaciones */
