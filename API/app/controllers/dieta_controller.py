@@ -308,7 +308,7 @@ class DietaController:
 
             "completado": False,
             "comidas": comidas,
-
+            #"activo": True, WORK IN PROGRESS
             "created_at": datetime.now()
         }
     
@@ -412,7 +412,8 @@ class DietaController:
                 "grasas": 0
             },
             "inicio_dia": None,
-            "fin_dia": None
+            "fin_dia": None,
+            "activo": True
         }
 
         async with await db.client.start_session() as session:
