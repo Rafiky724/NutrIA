@@ -2,7 +2,7 @@ import axiosClient from "../api/axiosClient";
 import { USER_ENDPOINTS } from "../api/endpoints";
 
 export interface HasPlanResponse {
-    has_plan: boolean;
+    tiene_plan: boolean;
 }
 
 export const getHasPlan = async (): Promise<HasPlanResponse> => {
