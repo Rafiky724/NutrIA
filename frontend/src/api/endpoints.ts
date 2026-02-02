@@ -30,3 +30,7 @@ export const DAYS_ENDPOINTS = {
 export const USER_ENDPOINTS = {
   HAS_PLAN: "/user/tiene-plan",
 } as const;
+
+export const HOME_ENDPOINTS = {
+  GET_HOME: "/home/"
+} as const;
