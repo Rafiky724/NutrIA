@@ -1,6 +1,6 @@
 import axiosClient from "../api/axiosClient";
 import { DAYS_ENDPOINTS } from "../api/endpoints";
-import type { DayPlan, EditFoodResponse } from "../types";
+import type { DayPlan, EditFoodResponse, RegenerateDayResponse } from "../types";
 
 export const DaysService = {
 
@@ -49,14 +49,14 @@ export const DaysService = {
     regenerateFood: async (
         day: string,
         typeFood: string
-    ): Promise<EditFoodResponse> => {
+    ): Promise<RegenerateDayResponse> => {
         const token = localStorage.getItem("token");
 
         if (!token) {
             throw new Error("Usuario no autenticado");
         }
 
-        const { data } = await axiosClient.post<EditFoodResponse>(
+        const { data } = await axiosClient.post<RegenerateDayResponse>(
             DAYS_ENDPOINTS.REGENERATE_FOOD(day, typeFood),
             {},
             {
