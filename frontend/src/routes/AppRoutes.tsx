@@ -9,11 +9,11 @@ import RouteProtection from "../components/Protected/RouteProtection";
 import WeeklyMealPlan from "../pages/Plan/WeeklyMealPlan";
 import DietCreationReady from "../pages/Onboarding/DietCreationReady";
 import DietPlanReady from "../pages/Onboarding/DietPlanReady";
-import Home from "../pages/Home";
 import StartDiet from "../pages/Onboarding/StartDiet";
 import UpdateDietDay from "../pages/Onboarding/UpdateDietDay";
 import LoadingPage from "../pages/Loading/Loading";
 import Register from "../pages/Auth/Register";
+import HomeLayout from "../pages/Home/HomeLayout";
 
 export default function AppRoutes() {
   return (
@@ -41,7 +41,7 @@ export default function AppRoutes() {
         <Route path="/weeklyMealPlan" element={<WeeklyMealPlan />}></Route>
         <Route path="/startDiet" element={<StartDiet />}></Route>
         <Route path="/updateDietDay" element={<UpdateDietDay />}></Route>
-        <Route path="/home" element={<Home />}></Route>
+        <Route path="/homeLayout" element={<HomeLayout />}></Route>
       </Route>
     </Routes>
   );
