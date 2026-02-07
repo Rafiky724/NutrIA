@@ -30,7 +30,10 @@ export default function UpdateDietDay() {
 
     const payload: any = {
       tipo_inicio: state.tipo_inicio,
-      dia_actualizar_dieta: daySelected.toLowerCase(),
+      dia_actualizar_dieta: daySelected
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, ""),
     };
 
     if (state.tipo_inicio === "hoy") {
@@ -42,7 +45,7 @@ export default function UpdateDietDay() {
     try {
       const respuesta = await DietService.iniciarDieta(payload);
       console.log("Dieta iniciada:", respuesta);
-      navigate("/home");
+      navigate("/homeLayout");
     } catch (error) {
       console.error("Error iniciando dieta:", error);
       alert("Ocurrió un error al iniciar la dieta");
