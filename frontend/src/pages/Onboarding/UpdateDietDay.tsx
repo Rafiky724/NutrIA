@@ -3,18 +3,9 @@ import { useState } from "react";
 import { DietService } from "../../services/dietaService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
+import { daysWeek } from "../../data/days";
 
 export default function UpdateDietDay() {
-  const daysWeek: string[] = [
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
-    "Domingo",
-  ];
-
   const navigate = useNavigate();
   const location = useLocation();
   const [daySelected, setDaySelected] = useState<string | null>(null);
@@ -71,7 +62,7 @@ export default function UpdateDietDay() {
               className={`px-6 py-3 rounded-xl font-semibold transition cursor-pointer ${
                 daySelected === day
                   ? "bg-yellow text-brown shadow"
-                  : "bg-input text-gray"
+                  : "bg-input text-brown"
               }`}
             >
               {day}
