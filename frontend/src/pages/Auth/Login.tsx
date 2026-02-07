@@ -48,10 +48,11 @@ export default function Login() {
       localStorage.setItem("token", response.access_token);
       // Verificar si tiene plan
       const HasPlanResponse = await getHasPlan();
+      console.log("HasPlanResponse:", HasPlanResponse);
       // Redirección según plan
-      if (HasPlanResponse.has_plan) {
+      if (HasPlanResponse.tiene_plan) {
         navigate("/weeklyMealPlan", { replace: true });
-        // navigate("/Home", { replace: true });
+        //navigate("/homeLayout", { replace: true });
       } else {
         navigate("/dietCreationReady", { replace: true });
       }
