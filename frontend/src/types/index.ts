@@ -137,12 +137,56 @@ export type DayPlan = {
   costo_total: number | null;
   completado: boolean;
   comidas: MealData[];
+  opinion_ia?: string;
 };
+
+export interface MacrosConsumedToday {
+  calorias: number;
+  proteinas: number;
+  carbohidratos: number;
+  grasas: number;
+  calorias_objetivo: number;
+  proteinas_objetivo: number;
+  carbohidratos_objetivo: number;
+  grasas_objetivo: number;
+  seguimiento_racha: number[];
+}
+
+export interface NextMeal {
+  tipo_comida: string;
+  hora_sugerida: string;
+  calorias: number;
+  proteinas: number;
+  carbohidratos: number;
+  grasas: number;
+  precio_estimado: number;
+  ingredientes: Ingredient[];
+}
+
+export interface User {
+  nombre: string;
+  cantidad_gemas: number;
+  numero_racha: number;
+}
+
+export interface HomeResponse {
+  usuario: User;
+  macros_consumidos_hoy: MacrosConsumedToday;
+  proxima_comida: NextMeal | null;
+  dia_actual: DayPlan;
+  hay_dieta_hoy?: boolean;
+  mensaje?: string;
+}
 
 export type EditFoodResponse = {
   success: boolean;
   mensaje: string;
   comida?: MealData;
+};
+
+export type RegenerateDayResponse = {
+  dia: DayPlan;
+  opinion_ia?: string;
 };
 
 export type DatesTargetResponse = {
