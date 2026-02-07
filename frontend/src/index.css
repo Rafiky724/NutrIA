@@ -5,11 +5,13 @@
 ========================= */
 :root {
   /* Colors */
-  --color-gray: #46463f;
+  --color-gray: #595951;
   --color-brown: #260b01;
   --color-yellow: #efb920;
   --color-inputs: #f2f0eb;
-  --color-white: #fcfcfc;
+  --color-clear: #e5e1bd;
+  --color-green: #73a53d;
+  --color-red: #d82b2b;
 
   /* Fonts */
   --font-primary: "Poppins", sans-serif;
@@ -47,6 +49,33 @@
 
 .bg-brown {
   background-color: var(--color-brown);
+}
+
+.bg-gray {
+  background-color: var(--color-inputs);
+}
+
+.bg-green {
+  background-color: var(--color-green);
+}
+/* =========================
+   BORDERS
+========================= */
+
+.br-gray {
+  border-color: var(--color-gray);
+}
+
+.br-green {
+  border-color: var(--color-green);
+}
+
+.br-yellow {
+  border-color: var(--color-yellow);
+}
+
+.br-red {
+  border-color: var(--color-red);
 }
 
 /* =========================
