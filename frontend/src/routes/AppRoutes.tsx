@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Form from "../pages/Form/Form";
 import Init from "../pages/Home/Init";
 import Login from "../pages/Auth/Login";
-import FinalForm from "../components/FormSteps/FinalForm";
 import DailyNutritionPlan from "../pages/Plan/DailyNutritionPlan";
 import GoalProjection from "../pages/Plan/GoalProjection";
 import RouteProtection from "../components/Protected/RouteProtection";
