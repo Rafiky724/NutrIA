@@ -1,0 +1,135 @@
+import type { MealData, Ingredient } from "../../types";
+import { getIngredientIcon } from "../../utils/ingredients";
+import { calculateMacroPercentages } from "../../utils/macros";
+import DonutChart from "../Decoration/DonutChart";
+
+type Props = {
+  dish: MealData;
+  loading: boolean;
+  onRegenerate: () => void;
+  onEdit: () => void;
+};
+
+export default function DishCard({
+  dish,
+  loading,
+  onRegenerate,
+  onEdit,
+}: Props) {
+  const { protein, carbs, fats } = calculateMacroPercentages(dish);
+
+  return (
+    <div className="bg-input p-4 rounded-2xl flex flex-row gap-4">
+      {/* IZQUIERDA */}
+      <div className="flex flex-col items-center justify-center gap-4">
+        <div className="w-4xs object-cover">
+          <img
+            src="/SVG/ejemploPlato.jpeg"
+            alt="Plato"
+            className="rounded-3xl w-auto h-auto"
+          />
+        </div>
+
+        <div className="flex px-2 text-brown ft-medium text-xs items-start">
+          <div className="flex flex-col items-center">
+            <span>
+              {dish.proteinas} g ({protein.toFixed(0)}%)
+            </span>
+            <span className="ft-light mt-1">Proteína</span>
+            <div className="w-12 h-1 bg-yellow-500 mt-1"></div>
+          </div>
+          <div className="flex flex-col items-center">
+            <span>
+              {dish.carbohidratos} g ({carbs.toFixed(0)}%)
+            </span>
+            <span className="ft-light mt-1">Carbohidratos</span>
+            <div className="w-12 h-1 bg-yellow-700 mt-1"></div>
+          </div>
+          <div className="flex flex-col items-center">
+            <span>
+              {dish.grasas} g ({fats.toFixed(0)}%)
+            </span>
+            <span className="ft-light mt-1">Grasas</span>
+            <div className="w-12 h-1 bg-yellow-900 mt-1"></div>
+          </div>
+        </div>
+
+        <DonutChart
+          protein={dish.proteinas}
+          carbs={dish.carbohidratos}
+          fats={dish.grasas}
+          calories={dish.calorias}
+        />
+      </div>
+
+      {/* DERECHA */}
+      <div className="flex flex-col w-full gap-3">
+        <div className="flex justify-between items-center">
+          <h2 className="text-md ft-bold text-brown">Ingredientes</h2>
+          <span className="text-gray ft-medium text-sm">
+            ≈ ${dish.precio_estimado} COP
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1 overflow-y-auto min-h-[180px] max-h-[220px]">
+            {dish.ingredientes.map((ing: Ingredient, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between bg-white rounded-4xl p-2"
+              >
+                <div className="flex items-center gap-2 ft-light text-brown">
+                  <span className="w-5">
+                    <img
+                      src={getIngredientIcon(ing.nombre)}
+                      alt={ing.nombre}
+                      className="w-5 h-6"
+                    />
+                  </span>
+                  <span className="text-xs text-left">
+                    {ing.cantidad} {ing.nombre}
+                  </span>
+                </div>
+
+                <span className="text-gray ft-medium text-xs">
+                  {ing.calorias_ingrediente} KCal | {ing.proteinas_ingrediente}{" "}
+                  P | {ing.carbohidratos_ingrediente} C |{" "}
+                  {ing.grasas_ingrediente} G
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-3 mt-auto w-2xs mx-auto">
+            <button
+              onClick={onEdit}
+              className="relative bg-yellow text-brown py-3 rounded-3xl px-6 ft-medium shadow text-center cursor-pointer"
+            >
+              Editar ingredientes
+              <div className="absolute top-3 right-5 w-6">
+                <img
+                  src="/SVG/IconsGeneral/EditIcon.svg"
+                  alt="Editar ingredientes"
+                />
+              </div>
+            </button>
+
+            <button
+              onClick={onRegenerate}
+              disabled={loading}
+              className="relative bg-brown text-white ft-medium py-3 rounded-3xl px-6 shadow cursor-pointer"
+            >
+              Regenerar plato
+              <div className="absolute top-3 right-5 w-6">
+                <img
+                  src="/SVG/IconsGeneral/RegenerateIcon.svg"
+                  alt="Regenerar plato"
+                />
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
