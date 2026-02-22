@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { Macros } from "../../types";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
-import { objectiveService } from "../../services/ObjectiveService";
+import { objectiveService } from "../../services/objectiveService";
 
 export default function DailyNutritionPlan() {
   const navigate = useNavigate();
