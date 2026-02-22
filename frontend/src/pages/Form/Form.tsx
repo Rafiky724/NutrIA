@@ -44,7 +44,7 @@ export default function Form() {
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     localStorage.setItem("datosNutrIA", JSON.stringify(data));
-    navigate("/finalForm");
+    navigate("/register");
   };
 
   const fieldNames: (keyof FormData)[][] = [

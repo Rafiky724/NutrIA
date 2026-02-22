@@ -23,7 +23,6 @@ export default function AppRoutes() {
       <Route path="/" element={<Init />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/form" element={<Form />}></Route>
-      <Route path="/finalForm" element={<FinalForm />}></Route>
       <Route path="/register" element={<Register />}></Route>
 
       {/* Rutas protegidas */}
