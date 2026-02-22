@@ -6,15 +6,12 @@ import { getHasPlan } from "../../services/userService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
-import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 import Toast from "../../components/Toast/Toast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [viewModal, setViewModal] = useState(false);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [toast, setToast] = useState({
     open: false,
@@ -40,7 +37,6 @@ export default function Login() {
       });
       return;
     }
-    setLoading(true);
     try {
       // Login
       const response = await loginUser({ email, password });
@@ -51,8 +47,8 @@ export default function Login() {
       console.log("HasPlanResponse:", HasPlanResponse);
       // Redirección según plan
       if (HasPlanResponse.tiene_plan) {
-        navigate("/weeklyMealPlan", { replace: true });
-        //navigate("/homeLayout", { replace: true });
+        //navigate("/weeklyMealPlan", { replace: true });
+        navigate("/homeLayout", { replace: true });
       } else {
         navigate("/dietCreationReady", { replace: true });
       }
@@ -78,27 +74,15 @@ export default function Login() {
           type: "error",
         });
       }
-    } finally {
-      setLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <LoadingScreen
-        Icon={LoadingIcon}
-        title="CARGANDO"
-        subtitle={`Esto puede tardar unos segundos.\nEstamos creando tu dieta personalizada`}
-      />
-    );
-  }
 
   return (
     <>
       <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center">
         <div className="min-h-screen flex flex-col items-center justify-center">
-          <div className="bg-white w-80 h-auto sm:w-xl lg:w-3xl p-8 rounded-3xl shadow-md text-center">
-            <div className="flex items-center justify-center gap-5 mb-20">
+          <div className="bg-white w-80 h-auto sm:w-2xl p-8 rounded-3xl shadow-md text-center">
+            <div className="flex items-center justify-center gap-5 mb-8">
               <img
                 className="w-15"
                 src="/SVG/IconsGeneral/DataIcon.svg"
@@ -106,7 +90,7 @@ export default function Login() {
               />
               <h2 className="text-xl text-brown ft-bold">Iniciar sesión</h2>
             </div>
-            <div className="my-15">
+            <div className="my-10">
               <form
                 onSubmit={handleSubmit}
                 className="space-y-4 sm:px-30 lg:px-50"
@@ -173,7 +157,6 @@ export default function Login() {
       <div className="absolute bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
         <FruitLeft />
       </div>
-
       <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
         <FruitRight />
       </div>
