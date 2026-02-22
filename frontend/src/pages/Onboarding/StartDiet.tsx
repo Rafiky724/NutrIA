@@ -1,0 +1,177 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { DaysService } from "../../services/daysService";
+import ModalStartDate from "../../components/Modals/ModalStartDate";
+import type { DayPlan, TypeFood } from "../../types";
+import FruitLeft from "../../components/Decoration/FruitLeft";
+import FruitRight from "../../components/Decoration/FruitRight";
+import ModalFood from "../../components/Modals/ModalFood";
+
+type HomeOption = "hoy" | "mañana" | "otro";
+
+export default function StartDiet() {
+  const navigate = useNavigate();
+  const [option, setOption] = useState<HomeOption | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [dayPlan, setDayPlan] = useState<DayPlan | null>(null);
+  const [selectedFood, setSelectedFood] = useState<TypeFood | null>(null);
+  const [showModalDate, setShowModalDate] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchToday = async () => {
+      try {
+        const today = new Date()
+          .toLocaleDateString("es-ES", { weekday: "long" })
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+
+        const data = await DaysService.getDay(today);
+        setDayPlan(data);
+      } catch (error) {
+        console.error("Error cargando día actual:", error);
+      }
+    };
+
+    fetchToday();
+  }, []);
+
+  const mealsAvailable: TypeFood[] = dayPlan
+    ? dayPlan.comidas.map((c) => c.tipo_comida as TypeFood)
+    : [];
+
+  const handleNext = () => {
+    if (!option) return;
+
+    if (option === "hoy" && !selectedFood) {
+      alert("Selecciona en qué comida estás ahora");
+      return;
+    }
+
+    if (option === "otro" && !selectedDate) {
+      alert("Selecciona la fecha de inicio");
+      return;
+    }
+
+    const state: any = {
+      tipo_inicio: option === "mañana" ? "manana" : option,
+    };
+
+    if (option === "hoy") {
+      state.siguiente_comida = selectedFood;
+    } else if (option === "otro") {
+      state.tipo_inicio = "fecha";
+      state.fecha_inicio = selectedDate;
+    }
+
+    navigate("/updateDietDay", { state });
+  };
+
+  const getTextButton = (type: HomeOption) => {
+    if (type === "hoy" && selectedFood) return `Hoy - ${selectedFood}`;
+    if (type === "otro" && selectedDate)
+      return `Seleccionar día - ${selectedDate}`;
+    return type === "hoy"
+      ? "Hoy"
+      : type === "mañana"
+        ? "Mañana"
+        : "Seleccionar día";
+  };
+
+  return (
+    <div className="min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center p-6">
+      <div className="bg-white w-2xl rounded-3xl shadow p-8 flex flex-col gap-6 text-center">
+        <h1 className="text-2xl ft-bold text-brown">
+          ¿Cuándo quieres empezar tu dieta?
+        </h1>
+
+        <p className="text-gray ft-light px-8 text-justify">
+          Elige el día en el que te gustaria comenzar tu plan alimenticio
+          personalizado.
+        </p>
+
+        <div className="flex flex-col gap-4 w-3xs mx-auto">
+          <button
+            onClick={() => {
+              setOption("hoy");
+              if (mealsAvailable.length > 0) setShowModal(true);
+              setSelectedDate(null);
+            }}
+            className={`py-3 rounded-xl ft-medium transition cursor-pointer ${
+              option === "hoy"
+                ? "bg-yellow text-brown shadow"
+                : "bg-input text-gray"
+            }`}
+          >
+            {getTextButton("hoy")}
+          </button>
+
+          <button
+            onClick={() => {
+              setOption("mañana");
+              setShowModal(false);
+              setSelectedDate(null);
+            }}
+            className={`py-3 rounded-xl ft-medium transition cursor-pointer ${
+              option === "mañana"
+                ? "bg-yellow text-brown shadow"
+                : "bg-input text-gray"
+            }`}
+          >
+            {getTextButton("mañana")}
+          </button>
+
+          <button
+            onClick={() => {
+              setOption("otro");
+              setShowModal(false);
+              setShowModalDate(true);
+              setSelectedFood(null);
+            }}
+            className={`py-3 rounded-xl ft-medium transition cursor-pointer ${
+              option === "otro"
+                ? "bg-yellow text-brown shadow"
+                : "bg-input text-gray"
+            }`}
+          >
+            {getTextButton("otro")}
+          </button>
+        </div>
+
+        <button
+          onClick={handleNext}
+          className="w-sm mx-auto mt-4 py-2 rounded-full ft-medium transition bg-yellow text-brown shadow cursor-pointer"
+        >
+          Siguiente
+        </button>
+      </div>
+
+      <ModalFood
+        show={showModal && !!dayPlan}
+        mealsAvailable={mealsAvailable}
+        selectedFood={selectedFood}
+        onSelectFood={(food) => setSelectedFood(food)}
+        onClose={() => setShowModal(false)}
+      />
+
+      {showModalDate && (
+        <ModalStartDate
+          onSelectDate={(date) => {
+            setSelectedDate(date);
+            setShowModalDate(false);
+          }}
+          onClose={() => setShowModalDate(false)}
+        />
+      )}
+
+      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+        <FruitLeft />
+      </div>
+      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+        <FruitRight />
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,66 @@
+import { useState, useEffect } from "react";
+
+import type { HomeResponse } from "../../types";
+import { HomeService } from "../../services/homeService";
+import NavBar from "../../components/Home/NavBar";
+import TodaySummary from "../../components/Home/TodaySummary";
+import NextMealCard from "../../components/Home/NextMealCard";
+import DailyDiet from "../../components/Home/DailyDiet";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
+
+export default function Home() {
+  const [homeData, setHomeData] = useState<HomeResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [activeFoodIndex, setActiveFoodIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const data = await HomeService.getHome();
+        setHomeData(data);
+      } catch (err) {
+        console.error("Error al cargar datos del home", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHomeData();
+  }, []);
+
+  if (loading || !homeData)
+    return (
+      <LoadingScreen
+        Icon={LoadingIcon}
+        title="CARGANDO"
+        subtitle={`Esto puede tardar unos segundos.\nEstamos trayendo tus datos.`}
+      />
+    );
+
+  const user = homeData.usuario;
+  const nextFood = homeData.proxima_comida;
+
+  return (
+    <div className="flex min-h-screen bg-input pl-20 pr-10">
+      <div className="flex-1 py-6 flex flex-col gap-6">
+        <NavBar user={user} />
+
+        <div className="flex gap-6">
+          {/* CAJA IZQUIERDA */}
+          <TodaySummary homeData={homeData} />
+
+          {/* CAJA DERECHA */}
+          <NextMealCard nextFood={nextFood} />
+        </div>
+
+        {/* CAJA INFERIOR */}
+        <DailyDiet
+          homeData={homeData}
+          activeFoodIndex={activeFoodIndex}
+          setActiveFoodIndex={setActiveFoodIndex}
+        />
+      </div>
+    </div>
+  );
+}
