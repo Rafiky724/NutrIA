@@ -69,3 +69,5 @@ export const DaysService = {
         return data;
     },
 };
+
+export type { DayPlan, EditFoodResponse, RegenerateDayResponse };

@@ -2,7 +2,7 @@ import axiosClient from "../api/axiosClient";
 import { OBJECTIVE_ENDPOINTS } from "../api/endpoints";
 import type { DatesTargetResponse } from "../types";
 
-export const objectiveService = {
+export const ObjectiveService = {
 
     getTargetDates: async (): Promise<DatesTargetResponse> => {
         try {

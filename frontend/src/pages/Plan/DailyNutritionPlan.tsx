@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { Macros } from "../../types";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
-import { objectiveService } from "../../services/objectiveService";
+import { ObjectiveService } from "../../services/ObjectiveService";
 
 export default function DailyNutritionPlan() {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function DailyNutritionPlan() {
     try {
       setLoading(true);
 
-      const dates = await objectiveService.getTargetDates();
+      const dates = await ObjectiveService.getTargetDates();
 
       localStorage.setItem("fechasObjetivo", JSON.stringify(dates));
 
