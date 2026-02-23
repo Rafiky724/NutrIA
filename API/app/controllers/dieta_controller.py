@@ -10,6 +10,7 @@ from fastapi import HTTPException
 import json
 from app.core.llm import ask_llm
 import re
+from zoneinfo import ZoneInfo
 
 from app.schemas.estado_dia import IniciarDietaRequest
 
@@ -223,7 +224,7 @@ class DietaController:
         dieta = dieta_json.get("dieta", {})
 
         return {
-            "fecha_inicio": datetime.now(),
+            "fecha_inicio": datetime.now(ZoneInfo("America/Bogota")),
             "calorias_diarias": dieta.get("calorias_diarias_recomendadas"),
             "proteinas_diarias": dieta.get("proteinas_diarias_recomendadas"),
             "carbohidratos_diarios": dieta.get("carbs_diarios_recomendados"),
@@ -238,7 +239,7 @@ class DietaController:
         dias_estimados = dieta.get("dia_objetivo_logrado_aproximado")
         calorias_diarias = dieta.get("calorias_diarias_recomendadas")
 
-        fecha_inicio = datetime.now()
+        fecha_inicio = datetime.now(ZoneInfo("America/Bogota"))
 
         fecha_estimada = None
         if isinstance(dias_estimados, (int, float)):
@@ -309,7 +310,7 @@ class DietaController:
             "completado": False,
             "comidas": comidas,
             #"activo": True, WORK IN PROGRESS
-            "created_at": datetime.now()
+            "created_at": datetime.now(ZoneInfo("America/Bogota"))
         }
     
     @staticmethod
@@ -354,7 +355,7 @@ class DietaController:
     
     @staticmethod
     async def iniciar_dieta(current_user: ObjectId, payload: IniciarDietaRequest) -> dict:
-        hoy = datetime.now().date()
+        hoy = datetime.now(ZoneInfo("America/Bogota")).date()
 
         if payload.tipo_inicio == "hoy":
             fecha_inicio = hoy
