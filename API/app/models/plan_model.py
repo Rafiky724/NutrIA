@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 class PlanModel:
 
@@ -20,7 +21,7 @@ class PlanModel:
             "grasas_diarias": None,
             "calorias_diarias": None,
             "presupuesto_semanal": None,
-            "creado_en": datetime.now(),
+            "creado_en": datetime.now(ZoneInfo("America/Bogota")),
             "activo": True
 
         }

@@ -1,4 +1,5 @@
 from datetime import datetime, date
+from zoneinfo import ZoneInfo
 
 class ObjetivoModel:
 
@@ -12,10 +13,10 @@ class ObjetivoModel:
             "id_usuario": data["_id"],
             "tipo_objetivo": data["tipo_objetivo"],
             "peso_objetivo": data["peso_objetivo"],
-            "fecha_inicio": datetime.now(),
+            "fecha_inicio": datetime.now(ZoneInfo("America/Bogota")),
             "fecha_estimada": None,
             "calorias_diarias": None,
-            "creado_en": datetime.now(),
+            "creado_en": datetime.now(ZoneInfo("America/Bogota")),
             "activo": True
 
         }

@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from bson import ObjectId
 
 def user_dict(user) -> dict:
@@ -41,7 +42,7 @@ class UserModel:
             "fecha_nacimiento": datetime.combine(data["fecha_nacimiento"], datetime.min.time()),
             "altura_cm": data["altura_cm"],
             "peso_actual": data["peso_actual"],
-            "fecha_registro": datetime.now(),
+            "fecha_registro": datetime.now(ZoneInfo("America/Bogota")),
             "nivel_actividad": data["nivel_actividad"],
             #Objetivo"tipo_objetivo": data["tipo_objetivo"],
             #Objetivo"peso_objetivo": data["peso_objetivo"],
