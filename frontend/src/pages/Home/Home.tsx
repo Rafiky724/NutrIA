@@ -13,6 +13,7 @@ export default function Home() {
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeFoodIndex, setActiveFoodIndex] = useState(0);
+  const hayDietaHoy = !!homeData?.dia_actual?.comidas?.length;
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -38,20 +39,30 @@ export default function Home() {
       />
     );
 
-  const user = homeData.usuario;
-  const nextFood = homeData.proxima_comida;
+  if (!hayDietaHoy) {
+    return (
+      <div className="flex min-h-screen bg-input pl-20 pr-10">
+        <div className="flex-1 py-6 flex flex-col gap-6">
+          <NavBar user={homeData.usuario} />
+          <div className="flex justify-center items-center h-full text-center text-lg font-semibold">
+            {homeData.mensaje || "No tienes dieta asignada hoy"}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-input pl-20 pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
-        <NavBar user={user} />
+        <NavBar user={homeData.usuario} />
 
         <div className="flex gap-6">
           {/* CAJA IZQUIERDA */}
           <TodaySummary homeData={homeData} />
 
           {/* CAJA DERECHA */}
-          <NextMealCard nextFood={nextFood} />
+          <NextMealCard nextFood={homeData.proxima_comida} />
         </div>
 
         {/* CAJA INFERIOR */}
