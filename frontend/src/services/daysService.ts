@@ -34,16 +34,22 @@ export const DaysService = {
             throw new Error("Usuario no autenticado");
         }
 
-        const { data } = await axiosClient.post<EditFoodResponse>(
-            DAYS_ENDPOINTS.EDIT_FOOD(day, typeFood), { ingredients },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
+        const body = { ingredientes: ingredients };
+        try {
+            const { data } = await axiosClient.post<EditFoodResponse>(
+                DAYS_ENDPOINTS.EDIT_FOOD(day, typeFood), body,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-        return data;
+            return data;
+        } catch (error: any) {
+            console.error("Error editando ingredientes: ", error.response?.data);
+            throw error;
+        }
     },
 
     regenerateFood: async (
