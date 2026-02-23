@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 class DespensaModel:
 
@@ -11,7 +12,7 @@ class DespensaModel:
 
             "id_usuario": data["_id"],
             "ingredientes": data["ingredientes"],
-            "creado_en": datetime.now(),
+            "creado_en": datetime.now(ZoneInfo("America/Bogota")),
             "fecha_actualizacion": None
 
         }
