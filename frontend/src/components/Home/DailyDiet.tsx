@@ -41,12 +41,12 @@ export default function DailyDiet({
         <h2 className="text-brown ft-bold text-lg">Dieta de hoy</h2>
 
         {/* Opciones de horario */}
-        <div className="flex gap-3 overflow-x-auto text-xs mb-2 mx-auto">
+        <div className="flex gap-3 overflow-x-auto text-xs mb-2 justify-between">
           {homeData?.dia_actual?.comidas?.map((comida, idx) => (
             <button
               key={idx}
               onClick={() => setActiveFoodIndex(idx)}
-              className={`flex-shrink-0 rounded-2xl p-2 ft-medium ${
+              className={`w-35 flex-shrink-0 rounded-2xl p-2 ft-medium ${
                 idx === activeFoodIndex
                   ? "bg-yellow text-brown"
                   : "bg-gray text-gray"
@@ -85,7 +85,7 @@ export default function DailyDiet({
               </div>
 
               {/* Macros */}
-              <div className="flex justify-between w-full px-2 text-brown ft-medium">
+              <div className="flex justify-between w-full px-2 text-brown ft-medium text-xs">
                 <div className="flex flex-col items-center text-center">
                   <span>
                     {proteins} g ({percentageProteins}%)
@@ -120,7 +120,7 @@ export default function DailyDiet({
             </div>
 
             {/* Ingredientes */}
-            <div className="flex flex-col w-full lg:w-2/3 gap-4">
+            <div className="flex flex-col w-full lg:w-2/3 gap-4 text-xs">
               <div className="flex justify-between items-center">
                 <h2 className="text-lg ft-bold text-brown">Ingredientes</h2>
                 <span className="text-gray ft-medium">
@@ -130,7 +130,7 @@ export default function DailyDiet({
 
               <div className="flex flex-col flex-1 gap-3">
                 {/* Listado de ingredientes */}
-                <div className="flex flex-col gap-3 overflow-y-auto pr-3 min-h-[180px] max-h-[220px]">
+                <div className="flex flex-col gap-1 overflow-y-auto pr-3 min-h-[180px] max-h-[220px]">
                   {food?.ingredientes.map((ing, idx) => (
                     <div
                       key={idx}
@@ -141,7 +141,7 @@ export default function DailyDiet({
                           <img
                             src={getIngredientIcon(ing.nombre)}
                             alt={ing.nombre}
-                            className="w-6 h-6"
+                            className="w-5 h-5"
                           />
                         </span>
                         <span>
@@ -156,9 +156,9 @@ export default function DailyDiet({
                 </div>
 
                 <div className="flex flex-col gap-3 mt-8 w-2xs mx-auto">
-                  <button className="relative bg-yellow text-brown py-3 rounded-3xl px-6 ft-medium shadow text-center cursor-pointer">
+                  <button className="relative bg-yellow text-brown py-2 rounded-3xl ft-medium shadow text-center cursor-pointer">
                     Editar ingredientes
-                    <div className="absolute top-3 right-5 w-6">
+                    <div className="absolute top-3 right-5 w-4">
                       <img src="/SVG/IconsGeneral/EditIcon.svg" alt="Editar" />
                     </div>
                   </button>
