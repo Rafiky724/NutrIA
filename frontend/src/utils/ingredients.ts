@@ -37,5 +37,5 @@ export function getIngredientIcon(nameIA: string): string {
     if (keyword) return keyword.icono;
 
     // Fallback
-    return "/SVG/Ingredientes/default.svg";
+    return "/SVG/Ingredientes/Default.svg";
 }
