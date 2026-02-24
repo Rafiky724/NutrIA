@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRoulette } from "../../hooks/useRoulette";
 import Toast from "../Toast/Toast";
 
@@ -9,12 +9,21 @@ type Props = {
 
 export default function ModalWeight({ onSelectWeight, onClose }: Props) {
   const weights = Array.from({ length: 181 }, (_, i) => i + 20); // 20kg a 200kg
-  const weightRoulette = useRoulette(weights.length, 40); // valor inicial en 60kg aprox
+  const weightRoulette = useRoulette(weights.length, 40); // valor inicial ~60kg
+
   const [toast, setToast] = useState({
     open: false,
     message: "",
     type: "error" as "error" | "success" | "warning" | "info",
   });
+
+  // BLOQUEAR SCROLL DEL BODY
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   const confirmWeight = () => {
     const weight = weights[weightRoulette.selectedIndex];
@@ -39,24 +48,27 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
     const total = values.length;
     const offsets = [-2, -1, 0, 1, 2];
 
-    const getOpacity = (offset: number) => {
-      switch (offset) {
-        case 0:
-          return "bg-input w-25 rounded-full scale-110 ft-bold";
-        case -1:
-        case 1:
-          return "text-gray-500";
-        default:
-          return "text-gray-400 text-sm";
-      }
+    const getStyle = (offset: number) => {
+      if (offset === 0)
+        return "bg-input w-24 sm:w-28 md:w-32 rounded-full scale-110 ft-bold text-base sm:text-lg py-1 px-3";
+      if (offset === -1 || offset === 1)
+        return "text-gray-500 text-sm sm:text-base";
+      return "text-gray-400 text-xs sm:text-sm";
     };
 
     return (
       <div
-        className="flex flex-col items-center w-24 select-none"
-        onWheel={roulette.onWheel}
+        className="flex flex-col items-center select-none"
+        style={{ width: "fit-content" }}
+        onWheel={(e) => {
+          e.preventDefault(); // evita que el body haga scroll
+          roulette.onWheel(e);
+        }}
         onTouchStart={roulette.onTouchStart}
-        onTouchMove={roulette.onTouchMove}
+        onTouchMove={(e) => {
+          e.preventDefault(); // evita que el body haga scroll
+          roulette.onTouchMove(e);
+        }}
         onTouchEnd={roulette.onTouchEnd}
       >
         {offsets.map((offset) => {
@@ -66,7 +78,7 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
             <div
               key={offset}
               onClick={() => roulette.selectIndex(index)}
-              className={`cursor-pointer py-1 transition-all duration-200 ${getOpacity(
+              className={`cursor-pointer transition-all duration-200 ${getStyle(
                 offset,
               )}`}
             >
@@ -79,33 +91,32 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
       {/* Fondo oscuro con blur */}
       <div
-        className="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="relative z-10 bg-white p-6 rounded-2xl shadow-lg w-full max-w-md mx-4">
-        <h2 className="text-2xl text-brown ft-bold mb-4 text-center w-60 mx-auto">
+      <div className="relative z-10 bg-white w-full max-w-md rounded-2xl shadow-xl p-6 sm:p-8">
+        <h2 className="text-lg sm:text-xl md:text-2xl text-brown ft-bold mb-6 text-center">
           Selecciona tu peso actual
         </h2>
 
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-6">
           {renderRoulette(weights, weightRoulette)}
         </div>
 
-        <div className="flex justify-between gap-4">
-          <button
-            onClick={confirmWeight}
-            className="w-60 mx-auto bg-yellow text-brown ft-medium py-2 rounded-full transition cursor-pointer"
-          >
-            Aceptar
-          </button>
-        </div>
+        <button
+          onClick={confirmWeight}
+          className="w-full sm:w-60 mx-auto block bg-yellow text-brown ft-medium py-2.5 rounded-full hover:scale-105 transition cursor-pointer"
+        >
+          Aceptar
+        </button>
       </div>
 
+      {/* Toast */}
       <Toast
         isOpen={toast.open}
         message={toast.message}
