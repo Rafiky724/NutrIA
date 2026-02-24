@@ -28,9 +28,11 @@ export default function ModalAge({ onSelectAge, onClose }: Props) {
     { length: 100 },
     (_, i) => new Date().getFullYear() - i,
   );
+
   const dayRoulette = useRoulette(days.length);
   const monthRoulette = useRoulette(months.length);
   const yearRoulette = useRoulette(years.length, 20);
+
   const [toast, setToast] = useState({
     open: false,
     message: "",
@@ -41,15 +43,12 @@ export default function ModalAge({ onSelectAge, onClose }: Props) {
     const day = days[dayRoulette.selectedIndex];
     const month = monthRoulette.selectedIndex;
     const year = years[yearRoulette.selectedIndex];
+
     const birthDate = new Date(year, month, day);
     const today = new Date();
 
     if (isNaN(birthDate.getTime())) {
-      setToast({
-        open: true,
-        message: "Fecha inválida.",
-        type: "error",
-      });
+      setToast({ open: true, message: "Fecha inválida.", type: "error" });
       return;
     }
 
@@ -60,17 +59,12 @@ export default function ModalAge({ onSelectAge, onClose }: Props) {
     }
 
     if (age < 18 || age > 60) {
-      setToast({
-        open: true,
-        message: "Edad inválida.",
-        type: "error",
-      });
+      setToast({ open: true, message: "Edad inválida.", type: "error" });
       return;
     }
 
-    // Formatear fecha como YYYY-MM-DD
-    const monthStr = String(month + 1).padStart(2, "0"); // Mes en 2 dígitos
-    const dayStr = String(day).padStart(2, "0"); // Día en 2 dígitos
+    const monthStr = String(month + 1).padStart(2, "0");
+    const dayStr = String(day).padStart(2, "0");
     const formatteddate = `${year}-${monthStr}-${dayStr}`;
 
     onSelectAge(formatteddate);
@@ -84,21 +78,17 @@ export default function ModalAge({ onSelectAge, onClose }: Props) {
     const total = values.length;
     const offsets = [-2, -1, 0, 1, 2];
 
-    const getOpacity = (offset: number) => {
-      switch (offset) {
-        case 0:
-          return "bg-input w-25 rounded-full text-md ft-medium";
-        case -1:
-        case 1:
-          return "text-gray-800 text-sm";
-        default:
-          return "text-gray-400 text-xs";
-      }
+    const getStyle = (offset: number) => {
+      if (offset === 0)
+        return "bg-input rounded-full text-base sm:text-lg ft-medium py-1 px-3";
+      if (offset === -1 || offset === 1)
+        return "text-gray-800 text-sm sm:text-base";
+      return "text-gray-400 text-xs sm:text-sm";
     };
 
     return (
       <div
-        className="flex flex-col items-center w-30 select-none"
+        className="flex flex-col items-center w-20 sm:w-24 md:w-28 select-none"
         onWheel={roulette.onWheel}
         onTouchStart={roulette.onTouchStart}
         onTouchMove={roulette.onTouchMove}
@@ -107,11 +97,12 @@ export default function ModalAge({ onSelectAge, onClose }: Props) {
         {offsets.map((offset) => {
           const index = (roulette.selectedIndex + offset + total) % total;
           const value = values[index];
+
           return (
             <div
               key={offset}
               onClick={() => roulette.selectIndex(index)}
-              className={`cursor-pointer py-1 transition-all duration-200 ${getOpacity(
+              className={`cursor-pointer transition-all duration-200 ${getStyle(
                 offset,
               )}`}
             >
@@ -124,33 +115,31 @@ export default function ModalAge({ onSelectAge, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Fondo oscuro con blur */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+      {/* Fondo */}
       <div
-        className="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="relative z-10 bg-white p-6 rounded-2xl shadow-lg mx-4 w-95 md:w-full max-w-md">
-        <h2 className="text-2xl text-brown ft-bold mb-4 text-center">
+      <div className="relative z-10 bg-white w-full max-w-md rounded-2xl shadow-xl p-6 sm:p-8">
+        <h2 className="text-lg sm:text-xl md:text-2xl text-brown ft-bold mb-6 text-center">
           Selecciona tu fecha de nacimiento
         </h2>
 
-        <div className="flex justify-center gap-4 mb-4 text-center">
+        <div className="flex justify-center gap-2 sm:gap-4 mb-6 text-center">
           {renderRoulette(days, dayRoulette)}
           {renderRoulette(months, monthRoulette)}
           {renderRoulette(years, yearRoulette)}
         </div>
 
-        <div className="flex justify-between gap-4">
-          <button
-            onClick={calculateAge}
-            className="w-60 mx-auto bg-yellow text-brown ft-medium py-2 rounded-full transition cursor-pointer"
-          >
-            Aceptar
-          </button>
-        </div>
+        <button
+          onClick={calculateAge}
+          className="w-full sm:w-60 mx-auto block bg-yellow text-brown ft-medium py-2.5 rounded-full hover:scale-105 transition"
+        >
+          Aceptar
+        </button>
       </div>
 
       <Toast
