@@ -63,7 +63,6 @@ export default function IngredientsSelectionForm({
         : [...prev, ingredient];
 
       const structured = buildStructuredIngredients(updated, []);
-
       setValue("ingredientes", structured);
       onSelectIngredients(structured);
 
@@ -71,13 +70,11 @@ export default function IngredientsSelectionForm({
     });
   };
 
-  // validación
   useEffect(() => {
     const structured = buildStructuredIngredients(selectedIngredients, []);
     setValue("ingredientes", structured);
   }, [selectedIngredients, setValue]);
 
-  // Cuando el usuario pulsa "Continuar"
   const handleContinue = () => {
     let valid = true;
 
@@ -97,7 +94,6 @@ export default function IngredientsSelectionForm({
     if (!valid) return;
 
     const structured = buildStructuredIngredients(selectedIngredients, []);
-
     setValue("ingredientes", structured);
     onSelectIngredients(structured);
     nextStep();
@@ -115,50 +111,54 @@ export default function IngredientsSelectionForm({
   };
 
   return (
-    <div className="flex flex-col items-center w-full text-center relative">
+    <div className="flex flex-col items-center w-full text-center px-4 sm:px-6 md:px-10 relative">
+      {/* Navegación entre categorías */}
       <ArrowNavigation
         onPrev={handlePrevCategory}
         onNext={handleNextCategory}
         size={8}
       />
 
-      <div className="flex items-center justify-center space-x-4 mb-6">
-        <div className="w-15">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
+        <div className="w-14 sm:w-16">
           <img
             src="/SVG/IconsGeneral/BasketIcon.svg"
             alt="Cantidad de comidas"
-            className="w-auto h-auto"
+            className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-2xl w-sm text-brown">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown w-full sm:w-auto">
           <h2>¿Qué alimentos quieres incluir en tu plan de comidas?</h2>
         </div>
       </div>
 
-      <p className="ft-light text-gray mb-6 text-justify px-8">
+      {/* Descripción */}
+      <p className="ft-light text-gray mb-6 text-justify text-sm sm:text-base md:text-base px-2 sm:px-6 md:px-8">
         Marca los alimentos que tienes disponibles actualmente, que te gustan o
         que deseas que aparezcan en tu dieta. Puedes agregar otros.
       </p>
 
-      <div className="relative flex items-center gap-4 mb-6">
-        <h2 className="ft-bold text-brown">
+      {/* Categoría y botón "Otro" */}
+      <div className="relative flex items-center justify-center mb-4">
+        <h2 className="ft-bold text-brown text-base sm:text-lg md:text-xl">
           {category.nombre}{" "}
-          <span className="text-gray ft-medium">
+          <span className="text-gray ft-medium text-sm sm:text-base">
             (mínimo {category.minimo})
           </span>
         </h2>
         <button
           type="button"
           onClick={() => setShowModal(true)}
-          className="absolute bg-yellow text-brown ft-medium px-3 py-1 rounded-full shadow-md -right-50 cursor-pointer"
+          className="absolute -top-2 -right-22 sm:-right-8 bg-yellow text-brown ft-medium px-3 py-1 rounded-full shadow-md cursor-pointer flex items-center gap-1"
         >
           Otro <span className="ft-medium text-xl">+</span>
         </button>
       </div>
 
-      {/* Ingredientes con scroll */}
+      {/* Ingredientes */}
       <div className="w-full max-w-lg mb-4">
-        <div className="flex flex-wrap justify-center gap-3 max-h-64 overflow-y-auto p-2">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 max-h-64 overflow-y-auto p-2">
           {category.items.map((item, index) => {
             const isSelected = selectedIngredients.includes(item.nombre);
             return (
@@ -166,7 +166,7 @@ export default function IngredientsSelectionForm({
                 key={`${category.nombre}-${index}`}
                 type="button"
                 onClick={() => toggleSelect(item.nombre)}
-                className={`inline-flex items-center gap-2 px-3 py-1 rounded-2xl transition-all duration-300 sm:text-base cursor-pointer ft-medium ${
+                className={`flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 rounded-2xl transition-all duration-300 cursor-pointer text-sm sm:text-base md:text-base ${
                   isSelected
                     ? "bg-brown text-white shadow-md scale-100"
                     : "bg-input text-gray"
@@ -176,7 +176,7 @@ export default function IngredientsSelectionForm({
                 <img
                   src={item.icono}
                   alt={item.nombre}
-                  className="w-5 h-5 object-contain"
+                  className="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 object-contain"
                 />
               </button>
             );
@@ -189,7 +189,7 @@ export default function IngredientsSelectionForm({
         <button
           type="button"
           onClick={handleContinue}
-          className="w-80 mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl cursor-pointer"
+          className="w-full sm:w-72 md:w-80 mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl cursor-pointer"
         >
           Continuar
         </button>
