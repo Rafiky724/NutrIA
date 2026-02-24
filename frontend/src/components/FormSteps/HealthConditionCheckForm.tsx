@@ -31,38 +31,41 @@ export default function HealthConditionCheckForm({
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-center space-x-4">
-        <div className="w-15">
+    <div className="px-4 sm:px-6 md:px-10">
+      {/* Encabezado */}
+      <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-6 space-y-4 sm:space-y-0">
+        <div className="w-16 sm:w-20">
           <img
             src="/SVG/IconsGeneral/Heart.svg"
             alt="Datos Condición médica"
-            className="w-auto h-auto"
+            className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-2xl text-brown">
+        <div className="ft-bold text-xl sm:text-2xl text-brown text-center sm:text-left">
           <h2>¿Tienes alguna condición médica?</h2>
         </div>
       </div>
-      <div className="mt-8 text-justify ft-light text-gray px-4">
+
+      {/* Descripción */}
+      <div className="mt-6 sm:mt-8 text-justify ft-light text-gray text-sm sm:text-base px-2 sm:px-6">
         Algunas enfermedades requieren una dieta especial para cuidar tu salud.
       </div>
-      <div className="flex flex-col gap-2 mt-8">
-        <button
-          type="button"
-          onClick={() => handleSelect("Sí")}
-          className="w-xs mx-auto py-2 rounded-full cursor-pointer text-lg custom-bg"
-        >
-          <h4 className="ft-medium text-center px-4">Sí</h4>
-        </button>
 
-        <button
-          type="button"
-          onClick={() => handleSelect("No")}
-          className="w-xs mx-auto py-2 rounded-full cursor-pointer text-lg custom-bg"
-        >
-          <h4 className="ft-medium text-center px-4">No</h4>
-        </button>
+      {/* Botones */}
+      <div className="flex flex-col gap-3 mt-6 sm:mt-8">
+        {[
+          { label: "Sí", value: "Sí" },
+          { label: "No", value: "No" },
+        ].map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => handleSelect(option.value as HasDisease)}
+            className="w-full sm:w-60 md:w-80 mx-auto py-3 rounded-full cursor-pointer text-lg sm:text-xl ft-medium custom-bg transition hover:scale-105"
+          >
+            <h4 className="text-center px-4">{option.label}</h4>
+          </button>
+        ))}
       </div>
     </div>
   );
