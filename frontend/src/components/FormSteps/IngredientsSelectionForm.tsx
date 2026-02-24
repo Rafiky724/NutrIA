@@ -70,7 +70,7 @@ export default function IngredientsSelectionForm({
       );
       if (selected.length < category.minimo) {
         toast.error(
-          `Debes seleccionar al menos ${category.minimo} de ${category.nombre}`
+          `Debes seleccionar al menos ${category.minimo} de ${category.nombre}`,
         );
         valid = false;
       }
@@ -84,19 +84,23 @@ export default function IngredientsSelectionForm({
 
   const handleNextCategory = () => {
     setCurrentCategory((prev) =>
-      prev === categories.length - 1 ? 0 : prev + 1
+      prev === categories.length - 1 ? 0 : prev + 1,
     );
   };
   const handlePrevCategory = () => {
     setCurrentCategory((prev) =>
-      prev === 0 ? categories.length - 1 : prev - 1
+      prev === 0 ? categories.length - 1 : prev - 1,
     );
   };
 
   return (
     <div className="flex flex-col items-center w-full text-center px-4 sm:px-6 md:px-10 relative">
       {/* Navegación */}
-      <ArrowNavigation onPrev={handlePrevCategory} onNext={handleNextCategory} size={8} />
+      <ArrowNavigation
+        onPrev={handlePrevCategory}
+        onNext={handleNextCategory}
+        size={8}
+      />
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4 w-full">
@@ -114,13 +118,17 @@ export default function IngredientsSelectionForm({
 
       {/* Descripción */}
       <p className="ft-light text-gray mb-6 text-justify text-sm sm:text-base md:text-base px-2 sm:px-6 md:px-8">
-        Marca los alimentos que tienes disponibles actualmente, que te gustan o que deseas que aparezcan en tu dieta. Puedes agregar otros.
+        Marca los alimentos que tienes disponibles actualmente, que te gustan o
+        que deseas que aparezcan en tu dieta. Puedes agregar otros.
       </p>
 
       {/* Categoría + Botón Otro */}
       <div className="relative flex items-center justify-center mb-4 w-full">
         <h2 className="ft-bold text-brown text-base sm:text-lg md:text-xl">
-          {category.nombre} <span className="text-gray ft-medium text-sm sm:text-base">(mínimo {category.minimo})</span>
+          {category.nombre}{" "}
+          <span className="text-gray ft-medium text-sm sm:text-base">
+            (mínimo {category.minimo})
+          </span>
         </h2>
         <button
           type="button"
@@ -142,7 +150,9 @@ export default function IngredientsSelectionForm({
                 type="button"
                 onClick={() => toggleSelect(item.nombre)}
                 className={`flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 rounded-2xl transition-all duration-300 cursor-pointer text-sm sm:text-base md:text-base ${
-                  isSelected ? "bg-brown text-white shadow-md" : "bg-input text-gray"
+                  isSelected
+                    ? "bg-brown text-white shadow-md"
+                    : "bg-input text-gray"
                 }`}
               >
                 {item.nombre}
