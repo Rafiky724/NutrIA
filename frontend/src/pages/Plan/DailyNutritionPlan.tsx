@@ -20,11 +20,8 @@ export default function DailyNutritionPlan() {
   const handleContinue = async () => {
     try {
       setLoading(true);
-
       const dates = await objectiveService.getTargetDates();
-
       localStorage.setItem("fechasObjetivo", JSON.stringify(dates));
-
       navigate("/goalProjection");
     } catch (error) {
       console.error("Error obteniendo fechas del objetivo:", error);
@@ -42,76 +39,64 @@ export default function DailyNutritionPlan() {
   }
 
   const idealKcal = macros.calorias_diarias;
-
-  // Rango recomendado (±10%)
   const rangeMin = Math.round(idealKcal * 0.9);
   const rangeMax = Math.round(idealKcal * 1.1);
-
-  // Rango total visual de la barra (±25%)
   const barraMin = Math.round(idealKcal * 0.75);
   const barraMax = Math.round(idealKcal * 1.25);
-
-  // Porcentajes para la barra
   const totalBar = barraMax - barraMin;
   const yellowStart = ((rangeMin - barraMin) / totalBar) * 100;
   const yellowWidth = ((rangeMax - rangeMin) / totalBar) * 100;
   const idealPos = ((idealKcal - barraMin) / totalBar) * 100;
 
   return (
-    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center">
-      <div className="min-h-screen flex flex-col items-center justify-center p-6">
+    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
+      <div className="min-h-screen flex flex-col items-center justify-center py-8">
         {/* CARD PRINCIPAL */}
-        <div className="w-2xl bg-white p-10 rounded-3xl shadow-md text-center relative z-20">
+        <div className="w-full max-w-3xl bg-white p-6 sm:p-10 rounded-3xl shadow-md text-center relative z-20">
           {/* Título */}
-          <div className="flex items-center justify-center space-x-4 mb-6">
-            <div className="w-15">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 mb-6">
+            <div className="w-12 sm:w-16 mb-2 sm:mb-0">
               <img
                 src="/SVG/IconsGeneral/Check.svg"
                 alt="Chequeado"
-                className="w-auto h-auto"
+                className="w-full h-auto"
               />
             </div>
-            <div className="ft-bold text-2xl text-brown">
-              <h2 className="text-2xl poppins-bold font_brown">
-                Este es tu plan diario
-              </h2>
-            </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-brown">
+              Este es tu plan diario
+            </h2>
           </div>
 
-          <p className="text-gray mb-20 text-justify ft-light px-2">
-            Basado en tu objetivo, nivel de actividad física y preferencias
+          <p className="text-gray mb-8 sm:mb-12 text-sm sm:text-base md:text-lg text-justify px-2 sm:px-6">
+            Basado en tu objetivo, nivel de actividad física y preferencias,
             estas son las cantidades recomendadas para cada día.
           </p>
 
-          <div className="relative w-full h-4 mt-10 rounded-full">
+          {/* BARRA DE CALORÍAS */}
+          <div className="relative w-full h-4 sm:h-6 rounded-full mb-10">
             <div className="absolute h-full bg-brown rounded-full w-full" />
-
             <div
               className="absolute h-full bg-yellow"
-              style={{
-                left: `${yellowStart}%`,
-                width: `${yellowWidth}%`,
-              }}
+              style={{ left: `${yellowStart}%`, width: `${yellowWidth}%` }}
             />
-
+            {/* Líneas de inicio y fin del rango recomendado */}
             <div
-              className="absolute top-[-20px] h-[50px] w-[6px] bg-yellow rounded"
+              className="absolute top-[-5px] h-6 w-1.5 bg-yellow rounded"
               style={{ left: `${yellowStart}%` }}
             />
             <div
-              className="absolute top-[-20px] h-[50px] w-[6px] bg-yellow rounded"
+              className="absolute top-[-5px] h-6 w-1.5 bg-yellow rounded"
               style={{ left: `${yellowStart + yellowWidth}%` }}
             />
-
+            {/* Etiquetas de calorías */}
             <span
-              className="absolute -bottom-10 text-gray ft-medium"
+              className="absolute -bottom-8 text-gray text-xs sm:text-sm"
               style={{ left: `${yellowStart}%`, transform: "translateX(-50%)" }}
             >
               {rangeMin} kcal
             </span>
-
             <span
-              className="absolute -bottom-10 text-gray ft-medium"
+              className="absolute -bottom-8 text-gray text-xs sm:text-sm"
               style={{
                 left: `${yellowStart + yellowWidth}%`,
                 transform: "translateX(-50%)",
@@ -119,40 +104,33 @@ export default function DailyNutritionPlan() {
             >
               {rangeMax} kcal
             </span>
-
             <span
-              className="absolute -top-10 text-lg text-brown ft-medium"
-              style={{
-                left: `${idealPos}%`,
-                transform: "translateX(-50%)",
-              }}
+              className="absolute -top-6 text-brown text-sm sm:text-base font-medium"
+              style={{ left: `${idealPos}%`, transform: "translateX(-50%)" }}
             >
               {idealKcal} kcal
             </span>
           </div>
 
-          <div className="flex items-center justify-center gap-4 mt-18 mb-10">
+          {/* MACRONUTRIENTES */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-8">
             {[
-              {
-                label: "Proteína",
-                value: macros.proteinas_diarias,
-                unit: "gramos",
-              },
+              { label: "Proteína", value: macros.proteinas_diarias, unit: "g" },
               {
                 label: "Carbohidratos",
                 value: macros.carbohidratos_diarios,
-                unit: "gramos",
+                unit: "g",
               },
-              { label: "Grasas", value: macros.grasas_diarias, unit: "gramos" },
+              { label: "Grasas", value: macros.grasas_diarias, unit: "g" },
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-input p-4 w-32 rounded-xl text-center flex flex-col space-y-1"
+                className="bg-input p-4 sm:p-5 w-full sm:w-32 rounded-xl text-center flex flex-col space-y-1"
               >
-                <span className="ft-light text-gray text-sm">
+                <span className="ft-light text-gray text-sm sm:text-base">
                   {item.value} {item.unit}
                 </span>
-                <span className="text-brown text-sm ft-medium">
+                <span className="text-brown text-sm sm:text-base font-medium">
                   {item.label}
                 </span>
               </div>
@@ -162,17 +140,18 @@ export default function DailyNutritionPlan() {
           <button
             onClick={handleContinue}
             disabled={loading}
-            className="w-2xs mx-auto bg-yellow text-brown ft-medium px-4 py-3 rounded-3xl cursor-pointer"
+            className="w-full sm:w-auto mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer"
           >
             {loading ? "Calculando..." : "Continuar"}
           </button>
         </div>
       </div>
 
-      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      {/* DECORACIONES */}
+      <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
         <FruitRight />
       </div>
     </div>
