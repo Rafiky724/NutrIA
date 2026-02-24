@@ -15,26 +15,34 @@ const LoadingScreen: FC<LoadingScreenProps> = ({
   Icon,
 }) => {
   return (
-    <div className="relative loading-screen h-screen">
-      <div className="loading-center flex flex-col items-center justify-center h-full">
-        <div className="loading-icon mx-auto">
-          <Icon />
+    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
+      <div className="flex flex-col items-center justify-center min-h-screen px-6 text-center">
+        {/* Icono */}
+        <div className="mb-6 w-16 sm:w-20 md:w-24 animate-pulse">
+          <Icon className="w-full h-auto" />
         </div>
 
-        <h1 className="loading-title text-center text-3xl">{title}</h1>
+        {/* Título */}
+        <h1 className="text-2xl sm:text-3xl md:text-4xl ft-bold text-brown mb-6">
+          {title}
+        </h1>
 
-        <p className="w-md text-center text-xl ft-medium text-gray absolute bottom-20 ">
-          {subtitle.split("").map((line, i) => (
-            <span key={i}>{line}</span>
+        {/* Subtítulo */}
+        <p className="max-w-xs sm:max-w-md md:max-w-xl text-base sm:text-lg md:text-xl ft-medium text-gray leading-relaxed">
+          {subtitle.split("\n").map((line, i) => (
+            <span key={i} className="block">
+              {line}
+            </span>
           ))}
         </p>
       </div>
 
-      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      {/* Decoraciones */}
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-72">
         <FruitLeft />
       </div>
 
-      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-72">
         <FruitRight />
       </div>
     </div>
