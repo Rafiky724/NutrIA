@@ -45,21 +45,21 @@ export default function UpdateDietDay() {
 
   return (
     <div className="min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center p-6">
-      <div className="bg-white w-2xl rounded-3xl shadow p-8 flex flex-col gap-6 text-center">
-        <h1 className="text-2xl ft-bold text-brown">
+      <div className="bg-white w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3 rounded-3xl shadow p-6 sm:p-8 flex flex-col gap-6 text-center z-50">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl ft-bold text-brown">
           Por último, tu dieta, a tu ritmo
         </h1>
-        <p className="text-gray ft-light px-10 text-justify">
+        <p className="text-gray ft-light px-4 sm:px-10 text-justify sm:text-base md:text-lg">
           Elige el día de la semana en el que prefieres que se actualice tu
           dieta cada semana.
         </p>
 
-        <div className="flex flex-wrap justify-center gap-4 mt-4">
+        <div className="flex flex-wrap justify-center gap-4 mt-6">
           {daysWeek.map((day) => (
             <button
               key={day}
               onClick={() => setDaySelected(day)}
-              className={`px-6 py-3 rounded-xl font-semibold transition cursor-pointer ${
+              className={`px-6 py-3 rounded-xl font-semibold transition cursor-pointer text-sm sm:text-base md:text-lg ${
                 daySelected === day
                   ? "bg-yellow text-brown shadow"
                   : "bg-input text-brown"
@@ -72,16 +72,16 @@ export default function UpdateDietDay() {
 
         <button
           onClick={handleSiguiente}
-          className="w-xs mx-auto mt-6 py-3 rounded-full ft-medium transition bg-yellow text-brown shadow cursor-pointer"
+          className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 bg-yellow text-brown font-semibold py-3 sm:py-4 rounded-full shadow text-lg cursor-pointer mx-auto mt-6"
         >
           Siguiente
         </button>
       </div>
 
-      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
         <FruitRight />
       </div>
     </div>
