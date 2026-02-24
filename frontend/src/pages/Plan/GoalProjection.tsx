@@ -20,9 +20,7 @@ export default function GoalProjection() {
     try {
       const day = "lunes";
       const dayPlan: DayPlan = await DaysService.getDay(day);
-
       localStorage.setItem("diaPlanActual", JSON.stringify(dayPlan));
-
       navigate("/weeklyMealPlan");
     } catch (error) {
       console.error("Error al obtener el día del plan:", error);
@@ -47,81 +45,64 @@ export default function GoalProjection() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center">
-      <div className="min-h-screen flex flex-col items-center justify-center p-6">
-        <div className="w-2xl bg-white p-8 rounded-3xl shadow-md text-center">
-          <div className="flex items-center justify-center space-x-4 mb-6">
-            <div className="w-15">
+    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
+      <div className="min-h-screen flex flex-col items-center justify-center py-8">
+        <div className="w-full max-w-3xl bg-white p-6 sm:p-10 rounded-3xl shadow-md text-center">
+          {/* Título */}
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 mb-6">
+            <div className="w-12 sm:w-16 mb-2 sm:mb-0">
               <img
                 src="/SVG/IconsGeneral/Check.svg"
                 alt="Checking"
-                className="w-auto h-auto"
+                className="w-full h-auto"
               />
             </div>
-            <h1 className="text-2xl ft-bold text-brown">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-brown">
               Proyección de objetivo
             </h1>
           </div>
 
-          <p className="ft-light text-gray mb-6 px-4 text-center">
+          <p className="text-gray mb-6 sm:mb-8 text-sm sm:text-base md:text-lg px-2 sm:px-6 text-center">
             Si sigues este plan, podrás alcanzar tu objetivo aproximadamente en
             estas fechas.
           </p>
 
+          {/* LÍNEA DE PROGRESO */}
           <div className="w-full flex justify-center">
-            <div className="relative h-36 flex flex-col items-center justify-center">
-              {/* SVG LINEAS Y PUNTOS */}
+            <div className="relative flex flex-col items-center justify-center w-full max-w-xl h-32 sm:h-36">
               <svg width="100%" height="60">
                 <line
-                  x1="40"
+                  x1="10%"
                   y1="30"
-                  x2="120"
+                  x2="85%"
                   y2="30"
                   stroke="#FFD600"
                   strokeWidth="4"
                   strokeDasharray="8 6"
                 />
-                <line
-                  x1="110"
-                  y1="30"
-                  x2="220"
-                  y2="30"
-                  stroke="#FFD600"
-                  strokeWidth="4"
-                  strokeDasharray="8 6"
-                />
-                <line
-                  x1="220"
-                  y1="30"
-                  x2="240"
-                  y2="30"
-                  stroke="#FFD600"
-                  strokeWidth="4"
-                  strokeDasharray="8 6"
-                />
-                <circle cx="40" cy="30" r="8" fill="#FFD600" />
-                <circle cx="240" cy="30" r="8" fill="#FFD600" />
+                <circle cx="10%" cy="30" r="8" fill="#FFD600" />
+                <circle cx="83%" cy="30" r="8" fill="#FFD600" />
               </svg>
 
+              {/* Iconos */}
               <img
                 src="/SVG/IconsGeneral/Location.svg"
-                className="absolute top-[25px] left-[40px] -translate-x-1/2 w-8 h-8"
+                className="absolute top-[25px] left-[10%] -translate-x-1/2 w-6 sm:w-8 h-6 sm:h-8"
               />
-
               <img
                 src="/SVG/IconsGeneral/Flag2.svg"
-                className="absolute top-[25px] left-[250px] -translate-x-1/2 w-8 h-8"
+                className="absolute top-[25px] left-[85%] -translate-x-1/2 w-6 sm:w-8 h-6 sm:h-8"
               />
 
-              {/* FECHAS */}
-              <div className="absolute top-[85px] left-[40px] -translate-x-1/2 flex flex-col items-center">
-                <span className="ft-medium text-sm text-brown">
+              {/* Fechas */}
+              <div className="absolute top-[85px] left-[10%] -translate-x-1/2 flex flex-col items-center">
+                <span className="font-medium text-xs sm:text-sm text-brown">
                   {formatDate(dates.fecha_inicio)}
                 </span>
               </div>
 
-              <div className="w-20 absolute top-[85px] left-[240px] -translate-x-1/2 flex flex-col items-center">
-                <span className="ft-medium text-sm text-brown">
+              <div className="absolute top-[85px] left-[80%] -translate-x-1/2 flex flex-col items-center">
+                <span className="font-medium text-xs sm:text-sm text-brown">
                   {formatDate(dates.fecha_estimada)}
                 </span>
               </div>
@@ -130,17 +111,18 @@ export default function GoalProjection() {
 
           <button
             onClick={handleContinue}
-            className="w-xs mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl cursor-pointer mt-6"
+            className="w-full sm:w-auto mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-3xl cursor-pointer mt-6"
           >
             Continuar
           </button>
         </div>
       </div>
 
-      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      {/* DECORACIONES */}
+      <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
         <FruitRight />
       </div>
     </div>
