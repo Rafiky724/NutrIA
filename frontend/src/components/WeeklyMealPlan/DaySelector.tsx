@@ -9,20 +9,20 @@ type Props = {
 
 export default function DaySelector({ days, dayActive, setDayActive }: Props) {
   return (
-    <>
+    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
       {days.map((day) => (
         <button
           key={day}
           onClick={() => setDayActive(day)}
-          className={`px-5 mb-5 py-1 rounded-4xl ft-medium transition ${
+          className={`px-3 sm:px-4 md:px-5 py-1 sm:py-2 rounded-4xl ft-medium transition-all ${
             dayActive === day
               ? "bg-yellow text-brown shadow"
               : "bg-input text-gray"
-          } cursor-pointer`}
+          } cursor-pointer text-sm sm:text-base md:text-lg`}
         >
           {day}
         </button>
       ))}
-    </>
+    </div>
   );
 }
