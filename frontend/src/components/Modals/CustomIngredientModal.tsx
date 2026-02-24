@@ -31,51 +31,53 @@ export default function CustomIngredientModal({
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
       <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg relative">
-        <h3 className="text-2xl ft-bold mb-4 text-brown">Agregar alimentos</h3>
+        <h3 className="text-xl sm:text-2xl ft-bold mb-4 text-brown text-center sm:text-left">
+          Agregar alimentos
+        </h3>
 
-        <div className="flex flex-col sm:flex-row gap-6">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
           {/* Izquierda: Input */}
-          <div className="flex-1 flex flex-col items-start">
+          <div className="flex-1 flex flex-col items-center sm:items-start">
             <input
               type="text"
               value={newIngredient}
               onChange={(e) => setNewIngredient(e.target.value)}
               placeholder="Nombre del ingrediente"
-              className="bg-input rounded-2xl px-3 py-2 w-full mb-2 ft-light"
+              className="bg-input rounded-2xl px-3 py-2 w-full mb-2 ft-light text-sm sm:text-base"
             />
             <button
               type="button"
               onClick={handleAddCustom}
-              className="bg-yellow text-brown ft-medium px-4 py-2 rounded-lg shadow-md mx-auto w-4xs cursor-pointer"
+              className="bg-yellow text-brown ft-medium px-4 py-2 rounded-lg shadow-md w-full sm:w-auto cursor-pointer text-sm sm:text-base"
             >
               Agregar
             </button>
           </div>
 
           {/* Derecha: Lista */}
-          <div className="flex-1 h-50 max-h-60 overflow-y-auto">
+          <div className="flex-1 max-h-60 overflow-y-auto w-full sm:w-auto">
             {customIngredients.length === 0 ? (
-              <p className="text-gray ft-light">
+              <p className="text-gray ft-light text-center sm:text-left">
                 No has agregado alimentos aún.
               </p>
             ) : (
-              <ul className="text-left text-sm text-gray ft-light bg-input px-4 py-2 rounded-xl h-auto">
+              <ul className="text-left text-sm sm:text-base text-gray ft-light bg-input px-2 sm:px-4 py-2 rounded-xl">
                 {customIngredients.map((item, i) => (
                   <li
                     key={i}
-                    className="flex justify-between items-center bg-white rounded-xl px-2 py-2 my-2"
+                    className="flex justify-between items-center bg-white rounded-xl px-2 py-2 my-2 shadow-sm"
                   >
                     <span>{item}</span>
                     <button
                       type="button"
-                      onClick={() => {
+                      onClick={() =>
                         setCustomIngredients(
                           customIngredients.filter((_, index) => index !== i),
-                        );
-                      }}
-                      className="text-gray font-bold mr-3 cursor-pointer"
+                        )
+                      }
+                      className="text-gray font-bold cursor-pointer px-2"
                     >
                       X
                     </button>
@@ -86,18 +88,19 @@ export default function CustomIngredientModal({
           </div>
         </div>
 
-        <div className="flex justify-center gap-4 mt-6">
+        {/* Footer botones */}
+        <div className="flex flex-col sm:flex-row justify-center sm:justify-end gap-2 sm:gap-4 mt-4 sm:mt-6">
           <button
             type="button"
             onClick={onClose}
-            className="ft-light text-gray cursor-pointer"
+            className="ft-light text-gray cursor-pointer px-4 py-2 rounded-lg border border-gray-300 w-full sm:w-auto"
           >
             Cancelar
           </button>
           <button
             type="button"
             onClick={handleAccept}
-            className="ft-medium bg-yellow text-brown px-5 py-2 rounded-lg shadow-md cursor-pointer"
+            className="ft-medium bg-yellow text-brown px-4 py-2 rounded-lg shadow-md w-full sm:w-auto cursor-pointer"
           >
             Aceptar
           </button>
