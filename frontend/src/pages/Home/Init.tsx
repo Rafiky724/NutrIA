@@ -4,45 +4,49 @@ import FruitRight from "../../components/Decoration/FruitRight";
 
 export default function Init() {
   return (
-    <>
-      <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center ">
-        <div className="min-h-screen flex flex-col items-center justify-center relative mx-auto my-auto">
-          <div className="w-2xs md:w-xs 2xl:w-md mb-4">
-            <img
-              src="./Background/Logo.png"
-              alt="Logo NutrIA"
-              className="w-auto h-auto"
-            />
-          </div>
-          <div className="text-center text-2xl ft-medium">
-            <h3 className="p-6 text-gray w-[650px]">
-              Tu asistente virtual personalizado para lograr tus objetivos
-              nutricionales
-            </h3>
-          </div>
-          <div className="mt-10 flex flex-col items-center">
-            <Link
-              to="/form"
-              className="ft-medium bg-yellow px-15 py-2 rounded-2xl "
-            >
-              Empezar
-            </Link>
-            <small className="mt-5 text-gray ft-light opacity-95">
-              ¿Tienes cuenta?{" "}
-              <span className="text-brown ft-medium hover:underline">
-                <Link to="/login">Inicia sesión</Link>
-              </span>
-            </small>
-          </div>
+    <div className="relative w-full min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+        {/* Logo */}
+        <div className="w-40 sm:w-52 md:w-64 2xl:w-80 mb-6">
+          <img
+            src="./Background/Logo.png"
+            alt="Logo NutrIA"
+            className="w-full h-auto"
+          />
         </div>
 
-        <div className="absolute bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
-          <FruitLeft />
-        </div>
-        <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
-          <FruitRight />
+        {/* Texto */}
+        <h3 className="text-gray text-lg sm:text-xl md:text-2xl ft-medium max-w-xs sm:max-w-md md:max-w-xl leading-relaxed">
+          Tu asistente virtual personalizado para lograr tus objetivos
+          nutricionales
+        </h3>
+
+        {/* Botones */}
+        <div className="mt-10 flex flex-col items-center w-full max-w-xs">
+          <Link
+            to="/form"
+            className="ft-medium bg-yellow w-full py-3 rounded-2xl text-center hover:scale-105 transition"
+          >
+            Empezar
+          </Link>
+
+          <small className="mt-5 text-gray ft-light opacity-95 text-sm">
+            ¿Tienes cuenta?{" "}
+            <Link to="/login" className="text-brown ft-medium hover:underline">
+              Inicia sesión
+            </Link>
+          </small>
         </div>
       </div>
-    </>
+
+      {/* Decoraciones */}
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
+        <FruitLeft />
+      </div>
+
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
+        <FruitRight />
+      </div>
+    </div>
   );
 }
