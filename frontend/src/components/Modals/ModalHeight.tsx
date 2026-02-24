@@ -17,7 +17,6 @@ export default function ModalHeight({ onSelectHeight, onClose }: Props) {
     type: "error" as "error" | "success" | "warning" | "info",
   });
 
-  // BLOQUEAR SCROLL DEL BODY
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -28,11 +27,31 @@ export default function ModalHeight({ onSelectHeight, onClose }: Props) {
   const confirmHeight = () => {
     const height = heights[heightRoulette.selectedIndex];
 
-    if (height < 100 || height > 200) {
+    if (height < 140) {
       setToast({
         open: true,
-        message: "Altura inválida.",
-        type: "warning",
+        message:
+          "¡Altura demasiado baja! Por favor selecciona un valor realista.",
+        type: "error",
+      });
+      return;
+    }
+
+    if (height > 200) {
+      setToast({
+        open: true,
+        message:
+          "¡Altura demasiado alta! Por favor selecciona un valor realista.",
+        type: "error",
+      });
+      return;
+    }
+
+    if (!Number.isInteger(height)) {
+      setToast({
+        open: true,
+        message: "Valor inválido, selecciona un número entero.",
+        type: "error",
       });
       return;
     }
