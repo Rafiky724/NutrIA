@@ -33,44 +33,48 @@ export default function ResetModal({ isOpen, onClose }: Props) {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black opacity-80 z-50"></div>
+      {/* Fondo oscuro */}
+      <div className="fixed inset-0 bg-black/70 z-50" />
 
+      {/* Modal */}
       <div
-        className="fixed inset-0 flex items-center justify-center z-50"
+        className="fixed inset-0 flex items-center justify-center z-50 px-4 sm:px-6"
         onClick={onClose}
       >
         <div
-          className="bg-white rounded-2xl px-10 py-4 w-100 shadow-lg"
+          className="bg-white rounded-2xl shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md p-6 sm:p-8"
           onClick={(event) => event.stopPropagation()}
         >
-          <h3 className="text-lg ft-bold mb-4 text-center text-brown">
+          {/* Título */}
+          <h3 className="text-lg sm:text-xl ft-bold mb-4 text-center text-brown">
             Restablecer contraseña
           </h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="mb-12">
-              <p className="text-xs text-brown text-justify ft-light mb-8">
-                Ingresa tu correo electrónico registrado. Te enviaremos un email
-                con las instrucciones para restablecer la contraseña.
-              </p>
-              <input
-                type="email"
-                placeholder="correo@ejemplo.com"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                className="w-full px-4 py-2 rounded-full bg-input"
-              />
-            </div>
-            <div className="flex w-60 mx-auto">
-              <button
-                type="submit"
-                className="flex-1 bg-yellow text-brown py-2 rounded-full ft-medium cursor-pointer"
-              >
-                Aceptar
-              </button>
-            </div>
+
+          {/* Formulario */}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <p className="text-xs sm:text-sm text-brown text-justify ft-light mb-2">
+              Ingresa tu correo electrónico registrado. Te enviaremos un email
+              con las instrucciones para restablecer la contraseña.
+            </p>
+
+            <input
+              type="email"
+              placeholder="correo@ejemplo.com"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              className="w-full px-4 py-2 rounded-full bg-input text-sm sm:text-base"
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-yellow text-brown py-2 rounded-full ft-medium mt-2 cursor-pointer text-sm sm:text-base"
+            >
+              Aceptar
+            </button>
           </form>
         </div>
 
+        {/* Toast */}
         <Toast
           isOpen={toast.open}
           message={toast.message}
