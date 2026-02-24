@@ -30,29 +30,18 @@ export default function IngredientsSelectionForm({
     custom: string[],
   ): [string, string][] => {
     const result: [string, string][] = [];
-
     categories.forEach((category) => {
       ingredients.forEach((ing) => {
         if (category.items.some((item) => item.nombre === ing)) {
           let kind = category.nombre;
-
           if (kind === "Proteínas") kind = "Proteinas";
           if (kind === "Bebidas y Lácteos") kind = "Bebidas";
           if (kind === "Grasas saludables") kind = "Grasas";
-          if (kind === "Otros") kind = "Otros";
-          if (kind === "Carbohidratos") kind = "Carbohidratos";
-          if (kind === "Frutas") kind = "Frutas";
-          if (kind === "Verduras") kind = "Verduras";
-
           result.push([ing, kind]);
         }
       });
     });
-
-    custom.forEach((ing) => {
-      result.push([ing, "Otros"]);
-    });
-
+    custom.forEach((ing) => result.push([ing, "Otros"]));
     return result;
   };
 
@@ -61,11 +50,9 @@ export default function IngredientsSelectionForm({
       const updated = prev.includes(ingredient)
         ? prev.filter((i) => i !== ingredient)
         : [...prev, ingredient];
-
       const structured = buildStructuredIngredients(updated, []);
       setValue("ingredientes", structured);
       onSelectIngredients(structured);
-
       return updated;
     });
   };
@@ -77,12 +64,10 @@ export default function IngredientsSelectionForm({
 
   const handleContinue = () => {
     let valid = true;
-
     categories.forEach((category) => {
       const selected = selectedIngredients.filter((i) =>
         category.items.some((item) => item.nombre === i),
       );
-
       if (selected.length < category.minimo) {
         toast.error(
           `Debes seleccionar al menos ${category.minimo} de ${category.nombre}`,
@@ -90,9 +75,7 @@ export default function IngredientsSelectionForm({
         valid = false;
       }
     });
-
     if (!valid) return;
-
     const structured = buildStructuredIngredients(selectedIngredients, []);
     setValue("ingredientes", structured);
     onSelectIngredients(structured);
@@ -112,7 +95,7 @@ export default function IngredientsSelectionForm({
 
   return (
     <div className="flex flex-col items-center w-full text-center px-4 sm:px-6 md:px-10 relative">
-      {/* Navegación entre categorías */}
+      {/* Navegación */}
       <ArrowNavigation
         onPrev={handlePrevCategory}
         onNext={handleNextCategory}
@@ -120,16 +103,27 @@ export default function IngredientsSelectionForm({
       />
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
-        <div className="w-14 sm:w-16">
+      <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4 w-full">
+        <div className="w-14 sm:w-16 mb-2 sm:mb-0">
           <img
             src="/SVG/IconsGeneral/BasketIcon.svg"
             alt="Cantidad de comidas"
             className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown w-full sm:w-auto">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown w-full sm:w-auto relative">
           <h2>¿Qué alimentos quieres incluir en tu plan de comidas?</h2>
+
+          {/* Botón “Otro” adaptativo */}
+          <button
+            type="button"
+            onClick={() => setShowModal(true)}
+            className="absolute top-55 right-5 sm:static sm:ml-4 bg-yellow text-brown ft-medium px-2 py-1 rounded-full shadow-md flex items-center justify-center
+            sm:px-3 sm:py-1 text-sm sm:text-base"
+          >
+            <span className="sm:hidden">+</span>
+            <span className="hidden sm:inline">Otro +</span>
+          </button>
         </div>
       </div>
 
@@ -139,24 +133,17 @@ export default function IngredientsSelectionForm({
         que deseas que aparezcan en tu dieta. Puedes agregar otros.
       </p>
 
-      {/* Categoría y botón "Otro" */}
-      <div className="relative flex items-center justify-center mb-4">
+      {/* Categoría */}
+      <div className="relative flex items-center justify-center mb-4 w-full">
         <h2 className="ft-bold text-brown text-base sm:text-lg md:text-xl">
           {category.nombre}{" "}
           <span className="text-gray ft-medium text-sm sm:text-base">
             (mínimo {category.minimo})
           </span>
         </h2>
-        <button
-          type="button"
-          onClick={() => setShowModal(true)}
-          className="absolute -top-2 -right-22 sm:-right-8 bg-yellow text-brown ft-medium px-3 py-1 rounded-full shadow-md cursor-pointer flex items-center gap-1"
-        >
-          Otro <span className="ft-medium text-xl">+</span>
-        </button>
       </div>
 
-      {/* Ingredientes */}
+      {/* Lista de Ingredientes */}
       <div className="w-full max-w-lg mb-4">
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 max-h-64 overflow-y-auto p-2">
           {category.items.map((item, index) => {
@@ -168,7 +155,7 @@ export default function IngredientsSelectionForm({
                 onClick={() => toggleSelect(item.nombre)}
                 className={`flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 rounded-2xl transition-all duration-300 cursor-pointer text-sm sm:text-base md:text-base ${
                   isSelected
-                    ? "bg-brown text-white shadow-md scale-100"
+                    ? "bg-brown text-white shadow-md"
                     : "bg-input text-gray"
                 }`}
               >
@@ -185,17 +172,17 @@ export default function IngredientsSelectionForm({
       </div>
 
       {/* Botón Continuar */}
-      <div className="mt-2">
+      <div className="mt-2 w-full flex justify-center">
         <button
           type="button"
           onClick={handleContinue}
-          className="w-full sm:w-72 md:w-80 mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl cursor-pointer"
+          className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl cursor-pointer"
         >
           Continuar
         </button>
       </div>
 
-      {/* Toast container */}
+      {/* Toast */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
