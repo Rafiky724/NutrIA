@@ -27,7 +27,6 @@ export default function Toast({
 }: ToastProps) {
   useEffect(() => {
     if (!isOpen) return;
-
     const timer = setTimeout(onClose, duration);
     return () => clearTimeout(timer);
   }, [isOpen, duration, onClose]);
@@ -35,9 +34,9 @@ export default function Toast({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-6 right-6 z-50 animate-slide-in">
+    <div className="fixed top-4 inset-x-0 flex justify-center z-50 px-4 sm:top-6">
       <div
-        className={`px-6 py-4 rounded-xl shadow-lg text-white ft-medium ${styles[type]}`}
+        className={`w-full max-w-sm sm:max-w-md px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg text-white ft-medium text-sm sm:text-base animate-slide-in ${styles[type]}`}
       >
         {message}
       </div>
