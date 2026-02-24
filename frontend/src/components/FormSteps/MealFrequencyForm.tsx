@@ -65,26 +65,29 @@ export default function MealFrequencyForm({
   };
 
   return (
-    <div className="text-center">
-      <div className="flex items-center justify-center space-x-4 mb-6">
-        <div className="w-15">
+    <div className="px-4 sm:px-6 md:px-10 text-center">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
+        <div className="w-14 sm:w-16">
           <img
             src="/SVG/IconsGeneral/PyramidAppleIcon.svg"
             alt="Cantidad de comidas"
-            className="w-auto h-auto"
+            className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-2xl w-sm">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown w-full sm:w-auto">
           <h2>¿Cuántas comidas deseas hacer al día?</h2>
         </div>
       </div>
 
-      <p className="ft-light text-gray text-justify mb-6 px-8">
-        Elige al menos dos comidas principales para distribuir tus calorias y
-        nutrientes de forma equilibrada a lo largo del dia.
+      {/* Descripción */}
+      <p className="ft-light text-gray text-sm sm:text-base md:text-base text-justify mb-6 px-2 sm:px-6 md:px-8">
+        Elige al menos dos comidas principales para distribuir tus calorías y
+        nutrientes de forma equilibrada a lo largo del día.
       </p>
 
-      <div className="flex flex-wrap gap-3 items-center justify-center w-lg mx-auto">
+      {/* Opciones */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 justify-center items-center max-w-4xl mx-auto">
         {OptionsMeals.map(({ label, icon, selectedIcon }) => {
           const isSelected = selected.includes(label);
           return (
@@ -92,7 +95,7 @@ export default function MealFrequencyForm({
               key={label}
               type="button"
               onClick={() => toggleSeleccion(label)}
-              className={`flex flex-col items-center justify-center w-32 h-32 rounded-2xl border transition-all cursor-pointer ${
+              className={`flex flex-col items-center justify-center w-28 sm:w-32 md:w-36 h-28 sm:h-32 md:h-36 rounded-2xl border transition-all cursor-pointer ${
                 isSelected
                   ? "bg-brown border-transparent text-white"
                   : "bg-input border-transparent"
@@ -101,14 +104,17 @@ export default function MealFrequencyForm({
               <img
                 src={isSelected ? selectedIcon || icon : icon}
                 alt={label}
-                className="w-15 h-15 mb-2"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-2"
               />
-              <span className="ft-medium text-center">{label}</span>
+              <span className="ft-medium text-xs sm:text-sm md:text-base text-center px-1">
+                {label}
+              </span>
             </button>
           );
         })}
       </div>
 
+      {/* Toast */}
       <Toast
         isOpen={toast.open}
         message={toast.message}
