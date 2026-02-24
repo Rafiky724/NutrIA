@@ -37,16 +37,16 @@ export default function DailyDiet({
 
   return (
     <>
-      <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4">
+      <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-sm">
         <h2 className="text-brown ft-bold text-lg">Dieta de hoy</h2>
 
         {/* Opciones de horario */}
-        <div className="flex gap-3 overflow-x-auto text-xs mb-2 justify-between">
+        <div className="flex flex-wrap md:flex-nowrap gap-3 overflow-x-auto text-xs mb-2 justify-between">
           {homeData?.dia_actual?.comidas?.map((comida, idx) => (
             <button
               key={idx}
               onClick={() => setActiveFoodIndex(idx)}
-              className={`w-35 flex-shrink-0 rounded-2xl p-2 ft-medium ${
+              className={`w-25 flex-shrink-0 rounded-2xl p-2 ft-medium ${
                 idx === activeFoodIndex
                   ? "bg-yellow text-brown"
                   : "bg-gray text-gray"
@@ -155,10 +155,10 @@ export default function DailyDiet({
                   ))}
                 </div>
 
-                <div className="flex flex-col gap-3 mt-8 w-2xs mx-auto">
+                <div className="flex flex-col gap-3 mt-8 w-[200px] md:w-2xs mx-auto">
                   <button className="relative bg-yellow text-brown py-2 rounded-3xl ft-medium shadow text-center cursor-pointer">
                     Editar ingredientes
-                    <div className="absolute top-3 right-5 w-4">
+                    <div className="absolute top-2 md:top-3 right-4 md:right-5 w-4">
                       <img src="/SVG/IconsGeneral/EditIcon.svg" alt="Editar" />
                     </div>
                   </button>
