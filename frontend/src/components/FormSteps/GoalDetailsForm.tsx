@@ -62,44 +62,51 @@ export default function GoalDetailsForm({
 
   return (
     <>
-      <div className="flex items-center justify-center space-x-5">
-        <div className="w-20">
+      {/* Encabezado */}
+      <div className="flex flex-col md:flex-row items-center justify-center md:space-x-5 space-y-3 md:space-y-0">
+        <div className="w-16 md:w-20">
           <img
             src="/SVG/IconsGeneral/ArrowTarget.svg"
             alt="Objetivos"
             className="w-auto h-auto"
           />
         </div>
-        <div className="ft-bold text-2xl">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
           <h2>¿Cuál es tu peso objetivo?</h2>
         </div>
       </div>
 
-      <div className="ft-light text-gray my-10 text-left text-md px-6">
+      {/* Texto explicativo */}
+      <div className="ft-light text-gray my-6 md:my-10 text-left text-sm sm:text-base md:text-md px-4 sm:px-6 md:px-0">
         <p>
           Indica el peso al que te gustaría llegar para que podamos calcular un
-          plan adapatado para ti.
+          plan adaptado para ti.
         </p>
       </div>
 
-      <div className="space-y-4 mb-8">
+      {/* Campos interactivos */}
+      <div className="flex flex-col gap-4 mb-8 px-4 sm:px-6 md:px-0">
         {fields.map((field, index) => (
           <div
             key={index}
             onClick={field.onClick}
-            className="cursor-pointer w-sm mx-auto"
+            className="cursor-pointer w-full md:w-80 mx-auto"
           >
             <div className="bg-input px-4 py-3 rounded-full flex items-center justify-between">
-              <span className="text-brown ft-medium">{field.label}</span>
+              <span className="text-brown ft-medium text-sm sm:text-base md:text-base">
+                {field.label}
+              </span>
               <div className="flex items-center gap-2">
-                <span className="text-brown ft-light">{field.value}</span>
+                <span className="text-brown ft-light text-sm sm:text-base md:text-base">
+                  {field.value}
+                </span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={2}
                   stroke="currentColor"
-                  className="w-4 h-4 text-brown"
+                  className="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 text-brown"
                 >
                   <path
                     strokeLinecap="round"
@@ -132,6 +139,7 @@ export default function GoalDetailsForm({
         />
       )}
 
+      {/* Toast */}
       <Toast
         isOpen={toast.open}
         message={toast.message}
