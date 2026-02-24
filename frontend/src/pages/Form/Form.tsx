@@ -33,6 +33,7 @@ export default function Form() {
   } = useMultiStepForm();
 
   const navigate = useNavigate();
+
   const [showPersonalDataError, setShowPersonalDataError] = useState(0);
   const [showGoalDetailsFormError, setShowGoalDetailsFormError] = useState(0);
   const [
@@ -48,35 +49,29 @@ export default function Form() {
   };
 
   const fieldNames: (keyof FormData)[][] = [
-    ["fecha_nacimiento", "genero", "peso_actual", "altura_cm"], // Step 1 PersonalDataForm
-    ["tipo_objetivo"], // Step 2
-    ["peso_objetivo", "velocidad_dieta"], // Step 2_1
-    ["nivel_actividad"], // Step 3
-    ["tieneEnfermedad"], // Step 4
-    ["enfermedad"], //Step 5
-    ["tipo_dieta"], //Step 6
-    ["presupuesto"], //Step 7
-    ["tipo_actividad"], //Step 8
-    ["cantidad_comidas"], //Step 9
-    ["ingredientes"], //Step 10
+    ["fecha_nacimiento", "genero", "peso_actual", "altura_cm"],
+    ["tipo_objetivo"],
+    ["peso_objetivo", "velocidad_dieta"],
+    ["nivel_actividad"],
+    ["tieneEnfermedad"],
+    ["enfermedad"],
+    ["tipo_dieta"],
+    ["presupuesto"],
+    ["tipo_actividad"],
+    ["cantidad_comidas"],
+    ["ingredientes"],
   ];
 
   const handleNext = async () => {
     const currentField = fieldNames[step];
     const isValid = await trigger(currentField);
+
     if (!isValid) {
-      if (step === 0) {
-        setShowPersonalDataError((prev) => prev + 1);
-      }
-      if (step == 2) {
-        setShowGoalDetailsFormError((prev) => prev + 1);
-      }
-      if (step == 5) {
+      if (step === 0) setShowPersonalDataError((prev) => prev + 1);
+      if (step === 2) setShowGoalDetailsFormError((prev) => prev + 1);
+      if (step === 5)
         setShowGHealthConditionDetailsFormError((prev) => prev + 1);
-      }
-      if (step == 9) {
-        setShowMealFrequencyFormError((prev) => prev + 1);
-      }
+      if (step === 9) setShowMealFrequencyFormError((prev) => prev + 1);
       return;
     }
 
@@ -157,59 +152,62 @@ export default function Form() {
   const progress = ((step + 1) / steps.length) * 100;
 
   return (
-    <>
-      <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center">
-        <div className="min-h-screen flex flex-col items-center justify-center">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="w-xs md:w-sm lg:w-2xl 2xl:w-4xl bg-white p-8 rounded-3xl shadow-md text-center"
-          >
-            {steps[step]}
-
-            {step === 0 ? (
-              <ArrowReturn />
-            ) : step !== 6 && step !== 8 ? (
-              <ArrowReturn onClick={prevStep} />
-            ) : null}
-
-            <div className="flex justify-between pt-4">
-              {(step === 0 ||
-                step === 2 ||
-                step === 5 ||
-                step === 7 ||
-                step === 9) && (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="w-80 mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl cursor-pointer"
-                >
-                  Continuar
-                </button>
-              )}
-              {step === 11 && (
-                <button
-                  type="submit"
-                  className="w-80 mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl cursor-pointer"
-                >
-                  Crear Cuenta
-                </button>
-              )}
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div className="absolute top-8 w-60 md:w-90 h-3 bg-brown rounded-full left-1/2 transform -translate-x-1/2">
+    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
+      {/* Progress bar */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 w-40 sm:w-60 md:w-80 lg:w-96 h-3 bg-brown rounded-full">
         <ProgressBar progress={progress} />
       </div>
 
-      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-24">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center"
+        >
+          {steps[step]}
+
+          {/* Back Arrow */}
+          {step === 0 ? (
+            <ArrowReturn />
+          ) : step !== 6 && step !== 8 ? (
+            <ArrowReturn onClick={prevStep} />
+          ) : null}
+
+          {/* Buttons */}
+          <div className="flex justify-center pt-6">
+            {(step === 0 ||
+              step === 2 ||
+              step === 5 ||
+              step === 7 ||
+              step === 9) && (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="w-full sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition"
+              >
+                Continuar
+              </button>
+            )}
+
+            {step === 11 && (
+              <button
+                type="submit"
+                className="w-full sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition"
+              >
+                Crear Cuenta
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+
+      {/* Decorations */}
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-72">
         <FruitLeft />
       </div>
 
-      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-72">
         <FruitRight />
       </div>
-    </>
+    </div>
   );
 }
