@@ -19,16 +19,13 @@ export default function Login() {
     type: "error" as "error" | "success" | "warning" | "info",
   });
 
-  // Limpiar token al entrar en esta página
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      localStorage.removeItem("token");
-    }
+    localStorage.removeItem("token");
   }, []);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+
     if (!email || !password) {
       setToast({
         open: true,
@@ -37,129 +34,122 @@ export default function Login() {
       });
       return;
     }
+
     try {
-      // Login
       const response = await loginUser({ email, password });
-      // Guardar token
       localStorage.setItem("token", response.access_token);
-      // Verificar si tiene plan
+
       const HasPlanResponse = await getHasPlan();
-      console.log("HasPlanResponse:", HasPlanResponse);
-      // Redirección según plan
+
       if (HasPlanResponse.tiene_plan) {
-        //navigate("/weeklyMealPlan", { replace: true });
         navigate("/homeLayout", { replace: true });
       } else {
         navigate("/dietCreationReady", { replace: true });
       }
     } catch (error: unknown) {
-      // Borrar token
       localStorage.removeItem("token");
-      // Type guard para chequear si error tiene response.status
+
       const status =
         typeof error === "object" && error !== null && "response" in error
           ? (error as { response: { status: number } }).response.status
           : null;
 
-      if (status === 401) {
-        setToast({
-          open: true,
-          message: "Correo o contraseña incorrectos.",
-          type: "error",
-        });
-      } else {
-        setToast({
-          open: true,
-          message: "Ocurrió un error. Intenta nuevamente.",
-          type: "error",
-        });
-      }
+      setToast({
+        open: true,
+        message:
+          status === 401
+            ? "Correo o contraseña incorrectos."
+            : "Ocurrió un error. Intenta nuevamente.",
+        type: "error",
+      });
     }
   };
 
   return (
-    <>
-      <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center">
-        <div className="min-h-screen flex flex-col items-center justify-center">
-          <div className="bg-white w-80 h-auto sm:w-2xl p-8 rounded-3xl shadow-md text-center">
-            <div className="flex items-center justify-center gap-5 mb-8">
-              <img
-                className="w-15"
-                src="/SVG/IconsGeneral/DataIcon.svg"
-                alt="Icono"
-              />
-              <h2 className="text-xl text-brown ft-bold">Iniciar sesión</h2>
-            </div>
-            <div className="my-10">
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-4 sm:px-30 lg:px-50"
-              >
-                <div className="text-left">
-                  <label
-                    htmlFor="email"
-                    className="text-sm ft-medium text-brown ml-2"
-                  >
-                    Correo
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    placeholder="correo@ejemplo.com"
-                    onChange={(event) => setEmail(event.target.value)}
-                    className="w-full px-4 py-2 rounded-full bg-input"
-                  />
-                </div>
-
-                <div className="text-left">
-                  <label
-                    htmlFor="password"
-                    className="text-sm ft-medium text-brown mb-1 ml-2"
-                  >
-                    Contraseña
-                  </label>
-                  <input
-                    id="password"
-                    type="password"
-                    value={password}
-                    placeholder="*********"
-                    onChange={(event) => setPassword(event.target.value)}
-                    className="w-full px-4 py-2 rounded-full bg-input"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-yellow text-brown ft-medium py-2 rounded-full cursor-pointer mt-4"
-                >
-                  Iniciar sesión
-                </button>
-              </form>
-
-              <p className="mt-4 text-sm text-brown ft-light">
-                ¿Has olvidado la contraseña?{" "}
-                <button
-                  type="button"
-                  onClick={() => setViewModal(true)}
-                  className="ft-medium hover:underline cursor-pointer"
-                >
-                  Restablecer
-                </button>
-              </p>
-            </div>
+    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
+      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6">
+        {/* Card */}
+        <div className="bg-white w-full max-w-sm sm:max-w-md md:max-w-lg p-6 sm:p-8 rounded-3xl shadow-lg text-center">
+          {/* Header */}
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <img
+              className="w-10 sm:w-12"
+              src="/SVG/IconsGeneral/DataIcon.svg"
+              alt="Icono"
+            />
+            <h2 className="text-lg sm:text-xl text-brown ft-bold">
+              Iniciar sesión
+            </h2>
           </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="text-left">
+              <label
+                htmlFor="email"
+                className="text-sm ft-medium text-brown ml-2"
+              >
+                Correo
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                placeholder="correo@ejemplo.com"
+                onChange={(event) => setEmail(event.target.value)}
+                className="w-full px-4 py-2 rounded-full bg-input focus:outline-none focus:ring-2 focus:ring-yellow"
+              />
+            </div>
+
+            <div className="text-left">
+              <label
+                htmlFor="password"
+                className="text-sm ft-medium text-brown ml-2"
+              >
+                Contraseña
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                placeholder="*********"
+                onChange={(event) => setPassword(event.target.value)}
+                className="w-full px-4 py-2 rounded-full bg-input focus:outline-none focus:ring-2 focus:ring-yellow"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-yellow text-brown ft-medium py-2.5 rounded-full mt-4 hover:scale-105 transition"
+            >
+              Iniciar sesión
+            </button>
+          </form>
+
+          {/* Reset */}
+          <p className="mt-6 text-sm text-brown ft-light">
+            ¿Has olvidado la contraseña?{" "}
+            <button
+              type="button"
+              onClick={() => setViewModal(true)}
+              className="ft-medium hover:underline"
+            >
+              Restablecer
+            </button>
+          </p>
         </div>
       </div>
 
-      <ArrowReturn />
-
-      <div className="absolute bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      {/* Decoraciones */}
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-72">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-72">
         <FruitRight />
       </div>
+
+      <ArrowReturn />
 
       <Toast
         isOpen={toast.open}
@@ -169,6 +159,6 @@ export default function Login() {
       />
 
       <ResetModal isOpen={viewModal} onClose={() => setViewModal(false)} />
-    </>
+    </div>
   );
 }
