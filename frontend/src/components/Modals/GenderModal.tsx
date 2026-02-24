@@ -27,7 +27,7 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
           {/* Masculino */}
           <button
             onClick={() => setSelected("Masculino")}
-            className={`w-full py-3 rounded-full text-base sm:text-lg transition ${
+            className={`w-full py-3 rounded-full text-base sm:text-lg transition cursor-pointer ${
               selected === "Masculino"
                 ? "bg-brown text-white"
                 : "bg-input text-brown hover:bg-brown/10"
@@ -39,7 +39,7 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
           {/* Femenino */}
           <button
             onClick={() => setSelected("Femenino")}
-            className={`w-full py-3 rounded-full text-base sm:text-lg transition ${
+            className={`w-full py-3 rounded-full text-base sm:text-lg transition cursor-pointer ${
               selected === "Femenino"
                 ? "bg-brown text-white"
                 : "bg-input text-brown hover:bg-brown/10"
@@ -59,8 +59,8 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
             }}
             className={`w-full sm:w-60 mx-auto py-2.5 rounded-full ft-medium mt-4 transition ${
               selected
-                ? "bg-yellow text-brown hover:scale-105"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                ? "bg-yellow text-brown hover:scale-105 cursor-pointer"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed "
             }`}
           >
             Aceptar
