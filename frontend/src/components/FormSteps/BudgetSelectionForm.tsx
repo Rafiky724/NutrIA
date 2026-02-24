@@ -28,25 +28,28 @@ export default function BudgetSelectionForm({
   };
 
   return (
-    <>
-      <div className="flex items-center justify-center space-x-10">
-        <div className="w-15">
+    <div className="px-4 sm:px-6 md:px-10">
+      {/* Encabezado */}
+      <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0">
+        <div className="w-14 sm:w-16">
           <img
             src="/SVG/IconsGeneral/MoneyIcon.svg"
             alt="Presupuesto"
-            className="w-auto h-auto"
+            className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-2xl text-brown">
+        <div className="ft-bold text-xl sm:text-2xl text-brown text-center sm:text-left">
           <h2>Basada en presupuesto</h2>
         </div>
       </div>
 
-      <div className="ft-light text-gray my-5 text-center">
+      {/* Descripción */}
+      <div className="ft-light text-gray my-4 sm:my-5 text-center sm:text-left text-sm sm:text-base px-2 sm:px-6">
         <p>¿Cuál es tu presupuesto semanal para alimentación?</p>
       </div>
 
-      <div className="w-xs mx-auto space-y-4">
+      {/* Opciones */}
+      <div className="w-full sm:w-96 mx-auto space-y-3 sm:space-y-4">
         {options.map(({ label, price }) => (
           <div
             key={label}
@@ -54,18 +57,18 @@ export default function BudgetSelectionForm({
             className="cursor-pointer"
           >
             <div
-              className={`px-4 py-3 rounded-full flex items-center justify-between ${
+              className={`px-4 py-3 rounded-full flex items-center justify-between text-sm sm:text-base transition-colors duration-200 ${
                 selected === label
                   ? "bg-brown text-white"
                   : "bg-input text-brown"
               }`}
             >
               <span className="ft-medium">{label}</span>
-              <span className="ft-light text-md">{price}</span>
+              <span className="ft-light">{price}</span>
             </div>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
