@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRoulette } from "../../hooks/useRoulette";
 import Toast from "../Toast/Toast";
 
@@ -23,6 +23,16 @@ const months = [
 ];
 
 export default function ModalAge({ onSelectAge, onClose }: Props) {
+  useEffect(() => {
+    // Bloquea el scroll del body
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      // Libera scroll al cerrar
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const years = Array.from(
     { length: 100 },
