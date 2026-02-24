@@ -53,11 +53,11 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen bg-input pl-20 pr-10">
+    <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
         <NavBar user={homeData.usuario} />
 
-        <div className="flex gap-6">
+        <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center">
           {/* CAJA IZQUIERDA */}
           <TodaySummary homeData={homeData} />
 
