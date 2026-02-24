@@ -64,7 +64,7 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
 
     return (
       <div
-        className="flex flex-col items-center w-28 select-none"
+        className="flex flex-col items-center w-24 sm:w-28 md:w-32 lg:w-36 xl:w-40 select-none"
         onWheel={roulette.onWheel}
         onTouchStart={roulette.onTouchStart}
         onTouchMove={roulette.onTouchMove}
@@ -95,26 +95,26 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
         onClick={onClose}
       />
 
-      <div className="relative z-10 bg-white p-6 rounded-3xl shadow-lg mx-4 w-full max-w-md">
-        <h2 className="text-xl ft-bold text-brown mb-4 text-center">
+      <div className="relative z-10 bg-white p-6 rounded-3xl shadow-lg mx-4 w-full max-w-md sm:max-w-lg lg:max-w-xl xl:max-w-2xl">
+        <h2 className="text-xl sm:text-2xl md:text-3xl ft-bold text-brown mb-4 text-center">
           ¿Cuándo quieres empezar?
         </h2>
 
-        <div className="flex justify-center gap-4 mb-4">
+        <div className="flex justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-4">
           {renderRoulette(days, dayRoulette)}
           {renderRoulette(months, monthRoulette)}
           {renderRoulette(years, yearRoulette)}
         </div>
 
         {error && (
-          <p className="text-red-500 text-sm text-center mb-3 ft-medium">
+          <p className="text-red-500 text-sm sm:text-base text-center mb-3 ft-medium">
             {error}
           </p>
         )}
 
         <button
           onClick={confirmDate}
-          className="w-full bg-yellow text-brown ft-medium py-3 rounded-full shadow cursor-pointer"
+          className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 bg-yellow text-brown ft-medium py-3 rounded-full shadow cursor-pointer"
         >
           Confirmar fecha
         </button>
