@@ -27,36 +27,37 @@ export default function GoalSelectionForm({
 
   return (
     <>
-      <div className="flex items-center justify-center space-x-5">
-        <div className="w-15">
+      {/* Encabezado */}
+      <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-5">
+        <div className="w-16 md:w-20">
           <img
             src="/SVG/IconsGeneral/FlagIcon.svg"
             alt="Objetivo"
             className="w-auto h-auto"
           />
         </div>
-        <div className="ft-bold text-2xl text-brown">
+        <div className="ft-bold text-xl sm:text-2xl md:text-3xl text-brown text-center md:text-left">
           <h2>¿Cuál es tu objetivo?</h2>
         </div>
       </div>
 
-      <div className="mt-6 text-justify ft-light text-gray px-6">
+      {/* Texto explicativo */}
+      <div className="mt-4 md:mt-6 text-justify ft-light text-gray px-4 sm:px-6 md:px-0 text-sm sm:text-base md:text-lg">
         Tu meta nos permitirá construir un plan enfocado en tus resultados, con
         el equilibrio adecuado entre calorías y nutrientes.
       </div>
 
-      <div className="flex flex-col gap-4 mt-6 ">
+      {/* Botones de objetivos */}
+      <div className="flex flex-col gap-4 mt-4 md:mt-6 px-4 sm:px-6 md:px-0">
         <button
           type="button"
           onClick={() => handleSelect("PerderPeso")}
-          className={`w-40 md:w-sm mx-auto py-2 rounded-xl cursor-pointer text-lg custom-bg`}
+          className="w-full md:w-80 mx-auto py-3 rounded-xl cursor-pointer text-left bg-yellow hover:bg-yellow-400 transition"
         >
-          <h4 className={`ft-bold text-left px-4 text-sm md:text-lg`}>
+          <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
             Bajar de peso
           </h4>
-          <p
-            className={`text-sm text-justify ft-light px-4 pb-2 md:block hidden`}
-          >
+          <p className="text-xs sm:text-sm md:text-base text-gray-700 px-4 mt-1">
             Elige esta opción si tu objetivo es reducir grasa corporal de forma
             saludable.
           </p>
@@ -65,14 +66,12 @@ export default function GoalSelectionForm({
         <button
           type="button"
           onClick={() => handleSelect("MantenerPeso")}
-          className={`w-60 md:w-sm mx-auto py-2 rounded-xl cursor-pointer text-lg custom-bg`}
+          className="w-full md:w-80 mx-auto py-3 rounded-xl cursor-pointer text-left bg-yellow hover:bg-yellow-400 transition"
         >
-          <h4 className={`ft-bold text-left px-4 text-sm md:text-lg`}>
+          <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
             Mantener
           </h4>
-          <p
-            className={`text-sm text-justify ft-light px-4 pb-2  md:block hidden`}
-          >
+          <p className="text-xs sm:text-sm md:text-base text-gray-700 px-4 mt-1">
             Ideal si quieres conservar tu peso actual y seguir una alimentación
             equilibrada.
           </p>
@@ -81,14 +80,12 @@ export default function GoalSelectionForm({
         <button
           type="button"
           onClick={() => handleSelect("GanarMasaMuscular")}
-          className={`md:w-sm mx-auto py-2 rounded-xl cursor-pointer text-lg custom-bg`}
+          className="w-full md:w-80 mx-auto py-3 rounded-xl cursor-pointer text-left bg-yellow hover:bg-yellow-400 transition"
         >
-          <h4 className={`ft-bold text-left px-4 text-sm md:text-lg`}>
+          <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
             Ganar masa muscular
           </h4>
-          <p
-            className={`text-sm text-justify ft-light px-4 pb-2 md:block hidden`}
-          >
+          <p className="text-xs sm:text-sm md:text-base text-gray-700 px-4 mt-1">
             Recomendado si buscas aumentar tu peso mediante el desarrollo
             muscular.
           </p>
