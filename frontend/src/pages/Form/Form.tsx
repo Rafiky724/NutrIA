@@ -182,7 +182,7 @@ export default function Form() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="w-full sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition"
+                className="w-full sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition cursor-pointer"
               >
                 Continuar
               </button>
@@ -191,7 +191,7 @@ export default function Form() {
             {step === 11 && (
               <button
                 type="submit"
-                className="w-full sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition"
+                className="w-full sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition cursor-pointer"
               >
                 Crear Cuenta
               </button>
