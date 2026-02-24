@@ -17,7 +17,6 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
     type: "error" as "error" | "success" | "warning" | "info",
   });
 
-  // BLOQUEAR SCROLL DEL BODY
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -28,10 +27,30 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
   const confirmWeight = () => {
     const weight = weights[weightRoulette.selectedIndex];
 
-    if (weight < 20 || weight > 200) {
+    if (weight < 30) {
       setToast({
         open: true,
-        message: "Peso inválido.",
+        message:
+          "¡Peso demasiado bajo! Por favor selecciona un valor realista.",
+        type: "error",
+      });
+      return;
+    }
+
+    if (weight > 200) {
+      setToast({
+        open: true,
+        message:
+          "¡Peso demasiado alto! Por favor selecciona un valor realista.",
+        type: "error",
+      });
+      return;
+    }
+
+    if (!Number.isInteger(weight)) {
+      setToast({
+        open: true,
+        message: "Valor inválido, selecciona un número entero.",
         type: "error",
       });
       return;
