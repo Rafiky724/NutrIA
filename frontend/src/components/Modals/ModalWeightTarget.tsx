@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRoulette } from "../../hooks/useRoulette";
 import Toast from "../Toast/Toast";
 
@@ -13,11 +13,20 @@ export default function ModalWeightTarget({
 }: Props) {
   const weights = Array.from({ length: 171 }, (_, i) => i + 30); // 30 - 200 kg
   const weightRoulette = useRoulette(weights.length, 40);
+
   const [toast, setToast] = useState({
     open: false,
     message: "",
     type: "error" as "error" | "success" | "warning" | "info",
   });
+
+  // Bloquear scroll del body mientras el modal está abierto
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   const selectWeight = () => {
     const weight = weights[weightRoulette.selectedIndex];
@@ -42,22 +51,25 @@ export default function ModalWeightTarget({
     const total = values.length;
     const offsets = [-2, -1, 0, 1, 2];
 
-    const getOpacity = (offset: number) => {
+    const getStyle = (offset: number) => {
       switch (offset) {
         case 0:
-          return "bg-input w-25 rounded-full scale-110 ft-bold text-xl";
+          return "bg-input w-20 sm:w-24 rounded-full scale-110 ft-bold text-lg sm:text-xl py-1";
         case -1:
         case 1:
-          return "text-gray-800 text-md";
+          return "text-gray-800 text-sm sm:text-base";
         default:
-          return "text-gray-400 text-sm";
+          return "text-gray-400 text-xs sm:text-sm";
       }
     };
 
     return (
       <div
-        className="flex flex-col items-center w-30 select-none"
-        onWheel={roulette.onWheel}
+        className="flex flex-col items-center w-20 sm:w-24 select-none"
+        onWheel={(e) => {
+          e.preventDefault(); // evita que el body se desplace
+          roulette.onWheel(e);
+        }}
         onTouchStart={roulette.onTouchStart}
         onTouchMove={roulette.onTouchMove}
         onTouchEnd={roulette.onTouchEnd}
@@ -65,12 +77,11 @@ export default function ModalWeightTarget({
         {offsets.map((offset) => {
           const index = (roulette.selectedIndex + offset + total) % total;
           const value = values[index];
-
           return (
             <div
               key={offset}
               onClick={() => roulette.selectIndex(index)}
-              className={`cursor-pointer py-1 transition-all duration-200 ${getOpacity(
+              className={`cursor-pointer transition-all duration-200 ${getStyle(
                 offset,
               )}`}
             >
@@ -83,27 +94,27 @@ export default function ModalWeightTarget({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6">
       {/* Fondo oscuro */}
       <div
-        className="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="relative z-10 bg-white p-6 rounded-2xl shadow-lg mx-4 w-95 md:w-full max-w-md">
-        <h2 className="text-2xl text-brown ft-bold mb-4 text-center px-8">
+      <div className="relative z-10 bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-full max-w-md mx-auto">
+        <h2 className="text-xl sm:text-2xl text-brown ft-bold mb-6 text-center">
           Selecciona tu peso objetivo
         </h2>
 
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-6">
           {renderRoulette(weights, weightRoulette)}
         </div>
 
         <div className="flex justify-center">
           <button
             onClick={selectWeight}
-            className="w-60 mx-auto bg-yellow text-brown ft-medium py-2 rounded-full transition cursor-pointer"
+            className="w-full sm:w-60 bg-yellow text-brown ft-medium py-2.5 rounded-full hover:scale-105 transition cursor-pointer"
           >
             Aceptar
           </button>
