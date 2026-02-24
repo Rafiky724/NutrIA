@@ -10,57 +10,61 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
   const [selected, setSelected] = useState<Gender>();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Fondo oscuro con blur */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+      {/* Fondo */}
       <div
-        className="absolute inset-0 bg-black opacity-60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="relative z-10 bg-white p-6 rounded-2xl shadow-lg w-full max-w-md mx-4">
-        <h2 className="text-2xl ft-bold text-brown mb-10 text-center">
+      <div className="relative z-10 bg-white w-full max-w-sm sm:max-w-md rounded-2xl shadow-xl p-6 sm:p-8">
+        <h2 className="text-lg sm:text-xl md:text-2xl ft-bold text-brown mb-8 text-center">
           Selecciona tu género
         </h2>
 
         <div className="flex flex-col gap-4">
+          {/* Masculino */}
           <button
             onClick={() => setSelected("Masculino")}
-            className={`w-50 mx-auto py-2 rounded-full cursor-pointer text-lg ${
+            className={`w-full py-3 rounded-full text-base sm:text-lg transition ${
               selected === "Masculino"
                 ? "bg-brown text-white"
-                : "bg-input text-brown"
+                : "bg-input text-brown hover:bg-brown/10"
             }`}
           >
             Masculino
           </button>
 
+          {/* Femenino */}
           <button
             onClick={() => setSelected("Femenino")}
-            className={`w-50 mx-auto py-2 rounded-full cursor-pointer text-lg ${
+            className={`w-full py-3 rounded-full text-base sm:text-lg transition ${
               selected === "Femenino"
                 ? "bg-brown text-white"
-                : "bg-input text-brown"
+                : "bg-input text-brown hover:bg-brown/10"
             }`}
           >
             Femenino
           </button>
 
-          {/* Aceptar y Cancelar */}
-          <div className="flex justify-between gap-4 mt-4">
-            <button
-              disabled={!selected}
-              onClick={() => {
-                if (selected) {
-                  onSelectGender(selected);
-                  onClose();
-                }
-              }}
-              className={`w-60 mx-auto py-2 rounded-full text-white bg-yellow text-brown ft-medium cursor-pointer mt-3`}
-            >
-              Aceptar
-            </button>
-          </div>
+          {/* Aceptar */}
+          <button
+            disabled={!selected}
+            onClick={() => {
+              if (selected) {
+                onSelectGender(selected);
+                onClose();
+              }
+            }}
+            className={`w-full sm:w-60 mx-auto py-2.5 rounded-full ft-medium mt-4 transition ${
+              selected
+                ? "bg-yellow text-brown hover:scale-105"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
+          >
+            Aceptar
+          </button>
         </div>
       </div>
     </div>
