@@ -81,25 +81,25 @@ export default function StartDiet() {
   };
 
   return (
-    <div className="min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center p-6">
-      <div className="bg-white w-2xl rounded-3xl shadow p-8 flex flex-col gap-6 text-center">
-        <h1 className="text-2xl ft-bold text-brown">
+    <div className="min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center px-4 sm:px-6 py-6">
+      <div className="bg-white w-full max-w-2xl rounded-3xl shadow p-8 flex flex-col gap-6 text-center">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brown">
           ¿Cuándo quieres empezar tu dieta?
         </h1>
 
-        <p className="text-gray ft-light px-8 text-justify">
-          Elige el día en el que te gustaria comenzar tu plan alimenticio
+        <p className="text-gray font-light px-8 sm:px-12 text-justify">
+          Elige el día en el que te gustaría comenzar tu plan alimenticio
           personalizado.
         </p>
 
-        <div className="flex flex-col gap-4 w-3xs mx-auto">
+        <div className="flex flex-col gap-4 w-full max-w-xs mx-auto">
           <button
             onClick={() => {
               setOption("hoy");
               if (mealsAvailable.length > 0) setShowModal(true);
               setSelectedDate(null);
             }}
-            className={`py-3 rounded-xl ft-medium transition cursor-pointer ${
+            className={`py-3 rounded-xl font-medium transition cursor-pointer w-full ${
               option === "hoy"
                 ? "bg-yellow text-brown shadow"
                 : "bg-input text-gray"
@@ -114,7 +114,7 @@ export default function StartDiet() {
               setShowModal(false);
               setSelectedDate(null);
             }}
-            className={`py-3 rounded-xl ft-medium transition cursor-pointer ${
+            className={`py-3 rounded-xl font-medium transition cursor-pointer w-full ${
               option === "mañana"
                 ? "bg-yellow text-brown shadow"
                 : "bg-input text-gray"
@@ -130,7 +130,7 @@ export default function StartDiet() {
               setShowModalDate(true);
               setSelectedFood(null);
             }}
-            className={`py-3 rounded-xl ft-medium transition cursor-pointer ${
+            className={`py-3 rounded-xl font-medium transition cursor-pointer w-full ${
               option === "otro"
                 ? "bg-yellow text-brown shadow"
                 : "bg-input text-gray"
@@ -142,12 +142,13 @@ export default function StartDiet() {
 
         <button
           onClick={handleNext}
-          className="w-sm mx-auto mt-4 py-2 rounded-full ft-medium transition bg-yellow text-brown shadow cursor-pointer"
+          className="w-full sm:w-auto mx-auto mt-4 py-3 rounded-full font-medium transition bg-yellow text-brown shadow cursor-pointer text-lg"
         >
           Siguiente
         </button>
       </div>
 
+      {/* Modales */}
       <ModalFood
         show={showModal && !!dayPlan}
         mealsAvailable={mealsAvailable}
@@ -166,10 +167,11 @@ export default function StartDiet() {
         />
       )}
 
-      <div className="absolute left-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      {/* Decoraciones */}
+      <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-35 sm:w-60 2xl:w-100">
+      <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
         <FruitRight />
       </div>
     </div>
