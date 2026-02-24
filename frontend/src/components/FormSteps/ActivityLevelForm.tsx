@@ -26,59 +26,44 @@ export default function ActivityLevelForm({
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-center space-x-8">
-        <div className="w-15">
+    <div className="px-4 sm:px-6 md:px-10">
+      {/* Encabezado */}
+      <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-6 space-y-4 sm:space-y-0">
+        <div className="w-16 sm:w-20">
           <img
             src="/SVG/IconsGeneral/WeightIcon.svg"
-            alt="Datos Activida Física"
-            className="w-auto h-auto"
+            alt="Datos Actividad Física"
+            className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-2xl text-brown">
+        <div className="ft-bold text-xl sm:text-2xl text-brown text-center sm:text-left">
           <h2>¿Realizas actividad física?</h2>
         </div>
       </div>
 
-      <div className="mt-8 text-justify ft-light text-gray px-6">
+      {/* Descripción */}
+      <div className="mt-6 sm:mt-8 text-justify ft-light text-gray text-sm sm:text-base px-2 sm:px-6">
         Tu nivel de actividad física es clave para calcular tu gasto calórico y
         ajustar tus porciones
       </div>
 
-      <div className="flex flex-col gap-2 mt-8">
-        <button
-          type="button"
-          onClick={() => handleSelect("NoHace")}
-          className={`md:w-xs mx-auto py-2 rounded-3xl cursor-pointer ft-medium text-md custom-bg`}
-        >
-          <h4 className={`text-center px-4`}>No hago ejercicio</h4>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => handleSelect("Bajo")}
-          className={`md:w-xs mx-auto py-2 rounded-3xl cursor-pointer ft-medium text-md custom-bg`}
-        >
-          <h4 className={`text-center px-4`}>
-            Ocasional (1-2 veces por semana)
-          </h4>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => handleSelect("Moderado")}
-          className={`md:w-xs mx-auto py-2 rounded-3xl cursor-pointer ft-medium text-md custom-bg`}
-        >
-          <h4 className={`text-center px-4`}>Regular (3-4 veces por semana)</h4>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => handleSelect("Alto")}
-          className={`md:w-xs mx-auto py-2 rounded-3xl cursor-pointer ft-medium text-md custom-bg`}
-        >
-          <h4 className={`text-center px-4`}>Frecuente (5 o más veces)</h4>
-        </button>
+      {/* Botones de selección */}
+      <div className="flex flex-col gap-3 mt-6 sm:mt-8">
+        {[
+          { label: "No hago ejercicio", value: "NoHace" },
+          { label: "Ocasional (1-2 veces por semana)", value: "Bajo" },
+          { label: "Regular (3-4 veces por semana)", value: "Moderado" },
+          { label: "Frecuente (5 o más veces)", value: "Alto" },
+        ].map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => handleSelect(option.value as LevelActivity)}
+            className="w-full sm:w-80 md:w-96 mx-auto py-3 rounded-3xl cursor-pointer ft-medium text-md sm:text-lg custom-bg transition hover:scale-105"
+          >
+            <h4 className="text-center px-4">{option.label}</h4>
+          </button>
+        ))}
       </div>
     </div>
   );
