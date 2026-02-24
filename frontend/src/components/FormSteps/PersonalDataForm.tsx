@@ -46,23 +46,21 @@ export default function PersonalDataForm({
   }, [showError]);
 
   useEffect(() => {
-    register("fecha_nacimiento", { required: "La edad es obligatoria" });
-    register("genero", { required: "El género es obligatorio" });
-    register("peso_actual", { required: "El peso es obligatorio" });
-    register("altura_cm", { required: "La altura es obligatoria" });
+    register("fecha_nacimiento", { required: true });
+    register("genero", { required: true });
+    register("peso_actual", { required: true });
+    register("altura_cm", { required: true });
   }, [register]);
 
   const fields = [
     {
       label: "Edad",
-      value: getValues("fecha_nacimiento")
-        ? `${getValues("fecha_nacimiento")}`
-        : "",
+      value: getValues("fecha_nacimiento") || "",
       onClick: () => setShowModalAge(true),
     },
     {
       label: "Género",
-      value: getValues("genero"),
+      value: getValues("genero") || "",
       onClick: () => setShowGenderModal(true),
     },
     {
@@ -79,33 +77,43 @@ export default function PersonalDataForm({
 
   return (
     <>
-      <div className="flex items-center justify-center space-x-10">
-        <div className="w-20">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+        <div className="w-14 sm:w-16 md:w-20">
           <img
             src="/SVG/IconsGeneral/DataIcon.svg"
             alt="Datos Perfil"
-            className="w-auto h-auto"
+            className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-xl text-brown">
-          <h2>Datos Personales</h2>
-        </div>
+
+        <h2 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center">
+          Datos Personales
+        </h2>
       </div>
 
-      <div className="ft-light text-gray my-10 text-justify text-md px-10">
+      {/* Description */}
+      <div className="ft-light text-gray mt-6 mb-10 text-sm sm:text-base md:text-lg text-center sm:text-center px-2 sm:px-6 md:px-12 max-w-xl mx-auto">
         <p>
-          Empecemos con los básico. Esto nos ayudará a calcular tus necesidades
+          Empecemos con lo básico. Esto nos ayudará a calcular tus necesidades
           nutricionales.
         </p>
       </div>
 
-      <div className="space-y-4 w-xs mx-auto mb-4">
+      {/* Fields */}
+      <div className="space-y-4 w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto">
         {fields.map((field, index) => (
           <div key={index} onClick={field.onClick} className="cursor-pointer">
-            <div className="bg-input px-4 py-3 rounded-full flex items-center justify-between">
-              <span className="text-brown ft-bold text-sm">{field.label}</span>
+            <div className="bg-input px-4 py-3 rounded-full flex items-center justify-between hover:scale-[1.02] transition">
+              <span className="text-brown ft-bold text-sm sm:text-base">
+                {field.label}
+              </span>
+
               <div className="flex items-center gap-2">
-                <span className="text-brown ft-light">{field.value}</span>
+                <span className="text-brown ft-light text-sm sm:text-base">
+                  {field.value}
+                </span>
+
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -126,7 +134,7 @@ export default function PersonalDataForm({
         ))}
       </div>
 
-      {/* Modales */}
+      {/* Modals */}
       {showModalAge && (
         <ModalAge
           onSelectAge={(age) =>
