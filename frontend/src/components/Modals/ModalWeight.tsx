@@ -69,7 +69,7 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
 
     const getStyle = (offset: number) => {
       if (offset === 0)
-        return "bg-input w-24 sm:w-28 md:w-32 rounded-full scale-110 ft-bold text-base sm:text-lg py-1 px-3";
+        return "bg-input w-24 sm:w-28 md:w-32 rounded-full scale-110 ft-medium text-base sm:text-lg py-1 px-3";
       if (offset === -1 || offset === 1)
         return "text-gray-500 text-sm sm:text-base";
       return "text-gray-400 text-xs sm:text-sm";
