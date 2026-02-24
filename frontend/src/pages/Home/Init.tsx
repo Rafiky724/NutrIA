@@ -33,7 +33,7 @@ export default function Init() {
           <small className="mt-5 text-gray ft-light opacity-95 text-sm">
             ¿Tienes cuenta?{" "}
             <Link to="/login" className="text-brown ft-medium hover:underline">
-              Inicia sesión
+              Iniciar sesión
             </Link>
           </small>
         </div>
