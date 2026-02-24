@@ -26,17 +26,17 @@ export default function TodaySummary({ homeData }: Props) {
   const fatsTotal = currentday?.grasas_totales || 0;
 
   return (
-    <div className="flex flex-col bg-white rounded-3xl p-6 shadow gap-4 w-md h-95">
+    <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:w-sm h-95">
       <div className="flex justify-center gap-2">
         <img
           src="/SVG/IconsGeneral/CalendarIcon.svg"
           alt="Calendario"
-          className="w-5 h-5"
+          className="w-4 md:w-5 h-4 md:h-5"
         />
-        <span className="ft-bold text-brown">Hoy</span>
+        <span className="ft-bold text-brown text-xs md:text-sm">Hoy</span>
       </div>
 
-      <div className="flex justify-between text-sm text-gray mt-2">
+      <div className="flex justify-between text-xs md:text-sm text-gray mt-2">
         {daysLetter.map((d, idx) => {
           const estado =
             homeData?.macros_consumidos_hoy.seguimiento_racha?.[idx];
@@ -53,7 +53,7 @@ export default function TodaySummary({ homeData }: Props) {
             >
               <span>{d}</span>
               <span
-                className={`flex items-center justify-center mt-1 ft-medium text-gray w-8 h-8 rounded-xl border-3 ${bordeColor}`}
+                className={`flex items-center justify-center mt-1 ft-medium text-gray w-6 md:w-8 h-6 md:h-8 rounded-lg md:rounded-xl border-3 ${bordeColor}`}
               >
                 {numbersDays[idx]}
               </span>
@@ -62,8 +62,8 @@ export default function TodaySummary({ homeData }: Props) {
         })}
       </div>
 
-      <div className="flex mt-4 gap-6">
-        <div className="relative w-45 h-45 flex items-center justify-center bg-white rounded-full">
+      <div className="flex mt-4 gap-4 md:gap-6 items-center">
+        <div className="relative w-35 md:w-45 h-35 md:h-45 flex items-center justify-center bg-white rounded-full">
           <span className="absolute text-center text-sm ft-light text-gray">
             {caloriesTotal}/{macros?.calorias_objetivo}
             <br />
@@ -72,7 +72,7 @@ export default function TodaySummary({ homeData }: Props) {
           <div className="w-full h-full rounded-full border-8 border-yellow-500 border-t-gray-200 animate-spin-slow"></div>
         </div>
 
-        <div className="flex flex-col justify-center gap-6 flex-1">
+        <div className="flex flex-col items-center md:justify-center gap-6 flex-1">
           {["Proteínas", "Carbohidratos", "Grasas"].map((macro, idx) => {
             const value =
               [proteinsTotal, carbohydratesTotal, fatsTotal][idx] || 0;
@@ -85,15 +85,15 @@ export default function TodaySummary({ homeData }: Props) {
             const percentage = Math.min((value / max) * 100, 100);
             return (
               <div key={macro}>
-                <div className="flex justify-between text-sm ft-light text-gray">
+                <div className="flex md:justify-between text-xs ft-light text-gray w-20 flex-col text-center md:flex-row md:text-left">
                   <span>{macro}</span>
                   <span>
                     {Math.round(value)}/{max} g
                   </span>
                 </div>
-                <div className="w-full bg-gray h-2 rounded-full mt-1">
+                <div className="w-full bg-gray h-1 md:h-2 rounded-full mt-1">
                   <div
-                    className="h-2 bg-yellow rounded-full"
+                    className="h-1 md:h-2 bg-yellow rounded-full"
                     style={{ width: `${percentage}%` }}
                   ></div>
                 </div>
@@ -103,7 +103,7 @@ export default function TodaySummary({ homeData }: Props) {
         </div>
       </div>
 
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-center gap-2 mt-4 md:mt-0">
         <span className="w-3 h-3 rounded-full bg-yellow"></span>
         <span className="w-3 h-3 rounded-full bg-gray"></span>
       </div>
