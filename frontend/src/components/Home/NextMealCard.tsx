@@ -8,12 +8,12 @@ type Props = {
 export default function NextMealCard({ nextFood }: Props) {
   return (
     <>
-      <div className="flex-1 bg-white rounded-3xl p-6 shadow flex flex-col gap-4 h-95">
+      <div className="flex-1 bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-sm h-95">
         <h2 className="text-brown ft-bold text-lg text-center">
           Próxima comida - {nextFood?.hora_sugerida.toLowerCase()}
         </h2>
 
-        <div className="flex gap-4 overflow-hidden">
+        <div className="flex gap-4 overflow-hidden flex-col md:flex-row">
           <div className="flex flex-col items-center gap-4">
             <img
               src="/SVG/ejemploPlato.jpeg"
