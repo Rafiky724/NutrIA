@@ -7,7 +7,7 @@ type Props = {
 export default function NavBar({ user }: Props) {
   return (
     <>
-      <nav className="flex justify-between items-center">
+      <nav className="flex justify-center md:justify-between items-center">
         <div>
           <h1 className="text-2xl ft-bold text-brown">Hola, {user.nombre}</h1>
           <p className="text-sm ft-medium text-gray">¿Cómo va tu día?</p>
