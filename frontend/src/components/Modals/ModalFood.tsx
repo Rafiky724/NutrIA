@@ -19,20 +19,20 @@ export default function ModalFood({
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="w-md bg-white rounded-3xl p-6 shadow-lg flex flex-col gap-5">
-        <p className="text-md ft-light text-justify text-gray px-5">
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-white rounded-3xl p-6 shadow-lg flex flex-col gap-5">
+        <p className="text-md sm:text-lg text-justify text-gray px-5">
           Como empiezas hoy, cuéntanos cuál será tu próxima comida y nos
           adaptamos a ti.
         </p>
 
-        <div className=" flex flex-wrap gap-3 justify-center">
+        <div className="flex flex-wrap gap-3 justify-center">
           {mealsAvailable.map((comida) => (
             <button
               key={comida}
               onClick={() => onSelectFood(comida)}
-              className={`w-4xs p-3 px-5 rounded-4xl ft-medium transition cursor-pointer ${
+              className={`w-25 sm:w-24 lg:w-32 p-3 rounded-4xl ft-medium transition cursor-pointer ${
                 selectedFood === comida
-                  ? "bg-brown text-white shadow"
+                  ? "bg-brown text-white shadow-lg"
                   : "bg-input text-gray"
               }`}
             >
@@ -44,7 +44,7 @@ export default function ModalFood({
         <div className="flex justify-end gap-3 mt-4">
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-full bg-yellow ft-medium mx-auto w-3xs cursor-pointer"
+            className="px-5 py-2 rounded-full bg-yellow ft-medium w-full sm:w-auto mx-auto cursor-pointer"
           >
             Aceptar
           </button>
