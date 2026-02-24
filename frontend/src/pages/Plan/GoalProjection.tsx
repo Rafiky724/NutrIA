@@ -4,6 +4,8 @@ import { DaysService, type DayPlan } from "../../services/daysService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import type { TargetDates } from "../../types";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function GoalProjection() {
   const navigate = useNavigate();
@@ -38,9 +40,11 @@ export default function GoalProjection() {
 
   if (!dates) {
     return (
-      <div className="flex items-center justify-center min-h-screen font_brown">
-        Cargando proyección...
-      </div>
+      <LoadingScreen
+        title="CARGANDO DIETA"
+        subtitle="Estamos preparando tu plan semanal.\nEsto puede tardar unos segundos."
+        Icon={LoadingIcon}
+      />
     );
   }
 
