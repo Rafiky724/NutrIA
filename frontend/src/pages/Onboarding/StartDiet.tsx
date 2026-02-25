@@ -142,7 +142,7 @@ export default function StartDiet() {
 
         <button
           onClick={handleNext}
-          className="w-full sm:w-sm bg-yellow mt-6 text-brown font-semibold py-2 rounded-full shadow text-md mx-auto cursor-pointer hover:scale-105 transition"
+          className="w-3xs md:w-xs bg-yellow text-brown ft-medium py-2 rounded-full shadow mx-auto block hover:scale-105 transition cursor-pointer"
         >
           Siguiente
         </button>
