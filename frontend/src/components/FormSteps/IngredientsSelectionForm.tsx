@@ -133,7 +133,7 @@ export default function IngredientsSelectionForm({
       </div>
 
       {/* Lista de Ingredientes */}
-      <div className="w-2xs md:w-lg mb-2 mx-auto">
+      <div className="relative w-2xs md:w-lg mb-2 mx-auto">
         <div className="flex flex-wrap justify-center gap-1 sm:gap-3 md:gap-4 max-h-30 md:max-h-50 overflow-y-auto mb-6 md:mb-8">
           {category.items.map((item, index) => {
             const isSelected = selectedIngredients.includes(item.nombre);
@@ -158,6 +158,13 @@ export default function IngredientsSelectionForm({
             );
           })}
         </div>
+
+        {/* Navegación */}
+        <ArrowNavigation
+          onPrev={handlePrevCategory}
+          onNext={handleNextCategory}
+          size={8}
+        />
       </div>
 
       {/* Botón Continuar */}
@@ -183,13 +190,6 @@ export default function IngredientsSelectionForm({
         draggable
         pauseOnHover
         theme="colored"
-      />
-
-      {/* Navegación */}
-      <ArrowNavigation
-        onPrev={handlePrevCategory}
-        onNext={handleNextCategory}
-        size={8}
       />
 
       <CustomIngredientModal
