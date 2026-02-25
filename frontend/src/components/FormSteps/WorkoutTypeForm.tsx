@@ -46,20 +46,20 @@ export default function WorkoutTypeForm({
     <div className="px-4 sm:px-6 md:px-10">
       {/* Encabezado */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0">
-        <div className="w-14 sm:w-16">
+        <div className="w-12 sm:w-20">
           <img
             src="/SVG/IconsGeneral/RunnerIcon.svg"
             alt="Tipo Actividad Física"
             className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center sm:text-left w-full sm:w-auto">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
           <h2>¿Qué tipo de actividad física realizas con más frecuencia?</h2>
         </div>
       </div>
 
       {/* Descripción */}
-      <div className="mt-4 sm:mt-6 text-sm sm:text-base md:text-base ft-light text-gray text-center sm:text-left px-2 sm:px-4">
+      <div className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Esto nos ayudará a ajustar tu plan alimenticio para que tengas la
         energía y los nutrientes necesarios según tu estilo de entrenamiento.
       </div>
@@ -71,7 +71,7 @@ export default function WorkoutTypeForm({
             key={option}
             type="button"
             onClick={() => handleSelect(option)}
-            className="w-full sm:w-80 md:w-96 mx-auto py-2 sm:py-3 rounded-3xl sm:rounded-4xl cursor-pointer ft-medium custom-bg transition-all duration-200"
+            className="w-full sm:w-md mx-auto py-2 rounded-3xl sm:rounded-4xl cursor-pointer ft-medium custom-bg transition hover:scale-105"
           >
             <h4 className="text-center text-sm sm:text-base md:text-lg">
               {option}
