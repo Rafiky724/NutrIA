@@ -45,13 +45,13 @@ export default function HealthConditionDetailsForm({
             className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-xl sm:text-2xl text-brown text-center sm:text-left">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
           <h2>Explica un poco tu condición médica</h2>
         </div>
       </div>
 
       {/* Descripción */}
-      <div className="mt-6 sm:mt-8 text-left ft-light text-gray text-sm sm:text-base px-2 sm:px-6">
+      <div className="ft-light text-justify text-gray my-6 md:my-10 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Tranquilo, esta información solo se usará para personalizar tu dieta de
         forma segura y efectiva.
       </div>
@@ -68,11 +68,11 @@ export default function HealthConditionDetailsForm({
           className="w-full px-4 py-3 pr-14 rounded-2xl sm:rounded-3xl resize-none bg-input text-gray ft-light text-sm sm:text-base"
         />
 
-        <img
+        {/* <img
           src="/SVG/IconsGeneral/MicrophoneIcon.svg"
           alt="Micrófono"
           className="absolute bottom-4 sm:bottom-5 right-4 sm:right-5 w-5 sm:w-6 h-5 sm:h-6 cursor-pointer"
-        />
+        /> */}
       </div>
 
       {/* Toast */}
