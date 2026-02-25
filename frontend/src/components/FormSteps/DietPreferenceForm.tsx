@@ -68,7 +68,7 @@ export default function DietPreferenceForm({
           onClick={() => handleSelect("Presupuesto")}
           className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
         >
-          <h4 className="ft-medium text-left text-sm sm:text-lg">
+          <h4 className="ft-medium text-left text-xs sm:text-lg">
             Basada en presupuesto
           </h4>
           <p className="text-sm sm:text-base text-justify ft-light md:block hidden">
@@ -82,7 +82,7 @@ export default function DietPreferenceForm({
           onClick={() => handleSelect("Disponible")}
           className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
         >
-          <h4 className="ft-medium text-left text-sm sm:text-lg">
+          <h4 className="ft-medium text-left text-xs sm:text-lg">
             Basada en alimentos disponibles
           </h4>
           <p className="text-sm sm:text-base text-justify ft-light md:block hidden">
