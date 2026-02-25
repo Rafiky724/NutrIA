@@ -6,6 +6,7 @@ import { loginUser, registerUser } from "../../services/authService";
 import { mapToRegisterRequest } from "../../utils/mappers";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
+import ArrowReturn from "../../components/Decoration/ArrowReturn";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -166,11 +167,14 @@ export default function Register() {
         </button>
       </form>
 
+      <ArrowReturn />
+
       {/* Frutas decorativas */}
-      <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-48 md:w-60">
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-48 md:w-60">
+
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
     </div>
