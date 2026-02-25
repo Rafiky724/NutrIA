@@ -9,7 +9,7 @@ type Props = {
 
 export default function DaySelector({ days, dayActive, setDayActive }: Props) {
   return (
-    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
+    <div className="flex flex-col gap-2 md:flex-row justify-between mb-4">
       {days.map((day) => (
         <button
           key={day}
