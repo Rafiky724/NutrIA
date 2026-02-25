@@ -6,6 +6,7 @@ import FruitRight from "../../components/Decoration/FruitRight";
 import { objectiveService } from "../../services/ObjectiveService";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
 import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
+import ArrowReturn from "../../components/Decoration/ArrowReturn";
 
 export default function DailyNutritionPlan() {
   const navigate = useNavigate();
@@ -75,7 +76,6 @@ export default function DailyNutritionPlan() {
             Basado en tu objetivo, nivel de actividad física y preferencias,
             estas son las cantidades recomendadas para cada día.
           </p>
-
           {/* BARRA DE CALORÍAS */}
           <div className="relative w-full h-4 sm:h-6 rounded-full mb-10">
             <div className="absolute h-full bg-brown rounded-full w-full" />
@@ -115,7 +115,6 @@ export default function DailyNutritionPlan() {
               {idealKcal} kcal
             </span>
           </div>
-
           {/* MACRONUTRIENTES */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-8">
             {[
@@ -140,7 +139,6 @@ export default function DailyNutritionPlan() {
               </div>
             ))}
           </div>
-
           <button
             onClick={handleContinue}
             disabled={loading}
@@ -150,6 +148,8 @@ export default function DailyNutritionPlan() {
           </button>
         </div>
       </div>
+
+      <ArrowReturn to={"/dietPlanReady"} />
 
       {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">

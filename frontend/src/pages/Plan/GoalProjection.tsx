@@ -53,20 +53,20 @@ export default function GoalProjection() {
       <div className="min-h-screen flex flex-col items-center justify-center py-8">
         <div className="w-full max-w-3xl bg-white p-6 sm:p-10 rounded-3xl shadow-md text-center">
           {/* Título */}
-          <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 mb-6">
-            <div className="w-12 sm:w-16 mb-2 sm:mb-0">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
+            <div className="w-12 sm:w-20">
               <img
                 src="/SVG/IconsGeneral/Check.svg"
                 alt="Checking"
-                className="w-full h-auto"
+                className="w-auto h-auto"
               />
             </div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-brown">
+            <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
               Proyección de objetivo
             </h1>
           </div>
 
-          <p className="text-gray mb-6 sm:mb-8 text-sm sm:text-base md:text-lg px-2 sm:px-6 text-center">
+          <p className="text-gray mb-8 sm:mb-12 text-sm sm:text-base md:text-lg text-justify px-2 sm:px-6">
             Si sigues este plan, podrás alcanzar tu objetivo aproximadamente en
             estas fechas.
           </p>
@@ -115,18 +115,19 @@ export default function GoalProjection() {
 
           <button
             onClick={handleContinue}
-            className="w-full sm:w-auto mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-3xl cursor-pointer mt-6"
+            className="w-2xs md:w-xs mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
           >
             Continuar
           </button>
         </div>
       </div>
 
-      {/* DECORACIONES */}
-      <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+      {/* Decorations */}
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
     </div>

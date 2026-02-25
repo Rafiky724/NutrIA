@@ -2,17 +2,22 @@ import { useNavigate } from "react-router-dom";
 import { PlanService } from "../../services/planService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
+import { useState } from "react";
 
 export default function DietPlanReady() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleContinue = async () => {
     try {
+      setLoading(true);
       const macros = await PlanService.getDailyMacros();
       localStorage.setItem("macrosDiarios", JSON.stringify(macros));
       navigate("/dailyNutritionPlan");
     } catch (error) {
       console.error("Error obteniendo macros:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,9 +71,10 @@ export default function DietPlanReady() {
 
           <button
             onClick={handleContinue}
-            className="mx-auto bg-yellow text-brown font-medium px-6 py-3 sm:px-8 sm:py-4 rounded-3xl mt-6 cursor-pointer w-full sm:w-auto"
+            disabled={loading}
+            className="w-2xs md:w-xs mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
           >
-            Continuar
+            {loading ? "Calculando..." : "Continuar"}
           </button>
         </div>
       </div>
