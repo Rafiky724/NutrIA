@@ -82,12 +82,12 @@ export default function StartDiet() {
 
   return (
     <div className="min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center px-4 sm:px-6 py-6">
-      <div className="bg-white w-full max-w-2xl rounded-3xl shadow p-8 flex flex-col gap-6 text-center">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brown">
+      <div className="bg-white w-full max-w-2xl rounded-3xl shadow p-8 flex flex-col gap-6 text-center z-50">
+        <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-4">
           ¿Cuándo quieres empezar tu dieta?
         </h1>
 
-        <p className="text-gray font-light px-8 sm:px-12 text-justify">
+        <p className="text-gray mb-8 sm:mb-12 text-sm sm:text-base md:text-lg text-justify px-2 sm:px-6">
           Elige el día en el que te gustaría comenzar tu plan alimenticio
           personalizado.
         </p>
@@ -142,7 +142,7 @@ export default function StartDiet() {
 
         <button
           onClick={handleNext}
-          className="w-full sm:w-auto mx-auto mt-4 py-3 rounded-full font-medium transition bg-yellow text-brown shadow cursor-pointer text-lg"
+          className="w-full sm:w-sm bg-yellow mt-6 text-brown font-semibold py-2 rounded-full shadow text-md mx-auto cursor-pointer hover:scale-105 transition"
         >
           Siguiente
         </button>
@@ -167,11 +167,12 @@ export default function StartDiet() {
         />
       )}
 
-      {/* Decoraciones */}
-      <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+      {/* Decorations */}
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
     </div>
