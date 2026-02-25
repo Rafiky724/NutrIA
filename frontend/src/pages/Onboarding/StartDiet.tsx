@@ -83,7 +83,7 @@ export default function StartDiet() {
   return (
     <div className="min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center px-4 sm:px-6 py-6">
       <div className="bg-white w-full max-w-2xl rounded-3xl shadow p-8 flex flex-col gap-6 text-center z-50">
-        <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-4">
+        <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-4 mx-auto">
           ¿Cuándo quieres empezar tu dieta?
         </h1>
 
