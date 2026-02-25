@@ -26,6 +26,7 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
         <div className="flex flex-col gap-4">
           {/* Masculino */}
           <button
+            type="button"
             onClick={() => setSelected("Masculino")}
             className={`w-full py-3 rounded-full text-base sm:text-lg hover:scale-105 transition cursor-pointer ${
               selected === "Masculino"
@@ -38,6 +39,7 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
 
           {/* Femenino */}
           <button
+            type="button"
             onClick={() => setSelected("Femenino")}
             className={`w-full py-3 rounded-full text-base sm:text-lg hover:scale-105 transition cursor-pointer  ${
               selected === "Femenino"
@@ -50,6 +52,7 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
 
           {/* Aceptar */}
           <button
+            type="button"
             disabled={!selected}
             onClick={() => {
               if (selected) {
