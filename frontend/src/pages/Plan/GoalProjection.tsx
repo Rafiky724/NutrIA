@@ -6,10 +6,12 @@ import FruitRight from "../../components/Decoration/FruitRight";
 import type { TargetDates } from "../../types";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
 import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
+import ArrowReturn from "../../components/Decoration/ArrowReturn";
 
 export default function GoalProjection() {
   const navigate = useNavigate();
   const [dates, setDates] = useState<TargetDates | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("fechasObjetivo");
@@ -20,6 +22,7 @@ export default function GoalProjection() {
 
   const handleContinue = async () => {
     try {
+      setLoading(true);
       const day = "lunes";
       const dayPlan: DayPlan = await DaysService.getDay(day);
       localStorage.setItem("diaPlanActual", JSON.stringify(dayPlan));
@@ -27,6 +30,8 @@ export default function GoalProjection() {
     } catch (error) {
       console.error("Error al obtener el día del plan:", error);
       alert("No se pudo cargar el plan del día");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -115,12 +120,15 @@ export default function GoalProjection() {
 
           <button
             onClick={handleContinue}
+            disabled={loading}
             className="w-2xs md:w-xs mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
           >
-            Continuar
+            {loading ? "Calculando..." : "Continuar"}
           </button>
         </div>
       </div>
+
+      <ArrowReturn to={"/dailyNutritionPlan"} />
 
       {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
