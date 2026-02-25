@@ -54,7 +54,7 @@ export default function BudgetSelectionForm({
           <div
             key={label}
             onClick={() => handleSelect(label)}
-            className="cursor-pointer"
+            className="cursor-pointer transition hover:scale-105"
           >
             <div
               className={`px-4 py-3 rounded-full flex items-center justify-between text-sm sm:text-base transition-colors duration-200 ${
