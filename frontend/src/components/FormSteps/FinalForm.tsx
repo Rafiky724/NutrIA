@@ -10,13 +10,13 @@ export default function FinalForm() {
             className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center sm:text-left">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
           <h2>Todo listo para empezar</h2>
         </div>
       </div>
 
       {/* Texto descriptivo */}
-      <p className="ft-light text-gray text-sm sm:text-base md:text-base text-center sm:text-left mb-12 sm:mb-16 md:mb-20 px-2 sm:px-6 md:px-8">
+      <p className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Antes de continuar, crea una cuenta. Así podremos guardar tu
         información, objetivos y progreso.
       </p>
