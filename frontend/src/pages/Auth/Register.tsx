@@ -67,14 +67,14 @@ export default function Register() {
       >
         {/* Header con icono */}
         <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
-          <div className="w-16 sm:w-20 md:w-24">
+          <div className="w-12 sm:w-20">
             <img
               src="/SVG/IconsGeneral/DataIcon.svg"
               alt="Crear cuenta"
               className="w-full h-auto"
             />
           </div>
-          <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center sm:text-left">
+          <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
             <h2>Crear Cuenta</h2>
           </div>
         </div>
