@@ -117,7 +117,7 @@ export default function IngredientsSelectionForm({
 
       {/* Categoría + Botón Otro */}
       <div className="relative flex items-center justify-center mb-4 w-full">
-        <h2 className="ft-bold text-brown text-base sm:text-lg md:text-xl">
+        <h2 className="flex flex-col ft-bold text-brown text-base sm:text-lg md:text-xl">
           {category.nombre}{" "}
           <span className="text-gray ft-medium text-sm sm:text-base">
             (mínimo {category.minimo})
@@ -134,7 +134,7 @@ export default function IngredientsSelectionForm({
 
       {/* Lista de Ingredientes */}
       <div className="relative w-2xs md:w-lg mb-2 mx-auto">
-        <div className="flex flex-wrap justify-center gap-1 sm:gap-3 md:gap-4 h-30 md:h-50 overflow-y-auto mb-6 md:mb-8">
+        <div className="flex flex-wrap justify-center content-center gap-1 sm:gap-3 md:gap-4 h-30 md:h-50 overflow-y-auto mb-6 md:mb-8">
           {category.items.map((item, index) => {
             const isSelected = selectedIngredients.includes(item.nombre);
             return (
