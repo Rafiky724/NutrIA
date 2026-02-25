@@ -94,7 +94,7 @@ export default function IngredientsSelectionForm({
   };
 
   return (
-    <div className="px-4 sm:px-6 md:px-10 text-center">
+    <div className="sm:px-6 md:px-10 text-center">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
         <div className="w-12 sm:w-20">
@@ -128,13 +128,13 @@ export default function IngredientsSelectionForm({
           onClick={() => setShowModal(true)}
           className="absolute -top-2 right-2 sm:right-0 bg-yellow text-brown ft-medium px-3 py-1 rounded-full shadow-md cursor-pointer flex items-center gap-1 text-sm sm:text-base"
         >
-          Otro <span className="ft-medium text-xl">+</span>
+          <span className="ft-medium text-xl">+</span>
         </button>
       </div>
 
       {/* Lista de Ingredientes */}
-      <div className="w-full max-w-lg mb-4">
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 max-h-64 p-2">
+      <div className="w-2xs md:w-lg mb-2 mx-auto">
+        <div className="flex flex-wrap justify-center gap-1 sm:gap-3 md:gap-4 max-h-30 md:max-h-50 overflow-y-auto mb-6 md:mb-8">
           {category.items.map((item, index) => {
             const isSelected = selectedIngredients.includes(item.nombre);
             return (
@@ -142,7 +142,7 @@ export default function IngredientsSelectionForm({
                 key={`${category.nombre}-${index}`}
                 type="button"
                 onClick={() => toggleSelect(item.nombre)}
-                className={`flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 rounded-2xl duration-300 text-sm sm:text-base md:text-base hover:scale-105 transition cursor-pointer ${
+                className={`flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 rounded-2xl text-sm sm:text-base md:text-base hover:scale-105 transition cursor-pointer ${
                   isSelected
                     ? "bg-brown text-white shadow-md"
                     : "bg-input text-gray"
