@@ -54,7 +54,7 @@ export default function ModalSpeed({ onSelectSpeed, onClose }: Props) {
                 onSelectSpeed(op.label);
                 onClose();
               }}
-              className="w-full sm:w-80 mx-auto px-4 py-2 rounded-xl custom-bg transition cursor-pointer hover:scale-105"
+              className="w-full sm:w-md mx-auto px-4 py-2 rounded-xl custom-bg transition cursor-pointer hover:scale-105"
             >
               <h4 className="ft-medium text-left text-md sm:text-lg">
                 {op.label}
