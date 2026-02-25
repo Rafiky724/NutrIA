@@ -145,6 +145,7 @@ export default function ModalAge({ onSelectAge, onClose }: Props) {
         </div>
 
         <button
+          type="button"
           onClick={calculateAge}
           className="w-full sm:w-60 mx-auto block bg-yellow text-brown ft-medium py-2.5 rounded-full hover:scale-105 transition cursor-pointer"
         >

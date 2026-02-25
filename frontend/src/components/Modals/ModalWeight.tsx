@@ -128,6 +128,7 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
         </div>
 
         <button
+          type="button"
           onClick={confirmWeight}
           className="w-full sm:w-60 mx-auto block bg-yellow text-brown ft-medium py-2.5 rounded-full hover:scale-105 transition cursor-pointer"
         >
