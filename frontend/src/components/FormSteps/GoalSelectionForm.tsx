@@ -52,12 +52,12 @@ export default function GoalSelectionForm({
         <button
           type="button"
           onClick={() => handleSelect("PerderPeso")}
-          className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow hover:scale-105 transition cursor-pointer"
+          className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow custom-bg hover:scale-105 transition cursor-pointer "
         >
           <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
             Bajar de peso
           </h4>
-          <p className="text-xs sm:text-sm md:text-base text-gray-700 px-4">
+          <p className="text-xs sm:text-sm md:text-base px-4">
             Elige esta opción si tu objetivo es reducir grasa corporal de forma
             saludable.
           </p>
@@ -66,12 +66,12 @@ export default function GoalSelectionForm({
         <button
           type="button"
           onClick={() => handleSelect("MantenerPeso")}
-          className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow hover:scale-105 transition cursor-pointer"
+          className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow custom-bg hover:scale-105 transition cursor-pointer"
         >
           <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
             Mantener
           </h4>
-          <p className="text-xs sm:text-sm md:text-base text-gray-700 px-4">
+          <p className="text-xs sm:text-sm md:text-base px-4">
             Ideal si quieres conservar tu peso actual y seguir una alimentación
             equilibrada.
           </p>
@@ -80,12 +80,12 @@ export default function GoalSelectionForm({
         <button
           type="button"
           onClick={() => handleSelect("GanarMasaMuscular")}
-          className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow hover:scale-105 transition cursor-pointer"
+          className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow custom-bg hover:scale-105 transition cursor-pointer"
         >
           <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
             Ganar masa muscular
           </h4>
-          <p className="text-xs sm:text-sm md:text-base text-gray-700 px-4">
+          <p className="text-xs sm:text-sm md:text-base px-4">
             Recomendado si buscas aumentar tu peso mediante el desarrollo
             muscular.
           </p>
