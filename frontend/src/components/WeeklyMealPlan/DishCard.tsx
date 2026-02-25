@@ -100,13 +100,13 @@ export default function DishCard({
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 mt-3 sm:mt-6 w-full">
+          <div className="flex flex-col sm:flex-row gap-3 mt-3 sm:mt-6 w-full md:w-xs mx-auto">
             <button
               onClick={onEdit}
-              className="relative bg-yellow text-brown py-3 rounded-3xl px-6 ft-medium shadow text-center w-full sm:w-auto cursor-pointer hover:scale-105 transition"
+              className="relative bg-yellow text-brown rounded-3xl ft-medium text-xs shadow text-center cursor-pointer hover:scale-105 transition p-3 px-8 pl-3"
             >
               Editar ingredientes
-              <div className="absolute top-3 right-5 w-6">
+              <div className="absolute top-3 right-3 w-4">
                 <img
                   src="/SVG/IconsGeneral/EditIcon.svg"
                   alt="Editar ingredientes"
@@ -117,10 +117,10 @@ export default function DishCard({
             <button
               onClick={onRegenerate}
               disabled={loading}
-              className="relative bg-brown text-white ft-medium py-3 rounded-3xl px-6 shadow w-full sm:w-auto cursor-pointer hover:scale-105 transition"
+              className="relative bg-brown text-white rounded-3xl ft-medium text-xs shadow text-center cursor-pointer hover:scale-105 transition p-3 px-8 pl-3"
             >
               Regenerar plato
-              <div className="absolute top-3 right-5 w-6">
+              <div className="absolute top-3 right-3 w-4">
                 <img
                   src="/SVG/IconsGeneral/RegenerateIcon.svg"
                   alt="Regenerar plato"
