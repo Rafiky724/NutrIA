@@ -40,7 +40,7 @@ export default function PersonalDataForm({
       setToast({
         open: true,
         message: "Debes rellenar todos los campos antes de continuar",
-        type: "error",
+        type: "warning",
       });
     }
   }, [showError]);
