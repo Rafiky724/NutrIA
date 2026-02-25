@@ -31,20 +31,20 @@ export default function BudgetSelectionForm({
     <div className="px-4 sm:px-6 md:px-10">
       {/* Encabezado */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0">
-        <div className="w-14 sm:w-16">
+        <div className="w-16 sm:w-20">
           <img
             src="/SVG/IconsGeneral/MoneyIcon.svg"
             alt="Presupuesto"
             className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-xl sm:text-2xl text-brown text-center sm:text-left">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
           <h2>Basada en presupuesto</h2>
         </div>
       </div>
 
       {/* Descripción */}
-      <div className="ft-light text-gray my-4 sm:my-5 text-center sm:text-left text-sm sm:text-base px-2 sm:px-6">
+      <div className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
         <p>¿Cuál es tu presupuesto semanal para alimentación?</p>
       </div>
 
