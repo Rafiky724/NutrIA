@@ -45,13 +45,13 @@ export default function DietCreationReady() {
 
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
-      <div className="min-h-screen flex flex-col items-center justify-center text-center">
+      <div className="flex flex-col min-h-screen items-center justify-center text-center">
         <div className="w-full max-w-md sm:max-w-lg md:max-w-xl">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl ft-bold text-brown mb-4">
+          <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center">
             ¡Todo está listo, {name || "Usuario"}!
           </h1>
 
-          <p className="ft-medium text-gray mb-8 text-sm sm:text-base md:text-lg px-2 sm:px-4 md:px-0">
+          <p className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
             Ya analizamos tu información y ahora NutrIA usará inteligencia
             artificial para crear un plan alimenticio adaptado a tus objetivos y
             preferencias.
@@ -60,7 +60,7 @@ export default function DietCreationReady() {
           <button
             onClick={handleCreateDiet}
             disabled={loading}
-            className={`w-full sm:w-64 md:w-72 bg-yellow text-brown ft-medium px-4 py-3 rounded-2xl flex items-center justify-center mx-auto ${
+            className={`w-3xs md:w-80 bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl hover:scale-105 transition cursor-pointer ${
               loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
             }`}
           >
@@ -73,11 +73,12 @@ export default function DietCreationReady() {
         </div>
       </div>
 
-      {/* Frutas decorativas */}
-      <div className="absolute left-0 bottom-0 z-10 w-28 sm:w-48 md:w-60">
+      {/* Decorations */}
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-28 sm:w-48 md:w-60">
+
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
     </div>
