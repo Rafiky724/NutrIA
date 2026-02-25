@@ -41,13 +41,13 @@ export default function HealthConditionCheckForm({
             className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-xl sm:text-2xl text-brown text-center sm:text-left">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
           <h2>¿Tienes alguna condición médica?</h2>
         </div>
       </div>
 
       {/* Descripción */}
-      <div className="mt-6 sm:mt-8 text-justify ft-light text-gray text-sm sm:text-base px-2 sm:px-6">
+      <div className="ft-light text-justify text-gray my-6 md:my-10 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Algunas enfermedades requieren una dieta especial para cuidar tu salud.
       </div>
 
@@ -61,7 +61,7 @@ export default function HealthConditionCheckForm({
             key={option.value}
             type="button"
             onClick={() => handleSelect(option.value as HasDisease)}
-            className="w-full sm:w-60 md:w-80 mx-auto py-3 rounded-full cursor-pointer text-lg sm:text-xl ft-medium custom-bg transition hover:scale-105"
+            className="w-full sm:w-80 md:w-96 mx-auto py-2 rounded-3xl cursor-pointer ft-medium text-sm sm:text-lg custom-bg transition hover:scale-105"
           >
             <h4 className="text-center px-4">{option.label}</h4>
           </button>
