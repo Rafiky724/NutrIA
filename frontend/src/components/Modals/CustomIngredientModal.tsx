@@ -57,7 +57,7 @@ export default function CustomIngredientModal({
           </div>
 
           {/* Derecha: Lista */}
-          <div className="flex-1 h-40 overflow-y-auto w-full sm:w-auto">
+          <div className="flex-1 h-40 max-h-40 overflow-y-auto w-full sm:w-auto">
             {customIngredients.length === 0 ? (
               <p className="text-gray ft-light text-center sm:text-left">
                 No has agregado alimentos aún.
