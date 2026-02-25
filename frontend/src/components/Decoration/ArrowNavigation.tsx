@@ -12,7 +12,7 @@ export default function ArrowNavigation({ onPrev, onNext, size = 8 }: Props) {
       <button
         type="button"
         onClick={onPrev}
-        className="absolute left-4 top-2/3 transform -translate-y-1/2 cursor-pointer"
+        className="absolute -left-6 top-1/2 transform -translate-y-1/2 cursor-pointer"
       >
         <img
           src="/SVG/IconsGeneral/ArrowStep.svg"
@@ -25,7 +25,7 @@ export default function ArrowNavigation({ onPrev, onNext, size = 8 }: Props) {
       <button
         type="button"
         onClick={onNext}
-        className="absolute right-4 top-2/3 transform -translate-y-1/2 cursor-pointer"
+        className="absolute -right-6 top-1/2 transform -translate-y-1/2 cursor-pointer"
       >
         <img
           src="/SVG/IconsGeneral/ArrowStep.svg"
