@@ -54,7 +54,7 @@ export default function ModalWeightTarget({
     const getStyle = (offset: number) => {
       switch (offset) {
         case 0:
-          return "bg-input w-20 sm:w-24 rounded-full scale-110 ft-bold text-lg sm:text-xl py-1";
+          return "bg-input w-20 sm:w-24 rounded-full scale-110 ft-medium text-lg sm:text-xl py-1";
         case -1:
         case 1:
           return "text-gray-800 text-sm sm:text-base";
@@ -107,7 +107,7 @@ export default function ModalWeightTarget({
           Selecciona tu peso objetivo
         </h2>
 
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-6 ">
           {renderRoulette(weights, weightRoulette)}
         </div>
 
