@@ -54,7 +54,7 @@ export default function WeeklyMealPlan() {
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
       <div className="min-h-screen flex flex-col items-center justify-center py-8">
-        <div className="w-full md:w-4xl xl:w-6xl max-w-6xl bg-white p-6 sm:p-10 rounded-3xl shadow-md text-center relative z-20">
+        <div className="w-full md:w-4xl xl:w-6xl max-w-6xl bg-white p-6 rounded-3xl shadow-md text-center relative z-20">
           <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-4">
             Dieta semanal
           </h1>
@@ -104,7 +104,7 @@ export default function WeeklyMealPlan() {
           {/* Botón */}
           <button
             onClick={handleStartDiet}
-            className="w-full sm:w-auto bg-yellow mt-6 text-brown font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-full shadow text-lg self-center cursor-pointer hover:scale-105 transition"
+            className="w-full sm:w-sm bg-yellow mt-6 text-brown font-semibold py-2 rounded-full shadow text-md cursor-pointer hover:scale-105 transition"
           >
             ¡Listo!
           </button>
