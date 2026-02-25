@@ -85,12 +85,12 @@ export default function GoalDetailsForm({
       </div>
 
       {/* Campos interactivos */}
-      <div className="flex flex-col gap-4 mb-8 px-4 sm:px-6 md:px-0">
+      <div className="flex flex-col gap-4 mb-8 px-4 sm:px-6 md:px-0 ">
         {fields.map((field, index) => (
           <div
             key={index}
             onClick={field.onClick}
-            className="cursor-pointer w-full md:w-80 mx-auto"
+            className="w-full md:w-80 mx-auto hover:scale-105 transition cursor-pointer"
           >
             <div className="bg-input px-4 py-3 rounded-full flex items-center justify-between">
               <span className="text-brown ft-medium text-sm sm:text-base md:text-base">
