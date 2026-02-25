@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRoulette } from "../../hooks/useRoulette";
 import { months } from "../../data/months";
+import Toast from "../Toast/Toast";
 
 type Props = {
   onSelectDate: (date: string) => void;
@@ -18,7 +19,11 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
   const monthRoulette = useRoulette(months.length);
   const yearRoulette = useRoulette(years.length);
 
-  const [error, setError] = useState("");
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    type: "error" as "error" | "success" | "warning" | "info",
+  });
 
   const confirmDate = () => {
     const day = days[dayRoulette.selectedIndex];
@@ -28,7 +33,11 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
     const date = new Date(year, month, day);
 
     if (isNaN(date.getTime())) {
-      setError("Fecha inválida");
+      setToast({
+        open: true,
+        message: "Fecha inválida.",
+        type: "error",
+      });
       return;
     }
 
@@ -36,7 +45,11 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
     today.setHours(0, 0, 0, 0);
 
     if (date < today) {
-      setError("No puedes seleccionar una fecha pasada");
+      setToast({
+        open: true,
+        message: "No puedes seleccionar una fecha pasada.",
+        type: "error",
+      });
       return;
     }
 
@@ -57,7 +70,7 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
     const offsets = [-2, -1, 0, 1, 2];
 
     const getStyle = (offset: number) => {
-      if (offset === 0) return "bg-input rounded-full scale-110 ft-bold p-5";
+      if (offset === 0) return "bg-input rounded-full scale-110 ft-medium p-5";
       if (offset === -1 || offset === 1) return "text-gray text-md";
       return "text-gray-400 text-sm";
     };
@@ -89,13 +102,13 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      <div className="relative z-10 bg-white p-6 rounded-3xl shadow-lg mx-4 w-full max-w-md sm:max-w-lg lg:max-w-xl xl:max-w-2xl">
+      <div className="relative bg-white p-6 rounded-3xl shadow-lg w-full max-w-md sm:max-w-lg lg:max-w-xl xl:max-w-2xl">
         <h2 className="text-xl sm:text-2xl md:text-3xl ft-bold text-brown mb-4 text-center">
           ¿Cuándo quieres empezar?
         </h2>
@@ -106,19 +119,21 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
           {renderRoulette(years, yearRoulette)}
         </div>
 
-        {error && (
-          <p className="text-red-500 text-sm sm:text-base text-center mb-3 ft-medium">
-            {error}
-          </p>
-        )}
-
         <button
+          type="button"
           onClick={confirmDate}
-          className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 bg-yellow text-brown ft-medium py-3 rounded-full shadow cursor-pointer"
+          className="w-3xs md:w-xs bg-yellow text-brown ft-medium py-2 rounded-full shadow cursor-pointer mx-auto block"
         >
           Confirmar fecha
         </button>
       </div>
+
+      <Toast
+        isOpen={toast.open}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, open: false })}
+      />
     </div>
   );
 }
