@@ -16,7 +16,7 @@ export default function ArrowReturn({ to = "/", onClick }: Props) {
   };
 
   return (
-    <div className="absolute top-5 left-5 z-10 w-10">
+    <div className="absolute top-5 left-5 z-10 w-6">
       <Link to={to} onClick={handleClick}>
         <img
           src="/SVG/IconsGeneral/ArrowReturn.svg"
