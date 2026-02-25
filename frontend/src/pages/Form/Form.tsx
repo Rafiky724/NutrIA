@@ -158,10 +158,10 @@ export default function Form() {
         <ProgressBar progress={progress} />
       </div>
 
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-24">
+      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center"
+          className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center z-50"
         >
           {steps[step]}
 
