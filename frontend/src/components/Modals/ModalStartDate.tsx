@@ -122,7 +122,7 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
         <button
           type="button"
           onClick={confirmDate}
-          className="w-3xs md:w-xs bg-yellow text-brown ft-medium py-2 rounded-full shadow cursor-pointer mx-auto block"
+          className="w-3xs md:w-xs bg-yellow text-brown ft-medium py-2 rounded-full shadow cursor-pointer mx-auto block hover:scale-105 transition"
         >
           Confirmar fecha
         </button>
