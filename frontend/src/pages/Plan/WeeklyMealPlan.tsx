@@ -45,7 +45,7 @@ export default function WeeklyMealPlan() {
     return (
       <LoadingScreen
         title="CARGANDO DIETA"
-        subtitle="Estamos preparando tu acción."
+        subtitle="Estamos preparando tu dieta."
         Icon={LoadingIcon}
       />
     );
@@ -54,18 +54,16 @@ export default function WeeklyMealPlan() {
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
       <div className="min-h-screen flex flex-col items-center justify-center py-8">
-        <div className="w-full max-w-3xl bg-white p-6 sm:p-10 rounded-3xl shadow-md text-center z-50">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl ft-bold text-brown text-left mb-4">
+        <div className="w-full md:w-4xl xl:w-6xl max-w-6xl bg-white p-6 sm:p-10 rounded-3xl shadow-md text-center relative z-20">
+          <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-4">
             Dieta semanal
           </h1>
 
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-4">
-            <DaySelector
-              days={days}
-              dayActive={dayActive}
-              setDayActive={setDayActive}
-            />
-          </div>
+          <DaySelector
+            days={days}
+            dayActive={dayActive}
+            setDayActive={setDayActive}
+          />
 
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Columna izquierda: Dropdown + Opinión IA */}
@@ -110,11 +108,12 @@ export default function WeeklyMealPlan() {
           </button>
         </div>
 
-        {/* DECORACIONES */}
-        <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+        {/* Decorations */}
+        <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
           <FruitLeft />
         </div>
-        <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+
+        <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
           <FruitRight />
         </div>
 
