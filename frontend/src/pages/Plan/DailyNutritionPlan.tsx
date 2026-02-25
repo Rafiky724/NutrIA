@@ -4,6 +4,8 @@ import type { Macros } from "../../types";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import { objectiveService } from "../../services/ObjectiveService";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function DailyNutritionPlan() {
   const navigate = useNavigate();
@@ -32,9 +34,11 @@ export default function DailyNutritionPlan() {
 
   if (!macros) {
     return (
-      <div className="flex items-center justify-center min-h-screen font_brown">
-        Cargando tu plan nutricional...
-      </div>
+      <LoadingScreen
+        title="CARGANDO PLAN NUTRICIONAL"
+        subtitle="Cargando tu plan nutricional..."
+        Icon={LoadingIcon}
+      />
     );
   }
 
@@ -54,15 +58,15 @@ export default function DailyNutritionPlan() {
         {/* CARD PRINCIPAL */}
         <div className="w-full max-w-3xl bg-white p-6 sm:p-10 rounded-3xl shadow-md text-center relative z-20">
           {/* Título */}
-          <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 mb-6">
-            <div className="w-12 sm:w-16 mb-2 sm:mb-0">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
+            <div className="w-12 sm:w-20">
               <img
                 src="/SVG/IconsGeneral/Check.svg"
                 alt="Chequeado"
-                className="w-full h-auto"
+                className="w-auto h-auto"
               />
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-brown">
+            <h2 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
               Este es tu plan diario
             </h2>
           </div>
@@ -125,7 +129,7 @@ export default function DailyNutritionPlan() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-input p-4 sm:p-5 w-full sm:w-32 rounded-xl text-center flex flex-col space-y-1"
+                className="bg-input p-4 sm:p-5 w-full sm:w-32 rounded-xl text-center flex flex-row justify-center items-center md:flex-col gap-2"
               >
                 <span className="ft-light text-gray text-sm sm:text-base">
                   {item.value} {item.unit}
@@ -140,18 +144,19 @@ export default function DailyNutritionPlan() {
           <button
             onClick={handleContinue}
             disabled={loading}
-            className="w-full sm:w-auto mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer"
+            className="w-full sm:w-auto mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
           >
             {loading ? "Calculando..." : "Continuar"}
           </button>
         </div>
       </div>
 
-      {/* DECORACIONES */}
-      <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+      {/* Decorations */}
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
     </div>
