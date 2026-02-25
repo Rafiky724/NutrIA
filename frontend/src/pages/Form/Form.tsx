@@ -201,11 +201,11 @@ export default function Form() {
       </div>
 
       {/* Decorations */}
-      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-72">
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
 
-      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-72">
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
     </div>
