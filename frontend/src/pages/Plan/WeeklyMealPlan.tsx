@@ -65,7 +65,7 @@ export default function WeeklyMealPlan() {
             setDayActive={setDayActive}
           />
 
-          <div className="flex flex-col lg:flex-row gap-6">
+          <div className="flex flex-1 flex-col lg:flex-row gap-6">
             {/* Columna izquierda: Dropdown + Opinión IA */}
             <div className="flex flex-col w-full lg:w-64">
               <MealDropdown
@@ -91,7 +91,7 @@ export default function WeeklyMealPlan() {
             </div>
 
             {/* Columna derecha: DishCard */}
-            <div className="flex-1">
+            <div className="flex-4">
               <DishCard
                 dish={dish}
                 loading={loadingAction}
