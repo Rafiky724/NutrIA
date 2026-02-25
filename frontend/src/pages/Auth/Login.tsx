@@ -120,7 +120,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-yellow text-brown ft-medium py-2.5 rounded-full mt-4 hover:scale-105 transition"
+              className="w-full bg-yellow text-brown ft-medium py-2.5 rounded-full mt-4 hover:scale-105 transition cursor-pointer"
             >
               Iniciar sesión
             </button>
