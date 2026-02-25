@@ -34,11 +34,11 @@ export default function ResetModal({ isOpen, onClose }: Props) {
   return (
     <>
       {/* Fondo oscuro */}
-      <div className="fixed inset-0 bg-black/70 z-50" />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10" />
 
       {/* Modal */}
       <div
-        className="fixed inset-0 flex items-center justify-center z-50 px-4 sm:px-6"
+        className="fixed inset-0 flex items-center justify-center z-20 px-4 sm:px-6"
         onClick={onClose}
       >
         <div
@@ -67,7 +67,7 @@ export default function ResetModal({ isOpen, onClose }: Props) {
 
             <button
               type="submit"
-              className="w-full bg-yellow text-brown py-2 rounded-full ft-medium mt-2 cursor-pointer text-sm sm:text-base"
+              className="w-full bg-yellow text-brown ft-medium py-2.5 rounded-full mt-4 hover:scale-105 transition cursor-pointer"
             >
               Aceptar
             </button>
