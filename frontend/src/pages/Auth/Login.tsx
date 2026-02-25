@@ -132,7 +132,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => setViewModal(true)}
-              className="ft-medium hover:underline"
+              className="ft-medium hover:underline cursor-pointer"
             >
               Restablecer
             </button>
