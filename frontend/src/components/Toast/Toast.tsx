@@ -25,23 +25,16 @@ export default function Toast({
   onClose,
   duration = 3000,
 }: ToastProps) {
-  const [progress, setProgress] = useState(100);
+  const [progressKey, setProgressKey] = useState(0);
 
   useEffect(() => {
     if (!isOpen) return;
 
-    setProgress(100);
-
-    const animation = setTimeout(() => {
-      setProgress(0);
-    }, 10); // pequeño delay para activar transición
+    setProgressKey((prev) => prev + 1);
 
     const timer = setTimeout(onClose, duration);
 
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(animation);
-    };
+    return () => clearTimeout(timer);
   }, [isOpen, duration, onClose]);
 
   if (!isOpen) return null;
@@ -56,14 +49,24 @@ export default function Toast({
         {/* Línea de carga */}
         <div className="absolute bottom-0 left-0 h-1 w-full bg-white/30">
           <div
-            className="h-full bg-white transition-all linear"
+            key={progressKey}
+            className="h-full bg-white"
             style={{
-              width: `${progress}%`,
-              transitionDuration: `${duration}ms`,
+              width: "100%",
+              animation: `toast-progress ${duration}ms linear forwards`,
             }}
           />
         </div>
       </div>
+
+      <style>
+        {`
+          @keyframes toast-progress {
+            from { width: 100%; }
+            to { width: 0%; }
+          }
+        `}
+      </style>
     </div>
   );
 }
