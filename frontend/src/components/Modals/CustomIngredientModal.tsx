@@ -50,14 +50,14 @@ export default function CustomIngredientModal({
             <button
               type="button"
               onClick={handleAddCustom}
-              className="bg-yellow text-brown ft-medium px-4 py-2 rounded-lg shadow-md w-full sm:w-auto cursor-pointer text-sm sm:text-base"
+              className="bg-yellow text-brown ft-medium px-4 py-2 rounded-lg shadow-md w-full sm:w-auto cursor-pointer text-sm sm:text-base hover:scale-105 transition"
             >
               Agregar
             </button>
           </div>
 
           {/* Derecha: Lista */}
-          <div className="flex-1 max-h-40 overflow-y-auto w-full sm:w-auto">
+          <div className="flex-1 h-40 overflow-y-auto w-full sm:w-auto">
             {customIngredients.length === 0 ? (
               <p className="text-gray ft-light text-center sm:text-left">
                 No has agregado alimentos aún.
@@ -77,7 +77,7 @@ export default function CustomIngredientModal({
                           customIngredients.filter((_, index) => index !== i),
                         )
                       }
-                      className="text-gray font-bold cursor-pointer px-2"
+                      className="text-gray font-bold cursor-pointer px-2 hover:scale-105 transition"
                     >
                       X
                     </button>
@@ -92,17 +92,17 @@ export default function CustomIngredientModal({
         <div className="flex flex-col sm:flex-row justify-center sm:justify-end gap-2 sm:gap-4 mt-4 sm:mt-6">
           <button
             type="button"
-            onClick={onClose}
-            className="ft-light text-gray cursor-pointer px-4 py-2 rounded-lg border border-gray-300 w-full sm:w-auto"
+            onClick={handleAccept}
+            className="ft-medium bg-yellow text-brown px-4 py-2 rounded-lg shadow-md w-full sm:w-auto cursor-pointer hover:scale-105 transition"
           >
-            Cancelar
+            Aceptar
           </button>
           <button
             type="button"
-            onClick={handleAccept}
-            className="ft-medium bg-yellow text-brown px-4 py-2 rounded-lg shadow-md w-full sm:w-auto cursor-pointer"
+            onClick={onClose}
+            className="ft-light text-gray cursor-pointer px-4 py-2 rounded-lg border border-gray-300 w-full sm:w-auto hover:scale-105 transition"
           >
-            Aceptar
+            Cancelar
           </button>
         </div>
       </div>
