@@ -54,7 +54,7 @@ export default function MealDropdown({
           {activeDish.tipo_comida} - {activeDish.hora_sugerida || "—"}
         </span>
 
-        <div className="ml-2 w-4 sm:w-5 md:w-6 flex-shrink-0">
+        <div className="ml-2 w-4 flex-shrink-0">
           <img
             className="w-auto h-auto"
             src="/SVG/IconsGeneral/DropdownIcon.svg"
