@@ -1,5 +1,4 @@
-// components/UI/Toast/Toast.tsx
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ToastType = "error" | "success" | "warning" | "info";
 
@@ -26,47 +25,40 @@ export default function Toast({
   duration = 3000,
 }: ToastProps) {
   const [progressKey, setProgressKey] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;
 
     setProgressKey((prev) => prev + 1);
 
-    const timer = setTimeout(onClose, duration);
+    timerRef.current = setTimeout(() => {
+      onClose();
+    }, duration);
 
-    return () => clearTimeout(timer);
-  }, [isOpen, duration, onClose]);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [isOpen, duration]);
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed top-4 inset-x-0 flex justify-center z-50 px-4 sm:top-6">
       <div
-        className={`relative overflow-hidden w-full max-w-sm sm:max-w-md px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg text-white ft-medium text-sm sm:text-base animate-slide-in ${styles[type]}`}
+        className={`relative overflow-hidden w-full max-w-sm sm:max-w-md px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg text-white text-sm sm:text-base animate-slide-in ${styles[type]}`}
       >
         {message}
 
-        {/* Línea de carga */}
+        {/* Barra de progreso */}
         <div className="absolute bottom-0 left-0 h-1 w-full bg-white/30">
           <div
             key={progressKey}
-            className="h-full bg-white"
-            style={{
-              width: "100%",
-              animation: `toast-progress ${duration}ms linear forwards`,
-            }}
+            className="h-full bg-white animate-toast-progress"
+            style={{ animationDuration: `${duration}ms` }}
           />
         </div>
       </div>
-
-      <style>
-        {`
-          @keyframes toast-progress {
-            from { width: 100%; }
-            to { width: 0%; }
-          }
-        `}
-      </style>
     </div>
   );
 }
