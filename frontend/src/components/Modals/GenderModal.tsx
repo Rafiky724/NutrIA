@@ -27,7 +27,7 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
           {/* Masculino */}
           <button
             onClick={() => setSelected("Masculino")}
-            className={`w-full py-3 rounded-full text-base sm:text-lg transition cursor-pointer ${
+            className={`w-full py-3 rounded-full text-base sm:text-lg hover:scale-105 transition cursor-pointer ${
               selected === "Masculino"
                 ? "bg-brown text-white"
                 : "bg-input text-brown hover:bg-brown/10"
@@ -39,7 +39,7 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
           {/* Femenino */}
           <button
             onClick={() => setSelected("Femenino")}
-            className={`w-full py-3 rounded-full text-base sm:text-lg transition cursor-pointer ${
+            className={`w-full py-3 rounded-full text-base sm:text-lg hover:scale-105 transition cursor-pointer  ${
               selected === "Femenino"
                 ? "bg-brown text-white"
                 : "bg-input text-brown hover:bg-brown/10"
