@@ -144,7 +144,7 @@ export default function DailyNutritionPlan() {
           <button
             onClick={handleContinue}
             disabled={loading}
-            className="w-xs mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
+            className="w-2xs md:w-xs mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
           >
             {loading ? "Calculando..." : "Continuar"}
           </button>
