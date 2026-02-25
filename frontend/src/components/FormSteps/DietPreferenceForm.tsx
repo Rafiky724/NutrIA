@@ -49,13 +49,13 @@ export default function DietPreferenceForm({
             className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-xl sm:text-2xl text-brown text-center sm:text-left">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
           <h2>¿Cómo quieres que construyamos tu dieta?</h2>
         </div>
       </div>
 
       {/* Descripción */}
-      <div className="mt-6 sm:mt-8 text-justify ft-light text-gray text-sm sm:text-base px-2 sm:px-6">
+      <div className="ft-light text-justify text-gray my-6 md:my-10 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Puedes elegir entre basarla en tu presupuesto o en los alimentos que ya
         tienes disponibles. Ambas opciones te permitirán filtrar por tus gustos
         y restricciones.
@@ -66,9 +66,9 @@ export default function DietPreferenceForm({
         <button
           type="button"
           onClick={() => handleSelect("Presupuesto")}
-          className="w-full sm:w-80 mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4"
+          className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4"
         >
-          <h4 className="ft-medium text-left text-md sm:text-lg">
+          <h4 className="ft-medium text-left text-sm sm:text-lg">
             Basada en presupuesto
           </h4>
           <p className="text-sm sm:text-base text-justify ft-light md:block hidden">
@@ -80,9 +80,9 @@ export default function DietPreferenceForm({
         <button
           type="button"
           onClick={() => handleSelect("Disponible")}
-          className="w-full sm:w-80 mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4"
+          className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4"
         >
-          <h4 className="ft-medium text-left text-md sm:text-lg">
+          <h4 className="ft-medium text-left text-sm sm:text-lg">
             Basada en alimentos disponibles
           </h4>
           <p className="text-sm sm:text-base text-justify ft-light md:block hidden">
