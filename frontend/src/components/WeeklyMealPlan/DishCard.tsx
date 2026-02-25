@@ -72,11 +72,11 @@ export default function DishCard({
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-2 overflow-y-auto max-h-48 sm:max-h-60">
+          <div className="flex flex-col gap-2 overflow-y-auto h-50 sm:max-h-60">
             {dish.ingredientes.map((ing: Ingredient, index) => (
               <div
                 key={index}
-                className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white rounded-4xl p-2 sm:p-3"
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white rounded-2xl p-2 "
               >
                 <div className="flex items-center gap-2 ft-light text-brown">
                   <span className="w-5">
@@ -86,12 +86,12 @@ export default function DishCard({
                       className="w-5 h-6"
                     />
                   </span>
-                  <span className="text-xs sm:text-sm md:text-base text-left">
+                  <span className="text-xs text-left">
                     {ing.cantidad} {ing.nombre}
                   </span>
                 </div>
 
-                <span className="text-gray ft-medium text-xs sm:text-sm md:text-base mt-1 sm:mt-0">
+                <span className="text-gray ft-medium text-xs mt-1 sm:mt-0">
                   {ing.calorias_ingrediente} KCal | {ing.proteinas_ingrediente}{" "}
                   P | {ing.carbohidratos_ingrediente} C |{" "}
                   {ing.grasas_ingrediente} G
