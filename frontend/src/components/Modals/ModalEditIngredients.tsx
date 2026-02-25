@@ -38,7 +38,7 @@ export default function ModalEditIngredients({
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-3xl p-6 w-full max-w-4xl shadow-lg overflow-auto">
+      <div className="bg-white rounded-3xl p-6 w-full max-w-4xl shadow-lg overflow-auto h-115 max-h-150">
         <h2 className="text-2xl font-bold mb-4 text-brown text-center sm:text-left">
           Editar ingredientes
         </h2>
@@ -105,12 +105,6 @@ export default function ModalEditIngredients({
 
         <div className="flex flex-col sm:flex-row justify-end gap-4 mt-6">
           <button
-            onClick={onClose}
-            className="px-6 py-2 rounded-full bg-gray text-white w-full sm:w-auto"
-          >
-            Cancelar
-          </button>
-          <button
             onClick={() =>
               onConfirm(
                 selected.map((nombre) => ({
@@ -124,9 +118,15 @@ export default function ModalEditIngredients({
                 })),
               )
             }
-            className="px-6 py-2 rounded-full bg-yellow font-medium text-brown w-full sm:w-auto"
+            className="px-6 py-2 rounded-full bg-yellow font-medium text-brown w-full sm:w-auto hover:scale-105 transition cursor-pointer"
           >
             Confirmar
+          </button>
+          <button
+            onClick={onClose}
+            className="px-6 py-2 rounded-full bg-brown text-white w-full sm:w-auto hover:scale-105 transition cursor-pointer"
+          >
+            Cancelar
           </button>
         </div>
       </div>
