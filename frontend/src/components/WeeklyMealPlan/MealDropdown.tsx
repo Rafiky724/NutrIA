@@ -36,7 +36,7 @@ export default function MealDropdown({
 
   const handleSelectFood = (food: TypeFood) => {
     setFoodActive(food);
-    setDropdownOpen(false); // Cierra el dropdown al seleccionar una comida
+    setDropdownOpen(false);
   };
 
   const toggleDropdown = () => {
@@ -46,12 +46,10 @@ export default function MealDropdown({
   return (
     <div
       ref={dropdownRef}
-      className="relative bg-input ft-medium px-4 sm:px-5 md:px-6 py-3 sm:py-4 rounded-4xl cursor-pointer flex justify-between items-center text-gray text-sm sm:text-base md:text-lg w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto"
+      onClick={toggleDropdown}
+      className="relative bg-input ft-medium px-4 sm:px-5 md:px-6 py-3 sm:py-4 rounded-4xl cursor-pointer flex justify-between items-center text-gray text-xs w-full md:w-50 mx-auto"
     >
-      <div
-        onClick={toggleDropdown}
-        className="w-full flex justify-between items-center"
-      >
+      <div className="w-full flex justify-between items-center">
         <span>
           {activeDish.tipo_comida} - {activeDish.hora_sugerida || "—"}
         </span>
@@ -66,11 +64,11 @@ export default function MealDropdown({
       </div>
 
       {dropdownOpen && (
-        <div className="absolute w-full max-w-xs sm:max-w-sm md:max-w-md bg-input rounded-2xl shadow-lg p-2 mt-1 top-full z-50">
+        <div className="absolute w-full max-w-xs sm:max-w-sm md:max-w-md bg-input rounded-2xl shadow-lg mt-1 top-full z-50 -mx-4.5 md:-mx-5.5">
           {dayPlan.comidas.map((com) => (
             <div
               key={com.tipo_comida}
-              className="p-2 sm:p-3 hover:bg-gray-300 rounded-xl cursor-pointer text-sm sm:text-base md:text-lg"
+              className="p-2 hover:bg-gray-300 rounded-xl cursor-pointer text-xs w-full md:w-50"
               onClick={() => handleSelectFood(com.tipo_comida as TypeFood)}
             >
               {com.tipo_comida} — {com.hora_sugerida || "—"}
