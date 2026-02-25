@@ -45,7 +45,7 @@ export default function WeeklyMealPlan() {
     return (
       <LoadingScreen
         title="CARGANDO DIETA"
-        subtitle="Estamos preparando tu dieta."
+        subtitle="Estamos recargando la información."
         Icon={LoadingIcon}
       />
     );
@@ -67,7 +67,7 @@ export default function WeeklyMealPlan() {
 
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Columna izquierda: Dropdown + Opinión IA */}
-            <div className="flex flex-col w-full lg:w-64 gap-4">
+            <div className="flex flex-col w-full lg:w-64">
               <MealDropdown
                 dayPlan={dayPlan}
                 foodActive={foodActive}
@@ -75,15 +75,17 @@ export default function WeeklyMealPlan() {
               />
 
               {showOpinion && dayPlan?.opinion_ia && (
-                <div className="mt-3 bg-yellow px-4 py-3 rounded-2xl text-sm sm:text-base text-brown ft-light flex flex-col gap-2">
-                  <span className="ft-medium">Opinión de la IA:</span>
-                  <span>{dayPlan.opinion_ia}</span>
-                  <div className="w-full bg-gray-300 h-2 rounded-full overflow-hidden mt-2">
+                <div className="mt-3 bg-yellow px-4 py-3 rounded-2xl text-sm sm:text-base text-brown ft-light flex flex-col gap-2 max-h-90 overflow-y-auto text-left">
+                  <div className="w-full bg-gray-300 h-2 rounded-full mt-2">
                     <div
                       className="bg-brown h-2 rounded-full transition-all"
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
+                  <span className="ft-medium">Opinión de la IA:</span>
+                  <span className="text-sm whitespace-pre-line">
+                    {dayPlan.opinion_ia}
+                  </span>
                 </div>
               )}
             </div>
@@ -102,7 +104,7 @@ export default function WeeklyMealPlan() {
           {/* Botón */}
           <button
             onClick={handleStartDiet}
-            className="w-full sm:w-auto bg-yellow mt-6 text-brown font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-full shadow text-lg self-center cursor-pointer"
+            className="w-full sm:w-auto bg-yellow mt-6 text-brown font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-full shadow text-lg self-center cursor-pointer hover:scale-105 transition"
           >
             ¡Listo!
           </button>
