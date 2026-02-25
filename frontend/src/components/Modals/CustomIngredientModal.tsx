@@ -33,7 +33,7 @@ export default function CustomIngredientModal({
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
       <div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg relative">
-        <h3 className="text-xl sm:text-2xl ft-bold mb-4 text-brown text-center sm:text-left">
+        <h3 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-4">
           Agregar alimentos
         </h3>
 
@@ -57,7 +57,7 @@ export default function CustomIngredientModal({
           </div>
 
           {/* Derecha: Lista */}
-          <div className="flex-1 max-h-60 overflow-y-auto w-full sm:w-auto">
+          <div className="flex-1 max-h-40 overflow-y-auto w-full sm:w-auto">
             {customIngredients.length === 0 ? (
               <p className="text-gray ft-light text-center sm:text-left">
                 No has agregado alimentos aún.
