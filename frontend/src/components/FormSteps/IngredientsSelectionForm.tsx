@@ -94,30 +94,23 @@ export default function IngredientsSelectionForm({
   };
 
   return (
-    <div className="flex flex-col items-center w-full text-center px-4 sm:px-6 md:px-10 relative">
-      {/* Navegación */}
-      <ArrowNavigation
-        onPrev={handlePrevCategory}
-        onNext={handleNextCategory}
-        size={8}
-      />
-
+    <div className="px-4 sm:px-6 md:px-10 text-center">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4 w-full">
-        <div className="w-14 sm:w-16 mb-2 sm:mb-0">
+      <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
+        <div className="w-12 sm:w-20">
           <img
             src="/SVG/IconsGeneral/BasketIcon.svg"
             alt="Cantidad de comidas"
             className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown w-full sm:w-auto">
+        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
           <h2>¿Qué alimentos quieres incluir en tu plan de comidas?</h2>
         </div>
       </div>
 
       {/* Descripción */}
-      <p className="ft-light text-gray mb-6 text-justify text-sm sm:text-base md:text-base px-2 sm:px-6 md:px-8">
+      <p className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Marca los alimentos que tienes disponibles actualmente, que te gustan o
         que deseas que aparezcan en tu dieta. Puedes agregar otros.
       </p>
@@ -141,7 +134,7 @@ export default function IngredientsSelectionForm({
 
       {/* Lista de Ingredientes */}
       <div className="w-full max-w-lg mb-4">
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 max-h-64 overflow-y-auto p-2">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 max-h-64 p-2">
           {category.items.map((item, index) => {
             const isSelected = selectedIngredients.includes(item.nombre);
             return (
@@ -149,7 +142,7 @@ export default function IngredientsSelectionForm({
                 key={`${category.nombre}-${index}`}
                 type="button"
                 onClick={() => toggleSelect(item.nombre)}
-                className={`flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 rounded-2xl transition-all duration-300 cursor-pointer text-sm sm:text-base md:text-base ${
+                className={`flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 rounded-2xl duration-300 text-sm sm:text-base md:text-base hover:scale-105 transition cursor-pointer ${
                   isSelected
                     ? "bg-brown text-white shadow-md"
                     : "bg-input text-gray"
@@ -172,7 +165,7 @@ export default function IngredientsSelectionForm({
         <button
           type="button"
           onClick={handleContinue}
-          className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl cursor-pointer"
+          className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl hover:scale-105 transition cursor-pointer"
         >
           Continuar
         </button>
@@ -190,6 +183,13 @@ export default function IngredientsSelectionForm({
         draggable
         pauseOnHover
         theme="colored"
+      />
+
+      {/* Navegación */}
+      <ArrowNavigation
+        onPrev={handlePrevCategory}
+        onNext={handleNextCategory}
+        size={8}
       />
 
       <CustomIngredientModal
