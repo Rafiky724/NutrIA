@@ -85,11 +85,11 @@ export default function DailyNutritionPlan() {
             />
             {/* Líneas de inicio y fin del rango recomendado */}
             <div
-              className="absolute top-[-5px] h-6 w-1.5 bg-yellow rounded"
+              className="absolute top-[-5px] h-6 md:h-8 w-1.5 bg-yellow rounded"
               style={{ left: `${yellowStart}%` }}
             />
             <div
-              className="absolute top-[-5px] h-6 w-1.5 bg-yellow rounded"
+              className="absolute top-[-5px] h-6 md:h-8 w-1.5 bg-yellow rounded"
               style={{ left: `${yellowStart + yellowWidth}%` }}
             />
             {/* Etiquetas de calorías */}
@@ -109,7 +109,7 @@ export default function DailyNutritionPlan() {
               {rangeMax} kcal
             </span>
             <span
-              className="absolute -top-6 text-brown text-sm sm:text-base font-medium"
+              className="absolute -top-6 md:-top-8 text-brown text-sm sm:text-base font-medium"
               style={{ left: `${idealPos}%`, transform: "translateX(-50%)" }}
             >
               {idealKcal} kcal
@@ -144,7 +144,7 @@ export default function DailyNutritionPlan() {
           <button
             onClick={handleContinue}
             disabled={loading}
-            className="w-full sm:w-auto mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
+            className="w-xs mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
           >
             {loading ? "Calculando..." : "Continuar"}
           </button>
