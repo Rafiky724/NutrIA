@@ -44,7 +44,7 @@ export default function Home() {
       <div className="flex min-h-screen bg-input pl-10 md:pl-20 justify-center">
         <div className="w-screen flex flex-col p-6">
           <NavBar user={homeData.usuario} />
-          <div className="flex justify-center items-center h-full text-center text-lg font-semibold">
+          <div className="flex justify-center items-center h-full text-center text-sm md:text-lg font-semibold">
             {homeData.mensaje || "No tienes dieta asignada hoy"}
           </div>
         </div>
