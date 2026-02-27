@@ -57,7 +57,7 @@ export default function Home() {
       <div className="flex-1 py-6 flex flex-col gap-6">
         <NavBar user={homeData.usuario} />
 
-        <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center">
+        <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
           {/* CAJA IZQUIERDA */}
           <TodaySummary homeData={homeData} />
 
@@ -66,11 +66,13 @@ export default function Home() {
         </div>
 
         {/* CAJA INFERIOR */}
-        <DailyDiet
-          homeData={homeData}
-          activeFoodIndex={activeFoodIndex}
-          setActiveFoodIndex={setActiveFoodIndex}
-        />
+        <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
+          <DailyDiet
+            homeData={homeData}
+            activeFoodIndex={activeFoodIndex}
+            setActiveFoodIndex={setActiveFoodIndex}
+          />
+        </div>
       </div>
     </div>
   );
