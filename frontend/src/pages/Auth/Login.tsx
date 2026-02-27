@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import ResetModal from "../../components/Modals/ResetModal";
 import { loginUser } from "../../services/authService";
 import { getHasPlan } from "../../services/userService";
-import FruitLeft from "../../components/Decoration/FruitLeft";
-import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import Toast from "../../components/Toast/Toast";
+import FruitLeft from "../../components/Decoration/FruitLeft";
+import FruitRight from "../../components/Decoration/FruitRight";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -66,10 +66,10 @@ export default function Login() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6">
-        {/* Card */}
-        <div className="bg-white w-full max-w-sm sm:max-w-md md:max-w-lg p-6 sm:p-8 rounded-3xl shadow-lg text-center">
+    <div className="min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
+      <div className="w-screen min-h-screen flex items-center justify-center px-4 sm:px-6 ">
+        {/* CONTENEDOR 1 — CARD ORIGINAL */}
+        <div className="flex flex-col bg-white w-sm lg:w-md xl:w-lg xl:h-120 p-6 sm:p-8 rounded-3xl shadow-lg text-center justify-center">
           {/* Header */}
           <div className="flex items-center justify-center gap-4 mb-8">
             <img
@@ -138,18 +138,29 @@ export default function Login() {
             </button>
           </p>
         </div>
-      </div>
 
-      {/* Decoraciones */}
-      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
-        <FruitLeft />
-      </div>
-
-      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
-        <FruitRight />
+        {/* CONTENEDOR 2 — SVG ANIMADO */}
+        <div className="w-lg hidden sm:block">
+          <div className="w-md md:w-lg xl:w-2xl">
+            <object
+              type="image/svg+xml"
+              data="/Background/NutriaAnimada.svg"
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
       </div>
 
       <ArrowReturn />
+
+      {/* Decorations */}
+      <div className="absolute bottom-0 left-0 z-10 w-24 block sm:hidden">
+        <FruitLeft />
+      </div>
+
+      <div className="absolute bottom-0 right-0 z-10 w-24 block sm:hidden">
+        <FruitRight />
+      </div>
 
       <Toast
         isOpen={toast.open}
