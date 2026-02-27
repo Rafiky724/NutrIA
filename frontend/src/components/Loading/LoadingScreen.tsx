@@ -15,7 +15,7 @@ const LoadingScreen: FC<LoadingScreenProps> = ({
   Icon,
 }) => {
   return (
-    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
+    <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden z-50">
       <div className="flex flex-col items-center justify-center min-h-screen px-6 text-center">
         {/* Icono */}
         <div className="mb-6 w-16 sm:w-20 md:w-24 animate-pulse">
