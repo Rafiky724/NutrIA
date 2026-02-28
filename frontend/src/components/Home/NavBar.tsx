@@ -1,13 +1,13 @@
 import type { User } from "../../types";
 
 type Props = {
-  user: User;
+  user?: User;
   title?: string;
   subtitle?: string;
 };
 
 export default function NavBar({ user, title, subtitle }: Props) {
-  const defaultTitle = `Hola, ${user.nombre}`;
+  const defaultTitle = `Hola, ${user?.nombre}`;
   const defaultSubtitle = "¿Cómo va tu día?";
 
   return (
@@ -29,7 +29,7 @@ export default function NavBar({ user, title, subtitle }: Props) {
               alt="Racha"
               className="w-4 md:w-6 h-4 md:h-6"
             />
-            <p className="ft-bold text-md md:text-2xl">{user.numero_racha}</p>
+            <p className="ft-bold text-md md:text-2xl">{user?.numero_racha}</p>
           </div>
 
           <div className="flex items-center gap-1 hover:scale-105 transition cursor-pointer">
@@ -38,7 +38,9 @@ export default function NavBar({ user, title, subtitle }: Props) {
               alt="Gemas"
               className="w-4 md:w-6 h-4 md:h-6"
             />
-            <p className="ft-bold text-md md:text-2xl">{user.cantidad_gemas}</p>
+            <p className="ft-bold text-md md:text-2xl">
+              {user?.cantidad_gemas}
+            </p>
           </div>
         </div>
 
