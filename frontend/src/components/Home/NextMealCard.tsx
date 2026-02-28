@@ -8,7 +8,7 @@ type Props = {
 export default function NextMealCard({ nextFood }: Props) {
   return (
     <>
-      <div className="w-2xs md:w-lg xl:w-4xl h-95 bg-white rounded-3xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center">
+      <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center">
         <h2 className="text-brown ft-bold text-lg text-center">
           Próxima comida - {nextFood?.hora_sugerida.toLowerCase()}
         </h2>
