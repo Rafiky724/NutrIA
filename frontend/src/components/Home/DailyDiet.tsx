@@ -46,7 +46,7 @@ export default function DailyDiet({
             <button
               key={idx}
               onClick={() => setActiveFoodIndex(idx)}
-              className={`w-25 flex-shrink-0 rounded-2xl p-2 ft-medium ${
+              className={`w-25 md:w-35 xl:w-[150px] rounded-2xl p-2 ft-medium ${
                 idx === activeFoodIndex
                   ? "bg-yellow text-brown"
                   : "bg-gray text-gray"
