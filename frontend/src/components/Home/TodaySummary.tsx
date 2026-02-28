@@ -85,7 +85,7 @@ export default function TodaySummary({ homeData }: Props) {
             const percentage = Math.min((value / max) * 100, 100);
             return (
               <div key={macro}>
-                <div className="flex md:justify-between text-xs ft-light text-gray w-20 flex-col text-center md:flex-row md:text-left">
+                <div className="flex flex-col md:justify-between text-xs ft-light text-gray w-20 text-center md:text-left items-center">
                   <span>{macro}</span>
                   <span>
                     {Math.round(value)}/{max} g
