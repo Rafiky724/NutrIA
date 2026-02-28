@@ -53,7 +53,7 @@ export default function Home() {
   }
 
   return (
-    <div className="w-screen flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
+    <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
         <NavBar user={homeData.usuario} />
 
