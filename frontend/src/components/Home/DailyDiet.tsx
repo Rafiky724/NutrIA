@@ -37,11 +37,11 @@ export default function DailyDiet({
 
   return (
     <>
-      <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-sm">
+      <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <h2 className="text-brown ft-bold text-lg">Dieta de hoy</h2>
 
         {/* Opciones de horario */}
-        <div className="flex flex-wrap md:flex-nowrap gap-3 overflow-x-auto text-xs mb-2 justify-between">
+        <div className="flex flex-wrap md:flex-nowrap gap-3 overflow-x-auto text-xs justify-between">
           {homeData?.dia_actual?.comidas?.map((comida, idx) => (
             <button
               key={idx}
@@ -122,15 +122,17 @@ export default function DailyDiet({
             {/* Ingredientes */}
             <div className="flex flex-col w-full lg:w-2/3 gap-4 text-xs">
               <div className="flex justify-between items-center">
-                <h2 className="text-lg ft-bold text-brown">Ingredientes</h2>
+                <h2 className="text-md md:text-lg ft-bold text-brown">
+                  Ingredientes
+                </h2>
                 <span className="text-gray ft-medium">
                   ≈ ${food.precio_estimado} COP
                 </span>
               </div>
 
-              <div className="flex flex-col flex-1 gap-3">
+              <div className="flex flex-col">
                 {/* Listado de ingredientes */}
-                <div className="flex flex-col gap-1 overflow-y-auto pr-3 min-h-[180px] max-h-[220px]">
+                <div className="flex flex-col gap-1 overflow-y-auto min-h-[180px] max-h-[220px]">
                   {food?.ingredientes.map((ing, idx) => (
                     <div
                       key={idx}
