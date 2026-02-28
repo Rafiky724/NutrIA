@@ -80,12 +80,12 @@ export default function DailyDiet({
                 <img
                   src="/SVG/ejemploPlato.jpeg"
                   alt="Plato"
-                  className="rounded-3xl w-auto h-auto"
+                  className="rounded-3xl w-150 h-40"
                 />
               </div>
 
               {/* Macros */}
-              <div className="flex justify-between w-full px-2 text-brown ft-medium text-xs">
+              <div className="flex justify-between w-full text-brown ft-medium text-xs">
                 <div className="flex flex-col items-center text-center">
                   <span>
                     {proteins} g ({percentageProteins}%)
@@ -132,7 +132,7 @@ export default function DailyDiet({
 
               <div className="flex flex-col">
                 {/* Listado de ingredientes */}
-                <div className="flex flex-col gap-1 overflow-y-auto min-h-[180px] max-h-[220px]">
+                <div className="flex flex-col gap-1 overflow-y-auto min-h-[180px] h-[220px] max-h-[220px]">
                   {food?.ingredientes.map((ing, idx) => (
                     <div
                       key={idx}
