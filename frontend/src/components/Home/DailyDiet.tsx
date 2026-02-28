@@ -157,10 +157,10 @@ export default function DailyDiet({
                   ))}
                 </div>
 
-                <div className="flex flex-col gap-3 mt-8 w-[200px] md:w-2xs mx-auto">
+                <div className="flex flex-col gap-3 mt-4 md:mt-8 w-[200px] md:w-2xs mx-auto">
                   <button className="relative bg-yellow text-brown py-2 rounded-3xl ft-medium shadow text-center cursor-pointer">
                     Editar ingredientes
-                    <div className="absolute top-2 md:top-3 right-4 md:right-5 w-4">
+                    <div className="absolute top-2 md:top-2 right-4 md:right-5 w-4">
                       <img src="/SVG/IconsGeneral/EditIcon.svg" alt="Editar" />
                     </div>
                   </button>
