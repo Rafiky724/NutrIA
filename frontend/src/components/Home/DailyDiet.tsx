@@ -60,10 +60,10 @@ export default function DailyDiet({
         {/* Bloques principales */}
         <div className="flex flex-col lg:flex-row gap-4">
           {/* IZQUIERDA: Botón regenerar dieta */}
-          <div className="lg:w-1/4 flex justify-center items-start">
-            <button className="text-sm w-3xs relative bg-brown text-white ft-medium py-3 rounded-3xl px-6 shadow cursor-pointer">
+          <div className="flex flex-col w-[200px] md:w-2xs mx-auto text-xs">
+            <button className="relative bg-brown text-white py-2 rounded-3xl ft-medium shadow text-center cursor-pointer">
               Regenerar plato
-              <div className="absolute top-2 right-5 w-6">
+              <div className="absolute top-2 right-5 w-4">
                 <img
                   src="/SVG/IconsGeneral/RegenerateIcon.svg"
                   alt="Regenerar plato"
