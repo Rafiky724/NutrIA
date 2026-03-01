@@ -22,13 +22,19 @@ export default function DaySelector({ days, dayActive, setDayActive }: Props) {
   const jsDay = today.getDay();
   const todayIndex = jsDay === 0 ? 6 : jsDay - 1;
 
+  const todayDay: Days = Object.keys(daysIndex).find(
+    (d) => daysIndex[d as Days] === todayIndex,
+  ) as Days;
+
+  const activeDay = dayActive || todayDay;
+
   return (
     <div className="flex flex-col gap-2 md:flex-row justify-between mb-4">
       {days.map((day) => {
         const dayIdx = daysIndex[day];
 
         let bgClass = "bg-input text-gray";
-        if (day === dayActive) {
+        if (day === activeDay) {
           bgClass = "bg-yellow text-brown shadow";
         } else if (dayIdx < todayIndex) {
           bgClass = "bg-gray-300 text-gray";
