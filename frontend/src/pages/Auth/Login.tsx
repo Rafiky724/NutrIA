@@ -144,7 +144,7 @@ export default function Login() {
           <div className="w-md md:w-lg xl:w-2xl">
             <object
               type="image/svg+xml"
-              data="/Background/NutriaAnimada.svg"
+              data="/Background/NutriaLogin.svg"
               className="w-full h-auto"
             />
           </div>
