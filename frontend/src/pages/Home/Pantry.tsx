@@ -49,7 +49,7 @@ export default function Pantry() {
 
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
           {/* INGREDIENTES DISPONIBLES */}
-          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/3 md:h-[550px] xl:h-[600px] max-h-[600px] overflow-y-auto">
+          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-1/3 md:h-[550px] xl:h-[600px] max-h-[600px] overflow-y-auto">
             <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
               Agregar nuevos ingredientes
             </h3>
@@ -77,13 +77,13 @@ export default function Pantry() {
                         <button
                           key={ingredient.nombre}
                           onClick={() => toggleIngredient(ingredient)}
-                          className="bg-input px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light"
+                          className="bg-input px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md"
                         >
                           {ingredient.nombre}
                           <img
                             src={ingredient.icono}
                             alt={ingredient.nombre}
-                            className="w-5 h-5 object-contain"
+                            className="w-4 md:w-5 h-4 md:h-5"
                           />
                         </button>
                       ))}
@@ -94,14 +94,14 @@ export default function Pantry() {
             </div>
 
             <div className="flex justify-center">
-              <button className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium py-2 rounded-3xl hover:scale-105 transition cursor-pointer text-xs">
+              <button className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium py-2 rounded-3xl hover:scale-105 transition cursor-pointer text-sm">
                 Guardar
               </button>
             </div>
           </div>
 
           {/* DESPENSA ACTUAL */}
-          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-2/2 md:h-[550px] xl:h-[600px] max-h-[600px] overflow-y-auto">
+          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-2/2 md:h-[550px] xl:h-[600px] max-h-[600px] overflow-y-auto">
             <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
               Tu despensa actual
             </h3>
@@ -124,13 +124,13 @@ export default function Pantry() {
                       <button
                         key={ingredient.nombre}
                         onClick={() => toggleIngredient(ingredient)}
-                        className="bg-input px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light"
+                        className="bg-input px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md"
                       >
                         {ingredient.nombre}
                         <img
                           src={ingredient.icono}
                           alt={ingredient.nombre}
-                          className="w-5 h-5 object-contain"
+                          className="w-4 md:w-5 h-4 md:h-5"
                         />
                       </button>
                     ))}
