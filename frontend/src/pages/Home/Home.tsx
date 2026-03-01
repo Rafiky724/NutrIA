@@ -6,12 +6,12 @@ import NavBar from "../../components/Home/NavBar";
 import TodaySummary from "../../components/Home/TodaySummary";
 import NextMealCard from "../../components/Home/NextMealCard";
 import DailyDiet from "../../components/Home/DailyDiet";
-import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
+// import LoadingScreen from "../../components/Loading/LoadingScreen";
+// import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function Home() {
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [activeFoodIndex, setActiveFoodIndex] = useState(0);
   const hayDietaHoy = !!homeData?.dia_actual?.comidas?.length;
 
@@ -22,30 +22,31 @@ export default function Home() {
         setHomeData(data);
       } catch (err) {
         console.error("Error al cargar datos del home", err);
-      } finally {
-        setLoading(false);
       }
+      // finally {
+      //   setLoading(false);
+      // }
     };
 
     fetchHomeData();
   }, []);
 
-  if (loading || !homeData)
-    return (
-      <LoadingScreen
-        Icon={LoadingIcon}
-        title="CARGANDO"
-        subtitle={`Esto puede tardar unos segundos.\nEstamos trayendo tus datos.`}
-      />
-    );
+  // if (loading || !homeData)
+  //   return (
+  //     <LoadingScreen
+  //       Icon={LoadingIcon}
+  //       title="CARGANDO"
+  //       subtitle={`Esto puede tardar unos segundos.\nEstamos trayendo tus datos.`}
+  //     />
+  //   );
 
   if (!hayDietaHoy) {
     return (
       <div className="flex min-h-screen bg-input pl-10 md:pl-20 justify-center">
         <div className="w-screen flex flex-col p-6">
-          <NavBar user={homeData.usuario} />
+          <NavBar user={homeData?.usuario} />
           <div className="flex justify-center items-center h-full text-center text-sm md:text-lg font-semibold">
-            {homeData.mensaje || "No tienes dieta asignada hoy"}
+            {homeData?.mensaje || "No tienes dieta asignada hoy"}
           </div>
         </div>
       </div>
