@@ -13,6 +13,7 @@ import UpdateDietDay from "../pages/Onboarding/UpdateDietDay";
 import LoadingPage from "../pages/Loading/Loading";
 import Register from "../pages/Auth/Register";
 import HomeLayout from "../pages/Home/HomeLayout";
+import NextDiet from "../pages/Home/NextDiet";
 
 export default function AppRoutes() {
   return (
@@ -40,6 +41,7 @@ export default function AppRoutes() {
         <Route path="/startDiet" element={<StartDiet />}></Route>
         <Route path="/updateDietDay" element={<UpdateDietDay />}></Route>
         <Route path="/homeLayout" element={<HomeLayout />}></Route>
+        <Route path="/nextDiet" element={<NextDiet />}></Route>
       </Route>
     </Routes>
   );
