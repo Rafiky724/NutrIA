@@ -38,7 +38,7 @@ export default function Pantry() {
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
         <div className="block md:hidden">
-          <NavBar user={homeData?.usuario} subtitle="Estas en la despensa" />
+          <NavBar user={homeData?.usuario} subtitle="Estás en la despensa" />
         </div>
         <div className="hidden md:block">
           <NavBar
