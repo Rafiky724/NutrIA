@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 
 export default function NextDiet() {
+  const navigate = useNavigate();
+  
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
       <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
@@ -27,30 +30,33 @@ export default function NextDiet() {
             continuar con tu dieta actual sin hacer cambios.
           </div>
 
-          <div className="flex flex-col gap-4 md:gap-2">
+          <div className="flex flex-col gap-4">
             <button
               type="button"
+              onClick={() => navigate("/homeLayout?section=1")}
               className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
             >
-              <h4 className="ft-medium text-left text-xs sm:text-md">
+              <h4 className="ft-medium text-center text-xs sm:text-md xl:text-lg">
                 Editar despensa
               </h4>
             </button>
 
             <button
               type="button"
+              onClick={() => navigate("/homeLayout?section=2")}
               className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
             >
-              <h4 className="ft-medium text-left text-xs sm:text-md">
+              <h4 className="ft-medium text-center text-xs sm:text-md xl:text-lg">
                 Mantener mi dieta actual
               </h4>
             </button>
 
             <button
               type="button"
+              onClick={() => navigate("/homeLayout?section=2")}
               className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
             >
-              <h4 className="ft-medium text-left text-xs sm:text-md">
+              <h4 className="ft-medium text-center text-xs sm:text-md xl:text-lg">
                 Generar nueva dieta semanal
               </h4>
             </button>
