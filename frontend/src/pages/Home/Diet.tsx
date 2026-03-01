@@ -17,7 +17,27 @@ export default function Diet() {
   const navigate = useNavigate();
 
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
-  const [dayActive, setDayActive] = useState<Days>("Lunes");
+
+  const daysIndex: Record<Days, number> = {
+    Lunes: 0,
+    Martes: 1,
+    Miercoles: 2,
+    Jueves: 3,
+    Viernes: 4,
+    Sabado: 5,
+    Domingo: 6,
+  };
+
+  const today = new Date();
+  const jsDay = today.getDay();
+  const todayIndex = jsDay === 0 ? 6 : jsDay - 1;
+
+  const todayDay: Days = Object.keys(daysIndex).find(
+    (d) => daysIndex[d as Days] === todayIndex,
+  ) as Days;
+
+  const [dayActive, setDayActive] = useState<Days>(todayDay);
+
   const [foodActive, setFoodActive] = useState<TypeFood>("Desayuno");
   const [showModal, setShowModal] = useState(false);
 
@@ -81,7 +101,7 @@ export default function Diet() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-center">
-          <div className="flex flex-col bg-white rounded-xl md:rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[760px] max-h-[1250px] overflow-y-auto mt-0 md:mt-5">
+          <div className="flex flex-col bg-white rounded-xl md:rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[650px] max-h-[1250px] overflow-y-auto mt-0 md:mt-5">
             <DaySelector
               days={days}
               dayActive={dayActive}
