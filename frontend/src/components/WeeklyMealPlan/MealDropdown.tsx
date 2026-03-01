@@ -47,7 +47,7 @@ export default function MealDropdown({
     <div
       ref={dropdownRef}
       onClick={toggleDropdown}
-      className="relative bg-input ft-medium px-4 sm:px-5 md:px-6 py-2 rounded-4xl cursor-pointer flex justify-between items-center text-gray text-xs w-full md:w-50 xl:w-70 mx-auto"
+      className="relative bg-input ft-medium px-4 sm:px-5 md:px-6 py-3 sm:py-4 rounded-4xl cursor-pointer flex justify-between items-center text-gray text-xs w-full md:w-50 mx-auto"
     >
       <div className="w-full flex justify-between items-center">
         <span>
