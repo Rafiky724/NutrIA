@@ -17,7 +17,7 @@ export default function DonutChart({ protein, carbs, fats, calories }: Props) {
   )`;
 
   return (
-    <div className="w-25 h-25 relative flex items-center justify-center">
+    <div className="w-25 xl:w-35 h-25 xl:h-35 relative flex items-center justify-center">
       {/* Donut externo */}
       <div
         className="w-full h-full rounded-full"
@@ -25,7 +25,7 @@ export default function DonutChart({ protein, carbs, fats, calories }: Props) {
       ></div>
 
       {/* Círculo interior */}
-      <div className="absolute w-20 h-20 bg-white rounded-full flex items-center justify-center text-sm ft-medium text-brown">
+      <div className="absolute w-20 xl:w-30 h-20 xl:h-30 bg-white rounded-full flex items-center justify-center text-sm ft-medium text-brown">
         {calories} <br />
         Kcal
       </div>
