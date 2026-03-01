@@ -49,7 +49,7 @@ export default function Pantry() {
 
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
           {/* INGREDIENTES DISPONIBLES */}
-          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-1/3 md:h-[550px] xl:h-[600px] max-h-[600px] overflow-y-auto">
+          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-1/3 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
             <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
               Agregar nuevos ingredientes
             </h3>
@@ -101,7 +101,7 @@ export default function Pantry() {
           </div>
 
           {/* DESPENSA ACTUAL */}
-          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-2/2 md:h-[550px] xl:h-[600px] max-h-[600px] overflow-y-auto">
+          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-2/2 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
             <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
               Tu despensa actual
             </h3>
