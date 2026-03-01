@@ -37,7 +37,6 @@ export default function Pantry() {
   return (
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
-        {/* NavBar */}
         <div className="block md:hidden">
           <NavBar user={homeData?.usuario} />
         </div>
@@ -95,7 +94,6 @@ export default function Pantry() {
               Agregar nuevos ingredientes
             </h3>
 
-            {/* Lista de ingredientes de la categoría actual */}
             <div className="overflow-y-auto flex-1 mb-4 pr-2">
               {categories.map((cat) => {
                 const availableItems = cat.items
@@ -135,7 +133,6 @@ export default function Pantry() {
               })}
             </div>
 
-            {/* Botón guardar */}
             <div className="flex justify-center">
               <button className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl hover:scale-105 transition cursor-pointer">
                 Guardar
