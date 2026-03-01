@@ -73,7 +73,7 @@ export default function Diet() {
 
   const { showOpinion, progress } = useOpinionTimer(dayPlan?.opinion_ia);
 
-  const handleStartDiet = () => navigate("/startDiet");
+  const handleStartDiet = () => navigate("/nextDiet");
 
   // Loading
   if (!dish || !dayPlan || loadingAction || !homeData) {
