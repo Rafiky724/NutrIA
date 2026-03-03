@@ -103,6 +103,7 @@ export default function Diet() {
         </div>
         <div className="hidden md:block">
           <NavBar
+            user={homeData?.usuario}
             title="Dieta semanal"
             subtitle={`Esta es tu dieta del ${homeData.mensaje}`}
           />
