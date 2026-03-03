@@ -34,11 +34,13 @@ export default function Config() {
         <div className="block md:hidden">
           <NavBar
             user={homeData?.usuario}
-            subtitle="Estás en configuraciones"
+            title="Configuraciones"
+            subtitle="Mira y edita información"
           />
         </div>
         <div className="hidden md:block">
           <NavBar
+            user={homeData?.usuario}
             title="Configuraciones"
             subtitle="Aquí puedes ver tu información y editarla"
           />
@@ -47,44 +49,80 @@ export default function Config() {
         <div className="flex flex-col md:flex-row items-center justify-center mt-10 md:mt-5 xl:mt-0 xl:h-180">
           <div className="flex items-center justify-center">
             <div className="flex flex-col bg-white w-2xs h-100 lg:w-sm lg:h-120 xl:w-lg xl:h-160 p-6 sm:p-8 rounded-3xl shadow-lg text-center ml-10 md:ml-0">
-              <div className="flex flex-col gap-4">
-                <button className="w-full rounded-2xl cursor-pointer bg-input p-2 transition hover:scale-105">
-                  <h4 className="ft-medium text-left text-xs sm:text-md xl:text-lg">
+              <div className="flex flex-col gap-2 ">
+                <button className="w-full rounded-2xl cursor-pointer bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between">
+                  <h4 className="ft-light text-left text-xs sm:text-md xl:text-lg">
                     Configurar perfil
                   </h4>
+
+                  <img
+                    src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
+                    alt="arrow"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
+                  />
                 </button>
 
-                <button className="w-full rounded-2xl cursor-pointer bg-input p-2 transition hover:scale-105">
-                  <h4 className="ft-medium text-left text-xs sm:text-md xl:text-lg">
+                <button className="w-full rounded-2xl cursor-pointer bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between">
+                  <h4 className="ft-light text-left text-xs sm:text-md xl:text-lg">
                     Actualizar peso
                   </h4>
+
+                  <img
+                    src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
+                    alt="arrow"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
+                  />
                 </button>
 
-                <button className="w-full rounded-2xl cursor-pointer bg-input p-2 transition hover:scale-105">
-                  <h4 className="ft-medium text-left text-xs sm:text-md xl:text-lg">
+                <button className="w-full rounded-2xl cursor-pointer bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between">
+                  <h4 className="ft-light text-left text-xs sm:text-md xl:text-lg">
                     Tienda
                   </h4>
+
+                  <img
+                    src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
+                    alt="arrow"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
+                  />
                 </button>
-                <button className="w-full rounded-2xl cursor-pointer bg-input p-2 transition hover:scale-105">
-                  <h4 className="ft-medium text-left text-xs sm:text-md xl:text-lg">
+                <button className="w-full rounded-2xl cursor-pointer bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between">
+                  <h4 className="ft-light text-left text-xs sm:text-md xl:text-lg">
                     Información de contacto
                   </h4>
+
+                  <img
+                    src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
+                    alt="arrow"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
+                  />
                 </button>
                 <button
                   onClick={() => navigate("/")}
-                  className="w-full rounded-2xl cursor-pointer bg-input p-2 transition hover:scale-105"
+                  className="w-full rounded-2xl cursor-pointer bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between"
                 >
-                  <h4 className="ft-medium text-left text-xs sm:text-md xl:text-lg">
+                  <h4 className="ft-light text-left text-xs sm:text-md xl:text-lg">
                     Logros
                   </h4>
+
+                  <img
+                    src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
+                    alt="arrow"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
+                  />
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="w-full rounded-2xl cursor-pointer bg-input p-2 transition hover:scale-105"
+                  className="w-full rounded-2xl cursor-pointer bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between"
                 >
-                  <h4 className="ft-medium text-left text-xs sm:text-md xl:text-lg">
+                  <h4 className="ft-light text-left text-xs sm:text-md xl:text-lg">
                     Cerrar sesión
                   </h4>
+
+                  <img
+                    src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
+                    alt="arrow"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
+                  />
                 </button>
               </div>
             </div>
