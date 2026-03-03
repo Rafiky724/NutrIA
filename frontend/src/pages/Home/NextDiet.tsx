@@ -4,7 +4,7 @@ import FruitRight from "../../components/Decoration/FruitRight";
 
 export default function NextDiet() {
   const navigate = useNavigate();
-  
+
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
       <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
@@ -12,7 +12,7 @@ export default function NextDiet() {
           <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-3 md:mb-8">
             <div className="w-16 sm:w-18">
               <img
-                src="/SVG/IconsGeneral/TableApple.svg"
+                src="/SVG/IconsGeneral/AIcon.svg"
                 alt="Datos Dieta"
                 className="w-full h-auto"
               />
