@@ -42,6 +42,7 @@ export default function Pantry() {
         </div>
         <div className="hidden md:block">
           <NavBar
+            user={homeData?.usuario}
             title="Alimentos disponibles"
             subtitle="Aquí puedes agregar o quitar los ingredientes que tienes disponibles"
           />
