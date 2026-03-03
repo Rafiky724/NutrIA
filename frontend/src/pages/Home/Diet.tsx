@@ -78,11 +78,19 @@ export default function Diet() {
   // Loading
   if (!dish || !dayPlan || loadingAction || !homeData) {
     return (
-      <LoadingScreen
-        title="CARGANDO DIETA"
-        subtitle="Estamos recargando la información."
-        Icon={LoadingIcon}
-      />
+      // <LoadingScreen
+      //   title="CARGANDO DIETA"
+      //   subtitle="Estamos recargando la información."
+      //   Icon={LoadingIcon}
+      // />
+      <div className="flex min-h-screen bg-input pl-10 md:pl-20 justify-center">
+        <div className="w-screen flex flex-col p-6">
+          <NavBar user={homeData?.usuario} />
+          <div className="flex justify-center items-center h-full text-center text-sm md:text-lg font-semibold">
+            {homeData?.mensaje || "Estamos retomando datos"}
+          </div>
+        </div>
+      </div>
     );
   }
 
