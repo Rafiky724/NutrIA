@@ -1,6 +1,6 @@
 export const menuItems = [
-    { nombre: "Home", alt: "Home" },
-    { nombre: "PyramidApple", alt: "PyramidApple" },
-    { nombre: "BoxFood", alt: "BoxFood" },
-    { nombre: "Settings", alt: "Settings" },
-] as const;
+    { nombre: "Home", alt: "Inicio", path: "/home" },
+    { nombre: "PyramidApple", alt: "Despensa", path: "/pantry" },
+    { nombre: "BoxFood", alt: "Dieta", path: "/diet" },
+    { nombre: "Settings", alt: "Configuración", path: "/config" },
+];
