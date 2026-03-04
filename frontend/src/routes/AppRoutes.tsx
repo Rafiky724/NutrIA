@@ -19,6 +19,7 @@ import Home from "../pages/Home/Home";
 import Pantry from "../pages/Home/Pantry";
 import Diet from "../pages/Home/Diet";
 import Config from "../pages/Home/Config";
+import WeightUpdate from "../pages/Home/WeightUpdate";
 
 export default function AppRoutes() {
   return (
@@ -53,6 +54,7 @@ export default function AppRoutes() {
           <Route path="aboutMe" element={<AboutMe />} />
         </Route>
         <Route path="/nextDiet" element={<NextDiet />}></Route>
+        <Route path="/weightUpdate" element={<WeightUpdate />}></Route>
       </Route>
     </Routes>
   );
