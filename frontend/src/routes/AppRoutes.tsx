@@ -14,6 +14,11 @@ import LoadingPage from "../pages/Loading/Loading";
 import Register from "../pages/Auth/Register";
 import HomeLayout from "../pages/Home/HomeLayout";
 import NextDiet from "../pages/Home/NextDiet";
+import AboutMe from "../pages/Home/AboutMe";
+import Home from "../pages/Home/Home";
+import Pantry from "../pages/Home/Pantry";
+import Diet from "../pages/Home/Diet";
+import Config from "../pages/Home/Config";
 
 export default function AppRoutes() {
   return (
@@ -40,7 +45,13 @@ export default function AppRoutes() {
         <Route path="/weeklyMealPlan" element={<WeeklyMealPlan />}></Route>
         <Route path="/startDiet" element={<StartDiet />}></Route>
         <Route path="/updateDietDay" element={<UpdateDietDay />}></Route>
-        <Route path="/homeLayout" element={<HomeLayout />}></Route>
+        <Route path="/" element={<HomeLayout />}>
+          <Route path="home" element={<Home />} />
+          <Route path="pantry" element={<Pantry />} />
+          <Route path="diet" element={<Diet />} />
+          <Route path="config" element={<Config />} />
+          <Route path="aboutMe" element={<AboutMe />} />
+        </Route>
         <Route path="/nextDiet" element={<NextDiet />}></Route>
       </Route>
     </Routes>
