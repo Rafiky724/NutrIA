@@ -17,6 +17,7 @@ def user_dict(user) -> dict:
         "peso_actual": user["peso_actual"],
         "fecha_registro": user["fecha_registro"].date(),
         "gemas_acumuladas": user["gemas_acumuladas"],
+        "dias_racha": user["dias_racha"],
         #"ultimo_login": user["ultimo_login"],
         #"ultima_actualizacion_peso": user["ultima_actualizacion_peso"],
         #"activo": user["activo"],
@@ -54,6 +55,7 @@ class UserModel:
             #Despensa"ingredientes": data["ingredientes"],
 
             "gemas_acumuladas": 0,
+            "dias_racha": 0,
             "ultimo_login": None,
             "ultima_actualizacion_peso": None,
             "activo": True,
