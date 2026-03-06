@@ -64,7 +64,7 @@ export default function ModalEditIngredients({
           Editar ingredientes
         </h2>
 
-        <div className="w-2xl grid grid-cols-1 md:grid-cols-2 gap-6 mx-auto">
+        <div className="w-full md:w-2xl grid grid-cols-1 md:grid-cols-2 gap-6 mx-auto">
           <div>
             <h3 className="font-medium mb-2 text-brown text-center md:text-left">
               Ingredientes actuales
