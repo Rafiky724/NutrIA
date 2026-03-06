@@ -53,3 +53,9 @@ class UserTienePlanResponse(BaseModel):
 class UserProgressResponse(BaseModel):
     numero_racha: int
     cantidad_gemas: int
+
+class UserPesoResponse(BaseModel):
+    peso_actual: float
+
+class UserPesoUpdateRequest(BaseModel):
+    peso_actual: float
