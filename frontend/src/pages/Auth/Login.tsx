@@ -42,7 +42,7 @@ export default function Login() {
       const HasPlanResponse = await getHasPlan();
 
       if (HasPlanResponse.tiene_plan) {
-        navigate("/homeLayout", { replace: true });
+        navigate("/home", { replace: true });
       } else {
         navigate("/dietCreationReady", { replace: true });
       }
