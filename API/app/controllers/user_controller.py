@@ -108,3 +108,11 @@ class UserController:
         return {
             "tiene_plan": bool(user.get("tiene_plan", False))
         }
+    
+    @staticmethod
+    async def get_user_progress(current_user: dict):
+
+        return {
+            "numero_racha": current_user.get("dias_racha", 0),
+            "cantidad_gemas": current_user.get("gemas_acumuladas", 0)
+        }
