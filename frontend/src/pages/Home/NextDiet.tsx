@@ -1,10 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 
 export default function NextDiet() {
-  const navigate = useNavigate();
-
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
       <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
