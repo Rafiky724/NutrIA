@@ -49,8 +49,48 @@ export default function Pantry() {
         </div>
 
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
+          {/* DESPENSA ACTUAL */}
+          <div className=" flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-1/3 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
+            <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
+              Tu despensa actual
+            </h3>
+
+            {pantry.length === 0 && (
+              <p className="text-gray text-sm">
+                No tienes ingredientes agregados.
+              </p>
+            )}
+
+            {categories.map((cat) => {
+              const items = pantry.filter((i) => i.categoria === cat.nombre);
+              if (items.length === 0) return null;
+
+              return (
+                <div key={cat.nombre} className="p-2">
+                  <h4 className="ft-medium text-brown mb-3">{cat.nombre}</h4>
+                  <div className="flex flex-wrap gap-3">
+                    {items.map((ingredient) => (
+                      <button
+                        key={ingredient.nombre}
+                        onClick={() => toggleIngredient(ingredient)}
+                        className="bg-input px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md"
+                      >
+                        {ingredient.nombre}
+                        <img
+                          src={ingredient.icono}
+                          alt={ingredient.nombre}
+                          className="w-4 md:w-5 h-4 md:h-5"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
           {/* INGREDIENTES DISPONIBLES */}
-          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-1/3 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
+          <div className="flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-2/2 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
             <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
               Agregar nuevos ingredientes
             </h3>
@@ -99,46 +139,6 @@ export default function Pantry() {
                 Guardar
               </button>
             </div>
-          </div>
-
-          {/* DESPENSA ACTUAL */}
-          <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-2/2 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
-            <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
-              Tu despensa actual
-            </h3>
-
-            {pantry.length === 0 && (
-              <p className="text-gray text-sm">
-                No tienes ingredientes agregados.
-              </p>
-            )}
-
-            {categories.map((cat) => {
-              const items = pantry.filter((i) => i.categoria === cat.nombre);
-              if (items.length === 0) return null;
-
-              return (
-                <div key={cat.nombre} className="p-2">
-                  <h4 className="ft-medium text-brown mb-3">{cat.nombre}</h4>
-                  <div className="flex flex-wrap gap-3">
-                    {items.map((ingredient) => (
-                      <button
-                        key={ingredient.nombre}
-                        onClick={() => toggleIngredient(ingredient)}
-                        className="bg-input px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md"
-                      >
-                        {ingredient.nombre}
-                        <img
-                          src={ingredient.icono}
-                          alt={ingredient.nombre}
-                          className="w-4 md:w-5 h-4 md:h-5"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
