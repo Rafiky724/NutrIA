@@ -1,3 +1,6 @@
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
 from bson import ObjectId
 from fastapi import HTTPException
 from app.controllers.despensa_controller import DespensaController
@@ -132,7 +135,8 @@ class UserController:
 
             await db.users.update_one(
                 {"_id": user_id},
-                {"$set": {"peso_actual": nuevo_peso}}
+                {"$set": {"peso_actual": nuevo_peso,
+                "ultima_actualizacion_peso": datetime.now(ZoneInfo("America/Bogota"))}}
             )
         
         except Exception as e:
