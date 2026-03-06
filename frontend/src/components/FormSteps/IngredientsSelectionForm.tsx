@@ -95,28 +95,25 @@ export default function IngredientsSelectionForm({
 
   return (
     <div className="sm:px-6 md:px-10 text-center">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
-        <div className="w-12 sm:w-20">
+        <div className="w-12 sm:w-16">
           <img
             src="/SVG/IconsGeneral/BasketIcon.svg"
             alt="Cantidad de comidas"
             className="w-full h-auto"
           />
         </div>
-        <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
+        <div className="ft-bold text-lg md:text-xl text-brown text-center md:text-left">
           <h2>¿Qué alimentos quieres incluir en tu plan de comidas?</h2>
         </div>
       </div>
 
-      {/* Descripción */}
-      <p className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
+      <p className="ft-light text-justify text-gray my-3 md:my-5 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Marca los alimentos que tienes disponibles actualmente, que te gustan o
         que deseas que aparezcan en tu dieta. Puedes agregar otros.
       </p>
 
-      {/* Categoría + Botón Otro */}
-      <div className="relative flex items-center justify-center mb-4 w-full">
+      <div className="relative flex items-center justify-center mb-2 w-full">
         <h2 className="flex flex-col ft-bold text-brown text-base sm:text-lg md:text-xl">
           {category.nombre}{" "}
           <span className="text-gray ft-medium text-sm sm:text-base">
@@ -132,9 +129,8 @@ export default function IngredientsSelectionForm({
         </button>
       </div>
 
-      {/* Lista de Ingredientes */}
       <div className="relative w-2xs md:w-lg mb-2 mx-auto">
-        <div className="flex flex-wrap justify-center content-center gap-1 sm:gap-3 md:gap-4 h-30 md:h-50 overflow-y-auto mb-6 md:mb-8">
+        <div className="flex flex-wrap justify-center content-center gap-1 sm:gap-3 md:gap-4 h-40 md:h-50 overflow-y-auto mb-6 md:mb-8">
           {category.items.map((item, index) => {
             const isSelected = selectedIngredients.includes(item.nombre);
             return (
@@ -159,7 +155,6 @@ export default function IngredientsSelectionForm({
           })}
         </div>
 
-        {/* Navegación */}
         <ArrowNavigation
           onPrev={handlePrevCategory}
           onNext={handleNextCategory}
@@ -167,7 +162,6 @@ export default function IngredientsSelectionForm({
         />
       </div>
 
-      {/* Botón Continuar */}
       <div className="mt-2 w-full flex justify-center">
         <button
           type="button"
