@@ -38,3 +38,36 @@ class DespensaController:
         return {
             "ingredientes": ingredientes_formateados
         }
+    
+    @staticmethod
+    async def update_ingredientes_usuario(current_user: dict, data):
+
+        user_id = ObjectId(current_user["_id"])
+
+        despensa = await DespensaModel.get_despensa_usuario(user_id)
+
+        if not despensa:
+            raise HTTPException(
+                status_code=404,
+                detail="No se encontró la despensa del usuario"
+            )
+
+        ingredientes_db = []
+
+        for ingrediente in data.ingredientes:
+            ingredientes_db.append([
+                ingrediente['nombre']
+            ])
+
+        try:
+            await DespensaModel.update_ingredientes(user_id, ingredientes_db)
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error al actualizar la despensa: {str(e)}"
+            )
+
+        return {
+            "mensaje": "Despensa actualizada correctamente",
+            "ingredientes": data.ingredientes
+        }

@@ -25,3 +25,15 @@ class DespensaModel:
             {"id_usuario": user_id},
             {"ingredientes": 1}
         )
+    
+    @staticmethod
+    async def update_ingredientes(user_id: ObjectId, ingredientes):
+        return await db.despensas.update_one(
+            {"id_usuario": user_id},
+            {
+                "$set": {
+                    "ingredientes": ingredientes,
+                    "fecha_actualizacion": datetime.now(ZoneInfo("America/Bogota"))
+                }
+            }
+        )
