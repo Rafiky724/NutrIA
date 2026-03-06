@@ -100,7 +100,7 @@ export default function IngredientsSelectionForm({
           <img
             src="/SVG/IconsGeneral/BasketIcon.svg"
             alt="Cantidad de comidas"
-            className="w-full h-auto"
+            className="w-full h-auto hidden md:block"
           />
         </div>
         <div className="ft-bold text-lg md:text-xl text-brown text-center md:text-left">
@@ -130,7 +130,7 @@ export default function IngredientsSelectionForm({
       </div>
 
       <div className="relative w-2xs md:w-lg mb-2 mx-auto">
-        <div className="flex flex-wrap justify-center content-center gap-1 sm:gap-3 md:gap-4 h-40 md:h-50 overflow-y-auto mb-6 md:mb-8">
+        <div className="flex flex-wrap justify-center content-center gap-1 sm:gap-3 md:gap-4 h-50 overflow-y-auto mb-6 md:mb-8">
           {category.items.map((item, index) => {
             const isSelected = selectedIngredients.includes(item.nombre);
             return (
