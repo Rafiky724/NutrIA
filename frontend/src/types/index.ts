@@ -179,9 +179,8 @@ export interface HomeResponse {
 }
 
 export type EditFoodResponse = {
-  success: boolean;
-  mensaje: string;
-  comida?: MealData;
+  dia: DayPlan
+  opinion_ia: string
 };
 
 export type RegenerateDayResponse = {
