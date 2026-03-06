@@ -41,7 +41,7 @@ export function useDayPlan(
         };
 
         fetchDay();
-    }, [dayActive]);
+    }, [dayActive, setFoodActive]);
 
     const dish: MealData | null = dayPlan
         ? dayPlan.comidas.find((c) => c.tipo_comida === foodActive) || null
@@ -76,27 +76,28 @@ export function useDayPlan(
             setLoadingAction(true);
 
             const nameDay = dayActive.toLowerCase();
+
             const response = await DaysService.editFood(
                 nameDay,
                 dish.tipo_comida,
                 ingredientsFinals.map((ing) => ing.nombre)
             );
 
-            if (!response.success || !response.comida) {
-                throw new Error(response.mensaje || "No se pudo editar la comida");
+            if (!response.dia) {
+                throw new Error("No se pudo editar la comida");
             }
 
-            const foodEdited = response.comida;
-
-            const newDayPlan = {
-                ...dayPlan,
-                comidas: dayPlan.comidas.map((c) =>
-                    c.tipo_comida === dish.tipo_comida ? foodEdited : c
-                ),
+            const newDay = {
+                ...response.dia,
+                opinion_ia: response.opinion_ia
             };
 
-            setDayPlan(newDayPlan);
-            setCachedDays((prev) => ({ ...prev, [nameDay]: newDayPlan }));
+            setDayPlan(newDay);
+            setCachedDays((prev) => ({
+                ...prev,
+                [nameDay]: newDay
+            }));
+
         } catch (error) {
             console.error("Error editando ingredientes:", error);
         } finally {
