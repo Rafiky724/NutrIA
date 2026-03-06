@@ -49,7 +49,7 @@ export default function NextMealCard({ nextFood }: Props) {
               ))}
             </div>
 
-            <button className="mt-2 bg-yellow text-brown ft-medium py-2 px-2 rounded-2xl w-40 mx-auto text-sm">
+            <button className="mt-2 bg-yellow text-brown ft-medium py-2 px-2 rounded-4xl w-40 mx-auto text-sm hover:scale-105 transition cursor-pointer">
               Editar plato
             </button>
           </div>
