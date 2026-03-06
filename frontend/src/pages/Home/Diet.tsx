@@ -156,7 +156,7 @@ export default function Diet() {
               className="relative bg-yellow text-brown ft-medium py-2 rounded-full shadow hover:scale-105 transition text-xs md:text-md w-full md:w-2xs ml-0 md:ml-[65%] xl:ml-[80%] cursor-pointer"
             >
               Preparar próxima dieta
-              <div className="absolute top-3 right-3 w-4">
+              <div className="absolute top-2 right-3 w-4">
                 <img
                   src="/SVG/IconsGeneral/EditIcon.svg"
                   alt="Editar ingredientes"
