@@ -7,9 +7,7 @@ export const DaysService = {
     getDay: async (day: string): Promise<DayPlan> => {
         const token = localStorage.getItem("token");
 
-        if (!token) {
-            throw new Error("Usuario no autenticado");
-        }
+        if (!token) throw new Error("Usuario no autenticado");
 
         const { data } = await axiosClient.get<DayPlan>(
             DAYS_ENDPOINTS.BY_NAME(day),
@@ -30,9 +28,7 @@ export const DaysService = {
     ): Promise<EditFoodResponse> => {
         const token = localStorage.getItem("token");
 
-        if (!token) {
-            throw new Error("Usuario no autenticado");
-        }
+        if (!token) throw new Error("Usuario no autenticado");
 
         const body = { ingredientes: ingredients };
         try {
@@ -58,9 +54,7 @@ export const DaysService = {
     ): Promise<RegenerateDayResponse> => {
         const token = localStorage.getItem("token");
 
-        if (!token) {
-            throw new Error("Usuario no autenticado");
-        }
+        if (!token) throw new Error("Usuario no autenticado");
 
         const { data } = await axiosClient.post<RegenerateDayResponse>(
             DAYS_ENDPOINTS.REGENERATE_FOOD(day, typeFood),
