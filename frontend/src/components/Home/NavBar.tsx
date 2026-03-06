@@ -27,7 +27,7 @@ export default function NavBar({ user, title, subtitle }: Props) {
             <img
               src="/SVG/IconsGeneral/GemsIcon.svg"
               alt="Gemas"
-              className="w-4 md:w-6 h-4 md:h-6"
+              className="w-3 md:w-5 h-3 md:h-5"
             />
             <p className="ft-bold text-md md:text-2xl">
               {user?.cantidad_gemas}
