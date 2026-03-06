@@ -110,7 +110,7 @@ export default function Diet() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-center">
-          <div className="flex flex-col bg-white rounded-xl md:rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[650px] max-h-[1250px] overflow-y-auto mt-0 md:mt-5">
+          <div className="flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[650px] max-h-[1250px] overflow-y-auto mt-0 md:mt-5">
             <DaySelector
               days={days}
               dayActive={dayActive}
@@ -126,7 +126,7 @@ export default function Diet() {
                 />
 
                 {showOpinion && dayPlan.opinion_ia && (
-                  <div className="bg-yellow px-4 py-3 rounded-2xl text-brown text-left text-sm flex flex-col gap-2 max-h-40 overflow-y-auto">
+                  <div className="w-full md:w-50 xl:w-70 mx-auto h-auto bg-yellow px-4 py-3 rounded-2xl text-brown text-left text-sm flex flex-col gap-2 overflow-y-auto">
                     <div className="w-full bg-gray-300 h-2 rounded-full mt-2">
                       <div
                         className="bg-brown h-2 rounded-full transition-all"
