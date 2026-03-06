@@ -107,12 +107,12 @@ export default function WeightUpdate() {
             </h2>
           </div>
 
-          <p className="ft-light text-sm sm:text-base mb-4 text-left my-8">
+          <p className="ft-light text-sm sm:text-base mb-4 text-left my-0 md:my-8">
             Mantener tu peso al día nos ayuda a ajustar tu plan y seguir
             diseñando una dieta adaptada a tus objetivos.
           </p>
 
-          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto my-15">
+          <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto my-0 md:my-15">
             <div onClick={handleOpenModal} className="cursor-pointer">
               <div className="bg-input px-4 py-3 rounded-full flex items-center justify-between hover:scale-[1.02] transition">
                 <span className="text-brown ft-bold text-sm sm:text-base">
