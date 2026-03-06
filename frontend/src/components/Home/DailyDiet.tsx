@@ -1,7 +1,9 @@
-import type { Dispatch, SetStateAction } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
+import { categories as ingredientsAvailable } from "../../data/ingredients";
 import type { HomeResponse } from "../../types";
 import DonutChart from "../Decoration/DonutChart";
 import { getIngredientIcon } from "../../utils/ingredients";
+import ModalEditIngredients from "../Modals/ModalEditIngredients";
 
 type Props = {
   homeData: HomeResponse;
@@ -14,6 +16,13 @@ export default function DailyDiet({
   activeFoodIndex,
   setActiveFoodIndex,
 }: Props) {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleConfirmIngredients = (ingredients: any[]) => {
+    console.log("Ingredientes nuevos:", ingredients);
+    setShowModal(false);
+  };
+
   const food = homeData.dia_actual.comidas?.[activeFoodIndex];
 
   const macroPercentage = (value: number, total: number) => {
@@ -40,13 +49,12 @@ export default function DailyDiet({
       <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <h2 className="text-brown ft-bold text-lg">Dieta de hoy</h2>
 
-        {/* Opciones de horario */}
         <div className="flex flex-wrap md:flex-nowrap gap-3 overflow-x-auto text-xs justify-between">
           {homeData?.dia_actual?.comidas?.map((comida, idx) => (
             <button
               key={idx}
               onClick={() => setActiveFoodIndex(idx)}
-              className={`w-25 md:w-35 xl:w-[150px] rounded-2xl p-2 ft-medium ${
+              className={`w-25 md:w-35 xl:w-[150px] rounded-2xl p-2 ft-medium cursor-pointer ${
                 idx === activeFoodIndex
                   ? "bg-yellow text-brown"
                   : "bg-gray text-gray"
@@ -57,11 +65,9 @@ export default function DailyDiet({
           ))}
         </div>
 
-        {/* Bloques principales */}
         <div className="flex flex-col lg:flex-row gap-4">
-          {/* IZQUIERDA: Botón regenerar dieta */}
           <div className="flex flex-col w-[200px] md:w-2xs mx-auto text-xs">
-            <button className="relative bg-brown text-white py-2 rounded-3xl ft-medium shadow text-center cursor-pointer">
+            <button className="relative bg-brown text-white py-2 rounded-3xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition">
               Regenerar plato
               <div className="absolute top-2 right-5 w-4">
                 <img
@@ -72,9 +78,7 @@ export default function DailyDiet({
             </button>
           </div>
 
-          {/* DERECHA: Plato quemado */}
           <div className="lg:w-4/5 bg-input p-4 sm:p-6 rounded-2xl flex flex-col lg:flex-row gap-4 lg:gap-6">
-            {/* IZQUIERDA: Imagen + macros */}
             <div className="flex flex-col items-center w-full lg:w-2/4 gap-4 sm:gap-6">
               <div className="w-full object-cover">
                 <img
@@ -84,7 +88,6 @@ export default function DailyDiet({
                 />
               </div>
 
-              {/* Macros */}
               <div className="flex justify-between w-full text-brown ft-medium text-xs">
                 <div className="flex flex-col items-center text-center">
                   <span>
@@ -119,7 +122,6 @@ export default function DailyDiet({
               />
             </div>
 
-            {/* Ingredientes */}
             <div className="flex flex-col w-full lg:w-2/3 gap-4 text-xs">
               <div className="flex justify-between items-center">
                 <h2 className="text-md md:text-lg ft-bold text-brown">
@@ -131,7 +133,6 @@ export default function DailyDiet({
               </div>
 
               <div className="flex flex-col">
-                {/* Listado de ingredientes */}
                 <div className="flex flex-col gap-1 overflow-y-auto min-h-[180px] h-[220px] max-h-[220px]">
                   {food?.ingredientes.map((ing, idx) => (
                     <div
@@ -158,7 +159,10 @@ export default function DailyDiet({
                 </div>
 
                 <div className="flex flex-col gap-3 mt-4 md:mt-8 w-[200px] md:w-2xs mx-auto">
-                  <button className="relative bg-yellow text-brown py-2 rounded-3xl ft-medium shadow text-center cursor-pointer">
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="relative bg-yellow text-brown py-2 rounded-4xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition"
+                  >
                     Editar ingredientes
                     <div className="absolute top-2 md:top-2 right-4 md:right-5 w-4">
                       <img src="/SVG/IconsGeneral/EditIcon.svg" alt="Editar" />
@@ -169,6 +173,14 @@ export default function DailyDiet({
             </div>
           </div>
         </div>
+
+        <ModalEditIngredients
+          isOpen={showModal}
+          currentIngredients={food.ingredientes}
+          ingredientsAvailable={ingredientsAvailable}
+          onClose={() => setShowModal(false)}
+          onConfirm={handleConfirmIngredients}
+        />
       </div>
     </>
   );
