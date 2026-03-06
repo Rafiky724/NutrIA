@@ -40,7 +40,6 @@ export default function WeeklyMealPlan() {
 
   const handleStartDiet = () => navigate("/startDiet");
 
-  // Loading
   if (!dish || !dayPlan || loadingAction) {
     return (
       <LoadingScreen
@@ -66,7 +65,6 @@ export default function WeeklyMealPlan() {
           />
 
           <div className="flex flex-1 flex-col lg:flex-row gap-6">
-            {/* Columna izquierda: Dropdown + Opinión IA */}
             <div className="flex flex-col w-full lg:w-64">
               <MealDropdown
                 dayPlan={dayPlan}
@@ -90,7 +88,6 @@ export default function WeeklyMealPlan() {
               )}
             </div>
 
-            {/* Columna derecha: DishCard */}
             <div className="flex-4">
               <DishCard
                 dish={dish}
@@ -101,7 +98,6 @@ export default function WeeklyMealPlan() {
             </div>
           </div>
 
-          {/* Botón */}
           <button
             onClick={handleStartDiet}
             className="w-full sm:w-sm bg-yellow mt-6 text-brown font-semibold py-2 rounded-full shadow text-md cursor-pointer hover:scale-105 transition"
@@ -119,7 +115,6 @@ export default function WeeklyMealPlan() {
           <FruitRight />
         </div>
 
-        {/* MODAL */}
         <ModalEditIngredients
           isOpen={showModal}
           currentIngredients={dish.ingredientes}
