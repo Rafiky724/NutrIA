@@ -1,5 +1,7 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from app.core.database import db
+from bson import ObjectId
 
 class PlanModel:
 
@@ -25,3 +27,23 @@ class PlanModel:
             "activo": True
 
         }
+    
+    async def get_plan_by_user_id(user_id: ObjectId) -> dict:
+
+        plan = await db.planes.find_one(
+            {"id_usuario": user_id, "activo": True},
+            {"_id": 0}
+        )
+        return plan
+
+    @staticmethod
+    async def actualizar_tipo_dieta(user_id: ObjectId, tipo_dieta, presupuesto):
+        return await db.planes.update_one(
+            {"id_usuario": user_id},
+            {
+                "$set": {
+                    "tipo_dieta": tipo_dieta,
+                    "presupuesto_semanal": presupuesto
+                }
+            }
+        )

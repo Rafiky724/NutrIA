@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 
 class PlanMacrosResponse(BaseModel):
@@ -10,3 +10,7 @@ class PlanMacrosResponse(BaseModel):
 class UserDiaActualizarResponse(BaseModel):
     es_dia_actualizar_dieta: bool
     mensaje_actualizacion: Optional[str] = None
+
+class CambiarTipoDietaRequest(BaseModel):
+    tipo_dieta: str = Field(..., pattern="^(Disponible|Presupuesto)$")
+    presupuesto_semanal: Optional[float] = None
