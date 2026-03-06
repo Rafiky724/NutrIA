@@ -14,3 +14,6 @@ class UserDiaActualizarResponse(BaseModel):
 class CambiarTipoDietaRequest(BaseModel):
     tipo_dieta: str = Field(..., pattern="^(Disponible|Presupuesto)$")
     presupuesto_semanal: Optional[float] = None
+
+class CambiarDiaActualizarRequest(BaseModel):
+    dia_actualizar_dieta: str = Field(..., pattern="^(lunes|martes|miercoles|jueves|viernes|sabado|domingo)$")

@@ -137,3 +137,40 @@ class PlanController:
             "tipo_dieta": tipo_dieta,
             "presupuesto_semanal": presupuesto
         }
+    
+
+    @staticmethod
+    async def cambiar_dia_actualizar(current_user: dict, data: dict):
+
+        user_id = ObjectId(current_user["_id"])
+    
+        plan = await PlanModel.get_plan_by_user_id(user_id)
+
+        if not plan:
+            raise HTTPException(
+                status_code=404,
+                detail="El usuario no tiene un plan activo"
+            )
+
+        dia_actualizar = data.dia_actualizar_dieta
+
+        if dia_actualizar not in PlanController.dias:
+            raise HTTPException(
+                status_code=400,
+                detail="El día a actualizar debe ser un día válido de la semana"
+            )
+
+        try:
+
+            await PlanModel.actualizar_dia_actualizar_dieta(user_id, dia_actualizar)
+
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail="Error al actualizar el día de actualización de dieta"
+            )
+
+        return {
+            "mensaje": "Día de actualización de dieta actualizado correctamente",
+            "dia_actualizar_dieta": dia_actualizar
+        }

@@ -22,6 +22,6 @@ async def get_user_progress(current_user: dict = Depends(get_current_user)):
 async def get_user_peso(current_user: dict = Depends(get_current_user)):
     return await UserController.get_user_peso(current_user)
 
-@router.post("/update-peso")
+@router.post("/actualizar_peso")
 async def update_user_peso(peso: UserPesoUpdateRequest, current_user: dict = Depends(get_current_user)):
     return await UserController.update_user_peso(current_user, nuevo_peso=peso.peso_actual)

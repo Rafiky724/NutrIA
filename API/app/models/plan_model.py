@@ -47,3 +47,14 @@ class PlanModel:
                 }
             }
         )
+    
+    @staticmethod
+    async def actualizar_dia_actualizar_dieta(user_id: ObjectId, dia_actualizar):
+        return await db.planes.update_one(
+            {"id_usuario": user_id},
+            {
+                "$set": {
+                    "dia_actualizar_dieta": dia_actualizar
+                }
+            }
+        )
