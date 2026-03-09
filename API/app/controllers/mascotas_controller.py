@@ -7,6 +7,15 @@ from app.models.mascota_model import MascotaModel
 
 class MascotasController:
 
+    categorias_validas = [
+        "mascotas",
+        "gafas",
+        "gorras",
+        "marcos",
+        "fondos",
+        "accesorios"
+    ]
+
     @staticmethod
     async def crear_mascota_usuario(current_user: dict, data):
 
@@ -193,4 +202,89 @@ class MascotasController:
         return {
             "mascota_actual": mascota_actual,
             "mascotas_tienda": mascotas_tienda
+        }
+
+    @staticmethod
+    async def get_items_categoria(categoria: str, current_user: dict):
+
+        if categoria not in MascotasController.categorias_validas:
+            raise HTTPException(
+                status_code=400,
+                detail="Categoría inválida"
+            )
+
+        user_id = ObjectId(current_user["_id"])
+
+        tienda = await MascotaModel.get_tienda()
+
+        if not tienda:
+            raise HTTPException(
+                status_code=404,
+                detail="La tienda no existe"
+            )
+
+        mascotas_usuario = await MascotaModel.get_mascotas_usuario(user_id)
+
+        if not mascotas_usuario:
+            raise HTTPException(
+                status_code=404,
+                detail="El usuario no tiene mascota creada"
+            )
+
+        inventario = mascotas_usuario["inventario"]
+
+        mascota_activa_tipo = mascotas_usuario["mascota_activa"]
+
+        mascota_activa = None
+
+        for mascota in mascotas_usuario["mascotas"]:
+            if mascota["tipo"] == mascota_activa_tipo:
+                mascota_activa = mascota
+                break
+
+        items = []
+
+        if categoria == "mascotas":
+
+            mascotas_compradas = [m["tipo"] for m in mascotas_usuario["mascotas"]]
+
+            for item in tienda["mascotas"]:
+
+                comprado = item["id"] in mascotas_compradas
+                equipado = item["id"] == mascota_activa_tipo
+
+                items.append({
+                    "id": item["id"],
+                    "imagen": item["imagen"],
+                    "precio_gemas": item["precio_gemas"],
+                    "comprado": comprado,
+                    "equipado": equipado
+                })
+
+        else:
+
+            items_catalogo = tienda[categoria]
+
+            items_usuario = inventario.get(categoria, [])
+
+            campo_equipado = f"{categoria[:-1]}_puesto"
+
+            item_equipado = mascota_activa.get(campo_equipado)
+
+            for item in items_catalogo:
+
+                comprado = item["id"] in items_usuario
+                equipado = item["id"] == item_equipado
+
+                items.append({
+                    "id": item["id"],
+                    "imagen": item["imagen"],
+                    "precio_gemas": item["precio_gemas"],
+                    "comprado": comprado,
+                    "equipado": equipado
+                })
+
+        return {
+            "categoria": categoria,
+            "items": items
         }
