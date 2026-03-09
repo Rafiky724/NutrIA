@@ -3,7 +3,7 @@ from datetime import datetime
 from app.core.database import db
 
 
-class MascotaUsuarioModel:
+class MascotaModel:
 
     @staticmethod
     async def get_mascota_usuario(user_id: ObjectId):
@@ -22,3 +22,7 @@ class MascotaUsuarioModel:
     @staticmethod
     async def crear_tienda(data: dict):
         return await db.tienda.insert_one(data)
+    
+    @staticmethod
+    async def get_mascotas_usuario(user_id: ObjectId):
+        return await db.mascotas_usuarios.find_one({"id_usuario": user_id})

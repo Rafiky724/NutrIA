@@ -13,3 +13,7 @@ async def crear_mascota_usuario(data: CrearMascotaRequest, current_user: dict = 
 @router.post("/init")
 async def inicializar_tienda():
     return await MascotasController.crear_tienda()
+
+@router.get("/tienda")
+async def get_tienda_mascotas(current_user: dict = Depends(get_current_user)):
+    return await MascotasController.get_tienda_mascotas(current_user)

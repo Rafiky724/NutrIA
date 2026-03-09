@@ -3,7 +3,7 @@ from zoneinfo import ZoneInfo
 from bson import ObjectId
 from fastapi import HTTPException
 from datetime import datetime
-from app.models.mascota_model import MascotaUsuarioModel
+from app.models.mascota_model import MascotaModel
 
 class MascotasController:
 
@@ -12,7 +12,7 @@ class MascotasController:
 
         user_id = ObjectId(current_user["_id"])
 
-        mascota_usuario = await MascotaUsuarioModel.get_mascota_usuario(user_id)
+        mascota_usuario = await MascotaModel.get_mascota_usuario(user_id)
 
         if mascota_usuario:
             raise HTTPException(
@@ -60,7 +60,7 @@ class MascotasController:
         }
 
         try:
-            await MascotaUsuarioModel.crear_mascota_usuario(mascota_documento)
+            await MascotaModel.crear_mascota_usuario(mascota_documento)
 
         except Exception as e:
             raise HTTPException(
@@ -75,7 +75,7 @@ class MascotasController:
 
     async def crear_tienda():
 
-        tienda_existente = await MascotaUsuarioModel.get_tienda()
+        tienda_existente = await MascotaModel.get_tienda()
 
         if tienda_existente:
             raise HTTPException(
@@ -133,8 +133,64 @@ class MascotasController:
             "accesorios": generar_items("accesorio", 40)
         }
 
-        await MascotaUsuarioModel.crear_tienda(tienda_documento)
+        await MascotaModel.crear_tienda(tienda_documento)
 
         return {
             "mensaje": "Tienda creada correctamente"
+        }
+    
+    @staticmethod
+    async def get_tienda_mascotas(current_user: dict):
+
+        user_id = ObjectId(current_user["_id"])
+
+        tienda = await MascotaModel.get_tienda()
+
+        if not tienda:
+            raise HTTPException(
+                status_code=404,
+                detail="La tienda no está inicializada"
+            )
+
+        mascotas_usuario = await MascotaModel.get_mascotas_usuario(user_id)
+
+        if not mascotas_usuario:
+            raise HTTPException(
+                status_code=404,
+                detail="El usuario no tiene mascota creada"
+            )
+
+        #user = await UserModel.get_gemas(user_id)
+
+        #gemas = user.get("cantidad_gemas", 0)
+
+        mascota_activa_tipo = mascotas_usuario["mascota_activa"]
+
+        mascota_actual = None
+        mascotas_compradas = []
+
+        for mascota in mascotas_usuario["mascotas"]:
+            mascotas_compradas.append(mascota["tipo"])
+
+            if mascota["tipo"] == mascota_activa_tipo:
+                mascota_actual = mascota
+
+        mascotas_tienda = []
+
+        for mascota in tienda["mascotas"]:
+
+            comprado = mascota["id"] in mascotas_compradas
+            equipado = mascota["id"] == mascota_activa_tipo
+
+            mascotas_tienda.append({
+                "id": mascota["id"],
+                "imagen": mascota["imagen"],
+                "precio_gemas": mascota["precio_gemas"],
+                "comprado": comprado,
+                "equipado": equipado
+            })
+
+        return {
+            "mascota_actual": mascota_actual,
+            "mascotas_tienda": mascotas_tienda
         }
