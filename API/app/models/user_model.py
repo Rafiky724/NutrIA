@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
 from bson import ObjectId
+from app.core.database import db
 
 def user_dict(user) -> dict:
 
@@ -63,3 +64,18 @@ class UserModel:
             "id_plan": None,
 
         }
+    
+    @staticmethod
+    async def actualizar_gemas(user_id: ObjectId, gemas, session=None):
+        """Update the user's gem count. If a MongoDB session is provided,
+        the operation will be executed within that session (useful for
+        transactions).
+        """
+        kwargs = {}
+        if session is not None:
+            kwargs["session"] = session
+        return await db.users.update_one(
+            {"_id": user_id},
+            {"$set": {"gemas_acumuladas": gemas}},
+            **kwargs
+        )

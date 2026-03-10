@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.controllers.mascotas_controller import MascotasController
-from app.schemas.mascotas import CrearMascotaRequest
+from app.schemas.mascotas import ComprarItemRequest, CrearMascotaRequest
 from app.core.auth import get_current_user
 
 router = APIRouter(prefix="/mascotas", tags=["Mascotas"])
@@ -22,3 +22,7 @@ async def get_tienda_mascotas(current_user: dict = Depends(get_current_user)):
 @router.get("/{categoria}")
 async def get_items_categoria(categoria: str,current_user: dict = Depends(get_current_user)):
     return await MascotasController.get_items_categoria(categoria, current_user)
+
+@router.post("/comprar_item")
+async def comprar_o_equipar_item(data: ComprarItemRequest, current_user: dict = Depends(get_current_user)):
+    return await MascotasController.comprar_o_equipar(data, current_user)

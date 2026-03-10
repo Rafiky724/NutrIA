@@ -1,9 +1,10 @@
 from zoneinfo import ZoneInfo
-
 from bson import ObjectId
 from fastapi import HTTPException
 from datetime import datetime
 from app.models.mascota_model import MascotaModel
+from app.models.user_model import UserModel
+from app.core.database import db
 
 class MascotasController:
 
@@ -48,8 +49,8 @@ class MascotasController:
 
                     "estado": "feliz",
 
-                    "gafas_puestas": None,
-                    "gorra_puesta": None,
+                    "gafa_puesto": None,
+                    "gorra_puesto": None,
                     "marco_puesto": None,
                     "fondo_puesto": None,
                     "accesorio_puesto": None
@@ -287,4 +288,152 @@ class MascotasController:
         return {
             "categoria": categoria,
             "items": items
+        }
+    
+    @staticmethod
+    async def comprar_o_equipar(data, current_user):
+
+        user_id = ObjectId(current_user["_id"])
+
+        tienda = await MascotaModel.get_tienda()
+        usuario_mascotas = await MascotaModel.get_mascotas_usuario(user_id)
+        #user = await UserModel.get_user(user_id)
+
+        if not tienda or not usuario_mascotas:
+            raise HTTPException(status_code=404, detail="Datos no encontrados")
+
+        gemas_usuario = current_user.get("gemas_acumuladas", 0)
+        original_gemas = gemas_usuario  # preserve to know if we need to update later
+        #print("Gemas usuario:", gemas_usuario)
+
+        #return{200: "OK"}
+
+        categoria = data.categoria
+        item_id = data.item_id
+
+        # -------- Search item on the shop --------
+
+        if categoria == "mascotas":
+            try:
+                items_catalogo = tienda["mascotas"]
+            except KeyError:
+                raise HTTPException(status_code=400, detail="Categoría inválida")
+        else:
+            try:
+                items_catalogo = tienda[categoria]
+            except KeyError:
+                raise HTTPException(status_code=400, detail="Categoría inválida")
+
+        item_catalogo = next(
+            (i for i in items_catalogo if i["id"] == item_id),
+            None
+        )
+
+        if not item_catalogo:
+            raise HTTPException(status_code=404, detail="Artículo no encontrado")
+
+        precio = item_catalogo["precio_gemas"]
+
+        mascota_activa_tipo = usuario_mascotas["mascota_activa"]
+
+        mascota_activa = None
+
+        for mascota in usuario_mascotas["mascotas"]:
+            if mascota["tipo"] == mascota_activa_tipo:
+                mascota_activa = mascota
+                break
+
+        inventario = usuario_mascotas["inventario"]
+
+        # --------- Pep ---------
+
+        if categoria == "mascotas":
+
+            mascotas_usuario = [m["tipo"] for m in usuario_mascotas["mascotas"]]
+
+            if item_id not in mascotas_usuario:
+
+                if gemas_usuario < precio:
+                    raise HTTPException(status_code=400, detail="No tienes gemas suficientes")
+
+                if not data.nombre_mascota:
+                    raise HTTPException(status_code=400, detail="Debes enviar nombre para la mascota")
+
+                nueva_mascota = {
+                    "tipo": item_id,
+                    "nombre": data.nombre_mascota,
+                    "estado": "feliz",
+                    "gafa_puesto": None,
+                    "gorra_puesto": None,
+                    "marco_puesto": None,
+                    "fondo_puesto": None,
+                    "accesorio_puesto": None
+                }
+
+                usuario_mascotas["mascotas"].append(nueva_mascota)
+
+                gemas_usuario -= precio
+
+                #await UserModel.actualizar_gemas(user_id, gemas_usuario)
+
+            usuario_mascotas["mascota_activa"] = item_id
+
+        # --------- Item ---------
+
+        else:
+
+            items_usuario = inventario.get(categoria, [])
+
+            if item_id not in items_usuario:
+
+                if gemas_usuario < precio:
+                    raise HTTPException(status_code=400, detail="No tienes gemas suficientes")
+
+                inventario[categoria].append(item_id)
+
+                gemas_usuario -= precio
+
+                #await UserModel.actualizar_gemas(user_id, gemas_usuario)
+
+            campo = f"{categoria[:-1]}_puesto"
+
+            if mascota_activa[campo] == item_id:
+                mascota_activa[campo] = None
+            else:
+                mascota_activa[campo] = item_id
+
+        # Session rollback
+
+        try:
+            session = await db.client.start_session()
+            async with session:
+                async with session.start_transaction():
+                    # solo actualizamos gemas si hubo un gasto real
+                    if gemas_usuario != original_gemas:
+                        await UserModel.actualizar_gemas(user_id, gemas_usuario, session=session)
+
+                    await MascotaModel.actualizar_mascota_usuario(
+                        user_id,
+                        {
+                            "mascotas": usuario_mascotas["mascotas"],
+                            "inventario": inventario,
+                            "mascota_activa": usuario_mascotas["mascota_activa"]
+                        },
+                        session=session,
+                    )
+        except Exception as e:
+            # Si algo falla durante la transacción, FastAPI elevará un HTTPException
+            # y no habrá cambios persistidos.
+            raise HTTPException(status_code=500, detail="Error aplicando el artículo")
+
+        # buscar nuevamente mascota activa
+        mascota_final = next(
+            (m for m in usuario_mascotas["mascotas"] if m["tipo"] == usuario_mascotas["mascota_activa"]),
+            None
+        )
+
+        return {
+            "mensaje": "Artículo aplicado correctamente",
+            "mascota_actual": mascota_final,
+            "gemas_restantes": gemas_usuario
         }
