@@ -28,50 +28,64 @@ export default function MainMenu({ onNavigate, onLogout, options }: Props) {
   const menuOptions = options || defaultOptions;
 
   return (
-    <div className="flex flex-col gap-2">
-      {menuOptions.map((option, index) => {
-        if (option.link) {
-          return (
-            <Link
-              key={index}
-              to={option.link}
-              className="w-full rounded-2xl bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between cursor-pointer"
-            >
-              <h4 className="ft-light text-xs sm:text-md xl:text-lg">
-                {option.label}
-              </h4>
-              <img
-                src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
-                alt="arrow"
-                className="w-4 h-4 sm:w-5 sm:h-5"
-              />
-            </Link>
-          );
-        }
-
-        return (
-          <button
-            key={index}
-            onClick={() =>
-              option.onClick
-                ? option.onClick()
-                : option.view
-                  ? onNavigate(option.view)
-                  : undefined
+    <>
+      <div className="flex flex-col md:flex-row items-center gap-6 w-full md:justify-around xl:justify-center xl:gap-20 xl:mt-15">
+        <div className="bg-white rounded-4xl shadow-lg p-6 sm:p-8 w-2xs md:w-md xl:w-lg flex flex-col gap-2 ml-10 md:ml-0 h-130">
+          {menuOptions.map((option, index) => {
+            if (option.link) {
+              return (
+                <Link
+                  key={index}
+                  to={option.link}
+                  className="w-full rounded-2xl bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between cursor-pointer"
+                >
+                  <h4 className="ft-light text-xs sm:text-md xl:text-lg">
+                    {option.label}
+                  </h4>
+                  <img
+                    src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
+                    alt="arrow"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
+                  />
+                </Link>
+              );
             }
-            className="w-full rounded-2xl bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between cursor-pointer"
-          >
-            <h4 className="ft-light text-xs sm:text-md xl:text-lg">
-              {option.label}
-            </h4>
-            <img
-              src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
-              alt="arrow"
-              className="w-4 h-4 sm:w-5 sm:h-5"
+
+            return (
+              <button
+                key={index}
+                onClick={() =>
+                  option.onClick
+                    ? option.onClick()
+                    : option.view
+                      ? onNavigate(option.view)
+                      : undefined
+                }
+                className="w-full rounded-2xl bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between cursor-pointer"
+              >
+                <h4 className="ft-light text-xs sm:text-md xl:text-lg">
+                  {option.label}
+                </h4>
+                <img
+                  src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
+                  alt="arrow"
+                  className="w-4 h-4 sm:w-5 sm:h-5"
+                />
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="hidden sm:block">
+          <div className="w-lg xl:w-2xl flex flex-col items-center">
+            <object
+              type="image/svg+xml"
+              data="/Background/NutriaConfig.svg"
+              className="w-full h-auto"
             />
-          </button>
-        );
-      })}
-    </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
