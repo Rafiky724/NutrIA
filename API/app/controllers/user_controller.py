@@ -1,3 +1,6 @@
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
 from bson import ObjectId
 from fastapi import HTTPException
 from app.controllers.despensa_controller import DespensaController
@@ -108,3 +111,38 @@ class UserController:
         return {
             "tiene_plan": bool(user.get("tiene_plan", False))
         }
+    
+    @staticmethod
+    async def get_user_progress(current_user: dict):
+
+        return {
+            "numero_racha": current_user.get("dias_racha", 0),
+            "cantidad_gemas": current_user.get("gemas_acumuladas", 0)
+        }
+    
+    @staticmethod
+    async def get_user_peso(current_user: dict):
+
+        return {
+            "peso_actual": current_user.get("peso_actual", 0.0)
+        }
+    
+    @staticmethod
+    async def update_user_peso(current_user: dict, nuevo_peso: float):
+        user_id = ObjectId(current_user["_id"])
+
+        try:
+
+            await db.users.update_one(
+                {"_id": user_id},
+                {"$set": {"peso_actual": nuevo_peso,
+                "ultima_actualizacion_peso": datetime.now(ZoneInfo("America/Bogota"))}}
+            )
+        
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail="Error al actualizar el peso del usuario"
+            )
+
+        return {"message": "Peso actualizado correctamente"}

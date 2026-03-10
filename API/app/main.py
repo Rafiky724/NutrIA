@@ -6,6 +6,9 @@ from app.routes.dias_routes import router as dias_router
 from app.routes.objetivo_routes import router as objetivo_router
 from app.routes.user_routes import router as user_router
 from app.routes.home_routes import router as home_router
+from app.routes.comidas_routes import router as comidas_router
+from app.routes.despensa_routes import router as despensa_router
+from app.routes.mascotas_routes import router as mascotas_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -31,6 +34,9 @@ app.include_router(dias_router)
 app.include_router(objetivo_router)
 app.include_router(user_router)
 app.include_router(home_router)
+app.include_router(comidas_router)
+app.include_router(despensa_router)
+app.include_router(mascotas_router)
 
 @app.get("/")
 async def read_root():

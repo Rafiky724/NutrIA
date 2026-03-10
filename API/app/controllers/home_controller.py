@@ -32,7 +32,7 @@ class HomeController:
 
             "nombre": current_user["apodo"],
             "cantidad_gemas": current_user.get("gemas_acumuladas", 0),
-            "numero_racha": 0  # Work in progress
+            "numero_racha": current_user.get("dias_racha", 0)
         }
 
         estado = await db.estados_dia.find_one({
@@ -57,14 +57,33 @@ class HomeController:
         if estado["fecha"] != hoy:
             fecha = date.fromisoformat(estado["fecha"])
 
-            return {
-                "usuario": usuario,
-                "hay_dieta_hoy": False,
-                "mensaje": f"No existe un plan alimenticio para hoy. Tu dieta inicia el {fecha.day} de {HomeController.meses[fecha.month -1]} de {fecha.year}.",
-                "macros_consumidos_hoy": None,
-                "proxima_comida": None,
-                "dia_actual": None
-            }
+            existe = await db.estados_dia.find_one({
+            
+                "user_id": user_id,
+                #"fecha": hoy
+                "activo": False  # Work in progress
+
+            })
+
+            if existe:
+
+                return {
+                    "usuario": usuario,
+                    "hay_dieta_hoy": False,
+                    "mensaje": "Felicidades, ya has completado tu dieta para hoy. Mantén la racha y no olvides iniciar tu dieta mañana.",
+                    "macros_consumidos_hoy": None,
+                    "proxima_comida": None,
+                    "dia_actual": None
+                }
+            else:
+                return {
+                    "usuario": usuario,
+                    "hay_dieta_hoy": False,
+                    "mensaje": f"No existe un plan alimenticio para hoy. Tu dieta inicia el {fecha.day} de {HomeController.meses[fecha.month -1]} de {fecha.year}.",
+                    "macros_consumidos_hoy": None,
+                    "proxima_comida": None,
+                    "dia_actual": None
+                }
 
         macros_consumidos = estado["macros_consumidos"]
         macros_consumidos["calorias_objetivo"] = plan["calorias_diarias"]
