@@ -59,6 +59,7 @@ export const achievementsData = [
         total: 10,
         gems: 5,
         icon: "/SVG/IconsGeneral/GemsIcon.svg",
+        color: "#FF6B6B",
     },
     {
         title: "Completa 10 comidas",
@@ -66,6 +67,7 @@ export const achievementsData = [
         total: 10,
         gems: 10,
         icon: "/SVG/IconsGeneral/GemsIcon.svg",
+        color: "#6BCB77",
     },
     {
         title: "Valida 10 comidas",
@@ -73,7 +75,7 @@ export const achievementsData = [
         total: 10,
         gems: 8,
         icon: "/SVG/IconsGeneral/GemsIcon.svg",
-        color: "#1224558",
+        color: "#4D96FF",
     },
     {
         title: "Gana 100 gemas",
@@ -81,6 +83,7 @@ export const achievementsData = [
         total: 10,
         gems: 3,
         icon: "/SVG/IconsGeneral/GemsIcon.svg",
+        color: "#FFD93D",
     },
     {
         title: "Compra 2 artículos",
@@ -88,5 +91,6 @@ export const achievementsData = [
         total: 10,
         gems: 7,
         icon: "/SVG/IconsGeneral/GemsIcon.svg",
+        color: "#FF6EC7",
     },
 ];
