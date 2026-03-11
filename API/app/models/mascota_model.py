@@ -26,3 +26,17 @@ class MascotaModel:
     @staticmethod
     async def get_mascotas_usuario(user_id: ObjectId):
         return await db.mascotas_usuarios.find_one({"id_usuario": user_id})
+    
+    @staticmethod
+    async def actualizar_mascota_usuario(user_id: ObjectId, data, session=None):
+        """Update the document for a user's pets. Accepts an optional MongoDB
+        session to participate in transactions.
+        """
+        kwargs = {}
+        if session is not None:
+            kwargs["session"] = session
+        return await db.mascotas_usuarios.update_one(
+            {"id_usuario": user_id},
+            {"$set": data},
+            **kwargs
+        )
