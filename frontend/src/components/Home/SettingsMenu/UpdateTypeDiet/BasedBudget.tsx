@@ -7,6 +7,8 @@ import {
   cambiarTipoDieta,
   type CambiarTipoDietaRequest,
 } from "../../../../services/planService";
+import FruitLeft from "../../../Decoration/FruitLeft";
+import FruitRight from "../../../Decoration/FruitRight";
 
 export default function BasedBudget() {
   const navigate = useNavigate();
@@ -92,6 +94,15 @@ export default function BasedBudget() {
               <ArrowReturn to="/updateTypeDiet" />
             </div>
           </div>
+        </div>
+
+        {/* Decorations */}
+        <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
+          <FruitLeft />
+        </div>
+
+        <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
+          <FruitRight />
         </div>
       </div>
     </div>

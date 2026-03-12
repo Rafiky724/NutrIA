@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import ArrowReturn from "../../../Decoration/ArrowReturn";
 import { cambiarTipoDieta } from "../../../../services/planService";
+import FruitLeft from "../../../Decoration/FruitLeft";
+import FruitRight from "../../../Decoration/FruitRight";
 
 export default function UpdateTypeDiet() {
   const navigate = useNavigate();
@@ -73,6 +75,15 @@ export default function UpdateTypeDiet() {
               <ArrowReturn to="/Config" />
             </div>
           </div>
+        </div>
+
+        {/* Decorations */}
+        <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
+          <FruitLeft />
+        </div>
+
+        <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
+          <FruitRight />
         </div>
       </div>
     </div>
