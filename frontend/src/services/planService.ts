@@ -79,3 +79,35 @@ export const cambiarTipoDieta = async (
 
     return data;
 };
+
+export interface CambiarDiaActualizarRequest {
+    dia_actualizar_dieta: string;
+}
+
+export interface CambiarDiaActualizarResponse {
+    mensaje: string;
+    dia_actualizar_dieta: string;
+}
+
+export const cambiarDiaActualizar = async (
+    payload: CambiarDiaActualizarRequest
+): Promise<CambiarDiaActualizarResponse> => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("Usuario no autenticado");
+    }
+
+    const { data } = await axiosClient.post<CambiarDiaActualizarResponse>(
+        PLAN_ENDPOINTS.CAMBIAR_DIA_ACTUALIZAR,
+        payload,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        }
+    );
+
+    return data;
+};
