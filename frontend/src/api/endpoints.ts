@@ -43,4 +43,5 @@ export const HOME_ENDPOINTS = {
 
 export const DESPENSA_ENDPOINTS = {
   GET_INGREDIENTES: "/despensa/ingredientes",
+  ACTUALIZAR_INGREDIENTES: "/despensa/actualizar_ingredientes",
 } as const;
