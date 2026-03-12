@@ -5,7 +5,8 @@ from bson import ObjectId
 from fastapi import HTTPException
 from app.controllers.despensa_controller import DespensaController
 from app.controllers.plan_controller import PlanController
-from app.schemas.user import UserCreate, UserResponse, UserLogin
+from app.models.mascota_model import MascotaModel
+from app.schemas.user import EditarPerfilRequest, UserCreate, UserResponse, UserLogin
 from app.core.database import db
 from app.core.security import hash_password, verify_password
 from app.models.user_model import UserModel, user_dict
@@ -146,3 +147,104 @@ class UserController:
             )
 
         return {"message": "Peso actualizado correctamente"}
+    
+    @staticmethod
+    async def get_perfil_usuario(current_user: dict):
+
+        user_id = ObjectId(current_user["_id"])
+
+        user = await UserModel.get_usuario_por_id(user_id)
+
+        mascotas_usuario = await MascotaModel.get_mascotas_usuario(user_id)
+
+        mascota_activa = None
+
+        if mascotas_usuario:
+
+            tipo_activa = mascotas_usuario["mascota_activa"]
+
+            mascota_activa = next(
+                (m for m in mascotas_usuario["mascotas"] if m["tipo"] == tipo_activa),
+                None
+            )
+
+        return {
+
+            "nombre": user.get("nombre_completo"),
+            "apodo": user.get("apodo"),
+            "correo": user.get("email"),
+            "genero": user.get("genero"),
+            "edad": f"{int(UserModel.calcular_edad(user.get('fecha_nacimiento')))} años",
+            "altura": f"{int(user.get('altura_cm'))} cm",
+            "peso": f"{int(user.get('peso_actual'))} kg",
+
+            "mascota": mascota_activa
+        }
+    
+    @staticmethod
+    async def editar_perfil(data: EditarPerfilRequest, current_user: dict):
+
+        user_id = ObjectId(current_user["_id"])
+
+        update_data = {}
+
+        if data.nombre_usuario:
+            update_data["nombre_completo"] = data.nombre_usuario
+
+        if data.apodo_usuario:
+            update_data["apodo"] = data.apodo_usuario
+
+        if data.altura_usuario:
+            update_data["altura_cm"] = data.altura_usuario
+
+        mascotas_para_guardar = None
+
+        if data.nombre_mascota:
+            mascotas_usuario = await MascotaModel.get_mascotas_usuario(user_id)
+
+            if not mascotas_usuario:
+                raise HTTPException(status_code=404, detail="Mascota no encontrada")
+
+            mascota_activa_tipo = mascotas_usuario["mascota_activa"]
+            mascotas = mascotas_usuario["mascotas"]
+
+            for mascota in mascotas:
+                if mascota["tipo"] == mascota_activa_tipo:
+                    mascota["nombre"] = data.nombre_mascota
+                    break
+
+            mascotas_para_guardar = mascotas
+
+        # Si se requiere algún cambio (usuario o mascota), se ejecuta en transacción
+        if mascotas_para_guardar is not None or update_data:
+            try:
+                session = await db.client.start_session()
+                async with session:
+                    async with session.start_transaction():
+                        if mascotas_para_guardar is not None:
+                            await MascotaModel.actualizar_nombre_mascota(
+                                user_id,
+                                mascotas_para_guardar,
+                                session=session,
+                            )
+                        if update_data:
+                            await UserModel.actualizar_usuario(
+                                user_id,
+                                update_data,
+                                session=session,
+                            )
+            except Exception as e:
+                raise HTTPException(
+                    status_code=500,
+                    detail="Error al editar el perfil del usuario"
+                )
+
+        try:
+            perfil = await UserController.get_perfil_usuario(current_user)
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail="Error al obtener el perfil del usuario"
+            )
+
+        return perfil

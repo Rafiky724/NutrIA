@@ -79,3 +79,32 @@ class UserModel:
             {"$set": {"gemas_acumuladas": gemas}},
             **kwargs
         )
+    
+    @staticmethod
+    def calcular_edad(fecha_nacimiento: datetime) -> int:
+        hoy = datetime.today()
+        edad = hoy.year - fecha_nacimiento.year
+
+        # Ajustar si aún no ha cumplido años este año
+        if (hoy.month, hoy.day) < (fecha_nacimiento.month, fecha_nacimiento.day):
+            edad -= 1
+
+        return edad
+    
+    @staticmethod
+    async def actualizar_usuario(user_id: ObjectId, data, session=None):
+        """Update user document fields; optionally within a MongoDB
+        session/transaction."""
+        kwargs = {}
+        if session is not None:
+            kwargs["session"] = session
+        return await db.users.update_one(
+            {"_id": user_id},
+            {"$set": data},
+            **kwargs
+        )
+    
+    @staticmethod
+    async def get_usuario_por_id(user_id: ObjectId):
+        """Retrieve a user document by its ObjectId."""
+        return await db.users.find_one({"_id": user_id})
