@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRoulette } from "../../hooks/useRoulette";
 import Toast from "../../components/Toast/Toast";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import { useNavigate } from "react-router-dom";
+import { getUserPeso } from "../../services/userService";
 
 export default function WeightUpdate() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [currentWeight, setCurrentWeight] = useState<number | null>(null);
   const [selectedWeight, setSelectedWeight] = useState<number | null>(null);
   const navigate = useNavigate();
 
@@ -88,6 +90,20 @@ export default function WeightUpdate() {
     );
   };
 
+  useEffect(() => {
+    const fetchPeso = async () => {
+      try {
+        const data = await getUserPeso();
+        console.log("peso backend:", data);
+        setCurrentWeight(data.peso_actual);
+      } catch (error) {
+        console.error("Error obteniendo peso del usuario:", error);
+      }
+    };
+
+    fetchPeso();
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
       <div className="absolute top-6 left-6 z-50">
@@ -121,7 +137,7 @@ export default function WeightUpdate() {
 
                 <div className="flex items-center gap-2">
                   <span className="text-brown ft-light text-sm sm:text-base">
-                    {selectedWeight ?? "--"} kg
+                    {selectedWeight ?? currentWeight} kg
                   </span>
 
                   <svg
