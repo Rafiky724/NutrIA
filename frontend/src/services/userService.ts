@@ -23,3 +23,26 @@ export const getHasPlan = async (): Promise<HasPlanResponse> => {
     return data;
 };
 
+export interface UserProgressResponse {
+    numero_racha: number;
+    cantidad_gemas: number;
+}
+
+export const getUserProgress = async (): Promise<UserProgressResponse> => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("Usuario no autenticado");
+    }
+
+    const { data } = await axiosClient.get<UserProgressResponse>(
+        USER_ENDPOINTS.PROGRESS,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return data;
+};
