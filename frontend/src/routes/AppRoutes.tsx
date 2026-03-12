@@ -21,6 +21,7 @@ import Config from "../pages/Home/Config";
 import WeightUpdate from "../pages/Home/WeightUpdate";
 import AdoptMoment from "../pages/Adopt/AdoptMoment";
 import PetName from "../pages/Adopt/PetName";
+import UpdateTypeDiet from "../components/Home/SettingsMenu/UpdateTypeDiet/UpdateTypeDiet";
 
 export default function AppRoutes() {
   return (
@@ -57,6 +58,7 @@ export default function AppRoutes() {
         </Route>
         <Route path="/nextDiet" element={<NextDiet />}></Route>
         <Route path="/weightUpdate" element={<WeightUpdate />}></Route>
+        <Route path="/updateTypeDiet" element={<UpdateTypeDiet />}></Route>
       </Route>
     </Routes>
   );
