@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import NavBar from "../../components/Home/NavBar";
 import { categories } from "../../data/ingredients";
-import {
-  DespensaService,
-  type Ingrediente,
-} from "../../services/despensaService";
 import type { HomeResponse } from "../../types";
 import { getIngredientIcon } from "../../utils/ingredients";
+import {
+  getIngredientesUsuario,
+  type Ingrediente,
+} from "../../services/despensaService";
 
 interface IngredientWithCategory {
   nombre: string;
@@ -48,7 +48,7 @@ export default function Pantry() {
   useEffect(() => {
     const fetchPantry = async () => {
       try {
-        const data = await DespensaService.getIngredientesUsuario();
+        const data = await getIngredientesUsuario();
         const categorized = categorizeIngredients(data.ingredientes);
         setPantry(categorized);
       } catch (err) {
