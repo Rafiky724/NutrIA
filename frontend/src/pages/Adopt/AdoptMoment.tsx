@@ -19,17 +19,17 @@ export default function AdoptMoment() {
     {
       id: 1,
       label: "Perro",
-      image: "/SVG/Pets/Adopt/Dog.svg",
+      image: "/SVG/Pets/Adopt/perro.svg",
     },
     {
       id: 2,
       label: "Gato",
-      image: "/SVG/Pets/Adopt/Cat.svg",
+      image: "/SVG/Pets/Adopt/gato.svg",
     },
     {
       id: 3,
       label: "Nutria",
-      image: "/SVG/Pets/Adopt/Nutria.svg",
+      image: "/SVG/Pets/Adopt/nutria.svg",
     },
   ];
 
