@@ -2,9 +2,37 @@ import { useState } from "react";
 import { options } from "../../../../data/optionsPrice";
 import ArrowReturn from "../../../Decoration/ArrowReturn";
 import type { Budget } from "../../../../types";
+import { useNavigate } from "react-router-dom";
+import {
+  cambiarTipoDieta,
+  type CambiarTipoDietaRequest,
+} from "../../../../services/planService";
 
 export default function BasedBudget() {
+  const navigate = useNavigate();
+
   const [selected, setSelected] = useState<Budget>("Estándar");
+
+  const handleContinuar = async () => {
+    try {
+      const presupuesto_num = options
+        .find((o) => o.label === selected)
+        ?.price.replace(/[^0-9]/g, "");
+
+      const payload: CambiarTipoDietaRequest = {
+        tipo_dieta: "Presupuesto",
+        presupuesto_semanal: Number(presupuesto_num),
+      };
+
+      const response = await cambiarTipoDieta(payload);
+      console.log("Tipo de dieta actualizado:", response);
+
+      navigate("/home");
+    } catch (error: any) {
+      console.error("Error al actualizar tipo de dieta:", error);
+      alert(error.response?.data?.detail || "Error al cambiar tipo de dieta");
+    }
+  };
 
   const handleSelect = (budget: Budget) => {
     setSelected(budget);
@@ -53,9 +81,10 @@ export default function BasedBudget() {
               ))}
               <button
                 type="button"
+                onClick={handleContinuar}
                 className="w-full sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition cursor-pointer"
               >
-                Continuar
+                Actualizar
               </button>
             </div>
 
