@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
-import { categories } from "../../data/ingredients";
 import NavBar from "../../components/Home/NavBar";
+import { categories } from "../../data/ingredients";
+import {
+  DespensaService,
+  type Ingrediente,
+} from "../../services/despensaService";
 import type { HomeResponse } from "../../types";
-import { HomeService } from "../../services/homeService";
+import { getIngredientIcon } from "../../utils/ingredients";
 
-type Ingredient = {
+interface IngredientWithCategory {
   nombre: string;
   icono: string;
   categoria: string;
-};
+}
 
 export default function Pantry() {
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
-  const [pantry, setPantry] = useState<Ingredient[]>([]);
+  const [pantry, setPantry] = useState<IngredientWithCategory[]>([]);
 
-  const toggleIngredient = (ingredient: Ingredient) => {
+  const toggleIngredient = (ingredient: IngredientWithCategory) => {
     setPantry((prev) =>
       prev.some((i) => i.nombre === ingredient.nombre)
         ? prev.filter((i) => i.nombre !== ingredient.nombre)
@@ -22,10 +26,45 @@ export default function Pantry() {
     );
   };
 
+  const categorizeIngredients = (
+    ingredientes: Ingrediente[],
+  ): IngredientWithCategory[] => {
+    return ingredientes.map((ing) => {
+      const categoria =
+        categories.find((cat) =>
+          cat.items.some(
+            (item) => item.nombre.toLowerCase() === ing.nombre.toLowerCase(),
+          ),
+        )?.nombre || "Otros";
+
+      return {
+        nombre: ing.nombre,
+        icono: getIngredientIcon(ing.nombre),
+        categoria,
+      };
+    });
+  };
+
+  useEffect(() => {
+    const fetchPantry = async () => {
+      try {
+        const data = await DespensaService.getIngredientesUsuario();
+        const categorized = categorizeIngredients(data.ingredientes);
+        setPantry(categorized);
+      } catch (err) {
+        console.error("Error cargando despensa del usuario:", err);
+      }
+    };
+
+    fetchPantry();
+  }, []);
+
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const data = await HomeService.getHome();
+        const data = await import("../../services/homeService").then((mod) =>
+          mod.HomeService.getHome(),
+        );
         setHomeData(data);
       } catch (err) {
         console.error("Error al cargar datos del home", err);
@@ -50,7 +89,7 @@ export default function Pantry() {
 
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
           {/* DESPENSA ACTUAL */}
-          <div className=" flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-1/3 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
+          <div className="flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-1/3 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
             <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
               Tu despensa actual
             </h3>
@@ -97,28 +136,28 @@ export default function Pantry() {
 
             <div className="overflow-y-auto flex-1 mb-4 pr-2">
               {categories.map((cat) => {
-                const availableItems = cat.items
-                  .map((item) => ({
-                    nombre: item.nombre,
-                    icono: item.icono,
-                    categoria: cat.nombre,
-                  }))
-                  .filter(
-                    (item) => !pantry.some((p) => p.nombre === item.nombre),
-                  );
+                const allItems = cat.items.map((item) => ({
+                  nombre: item.nombre,
+                  icono: item.icono,
+                  categoria: cat.nombre,
+                  isAdded: pantry.some((p) => p.nombre === item.nombre),
+                }));
 
-                if (availableItems.length === 0) return null;
+                if (allItems.length === 0) return null;
 
                 return (
                   <div key={cat.nombre} className="p-2">
                     <h4 className="ft-medium text-brown mb-3">{cat.nombre}</h4>
-
                     <div className="flex flex-wrap gap-3">
-                      {availableItems.map((ingredient) => (
+                      {allItems.map((ingredient) => (
                         <button
                           key={ingredient.nombre}
                           onClick={() => toggleIngredient(ingredient)}
-                          className="bg-input px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md"
+                          className={`px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md ${
+                            ingredient.isAdded
+                              ? "bg-brown text-white"
+                              : "bg-input text-brown"
+                          }`}
                         >
                           {ingredient.nombre}
                           <img
