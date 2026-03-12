@@ -69,3 +69,33 @@ export const getUserPeso = async (): Promise<UserPesoResponse> => {
 
     return data;
 };
+
+export interface UpdatePesoRequest {
+    peso_actual: number;
+}
+
+export interface UpdatePesoResponse {
+    message: string;
+}
+
+export const updateUserPeso = async (
+    payload: UpdatePesoRequest
+): Promise<UpdatePesoResponse> => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("Usuario no autenticado");
+    }
+
+    const { data } = await axiosClient.post<UpdatePesoResponse>(
+        USER_ENDPOINTS.UPDATE_PESO,
+        payload,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return data;
+};
