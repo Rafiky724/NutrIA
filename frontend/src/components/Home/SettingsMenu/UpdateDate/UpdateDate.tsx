@@ -2,9 +2,18 @@ import { useState } from "react";
 import ArrowReturn from "../../../Decoration/ArrowReturn";
 import FruitLeft from "../../../Decoration/FruitLeft";
 import FruitRight from "../../../Decoration/FruitRight";
+import { useNavigate } from "react-router-dom";
+import { cambiarDiaActualizar } from "../../../../services/planService";
+import Toast from "../../../Toast/Toast";
 
 export default function UpdateDate() {
   const [daySelected, setDaySelected] = useState<string | null>(null);
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    type: "success" as "success" | "error",
+  });
+  const navigate = useNavigate();
 
   const daysWeek = [
     "Lunes",
@@ -15,6 +24,50 @@ export default function UpdateDate() {
     "Sábado",
     "Domingo",
   ];
+
+  const dayMap: Record<string, string> = {
+    Lunes: "lunes",
+    Martes: "martes",
+    Miércoles: "miercoles",
+    Jueves: "jueves",
+    Viernes: "viernes",
+    Sábado: "sabado",
+    Domingo: "domingo",
+  };
+
+  const handleUpdate = async () => {
+    if (!daySelected) {
+      setToast({
+        open: true,
+        message: "Debes seleccionar un día primero",
+        type: "error",
+      });
+      return;
+    }
+
+    try {
+      await cambiarDiaActualizar({
+        dia_actualizar_dieta: dayMap[daySelected],
+      });
+
+      setToast({
+        open: true,
+        message: `Día de actualización cambiado a ${daySelected}`,
+        type: "success",
+      });
+
+      setTimeout(() => {
+        navigate("/config");
+      }, 1000);
+    } catch (error) {
+      console.error("Error al actualizar el día:", error);
+      setToast({
+        open: true,
+        message: "Ocurrió un error al actualizar el día",
+        type: "error",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center p-6">
@@ -43,7 +96,11 @@ export default function UpdateDate() {
           ))}
         </div>
 
-        <button className="w-3xs md:w-4xs bg-yellow text-brown ft-medium py-2 rounded-4xl shadow mx-auto block hover:scale-105 transition cursor-pointer">
+        <button
+          type="button"
+          onClick={handleUpdate}
+          className="w-3xs md:w-4xs bg-yellow text-brown ft-medium py-2 rounded-4xl shadow mx-auto block hover:scale-105 transition cursor-pointer"
+        >
           Actualizar
         </button>
 
@@ -51,6 +108,13 @@ export default function UpdateDate() {
           <ArrowReturn to="/Config" />
         </div>
       </div>
+
+      <Toast
+        isOpen={toast.open}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, open: false })}
+      />
 
       {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
