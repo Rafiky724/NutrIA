@@ -22,6 +22,7 @@ import WeightUpdate from "../pages/Home/WeightUpdate";
 import AdoptMoment from "../pages/Adopt/AdoptMoment";
 import PetName from "../pages/Adopt/PetName";
 import UpdateTypeDiet from "../components/Home/SettingsMenu/UpdateTypeDiet/UpdateTypeDiet";
+import BasedBudget from "../components/Home/SettingsMenu/UpdateTypeDiet/BasedBudget";
 
 export default function AppRoutes() {
   return (
@@ -50,15 +51,18 @@ export default function AppRoutes() {
         <Route path="/updateDietDay" element={<UpdateDietDay />}></Route>
         <Route path="/adoptMoment" element={<AdoptMoment />}></Route>
         <Route path="/petName" element={<PetName />}></Route>
+
         <Route path="/" element={<HomeLayout />}>
           <Route path="home" element={<Home />} />
           <Route path="pantry" element={<Pantry />} />
           <Route path="diet" element={<Diet />} />
           <Route path="config" element={<Config />} />
         </Route>
+
         <Route path="/nextDiet" element={<NextDiet />}></Route>
         <Route path="/weightUpdate" element={<WeightUpdate />}></Route>
         <Route path="/updateTypeDiet" element={<UpdateTypeDiet />}></Route>
+        <Route path="/basedBudget" element={<BasedBudget />}></Route>
       </Route>
     </Routes>
   );
