@@ -5,7 +5,7 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import { useNavigate } from "react-router-dom";
-import { getUserPeso } from "../../services/userService";
+import { getUserPeso, updateUserPeso } from "../../services/userService";
 
 export default function WeightUpdate() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -25,10 +25,31 @@ export default function WeightUpdate() {
   const handleOpenModal = () => setModalOpen(true);
   const handleCloseModal = () => setModalOpen(false);
 
-  const handleAccept = () => {
+  const handleAccept = async () => {
     const weight = weights[weightRoulette.selectedIndex];
-    setSelectedWeight(weight);
-    handleCloseModal();
+
+    try {
+      await updateUserPeso({ peso_actual: weight });
+
+      setSelectedWeight(weight);
+      setCurrentWeight(weight);
+
+      handleCloseModal();
+
+      setToast({
+        open: true,
+        message: `Peso actualizado a ${weight} kg`,
+        type: "success",
+      });
+    } catch (error) {
+      console.error("Error actualizando peso:", error);
+
+      setToast({
+        open: true,
+        message: "Error al actualizar el peso",
+        type: "error",
+      });
+    }
   };
 
   const handleUpdate = () => {
