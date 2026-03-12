@@ -5,6 +5,7 @@ import type { HomeResponse } from "../../types";
 import { getIngredientIcon } from "../../utils/ingredients";
 import {
   getIngredientesUsuario,
+  actualizarIngredientesUsuario,
   type Ingrediente,
 } from "../../services/despensaService";
 
@@ -17,6 +18,7 @@ interface IngredientWithCategory {
 export default function Pantry() {
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [pantry, setPantry] = useState<IngredientWithCategory[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const toggleIngredient = (ingredient: IngredientWithCategory) => {
     setPantry((prev) =>
@@ -73,6 +75,28 @@ export default function Pantry() {
     fetchHomeData();
   }, []);
 
+  const handleGuardar = async () => {
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      const payload: { ingredientes: { nombre: string }[] } = {
+        ingredientes: pantry.map((i) => ({ nombre: i.nombre })),
+      };
+
+      const data = await actualizarIngredientesUsuario(payload);
+
+      console.log("Despensa actualizada:", data);
+      alert("Despensa actualizada correctamente ✅");
+    } catch (err) {
+      console.error("Error al actualizar la despensa:", err);
+      alert("Ocurrió un error al guardar. Intenta nuevamente.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
@@ -112,7 +136,7 @@ export default function Pantry() {
                       <button
                         key={ingredient.nombre}
                         onClick={() => toggleIngredient(ingredient)}
-                        className="bg-input px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md"
+                        className="bg-input text-brown px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md"
                       >
                         {ingredient.nombre}
                         <img
@@ -174,8 +198,12 @@ export default function Pantry() {
             </div>
 
             <div className="flex justify-center">
-              <button className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium py-2 rounded-3xl hover:scale-105 transition cursor-pointer text-sm">
-                Guardar
+              <button
+                onClick={handleGuardar}
+                disabled={loading}
+                className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium py-2 rounded-3xl hover:scale-105 transition cursor-pointer text-sm disabled:opacity-50"
+              >
+                {loading ? "Guardando..." : "Guardar"}
               </button>
             </div>
           </div>
