@@ -1,4 +1,9 @@
+import { useEffect, useState } from "react";
 import type { User } from "../../types";
+import {
+  getUserProgress,
+  type UserProgressResponse,
+} from "../../services/userService";
 
 type Props = {
   user?: User;
@@ -7,8 +12,23 @@ type Props = {
 };
 
 export default function NavBar({ user, title, subtitle }: Props) {
+  const [progress, setProgress] = useState<UserProgressResponse | null>(null);
+
   const defaultTitle = `Hola, ${user?.nombre}`;
   const defaultSubtitle = "¿Cómo va tu día?";
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const data = await getUserProgress();
+        setProgress(data);
+      } catch (error) {
+        console.error("Error obteniendo progreso del usuario:", error);
+      }
+    };
+
+    fetchProgress();
+  }, []);
 
   return (
     <nav className="flex justify-center md:justify-between items-center gap-6 md:gap-0 ml-8 md:ml-0">
@@ -30,7 +50,7 @@ export default function NavBar({ user, title, subtitle }: Props) {
               className="w-3 md:w-5 h-3 md:h-5"
             />
             <p className="ft-bold text-md md:text-2xl">
-              {user?.cantidad_gemas}
+              {progress?.cantidad_gemas ?? 0}
             </p>
           </div>
         </div>
@@ -41,7 +61,9 @@ export default function NavBar({ user, title, subtitle }: Props) {
             alt="Racha"
             className="w-4 md:w-6 h-4 md:h-6"
           />
-          <p className="ft-bold text-md md:text-2xl">{user?.numero_racha}</p>
+          <p className="ft-bold text-md md:text-2xl">
+            {progress?.numero_racha ?? 0}
+          </p>
         </div>
 
         <img
