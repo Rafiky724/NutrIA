@@ -6,16 +6,16 @@ import NavBar from "../../components/Home/NavBar";
 import ModalEditIngredients from "../../components/Modals/ModalEditIngredients";
 import { useDayPlan } from "../../hooks/useDayPlan";
 import { useOpinionTimer } from "../../hooks/useOpinionTimer";
-// import LoadingScreen from "../../components/Loading/LoadingScreen";
-// import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 import { HomeService } from "../../services/homeService";
 import MealDropdown from "../../components/Home/MealDropdown";
 import DaySelector from "../../components/Home/DaySelector";
 import DishCard from "../../components/Home/DishCard";
+import { getUserActualizarDia } from "../../services/planService";
 
 export default function Diet() {
   const navigate = useNavigate();
-
+  const [canUpdateDiet, setCanUpdateDiet] = useState<boolean>(false);
+  const [updateMessage, setUpdateMessage] = useState<string | null>(null);
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
 
   const daysIndex: Record<Days, number> = {
@@ -63,6 +63,25 @@ export default function Diet() {
     fetchHomeData();
   }, []);
 
+  useEffect(() => {
+    const fetchActualizarDia = async () => {
+      try {
+        const data = await getUserActualizarDia();
+        setCanUpdateDiet(data.es_dia_actualizar_dieta);
+        setUpdateMessage(data.mensaje_actualizacion);
+      } catch (error) {
+        console.error(
+          "Error obteniendo info de actualización de dieta:",
+          error,
+        );
+        setCanUpdateDiet(false);
+        setUpdateMessage("No se pudo verificar si puedes actualizar la dieta");
+      }
+    };
+
+    fetchActualizarDia();
+  }, []);
+
   const {
     dayPlan,
     dish,
@@ -75,14 +94,8 @@ export default function Diet() {
 
   const handleStartDiet = () => navigate("/nextDiet");
 
-  // Loading
   if (!dish || !dayPlan || loadingAction || !homeData) {
     return (
-      // <LoadingScreen
-      //   title="CARGANDO DIETA"
-      //   subtitle="Estamos recargando la información."
-      //   Icon={LoadingIcon}
-      // />
       <div className="flex min-h-screen bg-input pl-10 md:pl-20 justify-center">
         <div className="w-screen flex flex-col p-6">
           <NavBar user={homeData?.usuario} />
@@ -97,7 +110,6 @@ export default function Diet() {
   return (
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
-        {/* NavBar */}
         <div className="block md:hidden">
           <NavBar user={homeData.usuario} subtitle="Estás en la despensa" />
         </div>
@@ -152,8 +164,9 @@ export default function Diet() {
             </div>
 
             <button
-              onClick={handleStartDiet}
-              className="relative bg-yellow text-brown ft-medium py-2 rounded-full shadow hover:scale-105 transition text-xs md:text-md w-full md:w-2xs ml-0 md:ml-[65%] xl:ml-[80%] cursor-pointer"
+              onClick={canUpdateDiet ? handleStartDiet : undefined}
+              title={!canUpdateDiet ? updateMessage || "" : ""}
+              className={`relative ft-medium py-2 rounded-full shadow text-xs md:text-md w-full md:w-2xs ml-0 md:ml-[65%] xl:ml-[80%] cursor-pointer ${canUpdateDiet ? "bg-yellow text-brown hover:scale-105 transition" : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
             >
               Preparar próxima dieta
               <div className="absolute top-2 right-3 w-4">
