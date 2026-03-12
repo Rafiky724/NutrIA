@@ -30,6 +30,7 @@ export const DAYS_ENDPOINTS = {
 export const USER_ENDPOINTS = {
   HAS_PLAN: "/user/tiene-plan",
   PROGRESS: "/user/progress",
+  PESO: "/user/peso",
 } as const;
 
 export const HOME_ENDPOINTS = {
