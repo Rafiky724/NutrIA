@@ -46,3 +46,26 @@ export const getUserProgress = async (): Promise<UserProgressResponse> => {
 
     return data;
 };
+
+export interface UserPesoResponse {
+    peso_actual: number;
+}
+
+export const getUserPeso = async (): Promise<UserPesoResponse> => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("Usuario no autenticado");
+    }
+
+    const { data } = await axiosClient.get<UserPesoResponse>(
+        USER_ENDPOINTS.PESO,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return data;
+};
