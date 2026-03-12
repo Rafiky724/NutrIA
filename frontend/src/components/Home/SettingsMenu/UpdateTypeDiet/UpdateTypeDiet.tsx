@@ -1,7 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowReturn from "../../../Decoration/ArrowReturn";
+import { cambiarTipoDieta } from "../../../../services/planService";
 
 export default function UpdateTypeDiet() {
+  const navigate = useNavigate();
+
+  const handleDisponible = async () => {
+    try {
+      await cambiarTipoDieta({ tipo_dieta: "Disponible" });
+      console.log("Actualizado");
+      navigate("/config");
+    } catch (error: any) {
+      console.error("Error al actualizar tipo de dieta:", error);
+      alert(error.response?.data?.detail || "Error al cambiar tipo de dieta");
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
       <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
@@ -42,6 +56,7 @@ export default function UpdateTypeDiet() {
 
               <button
                 type="button"
+                onClick={handleDisponible}
                 className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 transition hover:scale-105"
               >
                 <h4 className="ft-medium text-left text-xs sm:text-lg">
