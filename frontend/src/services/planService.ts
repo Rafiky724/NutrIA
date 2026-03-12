@@ -25,3 +25,36 @@ export const PlanService = {
         }
     },
 };
+
+export interface CambiarTipoDietaRequest {
+    tipo_dieta: "Presupuesto" | "Disponible";
+    presupuesto_semanal?: number;
+}
+
+export interface CambiarTipoDietaResponse {
+    mensaje: string;
+    tipo_dieta: "Presupuesto" | "Disponible";
+    presupuesto_semanal?: number | null;
+}
+
+export const cambiarTipoDieta = async (
+    payload: CambiarTipoDietaRequest
+): Promise<CambiarTipoDietaResponse> => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("Usuario no autenticado");
+    }
+
+    const { data } = await axiosClient.post<CambiarTipoDietaResponse>(
+        PLAN_ENDPOINTS.CAMBIAR_TIPO_DIETA,
+        payload,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return data;
+};
