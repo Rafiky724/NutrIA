@@ -40,3 +40,7 @@ export const USER_ENDPOINTS = {
 export const HOME_ENDPOINTS = {
   GET_HOME: "/home/"
 } as const;
+
+export const DESPENSA_ENDPOINTS = {
+  GET_INGREDIENTES: "/despensa/ingredientes",
+} as const;
