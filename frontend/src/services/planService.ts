@@ -26,6 +26,27 @@ export const PlanService = {
     },
 };
 
+export interface UserActualizarDiaResponse {
+    es_dia_actualizar_dieta: boolean;
+    mensaje_actualizacion: string | null;
+}
+
+export const getUserActualizarDia = async (): Promise<UserActualizarDiaResponse> => {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Usuario no autenticado");
+
+    const { data } = await axiosClient.get<UserActualizarDiaResponse>(
+        PLAN_ENDPOINTS.ACTUALIZAR_DIA,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return data;
+};
+
 export interface CambiarTipoDietaRequest {
     tipo_dieta: "Presupuesto" | "Disponible";
     presupuesto_semanal?: number;
