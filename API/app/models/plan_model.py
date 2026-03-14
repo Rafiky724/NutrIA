@@ -58,3 +58,21 @@ class PlanModel:
                 }
             }
         )
+    
+    @staticmethod
+    async def get_plan_usuario(user_id: ObjectId) -> dict:
+        return await db.planes.find_one(
+            {"id_usuario": user_id, "activo": True},
+            {"_id": 0}
+        )
+    
+    @staticmethod
+    async def actualizar_plan_usuario(user_id: ObjectId, data, session=None):
+        kwargs = {}
+        if session is not None:
+            kwargs["session"] = session
+        return await db.planes.update_one(
+            {"id_usuario": user_id, "activo": True},
+            {"$set": data},
+            **kwargs
+        )
