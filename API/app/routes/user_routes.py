@@ -30,6 +30,6 @@ async def update_user_peso(peso: UserPesoUpdateRequest, current_user: dict = Dep
 async def get_perfil_usuario(current_user: dict = Depends(get_current_user)):
     return await UserController.get_perfil_usuario(current_user)
 
-@router.put("/editar-perfil", response_model=PerfilUsuarioResponse)
+@router.put("/editar_perfil", response_model=PerfilUsuarioResponse)
 async def editar_perfil(data: EditarPerfilRequest, current_user: dict = Depends(get_current_user)):
     return await UserController.editar_perfil(data, current_user)
