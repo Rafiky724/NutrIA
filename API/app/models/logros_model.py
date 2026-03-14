@@ -16,3 +16,12 @@ class LogrosModel:
             {"id_usuario": user_id},
             {"_id": 0, "logros": 1}
         )
+    
+    @staticmethod
+    async def actualizar_logros(user_id, logros):
+
+        return await db.logros_usuarios.update_one(
+            {"id_usuario": user_id},
+            {"$set": {"logros": logros}}
+        )
+        

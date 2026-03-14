@@ -19,7 +19,10 @@ class LogroResponse(BaseModel):
 
     fecha_completado: Optional[str] = None
 
-
 class LogrosUsuarioResponse(BaseModel):
 
     logros: List[LogroResponse]
+
+class ReclamarLogroRequest(BaseModel):
+
+    id_logro: str

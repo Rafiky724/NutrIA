@@ -4,6 +4,7 @@ from bson import ObjectId
 from fastapi import HTTPException
 
 from app.models.logros_model import LogrosModel
+from app.models.user_model import UserModel
 
 class LogrosController:
 
@@ -71,3 +72,64 @@ class LogrosController:
             )
 
         return documento
+    
+    @staticmethod
+    async def reclamar_logro(data, current_user):
+
+        user_id = ObjectId(current_user["_id"])
+
+        documento = await LogrosModel.get_logros_usuario(user_id)
+
+        if not documento:
+            raise HTTPException(
+                status_code=404,
+                detail="Logros no encontrados"
+            )
+
+        logros = documento["logros"]
+
+        logro_encontrado = None
+
+        for logro in logros:
+
+            if logro["id_logro"] == data.id_logro:
+                logro_encontrado = logro
+                break
+
+        if not logro_encontrado:
+            raise HTTPException(
+                status_code=404,
+                detail="Logro no encontrado"
+            )
+
+        if not logro_encontrado["completado"]:
+            raise HTTPException(
+                status_code=400,
+                detail="El logro aún no está completado"
+            )
+
+        if logro_encontrado["reclamado"]:
+            raise HTTPException(
+                status_code=400,
+                detail="La recompensa ya fue reclamada"
+            )
+
+        gemas_recompensa = logro_encontrado["gemas_recompensa"]
+
+        logro_encontrado["reclamado"] = True
+        logro_encontrado["fecha_reclamado"] = datetime.now(ZoneInfo("America/Bogota")).date().isoformat()
+
+        await LogrosModel.actualizar_logros(user_id, logros)
+
+        # sumar gemas al usuario
+        await UserModel.actualizar_gemas(
+            user_id,
+            gemas_recompensa+current_user["gemas_acumuladas"]
+        )
+
+        return {
+            "mensaje": "Recompensa reclamada correctamente",
+            "gemas_recibidas": gemas_recompensa,
+            "gemas_actuales": gemas_recompensa+current_user["gemas_acumuladas"],
+            "logro": logro_encontrado
+        }
