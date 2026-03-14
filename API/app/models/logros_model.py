@@ -18,10 +18,13 @@ class LogrosModel:
         )
     
     @staticmethod
-    async def actualizar_logros(user_id, logros):
-
+    async def actualizar_logros(user_id, logros, session=None):
+        kwargs = {}
+        if session is not None:
+            kwargs["session"] = session
         return await db.logros_usuarios.update_one(
             {"id_usuario": user_id},
-            {"$set": {"logros": logros}}
+            {"$set": {"logros": logros}},
+            **kwargs
         )
         

@@ -5,6 +5,7 @@ from fastapi import HTTPException
 
 from app.models.logros_model import LogrosModel
 from app.models.user_model import UserModel
+from app.core.database import db
 
 class LogrosController:
 
@@ -119,17 +120,25 @@ class LogrosController:
         logro_encontrado["reclamado"] = True
         logro_encontrado["fecha_reclamado"] = datetime.now(ZoneInfo("America/Bogota")).date().isoformat()
 
-        await LogrosModel.actualizar_logros(user_id, logros)
-
-        # sumar gemas al usuario
-        await UserModel.actualizar_gemas(
-            user_id,
-            gemas_recompensa+current_user["gemas_acumuladas"]
-        )
+        try:
+            session = await db.client.start_session()
+            async with session:
+                async with session.start_transaction():
+                    await LogrosModel.actualizar_logros(user_id, logros, session=session)
+                    await UserModel.actualizar_gemas(
+                        user_id,
+                        gemas_recompensa + current_user["gemas_acumuladas"],
+                        session=session
+                    )
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail="Error al reclamar el logro"
+            )
 
         return {
             "mensaje": "Recompensa reclamada correctamente",
             "gemas_recibidas": gemas_recompensa,
-            "gemas_actuales": gemas_recompensa+current_user["gemas_acumuladas"],
+            "gemas_actuales": gemas_recompensa + current_user["gemas_acumuladas"],
             "logro": logro_encontrado
         }
