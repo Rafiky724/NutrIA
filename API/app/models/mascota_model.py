@@ -12,8 +12,11 @@ class MascotaModel:
         )
 
     @staticmethod
-    async def crear_mascota_usuario(data: dict):
-        return await db.mascotas_usuarios.insert_one(data)
+    async def crear_mascota_usuario(data: dict, session=None):
+        kwargs = {}
+        if session is not None:
+            kwargs["session"] = session
+        return await db.mascotas_usuarios.insert_one(data, **kwargs)
 
     @staticmethod
     async def get_tienda():

@@ -2,6 +2,7 @@ from zoneinfo import ZoneInfo
 from bson import ObjectId
 from fastapi import HTTPException
 from datetime import datetime
+from app.controllers.logros_controller import LogrosController
 from app.models.mascota_model import MascotaModel
 from app.models.user_model import UserModel
 from app.core.database import db
@@ -70,8 +71,11 @@ class MascotasController:
         }
 
         try:
-            await MascotaModel.crear_mascota_usuario(mascota_documento)
-
+            session = await db.client.start_session()
+            async with session:
+                async with session.start_transaction():
+                    await MascotaModel.crear_mascota_usuario(mascota_documento, session=session)
+                    await LogrosController.crear_logros_usuario(current_user, session=session)
         except Exception as e:
             raise HTTPException(
                 status_code=500,

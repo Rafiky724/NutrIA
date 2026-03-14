@@ -9,6 +9,7 @@ from app.routes.home_routes import router as home_router
 from app.routes.comidas_routes import router as comidas_router
 from app.routes.despensa_routes import router as despensa_router
 from app.routes.mascotas_routes import router as mascotas_router
+from app.routes.logros_routes import router as logros_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -37,6 +38,7 @@ app.include_router(home_router)
 app.include_router(comidas_router)
 app.include_router(despensa_router)
 app.include_router(mascotas_router)
+app.include_router(logros_router)
 
 @app.get("/")
 async def read_root():
