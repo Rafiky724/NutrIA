@@ -12,7 +12,6 @@ import {
   achievementsData,
   categoriesData,
   contactData,
-  editFields,
   shopItemsData,
 } from "../../data/menu";
 
@@ -92,8 +91,8 @@ export default function Config() {
               profileView={profileView}
               setProfileView={setProfileView}
               onBack={() => setView("main")}
+              onGoToShop={() => setView("shop")}
               menuOptions={menuOptions}
-              editFields={editFields}
             />
           )}
           {view === "shop" && (
