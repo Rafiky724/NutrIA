@@ -62,6 +62,10 @@
    BORDERS
 ========================= */
 
+.br-input {
+  border-color: var(--color-inputs);
+}
+
 .br-gray {
   border-color: var(--color-gray);
 }
