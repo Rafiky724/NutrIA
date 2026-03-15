@@ -24,11 +24,11 @@ import PetName from "../pages/Adopt/PetName";
 import UpdateTypeDiet from "../components/Home/SettingsMenu/UpdateTypeDiet/UpdateTypeDiet";
 import BasedBudget from "../components/Home/SettingsMenu/UpdateTypeDiet/BasedBudget";
 import UpdateDate from "../components/Home/SettingsMenu/UpdateDate/UpdateDate";
-import Objetive from "../components/Home/SettingsMenu/UpdateObjetive/objetive";
 import Activity from "../components/Home/SettingsMenu/UpdateObjetive/Activity";
 import ObjetiveSpeed from "../components/Home/SettingsMenu/UpdateObjetive/ObjetiveSpeed";
 import Workout from "../components/Home/SettingsMenu/UpdateObjetive/Workout";
 import Meal from "../components/Home/SettingsMenu/UpdateObjetive/Meal";
+import Objetive from "../components/Home/SettingsMenu/UpdateObjetive/Objetive";
 
 export default function AppRoutes() {
   return (
