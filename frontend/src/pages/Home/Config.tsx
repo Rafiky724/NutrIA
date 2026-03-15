@@ -8,12 +8,7 @@ import Contact from "../../components/Home/SettingsMenu/Contact";
 import Shop from "../../components/Home/SettingsMenu/Shop";
 import Profile from "../../components/Home/SettingsMenu/Profile";
 import MainMenu from "../../components/Home/SettingsMenu/MainMenu";
-import {
-  achievementsData,
-  categoriesData,
-  contactData,
-  shopItemsData,
-} from "../../data/menu";
+import { achievementsData, contactData } from "../../data/menu";
 
 type ViewType = "main" | "profile" | "achievements" | "contact" | "shop";
 
@@ -97,8 +92,6 @@ export default function Config() {
           )}
           {view === "shop" && (
             <Shop
-              shopItems={shopItemsData}
-              categories={categoriesData}
               backgroundImg="/Background/ShopCloth.svg"
               onBack={() => setView("main")}
             />
