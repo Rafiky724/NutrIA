@@ -20,7 +20,6 @@ type ViewType = "main" | "profile" | "achievements" | "contact" | "shop";
 
 export default function Config() {
   const navigate = useNavigate();
-
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [view, setView] = useState<ViewType>("main");
   const [profileView, setProfileView] = useState<"menu" | "edit">("menu");
@@ -43,9 +42,15 @@ export default function Config() {
 
   const menuOptions = [
     { label: "Editar perfil", onClick: () => setProfileView("edit") },
-    { label: "Cambiar tipo de dieta (actual)", onClick: () => {} },
-    { label: "Editar objetivo", onClick: () => {} },
-    { label: "Editar fecha de actualización de dieta", onClick: () => {} },
+    {
+      label: "Cambiar tipo de dieta",
+      onClick: () => navigate("/updateTypeDiet"),
+    },
+    { label: "Editar objetivo", onClick: () => navigate("/objetive") },
+    {
+      label: "Editar fecha de actualización de dieta",
+      onClick: () => navigate("/updateDate"),
+    },
   ];
 
   const handleLogout = () => {
@@ -78,89 +83,36 @@ export default function Config() {
           />
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-center mt-10 md:mt-5 xl:mt-0 xl:h-180">
-          <div className="flex items-center justify-center">
-            <div className="flex flex-col bg-white w-2xs h-100 lg:w-sm lg:h-120 xl:w-lg xl:h-160 p-6 sm:p-8 rounded-3xl shadow-lg text-center ml-10 md:ml-0 max-h-160 overflow-y-auto">
-              <div className="flex flex-col gap-2">
-                {/* MENÚ PRINCIPAL */}
-                {view === "main" && (
-                  <MainMenu
-                    onNavigate={handleNavigate}
-                    onLogout={handleLogout}
-                  />
-                )}
-
-                {/* SUBMENÚ PERFIL */}
-                {view === "profile" && (
-                  <Profile
-                    profileView={profileView}
-                    setProfileView={setProfileView}
-                    onBack={() => setView("main")}
-                    menuOptions={menuOptions}
-                    editFields={editFields}
-                  />
-                )}
-
-                {/* TIENDA */}
-                {view === "shop" && (
-                  <Shop
-                    shopItems={shopItemsData}
-                    categories={categoriesData}
-                    backgroundImg="/Background/ShopCloth.svg"
-                    onBack={() => setView("main")}
-                  />
-                )}
-
-                {/* SUBMENÚ CONTACTO */}
-                {view === "contact" && (
-                  <Contact
-                    contactInfo={contactData}
-                    onBack={() => setView("main")}
-                  />
-                )}
-
-                {/* SUBMENÚ LOGROS */}
-                {view === "achievements" && (
-                  <AchievementsList
-                    achievements={achievementsData}
-                    onBack={() => setView("main")}
-                  />
-                )}
-              </div>
-            </div>
-
-            {!(view === "profile" && profileView === "edit") && (
-              <div className="w-lg hidden sm:block ml-15 xl:ml-50">
-                <div className="w-md xl:w-xl flex flex-col items-center">
-                  {view === "shop" ? (
-                    <>
-                      <img
-                        src="/Mascots/NutriaDefault.svg"
-                        alt="nutria"
-                        className="w-48"
-                      />
-
-                      <div className="bg-brown text-white px-6 py-2 rounded-xl mt-3">
-                        <span className="ft-medium">Lionel Messi</span>
-                      </div>
-                    </>
-                  ) : (
-                    <object
-                      type="image/svg+xml"
-                      data={
-                        view === "achievements"
-                          ? "/Background/NutriaGoal.svg"
-                          : view === "contact"
-                            ? "/Background/NutriaAboutMe.svg"
-                            : "/Background/NutriaConfig.svg"
-                      }
-                      className="w-full h-auto"
-                    />
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
+        <div className="flex flex-col md:flex-row items-center justify-center">
+          {view === "main" && (
+            <MainMenu onNavigate={handleNavigate} onLogout={handleLogout} />
+          )}
+          {view === "profile" && (
+            <Profile
+              profileView={profileView}
+              setProfileView={setProfileView}
+              onBack={() => setView("main")}
+              menuOptions={menuOptions}
+              editFields={editFields}
+            />
+          )}
+          {view === "shop" && (
+            <Shop
+              shopItems={shopItemsData}
+              categories={categoriesData}
+              backgroundImg="/Background/ShopCloth.svg"
+              onBack={() => setView("main")}
+            />
+          )}
+          {view === "contact" && (
+            <Contact contactInfo={contactData} onBack={() => setView("main")} />
+          )}
+          {view === "achievements" && (
+            <AchievementsList
+              achievements={achievementsData}
+              onBack={() => setView("main")}
+            />
+          )}
         </div>
       </div>
     </div>
