@@ -96,7 +96,7 @@ export default function Meal() {
 
             <div className="flex justify-center pt-6">
               <Link
-                to={"/meal"}
+                to={"/config"}
                 className="w-3xs sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition cursor-pointer"
               >
                 Finalizar
