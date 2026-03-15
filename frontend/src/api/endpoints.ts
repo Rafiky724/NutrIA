@@ -15,10 +15,6 @@ export const PLAN_ENDPOINTS = {
   CAMBIAR_DIA_ACTUALIZAR: "/plan/cambiar_dia_actualizar",
 } as const;
 
-export const OBJECTIVE_ENDPOINTS = {
-  DATES: "/objetivo/fechas",
-} as const;
-
 export const DAYS_ENDPOINTS = {
   BY_NAME: (day: string) => `/dias/${day}`,
 
@@ -28,6 +24,10 @@ export const DAYS_ENDPOINTS = {
   REGENERATE_FOOD: (day: string, typeFood: string) =>
     `/dias/${day}/comidas/${typeFood}/regenerar`,
 
+} as const;
+
+export const OBJECTIVE_ENDPOINTS = {
+  DATES: "/objetivo/fechas",
 } as const;
 
 export const USER_ENDPOINTS = {
