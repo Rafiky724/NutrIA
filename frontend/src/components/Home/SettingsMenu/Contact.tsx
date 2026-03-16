@@ -1,18 +1,8 @@
-type ContactInfo = {
-  description: string[];
-  helpText: string;
-  emails: string[];
-  copyright: string;
-};
-
 type Props = {
-  contactInfo: ContactInfo;
   onBack: () => void;
 };
 
-export default function Contact({ onBack, contactInfo }: Props) {
-  const { description, helpText, emails, copyright } = contactInfo;
-
+export default function Contact({ onBack }: Props) {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-6 w-full md:justify-around xl:justify-center xl:gap-20 xl:mt-15">
@@ -34,14 +24,14 @@ export default function Contact({ onBack, contactInfo }: Props) {
               <h2 className="ft-bold text-md mb-2 text-brown">
                 Estamos contigo
               </h2>
-              {description.map((p, i) => (
-                <p
-                  key={i}
-                  className="ft-light text-xs md:text-sm text-justify mt-2"
-                >
-                  {p}
-                </p>
-              ))}
+
+              <p className="ft-light text-xs md:text-sm text-justify mt-2">
+                Somos un equipo apasionado por la nutrición personalizada y la
+                tecnología aplicada al bienestar. Nuestra misión es ayudarte a
+                alcanzar tus objetivos de forma saludable, sostenible y basada
+                en datos.", "Creamos esta app para hacer que la alimentación
+                personalizada sea simple, accesible y efectiva.
+              </p>
             </div>
 
             <div>
@@ -49,7 +39,7 @@ export default function Contact({ onBack, contactInfo }: Props) {
                 ¿Algo no funciona como esperabas?
               </h2>
               <p className="flex gap-2 ft-light text-xs md:text-sm items-center">
-                {helpText}
+                Nos encantará leerte
                 <img
                   src="/SVG/IconsGeneral/BrownHearthIcon.svg"
                   alt="Hearth"
@@ -62,15 +52,20 @@ export default function Contact({ onBack, contactInfo }: Props) {
               <h2 className="ft-bold text-sm md:text-md mb-2 text-brown">
                 Contacto
               </h2>
-              {emails.map((email, i) => (
-                <p key={i} className="ft-light text-xs md:text-sm">
-                  {email}
-                </p>
-              ))}
+
+              <p className="ft-light text-xs md:text-sm">
+                contacto@tusitio.com
+              </p>
+
+              <p className="ft-light text-xs md:text-sm">soporte@tusitio.com</p>
             </div>
 
             <div className="flex justify-center mt-2">
-              <img src={copyright} alt="copyright" className="w-30 h-auto" />
+              <img
+                src="/SVG/IconsGeneral/CopyrightNutria.svg"
+                alt="copyright"
+                className="w-30 h-auto"
+              />
             </div>
           </div>
         </div>
