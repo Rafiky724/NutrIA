@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 import type { HomeResponse } from "../../types";
 import { HomeService } from "../../services/homeService";
@@ -11,7 +9,6 @@ import DailyDiet from "../../components/Home/DailyDiet";
 
 export default function Home() {
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
-  const [loading, setLoading] = useState(true);
   const [activeFoodIndex, setActiveFoodIndex] = useState(0);
 
   const hayDietaHoy = !!homeData?.dia_actual?.comidas?.length;
@@ -23,8 +20,6 @@ export default function Home() {
         setHomeData(data);
       } catch (err) {
         console.error("Error al cargar datos del home", err);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -37,38 +32,20 @@ export default function Home() {
         <NavBar user={homeData?.usuario} />
 
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
-          {loading ? (
-            <div className="w-full md:w-1/2">
-              <Skeleton height={150} />
-            </div>
-          ) : (
-            <TodaySummary homeData={homeData!} />
-          )}
+          <TodaySummary homeData={homeData} />
 
-          {loading ? (
-            <div className="w-full md:w-1/3">
-              <Skeleton height={150} />
-            </div>
-          ) : (
-            <NextMealCard nextFood={homeData!.proxima_comida} />
-          )}
+          <NextMealCard nextFood={homeData?.proxima_comida} />
         </div>
 
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
-          {loading ? (
-            <div className="w-full">
-              <Skeleton height={200} count={3} />
-            </div>
-          ) : (
-            <DailyDiet
-              homeData={homeData!}
-              activeFoodIndex={activeFoodIndex}
-              setActiveFoodIndex={setActiveFoodIndex}
-            />
-          )}
+          <DailyDiet
+            homeData={homeData}
+            activeFoodIndex={activeFoodIndex}
+            setActiveFoodIndex={setActiveFoodIndex}
+          />
         </div>
 
-        {!loading && !hayDietaHoy && (
+        {!hayDietaHoy && homeData && (
           <div className="flex justify-center items-center h-full text-center text-sm md:text-lg font-semibold">
             {homeData?.mensaje || "No tienes dieta asignada hoy"}
           </div>

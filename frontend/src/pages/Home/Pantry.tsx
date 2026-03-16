@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import NavBar from "../../components/Home/NavBar";
 import { categories } from "../../data/ingredients";
 import type { HomeResponse } from "../../types";
@@ -19,6 +21,7 @@ export default function Pantry() {
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [pantry, setPantry] = useState<IngredientWithCategory[]>([]);
   const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
 
   const toggleIngredient = (ingredient: IngredientWithCategory) => {
     setPantry((prev) =>
@@ -58,10 +61,6 @@ export default function Pantry() {
       }
     };
 
-    fetchPantry();
-  }, []);
-
-  useEffect(() => {
     const fetchHomeData = async () => {
       try {
         const data = await import("../../services/homeService").then((mod) =>
@@ -70,8 +69,12 @@ export default function Pantry() {
         setHomeData(data);
       } catch (err) {
         console.error("Error al cargar datos del home", err);
+      } finally {
+        setLoadingData(false);
       }
     };
+
+    fetchPantry();
     fetchHomeData();
   }, []);
 
@@ -86,7 +89,6 @@ export default function Pantry() {
       };
 
       const data = await actualizarIngredientesUsuario(payload);
-
       console.log("Despensa actualizada:", data);
       alert("Despensa actualizada correctamente ✅");
     } catch (err) {
@@ -112,100 +114,136 @@ export default function Pantry() {
         </div>
 
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
-          {/* DESPENSA ACTUAL */}
           <div className="flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-1/3 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
-            <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
-              Tu despensa actual
-            </h3>
+            {loadingData ? (
+              <>
+                <Skeleton height={24} width={150} className="mb-2" />
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Skeleton
+                    key={i}
+                    height={40}
+                    width="100%"
+                    className="mb-2 rounded-xl"
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
+                  Tu despensa actual
+                </h3>
 
-            {pantry.length === 0 && (
-              <p className="text-gray text-sm">
-                No tienes ingredientes agregados.
-              </p>
+                {pantry.length === 0 && (
+                  <p className="text-gray text-sm">
+                    No tienes ingredientes agregados.
+                  </p>
+                )}
+
+                {categories.map((cat) => {
+                  const items = pantry.filter(
+                    (i) => i.categoria === cat.nombre,
+                  );
+                  if (items.length === 0) return null;
+
+                  return (
+                    <div key={cat.nombre} className="p-2">
+                      <h4 className="ft-medium text-brown mb-3">
+                        {cat.nombre}
+                      </h4>
+                      <div className="flex flex-wrap gap-3">
+                        {items.map((ingredient) => (
+                          <button
+                            key={ingredient.nombre}
+                            onClick={() => toggleIngredient(ingredient)}
+                            className="bg-input text-brown px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md"
+                          >
+                            {ingredient.nombre}
+                            <img
+                              src={ingredient.icono}
+                              alt={ingredient.nombre}
+                              className="w-4 md:w-5 h-4 md:h-5"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </>
             )}
-
-            {categories.map((cat) => {
-              const items = pantry.filter((i) => i.categoria === cat.nombre);
-              if (items.length === 0) return null;
-
-              return (
-                <div key={cat.nombre} className="p-2">
-                  <h4 className="ft-medium text-brown mb-3">{cat.nombre}</h4>
-                  <div className="flex flex-wrap gap-3">
-                    {items.map((ingredient) => (
-                      <button
-                        key={ingredient.nombre}
-                        onClick={() => toggleIngredient(ingredient)}
-                        className="bg-input text-brown px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md"
-                      >
-                        {ingredient.nombre}
-                        <img
-                          src={ingredient.icono}
-                          alt={ingredient.nombre}
-                          className="w-4 md:w-5 h-4 md:h-5"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
           </div>
 
-          {/* INGREDIENTES DISPONIBLES */}
           <div className="flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-2/2 md:h-[550px] lg:h-[600px] xl:h-[800px] max-h-[800px] overflow-y-auto">
-            <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
-              Agregar nuevos ingredientes
-            </h3>
+            {loadingData ? (
+              <>
+                <Skeleton height={24} width={200} className="mb-2" />
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <Skeleton
+                    key={i}
+                    height={40}
+                    width="100%"
+                    className="mb-2 rounded-xl"
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
+                  Agregar nuevos ingredientes
+                </h3>
 
-            <div className="overflow-y-auto flex-1 mb-4 pr-2">
-              {categories.map((cat) => {
-                const allItems = cat.items.map((item) => ({
-                  nombre: item.nombre,
-                  icono: item.icono,
-                  categoria: cat.nombre,
-                  isAdded: pantry.some((p) => p.nombre === item.nombre),
-                }));
+                <div className="overflow-y-auto flex-1 mb-4 pr-2">
+                  {categories.map((cat) => {
+                    const allItems = cat.items.map((item) => ({
+                      nombre: item.nombre,
+                      icono: item.icono,
+                      categoria: cat.nombre,
+                      isAdded: pantry.some((p) => p.nombre === item.nombre),
+                    }));
 
-                if (allItems.length === 0) return null;
+                    if (allItems.length === 0) return null;
 
-                return (
-                  <div key={cat.nombre} className="p-2">
-                    <h4 className="ft-medium text-brown mb-3">{cat.nombre}</h4>
-                    <div className="flex flex-wrap gap-3">
-                      {allItems.map((ingredient) => (
-                        <button
-                          key={ingredient.nombre}
-                          onClick={() => toggleIngredient(ingredient)}
-                          className={`px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md ${
-                            ingredient.isAdded
-                              ? "bg-brown text-white"
-                              : "bg-input text-brown"
-                          }`}
-                        >
-                          {ingredient.nombre}
-                          <img
-                            src={ingredient.icono}
-                            alt={ingredient.nombre}
-                            className="w-4 md:w-5 h-4 md:h-5"
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                    return (
+                      <div key={cat.nombre} className="p-2">
+                        <h4 className="ft-medium text-brown mb-3">
+                          {cat.nombre}
+                        </h4>
+                        <div className="flex flex-wrap gap-3">
+                          {allItems.map((ingredient) => (
+                            <button
+                              key={ingredient.nombre}
+                              onClick={() => toggleIngredient(ingredient)}
+                              className={`px-3 py-2 rounded-xl shadow-sm hover:scale-105 transition flex items-center gap-2 cursor-pointer ft-light text-xs md:text-md ${
+                                ingredient.isAdded
+                                  ? "bg-brown text-white"
+                                  : "bg-input text-brown"
+                              }`}
+                            >
+                              {ingredient.nombre}
+                              <img
+                                src={ingredient.icono}
+                                alt={ingredient.nombre}
+                                className="w-4 md:w-5 h-4 md:h-5"
+                              />
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
 
-            <div className="flex justify-center">
-              <button
-                onClick={handleGuardar}
-                disabled={loading}
-                className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium py-2 rounded-3xl hover:scale-105 transition cursor-pointer text-sm disabled:opacity-50"
-              >
-                {loading ? "Guardando..." : "Guardar"}
-              </button>
-            </div>
+                <div className="flex justify-center">
+                  <button
+                    onClick={handleGuardar}
+                    disabled={loading}
+                    className="w-full sm:w-72 md:w-80 bg-yellow text-brown ft-medium py-2 rounded-3xl hover:scale-105 transition cursor-pointer text-sm disabled:opacity-50"
+                  >
+                    {loading ? "Guardando..." : "Guardar"}
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import type { HomeResponse } from "../../types";
 
 type Props = {
@@ -11,14 +13,53 @@ export default function TodaySummary({ homeData }: Props) {
   const daysWeek = ["D", "L", "M", "M", "J", "V", "S"];
   const daysLetter: string[] = [];
   const numbersDays: number[] = [];
-  const currentday = homeData?.dia_actual;
-  const macros = homeData?.macros_consumidos_hoy;
+
   for (let i = 0; i < quantityDays; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() - daysBefore + i);
     daysLetter.push(daysWeek[date.getDay()]);
     numbersDays.push(date.getDate());
   }
+
+  if (!homeData) {
+    return (
+      <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:w-sm h-95">
+        {/* Header */}
+        <div className="flex justify-center gap-2">
+          <Skeleton circle width={20} height={20} />
+          <Skeleton width={40} height={16} />
+        </div>
+
+        {/* Calendario */}
+        <div className="flex justify-between mt-2">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <div key={i} className="flex flex-col items-center gap-1">
+              <Skeleton width={10} height={10} />
+              <Skeleton width={30} height={30} borderRadius={8} />
+            </div>
+          ))}
+        </div>
+
+        {/* Calorías */}
+        <div className="flex mt-4 gap-4 md:gap-6 items-center">
+          <Skeleton circle width={140} height={140} />
+
+          {/* Macros */}
+          <div className="flex flex-col gap-6 flex-1">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i}>
+                <Skeleton width={80} height={12} />
+                <Skeleton height={8} style={{ marginTop: 4 }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const currentday = homeData.dia_actual;
+  const macros = homeData.macros_consumidos_hoy;
 
   const caloriesTotal = currentday?.calorias_totales || 0;
   const proteinsTotal = currentday?.proteinas_totales || 0;
@@ -39,7 +80,7 @@ export default function TodaySummary({ homeData }: Props) {
       <div className="flex justify-between text-xs md:text-sm text-gray mt-2">
         {daysLetter.map((d, idx) => {
           const estado =
-            homeData?.macros_consumidos_hoy.seguimiento_racha?.[idx];
+            homeData.macros_consumidos_hoy.seguimiento_racha?.[idx];
 
           let bordeColor = "br-gray";
           if (estado === 1) bordeColor = "br-green";
@@ -83,14 +124,16 @@ export default function TodaySummary({ homeData }: Props) {
                 macros?.grasas_objetivo,
               ][idx] || 100;
             const percentage = Math.min((value / max) * 100, 100);
+
             return (
               <div key={macro}>
-                <div className="flex flex-col md:justify-between text-xs ft-light text-gray w-20 text-center md:text-left items-center">
+                <div className="flex flex-col text-xs ft-light text-gray w-20 text-center md:text-left items-center">
                   <span>{macro}</span>
                   <span>
                     {Math.round(value)}/{max} g
                   </span>
                 </div>
+
                 <div className="w-full bg-gray h-1 md:h-2 rounded-full mt-1">
                   <div
                     className="h-1 md:h-2 bg-yellow rounded-full"
@@ -101,11 +144,6 @@ export default function TodaySummary({ homeData }: Props) {
             );
           })}
         </div>
-      </div>
-
-      <div className="flex justify-center gap-2 mt-4 md:mt-0">
-        <span className="w-3 h-3 rounded-full bg-yellow"></span>
-        <span className="w-3 h-3 rounded-full bg-gray"></span>
       </div>
     </div>
   );

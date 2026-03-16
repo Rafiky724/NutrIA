@@ -4,9 +4,11 @@ import type { HomeResponse } from "../../types";
 import DonutChart from "../Decoration/DonutChart";
 import { getIngredientIcon } from "../../utils/ingredients";
 import ModalEditIngredients from "../Modals/ModalEditIngredients";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 type Props = {
-  homeData: HomeResponse;
+  homeData: HomeResponse | null;
   activeFoodIndex: number;
   setActiveFoodIndex: Dispatch<SetStateAction<number>>;
 };
@@ -23,16 +25,85 @@ export default function DailyDiet({
     setShowModal(false);
   };
 
+  if (!homeData) {
+    return (
+      <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
+        <Skeleton width={150} height={22} />
+
+        {/* Botones comidas */}
+        <div className="flex gap-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} width={140} height={40} borderRadius={16} />
+          ))}
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-4">
+          {/* Botón regenerar */}
+          <div className="flex flex-col w-[200px] md:w-2xs mx-auto">
+            <Skeleton height={40} borderRadius={30} />
+          </div>
+
+          <div className="lg:w-4/5 bg-input p-6 rounded-2xl flex flex-col lg:flex-row gap-6">
+            {/* Columna izquierda */}
+            <div className="flex flex-col items-center w-full lg:w-2/4 gap-6">
+              <Skeleton width={300} height={160} borderRadius={20} />
+
+              <div className="flex justify-between w-full">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="flex flex-col items-center gap-2">
+                    <Skeleton width={50} height={12} />
+                    <Skeleton width={60} height={10} />
+                    <Skeleton width={50} height={4} />
+                  </div>
+                ))}
+              </div>
+
+              <Skeleton circle width={120} height={120} />
+            </div>
+
+            {/* Columna derecha */}
+            <div className="flex flex-col w-full lg:w-2/3 gap-4">
+              <div className="flex justify-between">
+                <Skeleton width={120} height={20} />
+                <Skeleton width={80} height={16} />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between bg-white rounded-4xl p-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Skeleton circle width={20} height={20} />
+                      <Skeleton width={120} height={12} />
+                    </div>
+                    <Skeleton width={40} height={12} />
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex justify-center mt-4">
+                <Skeleton width={180} height={40} borderRadius={30} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const food = homeData.dia_actual.comidas?.[activeFoodIndex];
+  if (!food) return null;
 
   const macroPercentage = (value: number, total: number) => {
     if (!total) return 0;
     return Math.round((value / total) * 100);
   };
 
-  const proteins = food?.proteinas || 0;
-  const carbs = food?.carbohidratos || 0;
-  const fats = food?.grasas || 0;
+  const proteins = food.proteinas || 0;
+  const carbs = food.carbohidratos || 0;
+  const fats = food.grasas || 0;
 
   const totalProteins = homeData.dia_actual.proteinas_totales;
   const totalCarbs = homeData.dia_actual.carbohidratos_totales;
@@ -42,15 +113,13 @@ export default function DailyDiet({
   const percentageCarbs = macroPercentage(carbs, totalCarbs);
   const percentageFats = macroPercentage(fats, totalFats);
 
-  if (!food) return null;
-
   return (
     <>
       <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <h2 className="text-brown ft-bold text-lg">Dieta de hoy</h2>
 
         <div className="flex flex-wrap md:flex-nowrap gap-3 overflow-x-auto text-xs justify-between">
-          {homeData?.dia_actual?.comidas?.map((comida, idx) => (
+          {homeData.dia_actual.comidas?.map((comida, idx) => (
             <button
               key={idx}
               onClick={() => setActiveFoodIndex(idx)}
@@ -80,13 +149,11 @@ export default function DailyDiet({
 
           <div className="lg:w-4/5 bg-input p-4 sm:p-6 rounded-2xl flex flex-col lg:flex-row gap-4 lg:gap-6">
             <div className="flex flex-col items-center w-full lg:w-2/4 gap-4 sm:gap-6">
-              <div className="w-full object-cover">
-                <img
-                  src="/SVG/ejemploPlato.jpeg"
-                  alt="Plato"
-                  className="rounded-3xl w-150 h-40"
-                />
-              </div>
+              <img
+                src="/SVG/ejemploPlato.jpeg"
+                alt="Plato"
+                className="rounded-3xl w-150 h-40"
+              />
 
               <div className="flex justify-between w-full text-brown ft-medium text-xs">
                 <div className="flex flex-col items-center text-center">
@@ -115,10 +182,10 @@ export default function DailyDiet({
               </div>
 
               <DonutChart
-                protein={food?.proteinas || 0}
-                carbs={food?.carbohidratos || 0}
-                fats={food?.grasas || 0}
-                calories={food?.calorias || 0}
+                protein={proteins}
+                carbs={carbs}
+                fats={fats}
+                calories={food.calorias}
               />
             </div>
 
@@ -134,19 +201,17 @@ export default function DailyDiet({
 
               <div className="flex flex-col">
                 <div className="flex flex-col gap-1 overflow-y-auto min-h-[180px] h-[220px] max-h-[220px]">
-                  {food?.ingredientes.map((ing, idx) => (
+                  {food.ingredientes.map((ing, idx) => (
                     <div
                       key={idx}
                       className="flex items-center justify-between bg-white rounded-4xl p-3"
                     >
                       <div className="flex items-center gap-3 ft-light text-brown">
-                        <span className="w-5">
-                          <img
-                            src={getIngredientIcon(ing.nombre)}
-                            alt={ing.nombre}
-                            className="w-5 h-5"
-                          />
-                        </span>
+                        <img
+                          src={getIngredientIcon(ing.nombre)}
+                          alt={ing.nombre}
+                          className="w-5 h-5"
+                        />
                         <span>
                           {ing.cantidad} {ing.nombre}
                         </span>
@@ -164,7 +229,7 @@ export default function DailyDiet({
                     className="relative bg-yellow text-brown py-2 rounded-4xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition"
                   >
                     Editar ingredientes
-                    <div className="absolute top-2 md:top-2 right-4 md:right-5 w-4">
+                    <div className="absolute top-2 right-4 w-4">
                       <img src="/SVG/IconsGeneral/EditIcon.svg" alt="Editar" />
                     </div>
                   </button>
