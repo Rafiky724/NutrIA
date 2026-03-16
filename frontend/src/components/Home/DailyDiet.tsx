@@ -30,7 +30,6 @@ export default function DailyDiet({
       <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <Skeleton width={150} height={22} />
 
-        {/* Botones comidas */}
         <div className="flex gap-3">
           {Array.from({ length: 4 }).map((_, i) => (
             <Skeleton key={i} width={140} height={40} borderRadius={16} />
@@ -38,13 +37,11 @@ export default function DailyDiet({
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4">
-          {/* Botón regenerar */}
           <div className="flex flex-col w-[200px] md:w-2xs mx-auto">
             <Skeleton height={40} borderRadius={30} />
           </div>
 
           <div className="lg:w-4/5 bg-input p-6 rounded-2xl flex flex-col lg:flex-row gap-6">
-            {/* Columna izquierda */}
             <div className="flex flex-col items-center w-full lg:w-2/4 gap-6">
               <Skeleton width={300} height={160} borderRadius={20} />
 
@@ -61,7 +58,6 @@ export default function DailyDiet({
               <Skeleton circle width={120} height={120} />
             </div>
 
-            {/* Columna derecha */}
             <div className="flex flex-col w-full lg:w-2/3 gap-4">
               <div className="flex justify-between">
                 <Skeleton width={120} height={20} />
