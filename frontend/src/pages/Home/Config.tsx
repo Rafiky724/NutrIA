@@ -8,7 +8,7 @@ import Contact from "../../components/Home/SettingsMenu/Contact";
 import Shop from "../../components/Home/SettingsMenu/Shop";
 import Profile from "../../components/Home/SettingsMenu/Profile";
 import MainMenu from "../../components/Home/SettingsMenu/MainMenu";
-import { achievementsData, contactData } from "../../data/menu";
+import { achievementsData } from "../../data/menu";
 
 type ViewType = "main" | "profile" | "achievements" | "contact" | "shop";
 
@@ -96,9 +96,7 @@ export default function Config() {
               onBack={() => setView("main")}
             />
           )}
-          {view === "contact" && (
-            <Contact contactInfo={contactData} onBack={() => setView("main")} />
-          )}
+          {view === "contact" && <Contact onBack={() => setView("main")} />}
           {view === "achievements" && (
             <AchievementsList
               achievements={achievementsData}
