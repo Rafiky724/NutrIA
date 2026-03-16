@@ -29,8 +29,11 @@ export default function Contact({ onBack }: Props) {
                 Somos un equipo apasionado por la nutrición personalizada y la
                 tecnología aplicada al bienestar. Nuestra misión es ayudarte a
                 alcanzar tus objetivos de forma saludable, sostenible y basada
-                en datos.", "Creamos esta app para hacer que la alimentación
-                personalizada sea simple, accesible y efectiva.
+                en datos.
+              </p>
+              <p className="ft-light text-xs md:text-sm text-justify mt-2">
+                Creamos esta app para hacer que la alimentación personalizada
+                sea simple, accesible y efectiva.
               </p>
             </div>
 
