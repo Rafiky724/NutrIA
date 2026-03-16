@@ -89,16 +89,6 @@ export const categoriesData = [
     },
 ];
 
-export const contactData = {
-    description: [
-        "Somos un equipo apasionado por la nutrición personalizada y la tecnología aplicada al bienestar. Nuestra misión es ayudarte a alcanzar tus objetivos de forma saludable, sostenible y basada en datos.",
-        "Creamos esta app para hacer que la alimentación personalizada sea simple, accesible y efectiva.",
-    ],
-    helpText: "Nos encantará leerte",
-    emails: ["contacto@tusitio.com", "soporte@tusitio.com"],
-    copyright: "/SVG/IconsGeneral/CopyrightNutria.svg",
-};
-
 export const achievementsData = [
     {
         title: "Completa 10 días de racha",
