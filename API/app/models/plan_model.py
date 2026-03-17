@@ -62,8 +62,7 @@ class PlanModel:
     @staticmethod
     async def get_plan_usuario(user_id: ObjectId) -> dict:
         return await db.planes.find_one(
-            {"id_usuario": user_id, "activo": True},
-            {"_id": 0}
+            {"id_usuario": user_id, "activo": True}
         )
     
     @staticmethod

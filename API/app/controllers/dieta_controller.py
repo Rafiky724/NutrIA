@@ -1,6 +1,8 @@
-from datetime import datetime, timedelta, date
+from copy import deepcopy
+from datetime import datetime, time, timedelta, date
 import unicodedata
 from bson import ObjectId
+from pymongo import ReplaceOne
 from app.controllers.plan_controller import PlanController
 from app.controllers.objetivo_controller import ObjetivoController
 from app.controllers.dias_controller import DiasController
@@ -12,6 +14,8 @@ from app.core.llm import ask_llm
 import re
 from zoneinfo import ZoneInfo
 
+from app.models.dias_model import DiaModel
+from app.models.plan_model import PlanModel
 from app.schemas.estado_dia import IniciarDietaRequest
 
 class DietaController:
@@ -355,6 +359,7 @@ class DietaController:
     
     @staticmethod
     async def iniciar_dieta(current_user: ObjectId, payload: IniciarDietaRequest) -> dict:
+
         hoy = datetime.now(ZoneInfo("America/Bogota")).date()
 
         if payload.tipo_inicio == "hoy":
@@ -364,72 +369,108 @@ class DietaController:
         else:
             fecha_inicio = payload.fecha_inicio
 
-        plan = await db.planes.find_one(
-            {"id_usuario": ObjectId(current_user["_id"]), "activo": True},
-            {"_id": 1}
-        )
+        plan = await PlanModel.get_plan_usuario(ObjectId(current_user["_id"]))
 
         if not plan:
             raise HTTPException(status_code=404, detail="Plan activo no encontrado")
 
-        dia = DietaController.DIAS_SEMANA[fecha_inicio.weekday()]
+        operaciones = []
 
-        dia_doc = await db.dias.find_one(
-            {
-                "id_plan": plan["_id"],
-                "dia_semana": dia.lower()
-            },
-            {"_id": 0}
-        )
+        for offset in range(7):
 
-        if not dia_doc:
-            raise Exception("No existe una dieta para la fecha seleccionada")
-        
-        comidas = dia_doc["comidas"]
-        
-        if payload.tipo_inicio == "hoy":
-            index = next(
-                (i for i, c in enumerate(comidas)
-                if c["tipo_comida"].lower() == payload.siguiente_comida.lower()),
-                None
+            fecha = fecha_inicio + timedelta(days=offset)
+
+            fecha_dt = datetime.combine(
+                fecha,
+                time.min,
+                tzinfo=ZoneInfo("America/Bogota")
             )
 
-            if index is None:
-                raise Exception("La comida indicada no existe en la dieta")
+            dia_semana = DietaController.DIAS_SEMANA[fecha.weekday()].lower()
 
-        else:
-            index = 0
+            dia_doc = await DiaModel.get_dia_user(plan["_id"], dia_semana)
 
-        estado_dia = {
-            "user_id": ObjectId(current_user["_id"]),
-            "fecha": str(fecha_inicio),
-            "dia_semana": dia_doc["dia_semana"],
-            "comida_actual_index": index,
-            "ultima_comida_completada": None,
-            "macros_consumidos": {
-                "calorias": 0,
-                "proteinas": 0,
-                "carbohidratos": 0,
-                "grasas": 0
-            },
-            "inicio_dia": None,
-            "fin_dia": None,
-            "activo": True
-        }
+            if not dia_doc:
+                raise Exception(f"No existe dieta plantilla para {dia_semana}")
+
+            comidas = deepcopy(dia_doc["comidas"])
+
+            # índice comida actual
+            if offset == 0 and payload.tipo_inicio == "hoy":
+                index = next(
+                    (i for i, c in enumerate(comidas)
+                    if c["tipo_comida"].lower() == payload.siguiente_comida.lower()),
+                    None
+                )
+
+                if index is None:
+                    raise Exception("La comida indicada no existe en la dieta")
+            else:
+                index = 0
+
+            estado = {
+                "user_id": ObjectId(current_user["_id"]),
+                "plan_id": plan["_id"],
+                "fecha": fecha_dt,
+                "dia_semana": dia_semana,
+
+                "comida_actual_index": index,
+                "ultima_comida_completada": None,
+
+                "macros_consumidos": {
+                    "calorias": 0,
+                    "proteinas": 0,
+                    "carbohidratos": 0,
+                    "grasas": 0
+                },
+
+                "inicio_dia": None,
+                "fin_dia": None,
+                "activo": True,
+
+                # 🔥 copia congelada de la dieta
+                "dieta": {
+                    "calorias_totales": dia_doc["calorias_totales"],
+                    "proteinas_totales": dia_doc["proteinas_totales"],
+                    "carbohidratos_totales": dia_doc["carbohidratos_totales"],
+                    "grasas_totales": dia_doc["grasas_totales"],
+                    "completado": False,
+                    "comidas": comidas
+                },
+
+                "created_at": datetime.now(ZoneInfo("America/Bogota")),
+                "updated_at":datetime.now(ZoneInfo("America/Bogota"))
+            }
+
+            operaciones.append(
+                ReplaceOne(
+                    {
+                        "user_id": estado["user_id"],
+                        "fecha": fecha_dt
+                    },
+                    estado,
+                    upsert=True
+                )
+            )
 
         async with await db.client.start_session() as session:
             async with session.start_transaction():
-                await db.estados_dia.replace_one(
-                    {"user_id": estado_dia["user_id"]},
-                    estado_dia,
-                    upsert=True,
-                    session=session
-                )
+
+                if operaciones:
+                    await db.estados_dia.bulk_write(
+                        operaciones,
+                        ordered=False,
+                        session=session
+                    )
 
                 await db.planes.update_one(
                     {"_id": plan["_id"]},
-                    {"$set": {"dia_actualizar_dieta": payload.dia_actualizar_dieta}},
+                    {"$set": {"dia_actualizar_dieta": payload.dia_actualizar_dieta,
+                              "fecha_inicio": datetime.combine(fecha_inicio, time.min,tzinfo=ZoneInfo("America/Bogota"))}},
                     session=session
                 )
 
-        return {200: "Dieta empezada exitosamente"}
+        return {200: "Dieta iniciada correctamente"}
+
+
+    

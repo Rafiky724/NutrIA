@@ -1,15 +1,32 @@
+from datetime import datetime, timedelta
 from typing import List
+from zoneinfo import ZoneInfo
 from bson import ObjectId
 from fastapi import HTTPException
+from pymongo import ReplaceOne
 from app.core.database import db
+from app.core.helpers import get_day_range_bogota
 from app.core.parse import safe_parse_json
 from app.core.llm import ask_llm
+from app.models.estado_model import EstadoModel
+from app.models.plan_model import PlanModel
+from app.schemas.dias import DiaResponse
 
 class DiasController:
 
     DIAS_VALIDOS = {
     "lunes", "martes", "miercoles",
     "jueves", "viernes", "sabado", "domingo"
+    }
+
+    DIAS_MAP = {
+        "lunes": 0,
+        "martes": 1,
+        "miercoles": 2,
+        "jueves": 3,
+        "viernes": 4,
+        "sabado": 5,
+        "domingo": 6
     }
 
     @staticmethod
@@ -23,8 +40,33 @@ class DiasController:
 
     @staticmethod
     async def build_dias_from_dieta(dias: List[dict], session=None):
-        return await db.dias.insert_many(dias, session=session)
-    
+
+        operations = []
+
+        for dia in dias:
+
+            filtro = {
+                "id_plan": dia["id_plan"],
+                "dia_semana": dia["dia_semana"]
+            }
+
+            dia["updated_at"] = datetime.now(ZoneInfo("America/Bogota"))
+
+            operations.append(
+                ReplaceOne(
+                    filtro,
+                    dia,
+                    upsert=True
+                )
+            )
+
+        if operations:
+            return await db.dias.bulk_write(
+                operations,
+                ordered=False,
+                session=session
+            )
+        
     @staticmethod
     async def update_dia(dia_id: ObjectId, update_data: dict, session=None) -> bool:
         """
@@ -61,26 +103,62 @@ class DiasController:
         if dia not in DiasController.DIAS_VALIDOS:
             raise HTTPException(status_code=400, detail="Día inválido")
 
-        plan = await db.planes.find_one(
-            {"id_usuario": user_id, "activo": True},
-            {"_id": 1}
-        )
+        plan = await PlanModel.get_plan_usuario(user_id)
 
         if not plan:
             raise HTTPException(status_code=404, detail="Plan activo no encontrado")
 
-        dia_doc = await db.dias.find_one(
-            {
-                "id_plan": plan["_id"],
-                "dia_semana": dia.lower()
-            },
-            {"_id": 0}
-        )
+        estado_doc = await EstadoModel.get_estado_dia_por_dia(plan["_id"], dia)
 
-        if not dia_doc:
+        if not estado_doc:
             raise HTTPException(status_code=404, detail=f"No hay información para {dia}")
 
-        return dia_doc
+        estado_dia = estado_doc["dieta"]
+        estado_dia["dia_semana"] = dia
+        estado_dia["created_at"] = estado_doc["created_at"]
+
+        return estado_dia
+
+    @staticmethod
+    async def get_dia_by_nombreOG(current_user: dict, dia: str) -> dict:
+
+        user_id = ObjectId(current_user["_id"])
+
+        dia = dia.lower()
+        if dia not in DiasController.DIAS_VALIDOS:
+            raise HTTPException(status_code=400, detail="Día inválido")
+
+        hoy = datetime.now(ZoneInfo("America/Bogota")).date()
+        hoy_weekday = hoy.weekday()
+
+        objetivo_weekday = DiasController.DIAS_MAP[dia]
+
+        # calcular días hasta el próximo
+        delta = (objetivo_weekday - hoy_weekday) % 7
+
+        fecha_objetivo = hoy + timedelta(days=delta)
+
+        # rango del día
+        inicio, fin = get_day_range_bogota(fecha_objetivo)
+
+        try:
+            plan = await PlanModel.get_plan_usuario(user_id)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error al obtener el plan: {str(e)}")
+
+        estado = await EstadoModel.get_estado_dia_por_fecha(plan['_id'], inicio, fin)
+
+        if not estado:
+            raise HTTPException(
+                status_code=404,
+                detail=f"No existe estado de dieta para el próximo {dia}"
+            )
+
+        diaDieta = estado["dieta"]
+        diaDieta["dia_semana"] = dia
+        diaDieta["created_at"] = estado["created_at"]
+
+        return DiaResponse(**diaDieta)
 
     @staticmethod
     async def get_dia_completo_by_nombre(current_user: dict, dia: str) -> dict:
@@ -218,6 +296,28 @@ class DiasController:
                         update_data=dia_doc,
                         session=session
                     )
+                    
+                    print(dia_doc)
+
+                    dia_doc.pop("_id")
+                    created_at = dia_doc.pop("created_at")
+                    dia_semana = dia_doc["dia_semana"]
+                    dia_doc.pop("dia_semana")
+                    id_plan = dia_doc["id_plan"]
+                    dia_doc.pop("id_plan")
+
+                    await EstadoModel.edit_estado_dia(
+                        plan_id=id_plan,
+                        estado=dia_doc,
+                        dia_semana=dia_semana,
+                        session=session
+                    )
+
+                    # Al regresar al cliente necesitamos mantener los campos esperados por el schema
+                    dia_doc["dia_semana"] = dia_semana
+                    if created_at is not None:
+                        dia_doc["created_at"] = created_at
+
                     # Si llega aquí, todo OK
         except Exception as e:
             # ROLLBACK automático por salir del transaction
