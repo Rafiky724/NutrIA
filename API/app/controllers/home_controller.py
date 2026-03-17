@@ -4,6 +4,9 @@ from zoneinfo import ZoneInfo
 
 from fastapi import HTTPException
 from app.core.database import db
+from app.core.helpers import get_day_range_bogota
+from app.models.estado_model import EstadoModel
+from app.models.plan_model import PlanModel
 from app.schemas.dias import DiaResponse
 
 class HomeController:
@@ -22,11 +25,19 @@ class HomeController:
     async def get_home(current_user: dict):
 
         user_id = ObjectId(current_user["_id"])
-        hoy = datetime.now(ZoneInfo("America/Bogota")).date().isoformat()
+        hoy = datetime.now(ZoneInfo("America/Bogota")).date()
 
+        inicio, fin = get_day_range_bogota(hoy)
+
+        plan = await PlanModel.get_plan_usuario(user_id)
+
+        """
         plan = await db.planes.find_one({
             "id_usuario": user_id
-        })
+        })"""
+
+        if not plan:
+            raise HTTPException(status_code=404, detail="Plan activo no encontrado")
 
         usuario = {
 
@@ -35,26 +46,35 @@ class HomeController:
             "numero_racha": current_user.get("dias_racha", 0)
         }
 
+        """
         estado = await db.estados_dia.find_one({
             
             "user_id": user_id,
             #"fecha": hoy
             "activo": True  # Work in progress
 
-        })
+        })"""
+        
+        estado = await EstadoModel.get_estado_dia_por_fecha(plan["_id"], inicio, fin)
+        #print(estado)
+        #return {200: "ok"}
 
         if not estado:
+
+            fecha = plan["fecha_inicio"]
             
             return {
                 "usuario": usuario,
                 "hay_dieta_hoy": False,
-                "mensaje": "Aún no has iniciado tu dieta para hoy",
+                "mensaje": f"No existe un plan alimenticio para hoy. Tu dieta inicia el {fecha.day} de {HomeController.meses[fecha.month -1]} de {fecha.year}.",
                 "macros_consumidos_hoy": None,
                 "proxima_comida": None,
                 "dia_actual": None
             }
         
+        """
         if estado["fecha"] != hoy:
+            
             fecha = date.fromisoformat(estado["fecha"])
 
             existe = await db.estados_dia.find_one({
@@ -84,6 +104,8 @@ class HomeController:
                     "proxima_comida": None,
                     "dia_actual": None
                 }
+        """
+        #return {200: "ok"}
 
         macros_consumidos = estado["macros_consumidos"]
         macros_consumidos["calorias_objetivo"] = plan["calorias_diarias"]
@@ -91,7 +113,10 @@ class HomeController:
         macros_consumidos["carbohidratos_objetivo"] = plan["carbohidratos_diarios"]
         macros_consumidos["grasas_objetivo"] = plan["grasas_diarias"]
         macros_consumidos["seguimiento_racha"] = [1,1,-1,0,2,2,2] # Work in progress
-
+        dia = estado["dieta"]
+        dia["dia_semana"] = HomeController.dias[hoy.weekday()]
+        dia["created_at"] = estado["created_at"]
+        """
         dia = await db.dias.find_one({
             "id_plan": ObjectId(plan["_id"]),
             "dia_semana": HomeController.dias[datetime.now(ZoneInfo("America/Bogota")).weekday()]
@@ -110,12 +135,12 @@ class HomeController:
                 "proxima_comida": None,
                 "dia_actual": None
             }
-        
+        """
         comidas = dia["comidas"]
         index = estado["comida_actual_index"]
 
         if index >= len(comidas):
-            proxima = None
+            proxima = "Haz acabado tu plan alimenticio para el día de hoy. Vuelve mañana."
 
         else:
             comida = comidas[index]

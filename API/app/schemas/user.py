@@ -59,3 +59,34 @@ class UserPesoResponse(BaseModel):
 
 class UserPesoUpdateRequest(BaseModel):
     peso_actual: float
+
+class MascotaPerfilResponse(BaseModel):
+
+    tipo: str
+    nombre: str
+    estado: str
+
+    gorra_puesto: Optional[str]
+    gafa_puesto: Optional[str]
+    marco_puesto: Optional[str]
+    fondo_puesto: Optional[str]
+    accesorio_puesto: Optional[str]
+
+class PerfilUsuarioResponse(BaseModel):
+
+    nombre: str
+    apodo: str
+    correo: str
+    genero: str
+    edad: str
+    altura: str
+    peso: str
+
+    mascota: MascotaPerfilResponse
+
+class EditarPerfilRequest(BaseModel):
+
+    nombre_usuario: Optional[str] = None
+    apodo_usuario: Optional[str] = None
+    altura_usuario: Optional[float] = None
+    nombre_mascota: Optional[str] = None

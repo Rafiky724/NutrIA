@@ -1,6 +1,9 @@
 from datetime import datetime, date
 from zoneinfo import ZoneInfo
 
+from bson import ObjectId
+from app.core.database import db
+
 class ObjetivoModel:
 
     @staticmethod
@@ -20,3 +23,23 @@ class ObjetivoModel:
             "activo": True
 
         }
+    
+    @staticmethod
+    async def get_objetivo_usuario(user_id: str) -> dict:
+        objetivo = await db.objetivos.find_one(
+            {"id_usuario": user_id, "activo": True},
+            {"_id": 0}
+        )
+        return objetivo
+    
+    @staticmethod
+    async def actualizar_objetivo_usuario(user_id: ObjectId, data, session=None):
+        kwargs = {}
+        if session is not None:
+            kwargs["session"] = session
+        return await db.objetivos.update_one(
+            {"id_usuario": user_id, "activo": True},
+            {"$set": data},
+            **kwargs
+        )
+    

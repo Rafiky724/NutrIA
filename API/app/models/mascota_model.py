@@ -12,8 +12,11 @@ class MascotaModel:
         )
 
     @staticmethod
-    async def crear_mascota_usuario(data: dict):
-        return await db.mascotas_usuarios.insert_one(data)
+    async def crear_mascota_usuario(data: dict, session=None):
+        kwargs = {}
+        if session is not None:
+            kwargs["session"] = session
+        return await db.mascotas_usuarios.insert_one(data, **kwargs)
 
     @staticmethod
     async def get_tienda():
@@ -38,5 +41,19 @@ class MascotaModel:
         return await db.mascotas_usuarios.update_one(
             {"id_usuario": user_id},
             {"$set": data},
+            **kwargs
+        )
+    
+    @staticmethod
+    async def actualizar_nombre_mascota(user_id: ObjectId, mascotas, session=None):
+        """Update the list of mascotas for a user, used when renaming the
+        active pet. Accepts optional session for transactional usage.
+        """
+        kwargs = {}
+        if session is not None:
+            kwargs["session"] = session
+        return await db.mascotas_usuarios.update_one(
+            {"id_usuario": user_id},
+            {"$set": {"mascotas": mascotas}},
             **kwargs
         )
