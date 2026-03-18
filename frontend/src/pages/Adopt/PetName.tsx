@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Toast from "../../components/Toast/Toast";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
+import { crearMascota } from "../../services/mascotaService";
 
 export default function PetName() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const tipo_mascota = location.state?.tipo_mascota;
   const [petName, setPetName] = useState("");
   const [toast, setToast] = useState({
     open: false,
@@ -14,7 +17,11 @@ export default function PetName() {
     type: "success" as "success" | "error" | "info" | "warning",
   });
 
-  const handleContinue = () => {
+  if (!tipo_mascota) {
+    navigate("/adoptMoment");
+  }
+
+  const handleContinue = async () => {
     if (!petName.trim()) {
       setToast({
         open: true,
@@ -24,7 +31,29 @@ export default function PetName() {
       return;
     }
 
-    navigate("/home");
+    if (!tipo_mascota) {
+      setToast({
+        open: true,
+        message: "Error: tipo de mascota no definido",
+        type: "error",
+      });
+      return;
+    }
+
+    try {
+      await crearMascota({
+        tipo_mascota,
+        nombre: petName,
+      });
+
+      navigate("/home");
+    } catch (error: any) {
+      setToast({
+        open: true,
+        message: error?.response?.data?.detail || "Error al crear la mascota",
+        type: "error",
+      });
+    }
   };
 
   return (
