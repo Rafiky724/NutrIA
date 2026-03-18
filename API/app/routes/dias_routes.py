@@ -11,7 +11,7 @@ router = APIRouter(
 
 @router.get("/{dia}", response_model=DiaResponse)
 async def get_dia(dia: str, user: dict = Depends(get_current_user)):
-    return await DiasController.get_dia_by_nombreOG(user, dia)
+    return await DiasController.get_dia(user, dia)
 
 @router.put("/{dia}/comidas/{tipo_comida}/editar", response_model=EditarComidaResponse)
 async def editar_comida(dia: str, tipo_comida: str, payload: EditarComidaRequest, user: dict = Depends(get_current_user)):

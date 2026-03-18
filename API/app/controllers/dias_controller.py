@@ -95,6 +95,34 @@ class DiasController:
         return result.modified_count > 0
     
     @staticmethod
+    async def get_dia(current_user: dict, dia: str) -> dict:
+
+        user_id = ObjectId(current_user["_id"])
+
+        dia = dia.lower()
+        if dia not in DiasController.DIAS_VALIDOS:
+            raise HTTPException(status_code=400, detail="Día inválido")
+
+        
+        plan = await PlanModel.get_plan_usuario(user_id)
+            
+        if not plan:
+            raise HTTPException(status_code=404, detail="Plan activo no encontrado")
+        
+        dia_doc = await db.dias.find_one(
+            {
+                "id_plan": plan["_id"],
+                "dia_semana": dia.lower()
+            },
+            {"_id": 0}
+        )
+
+        if not dia_doc:
+            raise HTTPException(status_code=404, detail="Día no encontrado")
+
+        return dia_doc
+    
+    @staticmethod
     async def get_dia_by_nombre(current_user: dict, dia: str) -> dict:
 
         user_id = ObjectId(current_user["_id"])
