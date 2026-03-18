@@ -161,7 +161,7 @@ class DietaController:
             "Lunes": {{
             "Desayuno": {{
                 "precio_estimado": "" (precio esitimado del plato en pesos colombianos. Aplicar para todos),
-                "hora": "" (sigue este formato: 07:30 AM, 07:30 PM, NO MILITAR etc),
+                "hora": "" (SIGUE SÍ O SÍ ESTE FORMATO: 07:30 AM, 07:30 PM, NO MILITAR Y PON SIEMPRE AM O PM),
                 "calorias": "" (cantidad de calorías de ese plato),
                 "proteina": "",
                 "carbs": "",
