@@ -7,6 +7,7 @@ from app.core.database import db
 from app.core.helpers import get_day_range_bogota
 from app.models.estado_model import EstadoModel
 from app.models.plan_model import PlanModel
+from app.models.user_model import UserModel
 
 class ComidasController:
 
@@ -243,7 +244,7 @@ class ComidasController:
 
                     await db.users.update_one(
                         {"_id": user_id},
-                        {"$set": {"dias_racha": nueva_racha}}
+                        {"$set": {"dias_racha": nueva_racha, "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5}}
                     )
                 else:
                     nueva_racha = original_user.get("dias_racha", 0) if original_user else 0
@@ -252,15 +253,20 @@ class ComidasController:
                     "mensaje": "Día completado correctamente",
                     "comida_completada": comida_actual["tipo_comida"],
                     "nueva_comida_actual": None,
-                    "racha_actual": nueva_racha
+                    "racha_actual": nueva_racha,
+                    "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5,
                 }
+
+            await UserModel.actualizar_gemas(user_id, original_user.get("gemas_acumuladas", 0) + 5)
 
             # Si NO era la última
             return {
                 "mensaje": "Comida completada correctamente",
                 "comida_completada": comida_actual["tipo_comida"],
                 "nueva_comida_actual": comidas[nuevo_index]["tipo_comida"],
-                "racha_actual": original_user.get("dias_racha", 0) if original_user else 0
+                "racha_actual": original_user.get("dias_racha", 0) if original_user else 0,
+                "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5
+
             }
 
         except Exception as e:
