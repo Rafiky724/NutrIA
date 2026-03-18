@@ -45,3 +45,7 @@ export const DESPENSA_ENDPOINTS = {
   GET_INGREDIENTES: "/despensa/ingredientes",
   ACTUALIZAR_INGREDIENTES: "/despensa/actualizar_ingredientes",
 } as const;
+
+export const MASCOTA_ENDPOINTS = {
+  CREAR: "/mascotas/adoptar",
+} as const;
