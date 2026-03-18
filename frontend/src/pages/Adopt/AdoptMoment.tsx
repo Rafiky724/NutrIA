@@ -42,8 +42,13 @@ export default function AdoptMoment() {
       });
       return;
     }
+    const selectedPet = options.find((o) => o.id === selectedOption);
 
-    navigate("/petName");
+    navigate("/petName", {
+      state: {
+        tipo_mascota: selectedPet?.label.toLowerCase(),
+      },
+    });
   };
 
   return (
