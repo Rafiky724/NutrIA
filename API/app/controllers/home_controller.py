@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 
 from fastapi import HTTPException
 from app.core.database import db
-from app.core.helpers import get_day_range_bogota
+from app.core.helpers import get_day_range_bogota, comparar_horas
 from app.models.estado_model import EstadoModel
 from app.models.plan_model import PlanModel
 from app.schemas.dias import DiaResponse
@@ -154,7 +154,8 @@ class HomeController:
                 "carbohidratos": comida["carbohidratos"],
                 "grasas": comida["grasas"],
                 "ingredientes": comida["ingredientes"],
-                "precio_estimado": comida["precio_estimado"]
+                "precio_estimado": comida["precio_estimado"],
+                "estado": comparar_horas(comida["hora_sugerida"])
             }
         
         return {
