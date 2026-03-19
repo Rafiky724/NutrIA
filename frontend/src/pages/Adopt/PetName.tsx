@@ -56,10 +56,16 @@ export default function PetName() {
     }
   };
 
+  const petImages: Record<string, string> = {
+    perro: "/SVG/Pets/Shop/Mascotas/perro.svg",
+    gato: "/SVG/Pets/Shop/Mascotas/gato.svg",
+    nutria: "/SVG/Pets/Shop/Mascotas/nutria.svg",
+  };
+
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
       <div className="absolute top-6 left-6 z-50">
-        <ArrowReturn to="/adopt" />
+        <ArrowReturn to="/adoptMoment" />
       </div>
 
       <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 py-10 xl:py-24">
@@ -81,7 +87,9 @@ export default function PetName() {
           </p>
 
           <img
-            src="/SVG/Pets/PetSelected.svg"
+            src={
+              petImages[tipo_mascota] || "/SVG/Pets/Shop/Mascotas/nutria.svg"
+            }
             alt="Mascota"
             className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-cover mx-auto border-3 rounded-4xl"
           />
