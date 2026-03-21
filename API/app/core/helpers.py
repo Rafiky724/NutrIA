@@ -39,16 +39,13 @@ def comparar_horas(hora: str):
         tzinfo=tz
     )
 
-    print(hora1, ahora)
+    diferencia = (ahora - hora1).total_seconds() / 3600
 
-
-    diferencia = (hora1 - ahora).total_seconds() / 3600
-
-    if diferencia < -1:
+    if diferencia > 1:
         return {"color": "#260B01", "mensaje": "¡Tu comida está retrasada!", "estado": 2}
     
-    elif -1 <= diferencia <= 1:
+    elif 0 <= diferencia <= 1:
         return {"color": "#E5E1BD", "mensaje": "¡Es hora de comer!", "estado": 1}
     
-    else:  # diferencia > 1
+    else:  # diferencia < 0
         return {"color": "#FCFCFC", "mensaje": "Próxima comida", "estado": 0}
