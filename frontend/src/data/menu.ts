@@ -69,7 +69,7 @@ export const categoriesData = [
     {
         name: "Gorras",
         icon: "/SVG/Pets/Shop/Category/Gorras.svg",
-        type: "gorros",
+        type: "gorras",
     },
     { name: "Gafas", icon: "/SVG/Pets/Shop/Category/Gafas.svg", type: "gafas" },
     {
