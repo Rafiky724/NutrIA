@@ -41,6 +41,13 @@ export const HOME_ENDPOINTS = {
   GET_HOME: "/home/"
 } as const;
 
+export const COMIDAS_ENDPOINTS = {
+  COMPLETAR: "/comidas/completar_comida",
+  CANCELAR: "/comidas/cancelar_comida",
+  SALVAR_RACHA: "/comidas/salvar_racha",
+  PERDER_RACHA: "/comidas/perder_racha",
+} as const;
+
 export const DESPENSA_ENDPOINTS = {
   GET_INGREDIENTES: "/despensa/ingredientes",
   ACTUALIZAR_INGREDIENTES: "/despensa/actualizar_ingredientes",
