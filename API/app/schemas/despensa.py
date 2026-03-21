@@ -10,3 +10,9 @@ class DespensaResponse(BaseModel):
 
 class DespensaUpdateRequest(BaseModel):
     ingredientes: List[dict]
+
+class VerificarIngredienteRequest(BaseModel):
+    ingrediente: str
+
+class VerificarIngredienteResponse(BaseModel):
+    esIngrediente: bool
