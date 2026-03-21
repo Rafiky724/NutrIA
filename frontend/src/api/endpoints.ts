@@ -17,17 +17,15 @@ export const PLAN_ENDPOINTS = {
 
 export const DAYS_ENDPOINTS = {
   BY_NAME: (day: string) => `/dias/${day}`,
-
   EDIT_FOOD: (day: string, typeFood: string) =>
     `/dias/${day}/comidas/${typeFood}/editar`,
-
   REGENERATE_FOOD: (day: string, typeFood: string) =>
     `/dias/${day}/comidas/${typeFood}/regenerar`,
-
 } as const;
 
 export const OBJECTIVE_ENDPOINTS = {
   DATES: "/objetivo/fechas",
+  ACTUALIZAR: "/objetivo/actualizar",
 } as const;
 
 export const USER_ENDPOINTS = {
@@ -35,6 +33,8 @@ export const USER_ENDPOINTS = {
   PROGRESS: "/user/progress",
   PESO: "/user/peso",
   UPDATE_PESO: "/user/actualizar_peso",
+  PERFIL: "/user/perfil",
+  EDITAR_PERFIL: "/user/editar_perfil",
 } as const;
 
 export const HOME_ENDPOINTS = {
@@ -48,4 +48,13 @@ export const DESPENSA_ENDPOINTS = {
 
 export const MASCOTA_ENDPOINTS = {
   CREAR: "/mascotas/adoptar",
+  TIENDA: "/mascotas/tienda",
+  ITEMS_CATEGORIA: (categoria: string) =>
+    `/mascotas/${categoria}`,
+  COMPRAR_ITEM: "/mascotas/comprar_item",
+} as const;
+
+export const LOGROS_ENDPOINTS = {
+  GET_ALL: "/logros/",
+  RECLAMAR: "/logros/reclamar",
 } as const;
