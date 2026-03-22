@@ -105,7 +105,6 @@ class HomeController:
                     "dia_actual": None
                 }
         """
-        #return {200: "ok"}
 
         macros_consumidos = estado["macros_consumidos"]
         macros_consumidos["calorias_objetivo"] = plan["calorias_diarias"]
@@ -136,6 +135,7 @@ class HomeController:
                 "dia_actual": None
             }
         """
+        
         comidas = dia["comidas"]
         index = estado["comida_actual_index"]
 
