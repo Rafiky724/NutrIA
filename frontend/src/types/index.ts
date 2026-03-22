@@ -83,8 +83,8 @@ export type Macros = {
 
 export type TargetDates
   = {
-    fecha_inicio: string; // YYYY-MM-DD
-    fecha_estimada: string; // YYYY-MM-DD
+    fecha_inicio: string;
+    fecha_estimada: string;
   };
 
 export type TypeFood =
@@ -161,12 +161,19 @@ export interface NextMeal {
   grasas: number;
   precio_estimado: number;
   ingredientes: Ingredient[];
+  estado?: Estado;
 }
 
 export interface User {
   nombre: string;
   cantidad_gemas: number;
   numero_racha: number;
+}
+
+export interface Estado {
+  color: string;
+  mensaje: string;
+  estado: number;
 }
 
 export interface HomeResponse {
@@ -189,8 +196,8 @@ export type RegenerateDayResponse = {
 };
 
 export type DatesTargetResponse = {
-  fecha_inicio: string;    // YYYY-MM-DD
-  fecha_estimada: string;  // YYYY-MM-DD
+  fecha_inicio: string;
+  fecha_estimada: string;
 };
 
 export type IngredientItem = {
@@ -202,4 +209,12 @@ export type IngredientCategory = {
   nombre: string;
   minimo: number;
   items: IngredientItem[];
+};
+
+export type Option = {
+  id: string;
+  image: string;
+  label: string;
+  gems?: number;
+  icon: string;
 };
