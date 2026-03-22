@@ -36,7 +36,7 @@ export default function EstimateMeal({ isOpen, onClose, onContinue }: Props) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-3xl p-8 flex flex-col gap-6 w-2xl"
+        className="bg-white rounded-3xl p-8 flex flex-col gap-6 md:w-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-center text-lg ft-bold text-brown">
@@ -45,13 +45,13 @@ export default function EstimateMeal({ isOpen, onClose, onContinue }: Props) {
 
         <div className="flex flex-col gap-4">
           <div className="h-32 rounded-xl flex items-center justify-center">
-            <div className="w-15 xl:w-25 h-25 xl:h-25 relative flex items-center justify-center">
+            <div className="w-25 xl:w-25 h-25 xl:h-25 relative flex items-center justify-center">
               <div
                 className="w-full h-full rounded-full"
                 style={{ background: gradient }}
               ></div>
 
-              <div className="absolute w-10 xl:w-20 h-10 xl:h-20 bg-white rounded-full flex items-center justify-center text-sm ft-medium text-brown text-center">
+              <div className="absolute w-20 xl:w-20 h-20 xl:h-20 bg-white rounded-full flex items-center justify-center text-sm ft-medium text-brown text-center">
                 {calories} <br />
                 Kcal
               </div>
