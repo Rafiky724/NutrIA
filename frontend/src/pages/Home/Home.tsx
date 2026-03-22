@@ -13,16 +13,16 @@ export default function Home() {
 
   const hayDietaHoy = !!homeData?.dia_actual?.comidas?.length;
 
-  useEffect(() => {
-    const fetchHomeData = async () => {
-      try {
-        const data = await HomeService.getHome();
-        setHomeData(data);
-      } catch (err) {
-        console.error("Error al cargar datos del home", err);
-      }
-    };
+  const fetchHomeData = async () => {
+    try {
+      const data = await HomeService.getHome();
+      setHomeData(data);
+    } catch (err) {
+      console.error("Error al cargar datos del home", err);
+    }
+  };
 
+  useEffect(() => {
     fetchHomeData();
   }, []);
 
@@ -34,7 +34,11 @@ export default function Home() {
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
           <TodaySummary homeData={homeData} />
 
-          <NextMealCard nextFood={homeData?.proxima_comida} />
+          <NextMealCard
+            nextFood={homeData?.proxima_comida}
+            estado={homeData?.proxima_comida?.estado}
+            onRefetch={fetchHomeData}
+          />
         </div>
 
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
