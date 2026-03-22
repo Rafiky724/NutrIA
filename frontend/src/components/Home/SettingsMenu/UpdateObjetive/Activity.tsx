@@ -14,7 +14,6 @@ export default function Activity() {
   const handleSelect = (selectedOption: LevelActivity) => {
     setSelected(selectedOption);
 
-    // Mapear valores para el backend
     let nivel_actividad = "";
     let tipo_actividad = "";
 
