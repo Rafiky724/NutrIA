@@ -33,13 +33,11 @@ export default function ModalSpeed({ onSelectSpeed, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6">
-      {/* Fondo oscuro */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <div className="relative z-10 bg-white rounded-2xl shadow-lg w-full max-w-md sm:max-w-lg p-6 sm:p-8">
         <h2 className="text-xl sm:text-2xl ft-bold text-brown mb-6 text-center">
           Selecciona la velocidad
