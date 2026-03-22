@@ -29,14 +29,12 @@ export default function ObjetiveSpeed() {
     },
   ];
 
-  // Función para seleccionar peso objetivo
   const onSelectTargetWeight = (weight: number) => {
     setTargetWeight(weight);
     updateData({ peso_objetivo: weight });
     setShowModalTargetWeight(false);
   };
 
-  // Función para seleccionar velocidad
   const onSelectSpeed = (selectedSpeed: string) => {
     setSpeed(selectedSpeed);
     updateData({ velocidad_dieta: selectedSpeed });
