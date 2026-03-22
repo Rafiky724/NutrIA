@@ -43,7 +43,7 @@ export default function ConfirmMeal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-3xl p-10 px-35 flex flex-col items-center gap-6 w-[90%] max-w-lg"
+        className="bg-white rounded-4xl p-10 px-35 flex flex-col items-center gap-6 w-[90%] max-w-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -54,7 +54,7 @@ export default function ConfirmMeal({
           {loading ? "Guardando..." : "Confirmar"}
         </button>
 
-        <div className="relative bg-input rounded-2xl p-4 flex flex-col items-center gap-4 w-full">
+        <div className="relative bg-input rounded-2xl p-4 flex flex-col items-center gap-4 w-3xs md:w-4xs">
           <img src={option.image} className="w-22 mb-5" />
 
           <span className="flex flex-col items-center">
