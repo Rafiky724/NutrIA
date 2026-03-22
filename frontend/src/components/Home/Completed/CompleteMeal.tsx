@@ -42,7 +42,7 @@ export default function CompleteMeal({
                 icon: "/SVG/IconsGeneral/GemsIcon.svg",
               })
             }
-            className="relative bg-input rounded-4xl cursor-pointer transition p-4 flex flex-col items-center justify-center w-[150px] h-[200px] gap-5"
+            className="relative bg-input rounded-4xl hover:scale-105 transition cursor-pointer p-4 flex flex-col items-center justify-center w-[150px] h-[200px] gap-5"
           >
             <img
               src="/SVG/Menu/Racha/Completar.svg"
@@ -68,7 +68,7 @@ export default function CompleteMeal({
                 icon: "/SVG/IconsGeneral/GemsIcon.svg",
               })
             }
-            className="relative bg-input rounded-4xl cursor-pointer transition p-4 flex flex-col items-center justify-center w-[150px] h-[200px] gap-5"
+            className="relative bg-input rounded-4xl hover:scale-105 transition cursor-pointer p-4 flex flex-col items-center justify-center w-[150px] h-[200px] gap-5"
           >
             <img
               src="/SVG/Menu/Racha/Verificar.svg"
@@ -93,7 +93,7 @@ export default function CompleteMeal({
                 icon: "/SVG/Menu/Racha/RachaPeligro.svg",
               })
             }
-            className="relative bg-input rounded-4xl cursor-pointer transition p-4 flex flex-col items-center justify-center w-[150px] h-[200px] gap-5"
+            className="relative bg-input rounded-4xl hover:scale-105 transition cursor-pointer p-4 flex flex-col items-center justify-center w-[150px] h-[200px] gap-5"
           >
             <img
               src="/SVG/Menu/Racha/NoCompleto.svg"
