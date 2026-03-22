@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from app.controllers.despensa_controller import DespensaController
-from app.schemas.despensa import DespensaResponse, DespensaUpdateRequest
+from app.schemas.despensa import DespensaResponse, DespensaUpdateRequest, VerificarIngredienteRequest, VerificarIngredienteResponse
 from app.core.auth import get_current_user
 
 router = APIRouter(prefix="/despensa", tags=["Despensa"])
@@ -13,3 +13,7 @@ async def get_ingredientes_usuario(current_user: dict = Depends(get_current_user
 @router.put("/actualizar_ingredientes")
 async def update_ingredientes_usuario(data: DespensaUpdateRequest, current_user: dict = Depends(get_current_user)):
     return await DespensaController.update_ingredientes_usuario(current_user,data)
+
+@router.post("/verificar_ingrediente", response_model=VerificarIngredienteResponse)
+async def verificar_nuevo_ingrediente(data: VerificarIngredienteRequest):
+    return await DespensaController.verificar_nuevo_ingrediente(data)

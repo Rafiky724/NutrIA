@@ -1,7 +1,9 @@
 from bson import ObjectId
 from fastapi import HTTPException
 from app.core.database import db
+from app.core.llm import ask_llm
 from app.models.despensa_model import DespensaModel
+from app.schemas.despensa import VerificarIngredienteRequest
 
 class DespensaController:
 
@@ -71,3 +73,44 @@ class DespensaController:
             "mensaje": "Despensa actualizada correctamente",
             "ingredientes": data.ingredientes
         }
+
+    def build_promt_verificar_ingrediente(ingrediente: str):
+        return f"""
+Eres verificador de ingredientes.
+RESPONDE SOLO UNA letra: T o F.
+T = existe (ingrediente real).
+F = no existe.
+Prohibido explicar o agregar texto.
+Debe ser un ingrediente SOLO, nada de comidas completas ni ingredientes que no especifique (ej. "salsa" por sí sola NO ES VÁLIDO)
+Entrada: {ingrediente}
+    """
+    
+    @staticmethod
+    async def verificar_nuevo_ingrediente(data: VerificarIngredienteRequest):
+
+        ingrediente = data.ingrediente
+        promt = DespensaController.build_promt_verificar_ingrediente(ingrediente)
+
+        try:
+
+            response_text = await ask_llm(promt, model="gemini-2.5-flash-lite")
+
+            if response_text.lower() == "t":
+                return {
+                    "esIngrediente": True
+                }
+            elif response_text.lower() == "f":
+                return {
+                    "esIngrediente": False
+                }
+            else:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Respuesta inválida del LLM"
+                )
+        
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error al verificar ingrediente: {str(e)}"
+            )

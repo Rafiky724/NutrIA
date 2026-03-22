@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from app.controllers.comidas_controller import ComidasController
 from app.core.auth import get_current_user
-from app.schemas.comidas import VerificarComidaResponse
+from app.schemas.comidas import VerificarComidaRequest, VerificarComidaResponse
 
 router = APIRouter(prefix="/comidas", tags=["Comidas"])
 
@@ -20,3 +20,7 @@ async def salvar_racha(user: dict = Depends(get_current_user)):
 @router.post("/perder_racha")
 async def perder_racha(user: dict = Depends(get_current_user)):
     return await ComidasController.perder_racha(current_user=user)
+
+@router.put("/reemplazar_comida_actual")
+async def reemplazar_comida_actual(data: VerificarComidaRequest, user: dict = Depends(get_current_user)):
+    return  await ComidasController.verificar_y_reemplazar_comida(data, current_user=user)
