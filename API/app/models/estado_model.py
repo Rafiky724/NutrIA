@@ -60,3 +60,31 @@ class EstadoModel:
             {"$set": estado},
             **kwargs
         )"""
+    
+    """
+    @staticmethod
+    async def update_estado_comida(plan_id, comida, index, dia_semana, session=None):
+
+        return await db.estados_dia.update_one(
+            {
+                "plan_id": plan_id,
+                "dia_semana": dia_semana,
+                "activo": True
+            },
+            {
+                "$set": {
+                    f"dieta.comidas.{index}": comida
+                }
+            },
+            session=session
+        )"""
+    
+    @staticmethod
+    async def update_estado_completo(plan_id, dia_semana, data):
+
+        return await db.estados_dia.update_one(
+            {"plan_id": plan_id,
+                "dia_semana": dia_semana,
+                "activo": True},
+            {"$set": data}
+        )

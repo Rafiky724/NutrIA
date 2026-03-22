@@ -1,10 +1,13 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
+import re
 from zoneinfo import ZoneInfo
 from bson import ObjectId
 from fastapi import HTTPException
+import json
 from app.core.database import db
 from app.core.helpers import get_day_range_bogota
+from app.core.llm import ask_llm
 from app.models.estado_model import EstadoModel
 from app.models.plan_model import PlanModel
 from app.models.user_model import UserModel
@@ -328,7 +331,7 @@ class ComidasController:
                 {"_id": estado["_id"]},
                 {
                     "$set": {
-                        "ultima_comida": comida_actual["tipo_comida"],
+                        "ultima_comida_completada": comida_actual["tipo_comida"],
                         "comida_actual_index": nuevo_index,
                         "dieta.comidas": comidas
                     }
@@ -491,3 +494,165 @@ class ComidasController:
                 pass
 
             raise HTTPException(500, f"Error al pagar por racha: {str(e)}")
+        
+    def build_prompt_verificar_comida(descripcion: str):
+
+        return f"""
+Eres un nutricionista experto.
+
+Analiza la siguiente comida descrita por el usuario y devuelve los macronutrientes exactos.
+
+DESCRIPCIÓN:
+{descripcion}
+
+ADVERTENCIA: SI LA DESCRIPCIÓN NO TIENE SENTIDO O ES IMPOSIBLE SACAR LOS MACROS APROXIMADAS CON ESA DESCRIPCIÓN, RESPONDE ÚNICAMENTE SOLO CON LA LETRA 'F' NADA MÁS.
+
+RESPONDE ÚNICAMENTE EN JSON con este formato:
+
+{{
+  "calorias": float,
+  "proteinas": float,
+  "carbohidratos": float,
+  "grasas": float,
+  "ingredientes": [
+    {{
+      "nombre": "string" (trata de no superar las 3 palabras, entre más pocas mejor),
+      "tipo": "Proteinas | Carbohidratos | Grasas | Verduras | Frutas | Bebidas | Otros",
+      "cantidad": "string" (trata de ser lo más preciso posible sin tanto detalle ej: 60 gramos),
+      "calorias_ingrediente": float,
+      "proteinas_ingrediente": float,
+      "carbohidratos_ingrediente": float,
+      "grasas_ingrediente": float
+    }}
+  ]
+}}
+
+REGLAS:
+- NO expliques nada
+- NO agregues texto fuera del JSON
+- Las calorías deben ser coherentes con los macros
+- Estima cantidades realistas
+"""
+    
+        
+    def parse_llm_json(response):
+        # Si ya es dict, devolverlo directamente
+        if isinstance(response, dict):
+            return response
+
+        # Si es string, limpiarlo
+        if isinstance(response, str):
+            response = response.strip()
+
+            if response.startswith("```"):
+                response = response.strip("```")
+                response = response.replace("json", "", 1).strip()
+
+            return json.loads(response)
+
+        raise TypeError("El response debe ser str o dict")
+
+    @staticmethod
+    async def verificar_y_reemplazar_comida(data, current_user):
+
+        user_id = ObjectId(current_user["_id"])
+
+        # 1. obtener estado actual
+        hoy = datetime.now(ZoneInfo("America/Bogota")).date()
+        inicio, fin = get_day_range_bogota(hoy)
+
+        plan = await PlanModel.get_plan_usuario(user_id)
+
+        if not plan:
+            raise HTTPException(400, "No hay un plan activo para el usuario")
+
+        estado = await EstadoModel.get_estado_dia_por_fecha_id(plan["_id"], inicio, fin)
+
+        if not estado:
+            raise HTTPException(
+                status_code=400,
+                detail="No hay un día activo"
+            )
+
+        index_comida = estado["comida_actual_index"]
+
+        comidas = estado["dieta"]["comidas"]
+
+        # 3. llamar LLM
+        prompt = ComidasController.build_prompt_verificar_comida(data.descripcion)
+        
+        respuesta = await ask_llm(prompt, model="gemini-2.5-flash-lite")
+
+        if  respuesta.lower() == "f":
+            raise HTTPException(
+                status_code=500,
+                detail=f"No pudimos identificar los macronutrientes de la comida. Intenta describirla con más detalle."
+            )
+        
+        """
+        guardar_respuesta = {
+            "id_usuario": user_id,
+            "cambio": respuesta
+        }
+        await db.nuevaComidaProvisional.insert_one(guardar_respuesta)
+        
+        respuesta = await db.nuevaComidaProvisional.find_one({"id_usuario": user_id})
+        respuesta = respuesta["cambio"]"""
+
+        try:
+            #resultado = ComidasController.safe_parse_json(respuesta)
+            #resultado = json.loads(respuesta)
+            resultado = ComidasController.parse_llm_json(respuesta)
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error interpretando respuesta del modelo LLM: {e}"
+            )
+
+        # 4. construir nueva comida
+        comida_actual = comidas[index_comida]
+
+        nueva_comida = {
+            "tipo_comida": comida_actual["tipo_comida"],
+            "hora_sugerida": comida_actual.get("hora_sugerida"),
+            "hora_real": None,
+            "calorias": resultado["calorias"],
+            "proteinas": resultado["proteinas"],
+            "carbohidratos": resultado["carbohidratos"],
+            "grasas": resultado["grasas"],
+            "precio_estimado": None,
+            "completada": True,
+            "verificada": False,
+            "ingredientes": resultado["ingredientes"]
+        }
+
+        # 5. reemplazar comida
+        comidas[index_comida] = nueva_comida
+
+        macros = estado["macros_consumidos"]
+        macros["calorias"] += nueva_comida["calorias"]
+        macros["proteinas"] += nueva_comida["proteinas"]
+        macros["carbohidratos"] += nueva_comida["carbohidratos"]
+        macros["grasas"] += nueva_comida["grasas"]
+        estado["comida_actual_index"] += 1
+        estado["ultima_comida_completada"] = comida_actual["tipo_comida"]
+
+        """
+        # 6. recalcular totales del día
+        calorias_total = sum(c["calorias"] for c in comidas)
+        proteinas_total = sum(c["proteinas"] for c in comidas)
+        carbs_total = sum(c["carbohidratos"] for c in comidas)
+        grasas_total = sum(c["grasas"] for c in comidas)"""
+
+        await EstadoModel.update_estado_completo(plan["_id"], estado["dia_semana"], estado)
+
+        return {
+            "mensaje": "Comida verificada y reemplazada correctamente",
+            "comida": nueva_comida,
+            "totales_comida": {
+                "calorias": nueva_comida["calorias"],
+                "proteinas": nueva_comida["proteinas"],
+                "carbohidratos": nueva_comida["carbohidratos"],
+                "grasas": nueva_comida["grasas"]
+            }
+        }

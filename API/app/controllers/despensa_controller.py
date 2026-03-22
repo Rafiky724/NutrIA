@@ -93,7 +93,7 @@ Entrada: {ingrediente}
 
         try:
 
-            response_text = await ask_llm(promt, model="gemini-2.5-flash")
+            response_text = await ask_llm(promt, model="gemini-2.5-flash-lite")
 
             if response_text.lower() == "t":
                 return {

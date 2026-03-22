@@ -7,3 +7,7 @@ class VerificarComidaResponse(BaseModel):
     comida_completada: str
     nueva_comida_actual: Optional[str] = None
     racha_actual: int
+
+class VerificarComidaRequest(BaseModel):
+
+    descripcion: str
