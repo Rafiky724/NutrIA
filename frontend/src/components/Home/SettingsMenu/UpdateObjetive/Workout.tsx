@@ -33,7 +33,6 @@ export default function Workout() {
         <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
           <div className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center z-50">
             <div className="px-4 sm:px-6 md:px-10">
-              {/* Encabezado */}
               <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0">
                 <div className="w-12 sm:w-20">
                   <img
@@ -50,14 +49,12 @@ export default function Workout() {
                 </div>
               </div>
 
-              {/* Descripción */}
               <div className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
                 Esto nos ayudará a ajustar tu plan alimenticio para que tengas
                 la energía y los nutrientes necesarios según tu estilo de
                 entrenamiento.
               </div>
 
-              {/* Opciones */}
               <div className="flex flex-col gap-3 sm:gap-4 mt-6 sm:mt-8">
                 {options.map((option) => (
                   <button
@@ -78,7 +75,6 @@ export default function Workout() {
               </div>
             </div>
 
-            {/* Continuar */}
             <div className="flex justify-center pt-6">
               <Link
                 to={"/meal"}
