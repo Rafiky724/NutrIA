@@ -3,6 +3,7 @@ import ArrowReturn from "../../../Decoration/ArrowReturn";
 import { Link } from "react-router-dom";
 import FruitLeft from "../../../Decoration/FruitLeft";
 import FruitRight from "../../../Decoration/FruitRight";
+import { useObjetiveFlow } from "../../../../hooks/useObjetiveFlow";
 
 type TypeActivity =
   | "Pesas / Gimnasio"
@@ -11,10 +12,12 @@ type TypeActivity =
   | "Yoga / Movilidad";
 
 export default function Workout() {
-  const [, setSelected] = useState<TypeActivity>();
+  const { updateData } = useObjetiveFlow();
+  const [selected, setSelected] = useState<TypeActivity | null>(null);
 
   const handleSelect = (activity: TypeActivity) => {
     setSelected(activity);
+    updateData({ tipo_actividad: activity });
   };
 
   const options: TypeActivity[] = [
@@ -61,7 +64,11 @@ export default function Workout() {
                     key={option}
                     type="button"
                     onClick={() => handleSelect(option)}
-                    className="w-full sm:w-md mx-auto py-2 rounded-3xl sm:rounded-4xl cursor-pointer ft-medium custom-bg transition hover:scale-105"
+                    className={`w-full sm:w-80 md:w-96 mx-auto py-2 rounded-3xl cursor-pointer ft-medium text-sm sm:text-lg transition hover:scale-105 ${
+                      selected === option
+                        ? "bg-brown text-white"
+                        : "bg-yellow custom-bg"
+                    }`}
                   >
                     <h4 className="text-center text-sm sm:text-base md:text-lg">
                       {option}
@@ -71,6 +78,7 @@ export default function Workout() {
               </div>
             </div>
 
+            {/* Continuar */}
             <div className="flex justify-center pt-6">
               <Link
                 to={"/meal"}
@@ -89,7 +97,6 @@ export default function Workout() {
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
-
       <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
