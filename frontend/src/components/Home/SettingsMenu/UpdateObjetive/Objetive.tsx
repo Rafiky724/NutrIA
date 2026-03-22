@@ -31,7 +31,7 @@ export default function Objetive() {
     <>
       <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
         <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
-          <div className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center z-50">
+          <div className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-4xl shadow-lg text-center z-50">
             <div className="flex flex-col md:flex-row items-center justify-center gap-4">
               <div className="w-10 md:w-14 xl:w-20">
                 <img
