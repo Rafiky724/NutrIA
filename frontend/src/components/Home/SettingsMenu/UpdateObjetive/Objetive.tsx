@@ -32,7 +32,6 @@ export default function Objetive() {
       <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
         <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
           <div className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center z-50">
-            {/* Header */}
             <div className="flex flex-col md:flex-row items-center justify-center gap-4">
               <div className="w-10 md:w-14 xl:w-20">
                 <img
@@ -47,14 +46,12 @@ export default function Objetive() {
               </div>
             </div>
 
-            {/* Description */}
             <div className="mt-4 md:mt-5 text-justify ft-light text-gray px-4 sm:px-6 md:px-0 text-sm sm:text-base md:text-lg">
               Tu meta nos permitirá construir un plan enfocado en tus
               resultados, con el equilibrio adecuado entre calorías y
               nutrientes.
             </div>
 
-            {/* Options */}
             <div className="flex flex-col gap-4 mt-4 md:mt-5 px-4 sm:px-6 md:px-0">
               <button
                 type="button"
@@ -99,7 +96,6 @@ export default function Objetive() {
               </button>
             </div>
 
-            {/* Continuar */}
             <div className="flex justify-center pt-4">
               <Link
                 to={"/activity"}
