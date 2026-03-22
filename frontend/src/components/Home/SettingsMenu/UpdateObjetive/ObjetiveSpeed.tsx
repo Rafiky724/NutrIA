@@ -5,8 +5,11 @@ import ArrowReturn from "../../../Decoration/ArrowReturn";
 import FruitLeft from "../../../Decoration/FruitLeft";
 import FruitRight from "../../../Decoration/FruitRight";
 import { Link } from "react-router-dom";
+import { useObjetiveFlow } from "../../../../hooks/useObjetiveFlow";
 
 export default function ObjetiveSpeed() {
+  const { updateData } = useObjetiveFlow();
+
   const [targetWeight, setTargetWeight] = useState<number | null>(null);
   const [speed, setSpeed] = useState<string>("");
 
@@ -26,11 +29,25 @@ export default function ObjetiveSpeed() {
     },
   ];
 
+  // Función para seleccionar peso objetivo
+  const onSelectTargetWeight = (weight: number) => {
+    setTargetWeight(weight);
+    updateData({ peso_objetivo: weight });
+    setShowModalTargetWeight(false);
+  };
+
+  // Función para seleccionar velocidad
+  const onSelectSpeed = (selectedSpeed: string) => {
+    setSpeed(selectedSpeed);
+    updateData({ velocidad_dieta: selectedSpeed });
+    setShowModalSpeed(false);
+  };
+
   return (
     <>
       <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
         <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
-          <div className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center z-50">
+          <div className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-4xl shadow-lg text-center z-50">
             <div className="px-4 sm:px-6 md:px-10">
               <div className="flex flex-col md:flex-row items-center justify-center md:space-x-5 space-y-3 md:space-y-0">
                 <div className="w-16 md:w-20">
@@ -106,10 +123,7 @@ export default function ObjetiveSpeed() {
       {/* Modal Peso Objetivo */}
       {showModalTargetWeight && (
         <ModalWeightTarget
-          onSelectTargetWeight={(weight: number) => {
-            setTargetWeight(weight);
-            setShowModalTargetWeight(false);
-          }}
+          onSelectTargetWeight={onSelectTargetWeight}
           onClose={() => setShowModalTargetWeight(false)}
         />
       )}
@@ -117,10 +131,7 @@ export default function ObjetiveSpeed() {
       {/* Modal Velocidad */}
       {showModalSpeed && (
         <ModalSpeed
-          onSelectSpeed={(selectedSpeed: string) => {
-            setSpeed(selectedSpeed);
-            setShowModalSpeed(false);
-          }}
+          onSelectSpeed={onSelectSpeed}
           onClose={() => setShowModalSpeed(false)}
         />
       )}
@@ -131,7 +142,6 @@ export default function ObjetiveSpeed() {
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
-
       <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
