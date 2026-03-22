@@ -49,7 +49,7 @@ export default function ConfirmMeal({
         <button
           onClick={handleConfirm}
           disabled={loading}
-          className="text-brown ft-bold py-2 px-6 rounded-full hover:scale-105 transition cursor-pointer"
+          className="text-brown ft-bold py-2 px-6 rounded-full hover:scale-105 transition cursor-pointer text-lg pb-10"
         >
           {loading ? "Guardando..." : "Confirmar"}
         </button>
