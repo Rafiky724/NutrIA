@@ -36,7 +36,7 @@ export default function AbsentMeal({
         <h2 className="text-center text-2xl ft-bold text-brown">{title}</h2>
 
         <textarea
-          className="w-full md:w-xl h-100 p-6 border-none rounded-4xl resize-none text-sm bg-input mx-auto placeholder:p-.5 placeholder:text-justify"
+          className="w-full md:w-xl h-70 md:h-100 p-6 border-none rounded-4xl resize-none text-sm bg-input mx-auto placeholder:p-.5 placeholder:text-justify"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={description}
