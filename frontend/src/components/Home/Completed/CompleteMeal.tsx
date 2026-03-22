@@ -24,14 +24,14 @@ export default function CompleteMeal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-3xl p-10 flex flex-col items-center"
+        className="bg-white rounded-4xl p-10 flex flex-col items-center max-h-150 overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-center text-xl ft-bold text-brown mb-10">
+        <h2 className="text-center text-xl ft-bold text-brown md:mb-10">
           Selecciona una opción
         </h2>
 
-        <div className="flex flex-col md:flex-row gap-15 justify-center pb-15 pt-15 px-10">
+        <div className="flex flex-col md:flex-row gap-10 md:gap-15 justify-center md:pb-15 pt-10 md:pt-15 px-10">
           <button
             onClick={() =>
               handleClick({
