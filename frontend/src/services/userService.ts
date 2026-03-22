@@ -99,3 +99,70 @@ export const updateUserPeso = async (
 
     return data;
 };
+
+export interface Mascota {
+    tipo: string;
+    nombre?: string;
+    nivel?: number;
+}
+
+export interface PerfilUsuarioResponse {
+    nombre: string;
+    apodo: string;
+    correo: string;
+    genero: string;
+    edad: string;
+    altura: string;
+    peso: string;
+    mascota: Mascota | null;
+}
+
+export const getUserPerfil = async (): Promise<PerfilUsuarioResponse> => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("Usuario no autenticado");
+    }
+
+    const { data } = await axiosClient.get<PerfilUsuarioResponse>(
+        USER_ENDPOINTS.PERFIL,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return data;
+};
+
+export interface EditarPerfilRequest {
+    nombre?: string;
+    apodo?: string;
+    genero?: string;
+    fecha_nacimiento?: string;
+    altura_cm?: number;
+    peso_actual?: number;
+}
+
+export const updateUserPerfil = async (
+    payload: EditarPerfilRequest
+): Promise<PerfilUsuarioResponse> => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("Usuario no autenticado");
+    }
+
+    const { data } = await axiosClient.put<PerfilUsuarioResponse>(
+        USER_ENDPOINTS.EDITAR_PERFIL,
+        payload,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return data;
+};
