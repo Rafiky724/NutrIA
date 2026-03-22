@@ -1,42 +1,57 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MainMeals, OptionsMeals } from "../../../../data/optionsMeals";
 import Toast from "../../../Toast/Toast";
 import ArrowReturn from "../../../Decoration/ArrowReturn";
 import FruitLeft from "../../../Decoration/FruitLeft";
 import FruitRight from "../../../Decoration/FruitRight";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useObjetiveFlow } from "../../../../hooks/useObjetiveFlow";
 
 export default function Meal() {
-  const [selected, setSelected] = useState<string[]>([]);
+  const { data, updateData } = useObjetiveFlow();
+  const [selected, setSelected] = useState<string[]>(
+    data.cantidad_comidas || [],
+  );
   const [toast, setToast] = useState({
     open: false,
     message: "",
     type: "error" as "error" | "success" | "warning" | "info",
   });
 
-  useEffect(() => {
+  const navigate = useNavigate();
+
+  const toggleSeleccion = (meal: string) => {
+    const newSelected = selected.includes(meal)
+      ? selected.filter((c) => c !== meal)
+      : [...selected, meal];
+
+    setSelected(newSelected);
+    updateData({ cantidad_comidas: newSelected });
+  };
+
+  const handleFinalizar = async () => {
     const selectedMain = selected.filter((c) => MainMeals.includes(c));
 
-    if (selectedMain.length === 1) {
+    if (selectedMain.length < 2) {
       setToast({
         open: true,
         message:
           "Selecciona al menos 2 comidas principales (Desayuno, almuerzo o cena).",
         type: "error",
       });
-    }
-  }, [selected]);
-
-  const toggleSeleccion = (meal: string) => {
-    let newSelected: string[];
-
-    if (selected.includes(meal)) {
-      newSelected = selected.filter((c) => c !== meal);
-    } else {
-      newSelected = [...selected, meal];
+      return;
     }
 
-    setSelected(newSelected);
+    try {
+      navigate("/config");
+    } catch (error) {
+      console.error("Error al finalizar:", error);
+      setToast({
+        open: true,
+        message: "Error al actualizar el objetivo. Intenta de nuevo.",
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -53,7 +68,6 @@ export default function Meal() {
                     className="w-full h-auto"
                   />
                 </div>
-
                 <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
                   <h2>¿Cuántas comidas deseas hacer al día?</h2>
                 </div>
@@ -84,7 +98,6 @@ export default function Meal() {
                         alt={label}
                         className="w-8 h-8 sm:w-14 sm:h-14 lg:w-18 lg:h-18 mb-2"
                       />
-
                       <span className="ft-medium text-xs sm:text-sm md:text-base text-center px-1">
                         {label}
                       </span>
@@ -95,12 +108,13 @@ export default function Meal() {
             </div>
 
             <div className="flex justify-center pt-6">
-              <Link
-                to={"/config"}
+              <button
+                type="button"
+                onClick={handleFinalizar}
                 className="w-3xs sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition cursor-pointer"
               >
                 Finalizar
-              </Link>
+              </button>
             </div>
           </div>
         </div>
