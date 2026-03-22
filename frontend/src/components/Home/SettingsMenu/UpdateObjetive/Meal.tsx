@@ -6,6 +6,10 @@ import FruitLeft from "../../../Decoration/FruitLeft";
 import FruitRight from "../../../Decoration/FruitRight";
 import { useNavigate } from "react-router-dom";
 import { useObjetiveFlow } from "../../../../hooks/useObjetiveFlow";
+import {
+  objectiveService,
+  type ActualizarObjetivoRequest,
+} from "../../../../services/ObjectiveService";
 
 export default function Meal() {
   const { data, updateData } = useObjetiveFlow();
@@ -43,6 +47,16 @@ export default function Meal() {
     }
 
     try {
+      const payload: ActualizarObjetivoRequest = {
+        tipo_objetivo: data.tipo_objetivo || "MantenerPeso",
+        nivel_actividad: data.nivel_actividad || "Alto",
+        tipo_actividad: data.tipo_actividad || "NoHace",
+        peso_objetivo: data.peso_objetivo ?? 70,
+        velocidad_dieta: data.velocidad_dieta || "Rápida",
+        cantidad_comidas: selected,
+      };
+
+      await objectiveService.actualizarObjetivo(payload);
       navigate("/config");
     } catch (error) {
       console.error("Error al finalizar:", error);
