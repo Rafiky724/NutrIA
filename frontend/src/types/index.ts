@@ -38,7 +38,8 @@ export type TypeActivity =
   | "Pesas / Gimnasio"
   | "Cardio (correr, nadar, bici...)"
   | "Funcional / CrossFit"
-  | "Yoga / Movilidad";
+  | "Yoga / Movilidad"
+  | "Ninguna";
 export type Meal = {
   label: string;
   icon: string;
