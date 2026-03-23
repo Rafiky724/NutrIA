@@ -1,4 +1,8 @@
 import { useState } from "react";
+import {
+  verificarIngredienteUsuario,
+  type VerificarIngredienteRequest,
+} from "../../services/despensaService";
 
 type Props = {
   show: boolean;
@@ -13,12 +17,29 @@ export default function CustomIngredientModal({
 }: Props) {
   const [newIngredient, setNewIngredient] = useState("");
   const [customIngredients, setCustomIngredients] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleAddCustom = () => {
+  const handleAddCustom = async () => {
     const trimmed = newIngredient.trim();
-    if (trimmed && !customIngredients.includes(trimmed)) {
-      setCustomIngredients([...customIngredients, trimmed]);
+    if (!trimmed) return;
+
+    try {
+      const payload: VerificarIngredienteRequest = { ingrediente: trimmed };
+      const response = await verificarIngredienteUsuario(payload);
+
+      if (response.existe) {
+        setError(response.mensaje || "El ingrediente ya existe.");
+        return;
+      }
+
+      if (!customIngredients.includes(trimmed)) {
+        setCustomIngredients([...customIngredients, trimmed]);
+      }
       setNewIngredient("");
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError("Error al verificar el ingrediente.");
     }
   };
 
@@ -26,6 +47,7 @@ export default function CustomIngredientModal({
     onAccept(customIngredients);
     setCustomIngredients([]);
     setNewIngredient("");
+    setError(null);
     onClose();
   };
 
@@ -53,6 +75,8 @@ export default function CustomIngredientModal({
               placeholder="Nombre del ingrediente"
               className="bg-input rounded-4xl px-4 py-3 w-full mb-4 ft-light text-sm sm:text-base"
             />
+
+            {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
 
             <button
               type="button"
