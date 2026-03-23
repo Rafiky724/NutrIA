@@ -31,7 +31,7 @@ export default function Home() {
       <div className="flex-1 py-6 flex flex-col gap-6">
         <NavBar user={homeData?.usuario} />
 
-        <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
+        <div className="max-w-5xl mx-auto flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
           <TodaySummary homeData={homeData} />
 
           <NextMealCard
@@ -41,7 +41,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
+        <div className="max-w-5xl mx-auto flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
           <DailyDiet
             homeData={homeData}
             activeFoodIndex={activeFoodIndex}
