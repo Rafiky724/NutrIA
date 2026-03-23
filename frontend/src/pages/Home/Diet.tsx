@@ -113,7 +113,7 @@ export default function Diet() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-center">
-          <div className="flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[650px] max-h-[1250px] overflow-y-auto mt-0 md:mt-5">
+          <div className="max-w-5xl flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[650px] max-h-[1250px] overflow-y-auto mt-0 md:mt-5">
             {loadingPage ? (
               <>
                 <Skeleton height={40} width="100%" className="mb-4" />
@@ -171,7 +171,7 @@ export default function Diet() {
                 <button
                   onClick={canUpdateDiet ? handleStartDiet : undefined}
                   title={!canUpdateDiet ? updateMessage || "" : ""}
-                  className={`relative ft-medium py-2 rounded-full shadow text-xs md:text-md w-full md:w-2xs ml-0 md:ml-[65%] xl:ml-[80%] cursor-pointer ${
+                  className={`relative ft-medium py-2 rounded-full shadow text-xs md:text-md w-full md:w-2xs ml-0 md:ml-[55%] xl:ml-[70%] cursor-pointer ${
                     canUpdateDiet
                       ? "bg-yellow text-brown hover:scale-105 transition"
                       : "bg-gray-300 text-gray-600 cursor-not-allowed"
