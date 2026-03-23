@@ -180,6 +180,7 @@ export interface Modals {
   mostrar_pagar_racha: boolean;
   mostrar_perder_racha: boolean;
   mostrar_subir_racha: boolean;
+  mostrar_notificar_racha: boolean;
 }
 
 export interface HomeResponse {
