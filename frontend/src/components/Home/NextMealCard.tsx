@@ -1,13 +1,24 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import type { NextMeal } from "../../types";
+import type { Estado, NextMeal } from "../../types";
 import { getIngredientIcon } from "../../utils/ingredients";
+import { useState } from "react";
+import CompleteMeal from "./Completed/CompleteMeal";
+import ConfirmMeal from "./Completed/ConfirmMeal";
+import VerifyMeal from "./Completed/VerifyMeal";
+import NotCompletedMeal from "./Completed/NotCompletedMeal";
+import AbsentMeal from "./Completed/AbsentMeal";
+import EstimateMeal from "./Completed/EstimateMeal";
+import FinalOptions from "./Completed/FinalOptions";
+import { cancelarComida } from "../../services/comidaService";
 
 type Props = {
   nextFood?: NextMeal | null;
+  estado?: Estado | null;
+  onRefetch: () => void;
 };
 
-export default function NextMealCard({ nextFood }: Props) {
+export default function NextMealCard({ nextFood, estado, onRefetch }: Props) {
   if (!nextFood) {
     return (
       <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center">
@@ -41,57 +52,159 @@ export default function NextMealCard({ nextFood }: Props) {
     );
   }
 
+  const isDark = estado?.color === "#260B01";
+
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [openVerify, setOpenVerify] = useState(false);
+  const [openNotCompleted, setOpenNotCompleted] = useState(false);
+  const [openAbsentMeal, setOpenAbsentMeal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<any>(null);
+  const [, setAbsentText] = useState("");
+  const [openEstimateModal, setOpenEstimateModal] = useState(false);
+  const [openFinalOptionsModal, setOpenFinalOptionsModal] = useState(false);
+  const [, setComidaId] = useState<string | null>(null);
+
+  const handleRetry = async () => {
+    if (!selectedOption) return;
+    try {
+      await cancelarComida({ comida_id: selectedOption.id });
+      setComidaId(selectedOption.id);
+      onRefetch();
+      setOpenFinalOptionsModal(true);
+    } catch (err) {
+      console.error("Error al cancelar comida:", err);
+    }
+  };
+
   return (
-    <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center">
-      <h2 className="text-brown ft-bold text-lg text-center">
-        Próxima comida - {nextFood.hora_sugerida.toLowerCase()}
-      </h2>
+    <>
+      <div
+        className={`w-2xs md:w-lg xl:w-4xl md:h-95 rounded-3xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center ${
+          isDark ? "text-white" : "text-brown"
+        }`}
+        style={{
+          backgroundColor: estado?.color || "white",
+        }}
+      >
+        <h2
+          className={`${isDark ? "text-white" : "text-brown"} ft-bold text-lg text-center`}
+        >
+          {estado?.mensaje} - {nextFood.hora_sugerida}
+        </h2>
 
-      <div className="w-full flex gap-4 overflow-hidden flex-col md:flex-row">
-        <div className="flex flex-col items-center gap-4">
-          <img
-            src="/SVG/ejemploPlato.jpeg"
-            alt="Próxima comida"
-            className="w-60 h-50 object-cover rounded-xl"
-          />
-          <span className="text-gray ft-medium text-sm md:text-md">
-            {nextFood.tipo_comida} ≈ ${nextFood.precio_estimado} COP
-          </span>
-        </div>
-
-        <div className="flex flex-4 flex-col">
-          <div className="text-xs md:text-sm text-brown ft-medium mb-2 text-center">
-            {nextFood.calorias} kcal | {nextFood.proteinas} P |{" "}
-            {nextFood.carbohidratos} C | {nextFood.grasas} G
+        <div className="w-full flex gap-4 overflow-hidden flex-col md:flex-row">
+          <div className="flex flex-col items-center gap-4">
+            <img
+              src="/SVG/ejemploPlato.jpeg"
+              alt="Próxima comida"
+              className="w-60 h-50 object-cover rounded-xl"
+            />
+            <span className="ft-medium text-sm md:text-md">
+              {nextFood.tipo_comida} ≈ ${nextFood.precio_estimado} COP
+            </span>
           </div>
 
-          <div className="overflow-y-auto max-h-50">
-            {nextFood.ingredientes.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-2 mb-2 bg-gray p-2 rounded-xl ft-medium"
-              >
-                <img
-                  src={getIngredientIcon(item.nombre)}
-                  alt={item.nombre}
-                  className="w-5 md:w-6 h-5 md:h-6"
-                />
-                <span className="text-gray text-xs md:text-md">
-                  {item.cantidad} {item.nombre}
-                </span>
-              </div>
-            ))}
-          </div>
+          <div className="flex flex-4 flex-col">
+            <div className="text-xs md:text-sm ft-medium mb-2 text-center">
+              {nextFood.calorias} kcal | {nextFood.proteinas} P |{" "}
+              {nextFood.carbohidratos} C | {nextFood.grasas} G
+            </div>
 
-          <button className="mt-2 bg-yellow text-brown ft-medium py-2 px-2 rounded-4xl w-40 mx-auto text-sm hover:scale-105 transition cursor-pointer">
-            Editar plato
-          </button>
+            <div className="overflow-y-auto max-h-50">
+              {nextFood.ingredientes.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-2 mb-2 bg-gray p-2 rounded-xl ft-medium"
+                >
+                  <img
+                    src={getIngredientIcon(item.nombre)}
+                    alt={item.nombre}
+                    className="w-5 md:w-6 h-5 md:h-6"
+                  />
+                  <span className="text-xs md:text-md text-black">
+                    {item.cantidad} {item.nombre}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <button className="mt-2 bg-yellow text-brown ft-medium py-2 px-2 rounded-4xl w-40 mx-auto text-sm hover:scale-105 transition cursor-pointer">
+              Editar plato
+            </button>
+          </div>
         </div>
+
+        <button
+          onClick={() => setOpenModal(true)}
+          className="bg-yellow text-brown ft-medium py-2 px-6 rounded-4xl self-center hover:scale-105 transition cursor-pointer"
+        >
+          ¡Completar comida!
+        </button>
       </div>
 
-      <button className="bg-green text-white ft-medium py-2 px-6 rounded-4xl self-center hover:scale-105 transition cursor-pointer">
-        Completar Comida
-      </button>
-    </div>
+      <CompleteMeal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        onSelectOption={(opt) => {
+          setSelectedOption(opt);
+          setOpenModal(false);
+
+          if (opt.id === "1") setOpenConfirm(true);
+          if (opt.id === "2") setOpenVerify(true);
+          if (opt.id === "3") setOpenNotCompleted(true);
+        }}
+      />
+
+      <ConfirmMeal
+        isOpen={openConfirm}
+        onClose={() => setOpenConfirm(false)}
+        option={selectedOption}
+        onSuccess={onRefetch}
+      />
+
+      <VerifyMeal
+        isOpen={openVerify}
+        onClose={() => setOpenVerify(false)}
+        option={selectedOption}
+      />
+
+      <NotCompletedMeal
+        isOpen={openNotCompleted}
+        onClose={() => setOpenNotCompleted(false)}
+        onAction={(action) => {
+          setOpenNotCompleted(false);
+          if (action === "absent") setOpenAbsentMeal(true);
+          if (action === "retry") handleRetry();
+        }}
+      />
+
+      <AbsentMeal
+        isOpen={openAbsentMeal}
+        onClose={() => setOpenAbsentMeal(false)}
+        onSubmit={(text) => {
+          setAbsentText(text);
+          setOpenAbsentMeal(false);
+          setOpenEstimateModal(true);
+        }}
+      />
+
+      <EstimateMeal
+        isOpen={openEstimateModal}
+        onClose={() => setOpenEstimateModal(false)}
+        onContinue={() => {
+          setOpenEstimateModal(false);
+          setOpenFinalOptionsModal(true);
+        }}
+      />
+
+      <FinalOptions
+        isOpen={openFinalOptionsModal}
+        onClose={() => setOpenFinalOptionsModal(false)}
+        onSelectOption={() => {
+          setOpenFinalOptionsModal(false);
+        }}
+      />
+    </>
   );
 }
