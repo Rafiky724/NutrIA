@@ -36,7 +36,7 @@ export default function Home() {
       if (data.modals.mostrar_perder_racha) {
         setOpenFailedDayModal(true);
       }
-      if (data.modals.mostrar_notificar_racha) {
+      if (data.modals.mostrar_advertencia_racha) {
         setOpenWarningDayModal(true);
       }
     } catch (err) {
