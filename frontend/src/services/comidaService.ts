@@ -74,3 +74,42 @@ export const perderRacha = async (): Promise<ComidaResponse> => {
     );
     return data;
 };
+
+export interface ReemplazarComidaRequest {
+    descripcion: string;
+}
+
+export interface ReemplazarComidaResponse {
+    mensaje: string;
+    comida: {
+        tipo_comida: string;
+        hora_sugerida?: string;
+        hora_real?: string | null;
+        calorias: number;
+        proteinas: number;
+        carbohidratos: number;
+        grasas: number;
+        precio_estimado?: number | null;
+        completada: boolean;
+        verificada: boolean;
+        ingredientes: string[];
+    };
+    totales_comida: {
+        calorias: number;
+        proteinas: number;
+        carbohidratos: number;
+        grasas: number;
+    };
+}
+
+export const reemplazarComidaActual = async (
+    payload: ReemplazarComidaRequest
+): Promise<ReemplazarComidaResponse> => {
+    const { data } = await axiosClient.put<ReemplazarComidaResponse>(
+        COMIDAS_ENDPOINTS.REEMPLAZAR_ACTUAL,
+        payload,
+        { headers: getAuthHeaders() }
+    );
+
+    return data;
+};
