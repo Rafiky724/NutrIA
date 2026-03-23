@@ -77,7 +77,6 @@ export default function PersonalDataForm({
 
   return (
     <>
-      {/* Header */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
         <div className="w-14 sm:w-16 md:w-20">
           <img
@@ -92,7 +91,6 @@ export default function PersonalDataForm({
         </h2>
       </div>
 
-      {/* Description */}
       <div className="ft-light text-gray mt-6 mb-10 text-sm sm:text-base md:text-lg text-center sm:text-center px-2 sm:px-6 md:px-12 max-w-xl mx-auto">
         <p>
           Empecemos con lo básico. Esto nos ayudará a calcular tus necesidades
@@ -100,7 +98,6 @@ export default function PersonalDataForm({
         </p>
       </div>
 
-      {/* Fields */}
       <div className="space-y-4 w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto">
         {fields.map((field, index) => (
           <div key={index} onClick={field.onClick} className="cursor-pointer">
@@ -134,7 +131,6 @@ export default function PersonalDataForm({
         ))}
       </div>
 
-      {/* Modals */}
       {showModalAge && (
         <ModalAge
           onSelectAge={(age) =>
