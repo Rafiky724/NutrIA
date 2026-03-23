@@ -66,7 +66,6 @@ export default function MealFrequencyForm({
 
   return (
     <div className="px-4 sm:px-6 md:px-10 text-center">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
         <div className="w-12 sm:w-20">
           <img
@@ -80,13 +79,11 @@ export default function MealFrequencyForm({
         </div>
       </div>
 
-      {/* Descripción */}
       <p className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Elige al menos dos comidas principales para distribuir tus calorías y
         nutrientes de forma equilibrada a lo largo del día.
       </p>
 
-      {/* Opciones */}
       <div className="grid grid-cols-3 gap-2 sm:gap-4 justify-center items-center max-w-4xl mx-auto">
         {OptionsMeals.map(({ label, icon, selectedIcon }) => {
           const isSelected = selected.includes(label);
@@ -114,7 +111,6 @@ export default function MealFrequencyForm({
         })}
       </div>
 
-      {/* Toast */}
       <Toast
         isOpen={toast.open}
         message={toast.message}
