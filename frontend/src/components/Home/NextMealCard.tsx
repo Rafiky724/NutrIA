@@ -154,7 +154,7 @@ export default function NextMealCard({
             </div>
 
             <div className="overflow-y-auto max-h-50">
-              {nextFood.ingredientes.map((item, idx) => (
+              {nextFood?.ingredientes?.map((item, idx) => (
                 <div
                   key={idx}
                   className="flex items-center gap-2 mb-2 bg-gray p-2 rounded-xl ft-medium"
@@ -168,7 +168,11 @@ export default function NextMealCard({
                     {item.cantidad} {item.nombre}
                   </span>
                 </div>
-              ))}
+              )) || (
+                <p className="text-center text-sm text-gray-500">
+                  No hay ingredientes
+                </p>
+              )}
             </div>
 
             <button
@@ -254,7 +258,7 @@ export default function NextMealCard({
 
       <ModalEditIngredients
         isOpen={showModal}
-        currentIngredients={comidaActual.ingredientes}
+        currentIngredients={comidaActual?.ingredientes || []}
         ingredientsAvailable={ingredientsAvailable}
         onClose={() => setShowModal(false)}
         onConfirm={handleConfirmIngredients}
