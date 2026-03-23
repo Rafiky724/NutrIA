@@ -8,6 +8,11 @@ type Props = {
   nextStep: () => void;
 };
 
+const diseaseOptions: { label: string; value: HasDisease }[] = [
+  { label: "Sí", value: "Sí" },
+  { label: "No", value: "No" },
+];
+
 export default function HealthConditionCheckForm({
   register,
   onSelectHasDisease,
@@ -32,7 +37,6 @@ export default function HealthConditionCheckForm({
 
   return (
     <div className="px-4 sm:px-6 md:px-10">
-      {/* Encabezado */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-6 space-y-4 sm:space-y-0">
         <div className="w-16 sm:w-20">
           <img
@@ -46,17 +50,12 @@ export default function HealthConditionCheckForm({
         </div>
       </div>
 
-      {/* Descripción */}
       <div className="ft-light text-justify text-gray my-6 md:my-10 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Algunas enfermedades requieren una dieta especial para cuidar tu salud.
       </div>
 
-      {/* Botones */}
       <div className="flex flex-col gap-3 mt-6 sm:mt-8">
-        {[
-          { label: "Sí", value: "Sí" },
-          { label: "No", value: "No" },
-        ].map((option) => (
+        {diseaseOptions.map((option) => (
           <button
             key={option.value}
             type="button"
