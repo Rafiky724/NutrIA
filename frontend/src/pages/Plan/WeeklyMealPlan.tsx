@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { categories as ingredientsAvailable } from "../../data/ingredients";
 import { useNavigate } from "react-router-dom";
-import type { Days, HomeResponse, TypeFood } from "../../types";
+import type { Days, TypeFood } from "../../types";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
-import ModalEditIngredients from "../../components/Modals/ModalEditIngredients";
 import DaySelector from "../../components/WeeklyMealPlan/DaySelector";
 import MealDropdown from "../../components/WeeklyMealPlan/MealDropdown";
 import DishCard from "../../components/WeeklyMealPlan/DishCard";
@@ -12,6 +11,7 @@ import { useOpinionTimer } from "../../hooks/useOpinionTimer";
 import { useDayPlan } from "../../hooks/useDayPlan";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
 import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
+import ModalEditIngrediente2 from "../../components/Modals/ModalEditIngrediente2";
 
 export default function WeeklyMealPlan() {
   const days: Days[] = [
@@ -35,8 +35,6 @@ export default function WeeklyMealPlan() {
     handleRegenerateDish,
     handleConfirmIngredients,
   } = useDayPlan(dayActive, foodActive, setFoodActive);
-
-  const [homeData] = useState<HomeResponse>();
 
   const { showOpinion, progress } = useOpinionTimer(dayPlan?.opinion_ia);
 
@@ -117,13 +115,12 @@ export default function WeeklyMealPlan() {
           <FruitRight />
         </div>
 
-        <ModalEditIngredients
+        <ModalEditIngrediente2
           isOpen={showModal}
           currentIngredients={dish.ingredientes}
           ingredientsAvailable={ingredientsAvailable}
           onClose={() => setShowModal(false)}
           onConfirm={handleConfirmIngredients}
-          homeData={homeData}
         />
       </div>
     </div>
