@@ -117,16 +117,14 @@ export default function WeeklyMealPlan() {
           <FruitRight />
         </div>
 
-        {homeData && (
-          <ModalEditIngredients
-            isOpen={showModal}
-            currentIngredients={dish.ingredientes}
-            ingredientsAvailable={ingredientsAvailable}
-            onClose={() => setShowModal(false)}
-            onConfirm={handleConfirmIngredients}
-            homeData={homeData}
-          />
-        )}
+        <ModalEditIngredients
+          isOpen={showModal}
+          currentIngredients={dish.ingredientes}
+          ingredientsAvailable={ingredientsAvailable}
+          onClose={() => setShowModal(false)}
+          onConfirm={handleConfirmIngredients}
+          homeData={homeData}
+        />
       </div>
     </div>
   );

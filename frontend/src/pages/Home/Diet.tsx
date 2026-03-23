@@ -186,16 +186,14 @@ export default function Diet() {
                   </div>
                 </button>
 
-                {homeData && (
-                  <ModalEditIngredients
-                    isOpen={showModal}
-                    currentIngredients={dish.ingredientes}
-                    ingredientsAvailable={ingredientsAvailable}
-                    onClose={() => setShowModal(false)}
-                    onConfirm={handleConfirmIngredients}
-                    homeData={homeData}
-                  />
-                )}
+                <ModalEditIngredients
+                  isOpen={showModal}
+                  currentIngredients={dish.ingredientes}
+                  ingredientsAvailable={ingredientsAvailable}
+                  onClose={() => setShowModal(false)}
+                  onConfirm={handleConfirmIngredients}
+                  homeData={homeData}
+                />
               </>
             )}
           </div>
