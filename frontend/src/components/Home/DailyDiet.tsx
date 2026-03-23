@@ -272,6 +272,7 @@ export default function DailyDiet({
           ingredientsAvailable={ingredientsAvailable}
           onClose={() => setShowModal(false)}
           onConfirm={handleConfirmIngredients}
+          homeData={homeData}
         />
       </div>
     </>
