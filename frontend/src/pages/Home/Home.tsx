@@ -7,11 +7,13 @@ import TodaySummary from "../../components/Home/TodaySummary";
 import NextMealCard from "../../components/Home/NextMealCard";
 import DailyDiet from "../../components/Home/DailyDiet";
 import RachaWarning from "../../components/Home/Completed/RachaWarning";
+import WarningDay from "../../components/Home/Completed/WarningDay";
 
 export default function Home() {
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [activeFoodIndex, setActiveFoodIndex] = useState(0);
   const [openRachaWarningModal, setOpenRachaWarningModal] = useState(false);
+  const [openWarningDayModal, setOpenWarningDayModal] = useState(false);
 
   const hayDietaHoy = !!homeData?.dia_actual?.comidas?.length;
 
@@ -23,6 +25,9 @@ export default function Home() {
       setHomeData(data);
       if (data.modals.mostrar_pagar_racha) {
         setOpenRachaWarningModal(true);
+      }
+      if (data.modals.mostrar_notificar_racha) {
+        setOpenWarningDayModal(true);
       }
     } catch (err) {
       console.error("Error al cargar datos del home", err);
@@ -67,6 +72,12 @@ export default function Home() {
       <RachaWarning
         isOpen={openRachaWarningModal}
         onClose={() => setOpenRachaWarningModal(false)}
+        onRefetch={fetchHomeData}
+      />
+
+      <WarningDay
+        isOpen={openWarningDayModal}
+        onClose={() => setOpenWarningDayModal(false)}
         onRefetch={fetchHomeData}
       />
     </div>
