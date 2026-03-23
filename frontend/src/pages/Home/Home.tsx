@@ -13,6 +13,8 @@ export default function Home() {
 
   const hayDietaHoy = !!homeData?.dia_actual?.comidas?.length;
 
+  console.log(homeData);
+
   const fetchHomeData = async () => {
     try {
       const data = await HomeService.getHome();
@@ -46,6 +48,7 @@ export default function Home() {
             homeData={homeData}
             activeFoodIndex={activeFoodIndex}
             setActiveFoodIndex={setActiveFoodIndex}
+            onRefetch={fetchHomeData}
           />
         </div>
 
