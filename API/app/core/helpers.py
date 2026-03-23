@@ -49,3 +49,33 @@ def comparar_horas(hora: str):
     
     else:  # diferencia < 0
         return {"color": "#FCFCFC", "mensaje": "Próxima comida", "estado": 0}
+
+
+
+def comparar_con_hoy_bogota(fecha_mongo) -> str:
+    """
+    Compara una fecha de Mongo (UTC) con el inicio del día actual en Bogotá.
+    
+    Retorna:
+        "antes"   -> si es de un día anterior
+        "hoy"     -> si es el mismo día
+        "despues" -> si es un día futuro
+    """
+
+    # Zona horaria Bogotá
+    tz_bogota = ZoneInfo("America/Bogota")
+
+    # Convertir fecha de Mongo (UTC) a Bogotá
+    fecha_bogota = fecha_mongo.astimezone(tz_bogota)
+
+    # Inicio del día actual en Bogotá
+    hoy = datetime.now(tz_bogota).date()
+    inicio_hoy = datetime.combine(hoy, time(0, 0, 0), tz_bogota)
+
+    # Comparar solo por fecha (más seguro)
+    if fecha_bogota.date() < inicio_hoy.date():
+        return "antes"
+    elif fecha_bogota.date() > inicio_hoy.date():
+        return "despues"
+    else:
+        return "hoy"
