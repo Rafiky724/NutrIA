@@ -44,13 +44,12 @@ export default function Toast({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-4 md:inset-x-0 flex justify-center z-50 px-4 sm:top-6">
+    <div className="fixed flex px-4 sm:top-6 z-50 top-4 right-0">
       <div
-        className={`relative overflow-hidden w-full max-w-sm sm:max-w-md px-4 sm:px-6 py-3 sm:py-4 rounded-xl shadow-lg text-white text-sm sm:text-base animate-slide-in ${styles[type]}`}
+        className={`relative overflow-hidden w-full max-w-sm sm:max-w-md px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-lg text-white text-sm sm:text-base animate-slide-in ${styles[type]}`}
       >
         {message}
 
-        {/* Barra de progreso */}
         <div className="absolute bottom-0 left-0 h-1 w-full bg-white/30">
           <div
             key={progressKey}
