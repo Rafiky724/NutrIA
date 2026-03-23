@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import type { UseFormRegister } from "react-hook-form";
 import type { Budget, FormData } from "../../types";
-import { options } from "../../data/optionsPrice";
 
 type Props = {
   register: UseFormRegister<FormData>;
   onSelectBudget: (budget: Budget) => void;
 };
+
+const options: { label: Budget; price: string }[] = [
+  { label: "Muy bajo", price: "$80.000 COP" },
+  { label: "Bajo", price: "$100.000 COP" },
+  { label: "Estándar", price: "$130.000 COP" },
+  { label: "Alto", price: "$160.000 COP" },
+  { label: "Muy alto", price: "+$200.000 COP" },
+];
 
 export default function BudgetSelectionForm({
   register,
@@ -29,7 +36,6 @@ export default function BudgetSelectionForm({
 
   return (
     <div className="px-4 sm:px-6 md:px-10">
-      {/* Encabezado */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0">
         <div className="w-16 sm:w-20">
           <img
@@ -43,12 +49,10 @@ export default function BudgetSelectionForm({
         </div>
       </div>
 
-      {/* Descripción */}
       <div className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
         <p>¿Cuál es tu presupuesto semanal para alimentación?</p>
       </div>
 
-      {/* Opciones */}
       <div className="w-full sm:w-96 mx-auto space-y-3 sm:space-y-4">
         {options.map(({ label, price }) => (
           <div
