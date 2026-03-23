@@ -6,17 +6,20 @@ import { getIngredientIcon } from "../../utils/ingredients";
 import ModalEditIngredients from "../Modals/ModalEditIngredients";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { DaysService } from "../../services/daysService";
 
 type Props = {
   homeData: HomeResponse | null;
   activeFoodIndex: number;
   setActiveFoodIndex: Dispatch<SetStateAction<number>>;
+  onRefetch: () => Promise<void>;
 };
 
 export default function DailyDiet({
   homeData,
   activeFoodIndex,
   setActiveFoodIndex,
+  onRefetch,
 }: Props) {
   const [showModal, setShowModal] = useState(false);
 
@@ -109,6 +112,30 @@ export default function DailyDiet({
   const percentageCarbs = macroPercentage(carbs, totalCarbs);
   const percentageFats = macroPercentage(fats, totalFats);
 
+  const handleRegenerate = async () => {
+    try {
+      if (
+        activeFoodIndex === null ||
+        !homeData.dia_actual.comidas[activeFoodIndex]
+      ) {
+        throw new Error("No hay comida seleccionada");
+      }
+
+      const comidaSeleccionada = homeData.dia_actual.comidas[activeFoodIndex];
+
+      const response = await DaysService.regenerateFood(
+        homeData.dia_actual.dia_semana,
+        comidaSeleccionada.tipo_comida,
+      );
+
+      await onRefetch();
+
+      console.log("Plato regenerado:", response);
+    } catch (error) {
+      console.error("Error regenerando plato:", error);
+    }
+  };
+
   return (
     <>
       <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
@@ -132,7 +159,11 @@ export default function DailyDiet({
 
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="flex flex-col w-[200px] md:w-2xs mx-auto text-xs">
-            <button className="relative bg-brown text-white py-2 rounded-3xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition">
+            <button
+              type="button"
+              onClick={handleRegenerate}
+              className="relative bg-brown text-white py-2 rounded-3xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition"
+            >
               Regenerar plato
               <div className="absolute top-2 right-5 w-4">
                 <img
