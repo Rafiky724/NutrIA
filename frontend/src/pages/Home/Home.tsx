@@ -16,7 +16,7 @@ export default function Home() {
   const [activeFoodIndex, setActiveFoodIndex] = useState(0);
   const [openRachaWarningModal, setOpenRachaWarningModal] = useState(false);
   const [openWarningDayModal, setOpenWarningDayModal] = useState(false);
-  const [openExcelentDayModal, setOpenExcelentDayModal] = useState(true);
+  const [openExcelentDayModal, setOpenExcelentDayModal] = useState(false);
   const [openFailedDayModal, setOpenFailedDayModal] = useState(false);
 
   const hayDietaHoy = !!homeData?.dia_actual?.comidas?.length;
