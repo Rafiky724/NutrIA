@@ -36,7 +36,6 @@ export default function HealthConditionDetailsForm({
 
   return (
     <div className="px-4 sm:px-6 md:px-10">
-      {/* Encabezado */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-6 space-y-4 sm:space-y-0">
         <div className="w-16 sm:w-20">
           <img
@@ -50,13 +49,11 @@ export default function HealthConditionDetailsForm({
         </div>
       </div>
 
-      {/* Descripción */}
       <div className="ft-light text-justify text-gray my-6 md:my-10 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Tranquilo, esta información solo se usará para personalizar tu dieta de
         forma segura y efectiva.
       </div>
 
-      {/* Textarea */}
       <div className="mt-6 relative">
         <textarea
           {...register("enfermedad", {
@@ -75,7 +72,6 @@ export default function HealthConditionDetailsForm({
         /> */}
       </div>
 
-      {/* Toast */}
       <Toast
         isOpen={toast.open}
         message={toast.message}
