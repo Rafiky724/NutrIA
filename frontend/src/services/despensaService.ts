@@ -18,18 +18,15 @@ export interface ActualizarIngredientesResponse {
     ingredientes: Ingrediente[];
 }
 
-export const actualizarIngredientesUsuario = async (
-    payload: ActualizarIngredientesRequest
-): Promise<ActualizarIngredientesResponse> => {
+export const getIngredientesUsuario = async (): Promise<IngredientesUsuarioResponse> => {
     const token = localStorage.getItem("token");
 
     if (!token) {
         throw new Error("Usuario no autenticado");
     }
 
-    const { data } = await axiosClient.post<ActualizarIngredientesResponse>(
-        DESPENSA_ENDPOINTS.ACTUALIZAR_INGREDIENTES,
-        payload,
+    const { data } = await axiosClient.get<IngredientesUsuarioResponse>(
+        DESPENSA_ENDPOINTS.GET_INGREDIENTES,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -41,15 +38,18 @@ export const actualizarIngredientesUsuario = async (
     return data;
 };
 
-export const getIngredientesUsuario = async (): Promise<IngredientesUsuarioResponse> => {
+export const actualizarIngredientesUsuario = async (
+    payload: ActualizarIngredientesRequest
+): Promise<ActualizarIngredientesResponse> => {
     const token = localStorage.getItem("token");
 
     if (!token) {
         throw new Error("Usuario no autenticado");
     }
 
-    const { data } = await axiosClient.get<IngredientesUsuarioResponse>(
-        DESPENSA_ENDPOINTS.GET_INGREDIENTES,
+    const { data } = await axiosClient.put<ActualizarIngredientesResponse>(
+        DESPENSA_ENDPOINTS.ACTUALIZAR_INGREDIENTES,
+        payload,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
