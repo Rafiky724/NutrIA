@@ -46,6 +46,7 @@ export const COMIDAS_ENDPOINTS = {
   CANCELAR: "/comidas/cancelar_comida",
   SALVAR_RACHA: "/comidas/salvar_racha",
   PERDER_RACHA: "/comidas/perder_racha",
+  REEMPLAZAR_ACTUAL: "/comidas/reemplazar_comida_actual",
 } as const;
 
 export const DESPENSA_ENDPOINTS = {
