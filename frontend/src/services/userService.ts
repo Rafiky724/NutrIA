@@ -87,7 +87,7 @@ export const updateUserPeso = async (
         throw new Error("Usuario no autenticado");
     }
 
-    const { data } = await axiosClient.post<UpdatePesoResponse>(
+    const { data } = await axiosClient.put<UpdatePesoResponse>(
         USER_ENDPOINTS.UPDATE_PESO,
         payload,
         {
