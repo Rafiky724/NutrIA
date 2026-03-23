@@ -32,7 +32,7 @@ export const DaysService = {
 
         const body = { ingredientes: ingredients };
         try {
-            const { data } = await axiosClient.post<EditFoodResponse>(
+            const { data } = await axiosClient.put<EditFoodResponse>(
                 DAYS_ENDPOINTS.EDIT_FOOD(day, typeFood), body,
                 {
                     headers: {
@@ -56,7 +56,7 @@ export const DaysService = {
 
         if (!token) throw new Error("Usuario no autenticado");
 
-        const { data } = await axiosClient.post<RegenerateDayResponse>(
+        const { data } = await axiosClient.put<RegenerateDayResponse>(
             DAYS_ENDPOINTS.REGENERATE_FOOD(day, typeFood),
             {},
             {
