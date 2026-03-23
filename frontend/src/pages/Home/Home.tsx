@@ -8,12 +8,16 @@ import NextMealCard from "../../components/Home/NextMealCard";
 import DailyDiet from "../../components/Home/DailyDiet";
 import RachaWarning from "../../components/Home/Completed/RachaWarning";
 import WarningDay from "../../components/Home/Completed/WarningDay";
+import ExcelentDay from "../../components/Home/Completed/ExcelentDay";
+import FailedDay from "../../components/Home/Completed/FailedDay";
 
 export default function Home() {
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [activeFoodIndex, setActiveFoodIndex] = useState(0);
   const [openRachaWarningModal, setOpenRachaWarningModal] = useState(false);
   const [openWarningDayModal, setOpenWarningDayModal] = useState(false);
+  const [openExcelentDayModal, setOpenExcelentDayModal] = useState(true);
+  const [openFailedDayModal, setOpenFailedDayModal] = useState(false);
 
   const hayDietaHoy = !!homeData?.dia_actual?.comidas?.length;
 
@@ -25,6 +29,12 @@ export default function Home() {
       setHomeData(data);
       if (data.modals.mostrar_pagar_racha) {
         setOpenRachaWarningModal(true);
+      }
+      if (data.modals.mostrar_subir_racha) {
+        setOpenExcelentDayModal(true);
+      }
+      if (data.modals.mostrar_perder_racha) {
+        setOpenFailedDayModal(true);
       }
       if (data.modals.mostrar_notificar_racha) {
         setOpenWarningDayModal(true);
@@ -39,7 +49,6 @@ export default function Home() {
   }, []);
 
   if (!homeData) {
-    console.error("No hay datos de la comida o del día actual");
     return;
   }
 
@@ -84,6 +93,18 @@ export default function Home() {
 
       <WarningDay
         isOpen={openWarningDayModal}
+        onClose={() => setOpenWarningDayModal(false)}
+        onRefetch={fetchHomeData}
+      />
+
+      <ExcelentDay
+        isOpen={openExcelentDayModal}
+        onClose={() => setOpenExcelentDayModal(false)}
+        onRefetch={fetchHomeData}
+      />
+
+      <FailedDay
+        isOpen={openFailedDayModal}
         onClose={() => setOpenWarningDayModal(false)}
         onRefetch={fetchHomeData}
       />
