@@ -1,4 +1,8 @@
 import { useState } from "react";
+import {
+  reemplazarComidaActual,
+  type ReemplazarComidaRequest,
+} from "../../../services/comidaService";
 
 type Props = {
   isOpen: boolean;
@@ -16,12 +20,33 @@ export default function AbsentMeal({
   description = "Con la información que nos proporciones, haremos una estimación aproximada de los macronutrientes consumidos. Sé lo más preciso posible para obtener mejores resultados.",
 }: Props) {
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   if (!isOpen) return null;
 
-  const handleSubmit = () => {
-    onSubmit(text);
-    onClose();
+  const handleSubmit = async () => {
+    if (!text.trim()) {
+      setError("Debes ingresar una descripción de tu comida.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const payload: ReemplazarComidaRequest = { descripcion: text.trim() };
+      const response = await reemplazarComidaActual(payload);
+
+      onSubmit(response.mensaje);
+      setText("");
+      onClose();
+    } catch (err: any) {
+      console.error("Error reemplazando comida:", err);
+      setError(err?.response?.data?.detail || "Error al procesar la comida.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,7 +65,10 @@ export default function AbsentMeal({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={description}
+          disabled={loading}
         />
+
+        {error && <p className="text-red-500 text-center text-sm">{error}</p>}
 
         <button
           className="w-3xs md:w-xs mx-auto bg-yellow text-brown ft-medium py-2 px-4 rounded-4xl hover:scale-105 transition cursor-pointer"
