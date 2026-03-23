@@ -52,3 +52,4 @@ class InfoModel:
 #1: Completado satisfactoriamente
 #2: Completado con ayuda de racha
 #3: Día no completado
+#4: En curso

@@ -6,6 +6,7 @@ from fastapi import HTTPException
 from app.core.database import db
 from app.core.helpers import get_day_range_bogota, comparar_horas
 from app.models.estado_model import EstadoModel
+from app.models.info_model import InfoModel
 from app.models.plan_model import PlanModel
 from app.schemas.dias import DiaResponse
 
@@ -23,6 +24,11 @@ class HomeController:
 
     @staticmethod
     async def get_home(current_user: dict):
+
+        #Modalas
+        modal_subir_racha = False
+        modal_pagar_racha = False
+        modal_perder_racha = False
 
         user_id = ObjectId(current_user["_id"])
         hoy = datetime.now(ZoneInfo("America/Bogota")).date()
@@ -141,6 +147,8 @@ class HomeController:
 
         if index >= len(comidas):
             proxima = "Haz acabado tu plan alimenticio para el día de hoy. Vuelve mañana."
+            modal_subir_racha, modal_pagar_racha, modal_perder_racha = await HomeController.verificar_modal_mostrar(current_user, inicio, fin)
+
 
         else:
             comida = comidas[index]
@@ -157,12 +165,68 @@ class HomeController:
                 "precio_estimado": comida["precio_estimado"],
                 "estado": comparar_horas(comida["hora_sugerida"])
             }
+
+        modals = {
+
+            "mostrar_subir_racha": modal_subir_racha,
+            "mostrar_pagar_racha": modal_pagar_racha,
+            "mostrar_perder_racha": modal_perder_racha
+
+        }
         
         return {
 
             "usuario": usuario,
             "macros_consumidos_hoy": macros_consumidos,
             "proxima_comida": proxima,
-            "dia_actual": DiaResponse(**dia)
+            "dia_actual": DiaResponse(**dia),
+            "modals": modals
 
         }
+
+    @staticmethod
+    async def verificar_modal_mostrar(current_user: dict, inicio, fin):
+        user_id = ObjectId(current_user["_id"])
+
+        modal_subir_racha = False
+        modal_pagar_racha = False
+        modal_perder_racha = False
+        
+        info_doc = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+
+        if not info_doc:
+            raise HTTPException(400, "No hay información de que el día haya terminado.")
+        
+        if info_doc["estado_dia"] == 1 and not info_doc["mostroAumentarRacha"]:
+            modal_subir_racha = True
+
+            data = {
+                "mostroAumentarRacha": True
+            }
+            try:
+                await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, data)
+            except Exception as e:
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Error: {e}"
+                )
+
+        elif info_doc["estado_dia"] == -1:
+            modal_pagar_racha = True
+
+        elif info_doc["estado_dia"] == 3 and not info_doc["mostroPerderRacha"]:
+            modal_perder_racha = True
+
+            data = {
+                "mostroPerderRacha": True
+            }
+            try:
+                await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, data)
+            except Exception as e:
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Error: {e}"
+                )
+
+
+        return modal_subir_racha, modal_pagar_racha, modal_perder_racha

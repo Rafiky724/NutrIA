@@ -256,6 +256,7 @@ class ComidasController:
                 )
 
                 estado["dieta"]["completado"] = True
+                estado["macros_consumidos"] = nuevos_macros
 
                 await ComidasController.verificar_dia_completado(current_user, estado, inicio, fin)
 
@@ -445,6 +446,12 @@ class ComidasController:
         original_user = await db.users.find_one({"_id": user_id})
 
         try:
+            
+            info_doc = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+            if not info_doc:
+                raise HTTPException(400, "No hay información de que el día haya terminado.")
+            
+            """
             await db.estados_dia.update_one(
                 {"_id": estado["_id"]},
                 {
@@ -452,14 +459,23 @@ class ComidasController:
                         "dieta.completado": True
                     }
                 }
-            )
+            )"""
+
+            if info_doc["estado_dia"] != -1:
+                raise HTTPException(400, "No hay información de que se pueda salvar la racha en este momento.")
+
+            data = {
+                "estado_dia": 2
+            }
+
+            await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, data)
 
             await db.users.update_one(
                 {"_id": user_id},
-                {"$set": {"dias_racha": current_user["dias_racha"]+1, "gemas_acumuladas": current_user["gemas_acumuladas"]-50}}
+                {"$set": {"dias_racha": current_user["dias_racha"], "gemas_acumuladas": current_user["gemas_acumuladas"]-100}}
             )
 
-            return {"mensaje": "Racha salvada correctamente", "racha_actual": current_user["dias_racha"]+1, "gemas_acumuladas": current_user["gemas_acumuladas"]-50}
+            return {"mensaje": "Racha salvada correctamente", "racha_actual": current_user["dias_racha"], "gemas_acumuladas": current_user["gemas_acumuladas"]-100}
 
         except Exception as e:
             # Intentar rollback de cambios parciales
@@ -502,14 +518,19 @@ class ComidasController:
         original_user = await db.users.find_one({"_id": user_id})
 
         try:
-            await db.estados_dia.update_one(
-                {"_id": estado["_id"]},
-                {
-                    "$set": {
-                        "dieta.completado": False
-                    }
-                }
-            )
+            
+            info_doc = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+            if not info_doc:
+                raise HTTPException(400, "No hay información de que el día haya terminado.")
+            
+            if info_doc["estado_dia"] != -1:
+                raise HTTPException(400, "No hay información de que se pueda perder la racha en este momento.")
+
+            data = {
+                "estado_dia": 3
+            }
+
+            await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, data)
 
             await db.users.update_one(
                 {"_id": user_id},
