@@ -8,7 +8,7 @@ type Props = {
   ingredientsAvailable: IngredientCategory[];
   onClose: () => void;
   onConfirm: (ingredientsFinals: Ingredient[]) => void;
-  homeData?: HomeResponse | null;
+  homeData: HomeResponse;
 };
 
 export default function ModalEditIngredients({
@@ -41,13 +41,8 @@ export default function ModalEditIngredients({
 
   const confirm = async () => {
     try {
-      if (!homeData?.dia_actual) {
-        console.error("No hay homeData o dia_actual");
-        return;
-      }
-
       const dia_actual = homeData?.dia_actual.dia_semana;
-      const comida_actual = homeData?.dia_actual.comidas.find(
+      const comida_actual = homeData.dia_actual.comidas.find(
         (comida) => comida.hora_real === null,
       );
 
