@@ -51,6 +51,7 @@ export const COMIDAS_ENDPOINTS = {
 export const DESPENSA_ENDPOINTS = {
   GET_INGREDIENTES: "/despensa/ingredientes",
   ACTUALIZAR_INGREDIENTES: "/despensa/actualizar_ingredientes",
+  VERIFICAR_INGREDIENTE: "/despensa/verificar_ingrediente",
 } as const;
 
 export const MASCOTA_ENDPOINTS = {
