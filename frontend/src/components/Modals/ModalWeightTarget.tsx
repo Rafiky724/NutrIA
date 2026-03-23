@@ -66,7 +66,6 @@ export default function ModalWeightTarget({
       <div
         className="flex flex-col items-center w-20 sm:w-24 select-none"
         onWheel={(e) => {
-          e.preventDefault();
           roulette.onWheel(e);
         }}
         onTouchStart={roulette.onTouchStart}
