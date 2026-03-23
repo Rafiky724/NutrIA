@@ -10,7 +10,6 @@ import VerifyMeal from "./Completed/VerifyMeal";
 import NotCompletedMeal from "./Completed/NotCompletedMeal";
 import AbsentMeal from "./Completed/AbsentMeal";
 import EstimateMeal from "./Completed/EstimateMeal";
-import FinalOptions from "./Completed/FinalOptions";
 import { cancelarComida } from "../../services/comidaService";
 import { DaysService } from "../../services/daysService";
 import ModalEditIngredients from "../Modals/ModalEditIngredients";
@@ -104,7 +103,7 @@ export default function NextMealCard({
   const [selectedOption, setSelectedOption] = useState<any>(null);
   const [, setAbsentText] = useState("");
   const [openEstimateModal, setOpenEstimateModal] = useState(false);
-  const [openFinalOptionsModal, setOpenFinalOptionsModal] = useState(false);
+  const [, setOpenFinalOptionsModal] = useState(false);
   const [, setComidaId] = useState<string | null>(null);
 
   const handleRetry = async () => {
