@@ -157,9 +157,15 @@ export default function Shop({ categories = categoriesData }: Props) {
   };
 
   return (
-    <div className="relative w-full flex flex-col-reverse lg:flex-row items-center justify-between xl:justify-center gap-5 xl:gap-20 px-4">
+    <div className="w-full flex flex-col-reverse lg:flex-row items-center justify-between xl:justify-center gap-5 xl:gap-20 px-4">
       <div className="relative bg-white rounded-b-4xl shadow-lg p-6 sm:p-8 w-2xs md:w-md xl:w-lg flex flex-col gap-6 ml-10 md:ml-0 h-100 mb-10 justify-center">
         <div className="flex flex-wrap gap-4 justify-center mt-10 md:mt-15 overflow-y-auto p-1 max-h-96">
+          <img
+            className="absolute top-0 left-0 w-80 md:w-125 xl:w-145 "
+            src="/SVG/Pets/Shop/Roof.svg"
+            alt="Techo"
+          />
+
           {loading || !items
             ? skeletonGrid.map((_, idx) => (
                 <div key={idx} className="flex flex-col items-center gap-1">
@@ -222,12 +228,6 @@ export default function Shop({ categories = categoriesData }: Props) {
           ))}
         </div>
       </div>
-
-      <img
-        className="absolute top-82 left-13 w-80 md:w-125 md:top-13 md:-left-1 xl:w-145 xl:left-65"
-        src="/SVG/Pets/Shop/Roof.svg"
-        alt="Techo"
-      />
 
       <div className="flex flex-col gap-4 ml-10 md:ml-0 md:h-130 justify-around md:mt-8">
         {loading || !mascotaActual ? (
