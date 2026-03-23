@@ -8,8 +8,8 @@ type Props = {
 };
 
 export default function ModalWeight({ onSelectWeight, onClose }: Props) {
-  const weights = Array.from({ length: 181 }, (_, i) => i + 20); // 20kg a 200kg
-  const weightRoulette = useRoulette(weights.length, 40); // valor inicial ~60kg
+  const weights = Array.from({ length: 181 }, (_, i) => i + 20);
+  const weightRoulette = useRoulette(weights.length, 40);
 
   const [toast, setToast] = useState({
     open: false,
@@ -80,12 +80,10 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
         className="flex flex-col items-center select-none"
         style={{ width: "fit-content" }}
         onWheel={(e) => {
-          e.preventDefault(); // evita que el body haga scroll
           roulette.onWheel(e);
         }}
         onTouchStart={roulette.onTouchStart}
         onTouchMove={(e) => {
-          e.preventDefault(); // evita que el body haga scroll
           roulette.onTouchMove(e);
         }}
         onTouchEnd={roulette.onTouchEnd}
@@ -111,13 +109,11 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-      {/* Fondo oscuro con blur */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <div className="relative z-10 bg-white w-full max-w-md rounded-2xl shadow-xl p-6 sm:p-8">
         <h2 className="text-lg sm:text-xl md:text-2xl text-brown ft-bold mb-6 text-center">
           Selecciona tu peso actual
@@ -136,7 +132,6 @@ export default function ModalWeight({ onSelectWeight, onClose }: Props) {
         </button>
       </div>
 
-      {/* Toast */}
       <Toast
         isOpen={toast.open}
         message={toast.message}
