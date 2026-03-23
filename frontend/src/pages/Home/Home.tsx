@@ -38,6 +38,11 @@ export default function Home() {
     fetchHomeData();
   }, []);
 
+  if (!homeData) {
+    console.error("No hay datos de la comida o del día actual");
+    return;
+  }
+
   return (
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
@@ -47,9 +52,11 @@ export default function Home() {
           <TodaySummary homeData={homeData} />
 
           <NextMealCard
+            homeData={homeData}
             nextFood={homeData?.proxima_comida}
             estado={homeData?.proxima_comida?.estado}
             onRefetch={fetchHomeData}
+            activeFoodIndex={activeFoodIndex}
           />
         </div>
 
