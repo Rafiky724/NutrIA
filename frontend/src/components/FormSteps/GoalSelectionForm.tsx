@@ -8,6 +8,27 @@ type Props = {
   nextStep: () => void;
 };
 
+const options: { key: TargetType; title: string; description: string }[] = [
+  {
+    key: "PerderPeso",
+    title: "Bajar de peso",
+    description:
+      "Elige esta opción si tu objetivo es reducir grasa corporal de forma saludable.",
+  },
+  {
+    key: "MantenerPeso",
+    title: "Mantener",
+    description:
+      "Ideal si quieres conservar tu peso actual y seguir una alimentación equilibrada.",
+  },
+  {
+    key: "GanarMasaMuscular",
+    title: "Ganar masa muscular",
+    description:
+      "Recomendado si buscas aumentar tu peso mediante el desarrollo muscular.",
+  },
+];
+
 export default function GoalSelectionForm({
   register,
   onSelectObjective,
@@ -27,9 +48,8 @@ export default function GoalSelectionForm({
 
   return (
     <>
-      {/* Encabezado */}
       <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-        <div className="w-10 md:w-14 xl:w-20">
+        <div className="w-10 md:w-10 xl:w-15">
           <img
             src="/SVG/IconsGeneral/FlagIcon.svg"
             alt="Objetivo"
@@ -41,55 +61,27 @@ export default function GoalSelectionForm({
         </div>
       </div>
 
-      {/* Texto explicativo */}
       <div className="mt-4 md:mt-6 text-justify ft-light text-gray px-4 sm:px-6 md:px-0 text-sm sm:text-base md:text-lg">
         Tu meta nos permitirá construir un plan enfocado en tus resultados, con
         el equilibrio adecuado entre calorías y nutrientes.
       </div>
 
-      {/* Botones de objetivos */}
       <div className="flex flex-col gap-4 mt-4 md:mt-6 px-4 sm:px-6 md:px-0">
-        <button
-          type="button"
-          onClick={() => handleSelect("PerderPeso")}
-          className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow custom-bg hover:scale-105 transition cursor-pointer "
-        >
-          <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
-            Bajar de peso
-          </h4>
-          <p className="text-xs sm:text-sm md:text-base px-4">
-            Elige esta opción si tu objetivo es reducir grasa corporal de forma
-            saludable.
-          </p>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => handleSelect("MantenerPeso")}
-          className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow custom-bg hover:scale-105 transition cursor-pointer"
-        >
-          <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
-            Mantener
-          </h4>
-          <p className="text-xs sm:text-sm md:text-base px-4">
-            Ideal si quieres conservar tu peso actual y seguir una alimentación
-            equilibrada.
-          </p>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => handleSelect("GanarMasaMuscular")}
-          className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow custom-bg hover:scale-105 transition cursor-pointer"
-        >
-          <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
-            Ganar masa muscular
-          </h4>
-          <p className="text-xs sm:text-sm md:text-base px-4">
-            Recomendado si buscas aumentar tu peso mediante el desarrollo
-            muscular.
-          </p>
-        </button>
+        {options.map((option) => (
+          <button
+            key={option.key}
+            type="button"
+            onClick={() => handleSelect(option.key)}
+            className="w-full md:w-lg mx-auto py-3 rounded-xl text-left bg-yellow custom-bg hover:scale-105 transition cursor-pointer"
+          >
+            <h4 className="ft-bold text-sm sm:text-base md:text-lg px-4">
+              {option.title}
+            </h4>
+            <p className="text-xs sm:text-sm md:text-base px-4">
+              {option.description}
+            </p>
+          </button>
+        ))}
       </div>
     </>
   );
