@@ -67,7 +67,7 @@ export const cambiarTipoDieta = async (
         throw new Error("Usuario no autenticado");
     }
 
-    const { data } = await axiosClient.post<CambiarTipoDietaResponse>(
+    const { data } = await axiosClient.put<CambiarTipoDietaResponse>(
         PLAN_ENDPOINTS.CAMBIAR_TIPO_DIETA,
         payload,
         {
@@ -98,7 +98,7 @@ export const cambiarDiaActualizar = async (
         throw new Error("Usuario no autenticado");
     }
 
-    const { data } = await axiosClient.post<CambiarDiaActualizarResponse>(
+    const { data } = await axiosClient.put<CambiarDiaActualizarResponse>(
         PLAN_ENDPOINTS.CAMBIAR_DIA_ACTUALIZAR,
         payload,
         {
