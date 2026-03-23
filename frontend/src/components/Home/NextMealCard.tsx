@@ -1,6 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import type { Estado, NextMeal } from "../../types";
+import type { Estado, HomeResponse, Ingredient, NextMeal } from "../../types";
+import { categories as ingredientsAvailable } from "../../data/ingredients";
 import { getIngredientIcon } from "../../utils/ingredients";
 import { useState } from "react";
 import CompleteMeal from "./Completed/CompleteMeal";
@@ -11,14 +12,55 @@ import AbsentMeal from "./Completed/AbsentMeal";
 import EstimateMeal from "./Completed/EstimateMeal";
 import FinalOptions from "./Completed/FinalOptions";
 import { cancelarComida } from "../../services/comidaService";
+import { DaysService } from "../../services/daysService";
+import ModalEditIngredients from "../Modals/ModalEditIngredients";
 
 type Props = {
+  homeData: HomeResponse;
   nextFood?: NextMeal | null;
   estado?: Estado | null;
   onRefetch: () => void;
+  activeFoodIndex: number;
 };
 
-export default function NextMealCard({ nextFood, estado, onRefetch }: Props) {
+export default function NextMealCard({
+  homeData,
+  nextFood,
+  estado,
+  onRefetch,
+  activeFoodIndex,
+}: Props) {
+  const [showModal, setShowModal] = useState(false);
+
+  if (!homeData) {
+    console.error("No hay datos de la comida o del día actual");
+    return;
+  }
+
+  const comidaActual = homeData.dia_actual.comidas?.[activeFoodIndex];
+
+  const handleConfirmIngredients = async (
+    selectedIngredients: Ingredient[],
+  ) => {
+    if (!comidaActual) {
+      console.error("No hay comida pendiente hoy");
+      return;
+    }
+
+    try {
+      await DaysService.editFood(
+        homeData.dia_actual.dia_semana,
+        comidaActual.tipo_comida,
+        selectedIngredients.map((ing) => ing.nombre),
+      );
+
+      onRefetch();
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error editando ingredientes:", error);
+    }
+  };
+
   if (!nextFood) {
     return (
       <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center">
@@ -129,7 +171,11 @@ export default function NextMealCard({ nextFood, estado, onRefetch }: Props) {
               ))}
             </div>
 
-            <button className="mt-2 bg-yellow text-brown ft-medium py-2 px-2 rounded-4xl w-40 mx-auto text-sm hover:scale-105 transition cursor-pointer">
+            <button
+              type="button"
+              className="mt-2 bg-yellow text-brown ft-medium py-2 px-2 rounded-4xl w-40 mx-auto text-sm hover:scale-105 transition cursor-pointer"
+              onClick={() => setShowModal(true)}
+            >
               Editar plato
             </button>
           </div>
@@ -204,6 +250,15 @@ export default function NextMealCard({ nextFood, estado, onRefetch }: Props) {
         onSelectOption={() => {
           setOpenFinalOptionsModal(false);
         }}
+      />
+
+      <ModalEditIngredients
+        isOpen={showModal}
+        currentIngredients={comidaActual.ingredientes}
+        ingredientsAvailable={ingredientsAvailable}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleConfirmIngredients}
+        homeData={homeData}
       />
     </>
   );
