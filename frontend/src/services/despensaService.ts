@@ -62,7 +62,7 @@ export const getIngredientesUsuario = async (): Promise<IngredientesUsuarioRespo
 };
 
 export interface VerificarIngredienteRequest {
-    nombre: string;
+    ingrediente: string;
 }
 
 export interface VerificarIngredienteResponse {
