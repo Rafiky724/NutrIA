@@ -248,13 +248,13 @@ export default function NextMealCard({
         }}
       />
 
-      <FinalOptions
+      {/* <FinalOptions
         isOpen={openFinalOptionsModal}
         onClose={() => setOpenFinalOptionsModal(false)}
         onSelectOption={() => {
           setOpenFinalOptionsModal(false);
         }}
-      />
+      /> */}
 
       <ModalEditIngredients
         isOpen={showModal}
