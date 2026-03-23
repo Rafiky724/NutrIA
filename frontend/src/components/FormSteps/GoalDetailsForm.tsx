@@ -62,7 +62,6 @@ export default function GoalDetailsForm({
 
   return (
     <>
-      {/* Encabezado */}
       <div className="flex flex-col md:flex-row items-center justify-center md:space-x-5 space-y-3 md:space-y-0">
         <div className="w-16 md:w-20">
           <img
@@ -76,7 +75,6 @@ export default function GoalDetailsForm({
         </div>
       </div>
 
-      {/* Texto explicativo */}
       <div className="ft-light text-gray my-6 md:my-10 text-left text-sm sm:text-base md:text-md px-4 sm:px-6 md:px-0">
         <p>
           Indica el peso al que te gustaría llegar para que podamos calcular un
@@ -84,7 +82,6 @@ export default function GoalDetailsForm({
         </p>
       </div>
 
-      {/* Campos interactivos */}
       <div className="flex flex-col gap-4 mb-8 px-4 sm:px-6 md:px-0 ">
         {fields.map((field, index) => (
           <div
@@ -120,7 +117,6 @@ export default function GoalDetailsForm({
         ))}
       </div>
 
-      {/* Modales */}
       {showModalTargetWeight && (
         <ModalWeightTarget
           onSelectTargetWeight={(weight) =>
@@ -139,7 +135,6 @@ export default function GoalDetailsForm({
         />
       )}
 
-      {/* Toast */}
       <Toast
         isOpen={toast.open}
         message={toast.message}
