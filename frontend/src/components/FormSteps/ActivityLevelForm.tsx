@@ -8,6 +8,13 @@ type Props = {
   nextStep: () => void;
 };
 
+const activityOptions: { label: string; value: LevelActivity }[] = [
+  { label: "No hago ejercicio", value: "NoHace" },
+  { label: "Ocasional (1-2 veces por semana)", value: "Bajo" },
+  { label: "Regular (3-4 veces por semana)", value: "Moderado" },
+  { label: "Frecuente (5 o más veces)", value: "Alto" },
+];
+
 export default function ActivityLevelForm({
   register,
   onSelectActivity,
@@ -27,7 +34,6 @@ export default function ActivityLevelForm({
 
   return (
     <div className="px-4 sm:px-6 md:px-10">
-      {/* Encabezado */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-6 space-y-4 sm:space-y-0">
         <div className="w-10 md:w-20">
           <img
@@ -41,20 +47,13 @@ export default function ActivityLevelForm({
         </div>
       </div>
 
-      {/* Descripción */}
       <div className="ft-light text-justify text-gray my-6 md:my-10 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Tu nivel de actividad física es clave para calcular tu gasto calórico y
         ajustar tus porciones
       </div>
 
-      {/* Botones de selección */}
       <div className="flex flex-col gap-2 mt-6 sm:mt-8">
-        {[
-          { label: "No hago ejercicio", value: "NoHace" },
-          { label: "Ocasional (1-2 veces por semana)", value: "Bajo" },
-          { label: "Regular (3-4 veces por semana)", value: "Moderado" },
-          { label: "Frecuente (5 o más veces)", value: "Alto" },
-        ].map((option) => (
+        {activityOptions.map((option) => (
           <button
             key={option.value}
             type="button"
