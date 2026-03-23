@@ -1,4 +1,9 @@
+from copy import deepcopy
+from datetime import datetime, time
+from zoneinfo import ZoneInfo
+
 from app.core.database import db
+from app.models.dias_model import DiaModel
 
 class EstadoModel:
 
@@ -82,9 +87,65 @@ class EstadoModel:
     @staticmethod
     async def update_estado_completo(plan_id, dia_semana, data):
 
+        data.pop("_id", None)
+
         return await db.estados_dia.update_one(
             {"plan_id": plan_id,
                 "dia_semana": dia_semana,
                 "activo": True},
             {"$set": data}
         )
+    
+    @staticmethod
+    async def create_estado_model_today(user_id, plan_id, dia_semana):
+
+        hoy = datetime.now(ZoneInfo("America/Bogota")).date()
+
+        fecha = datetime.combine(
+            hoy,
+            time.min,
+            tzinfo=ZoneInfo("America/Bogota")
+        )
+
+        dia_doc = await DiaModel.get_dia_user(plan_id, dia_semana)
+
+        if not dia_doc:
+            raise Exception(f"No existe dieta plantilla para {dia_semana}")
+
+        comidas = deepcopy(dia_doc["comidas"])
+
+        macros_consumidos ={
+
+            "calorias": 0,
+            "proteinas": 0,
+            "carbohidratos": 0,
+            "grasas": 0
+        }
+
+        doc = {
+
+            "user_id": user_id,
+            "plan_id": plan_id,
+            "fecha": fecha,
+            "dia_semana": dia_semana,
+            "comida_actual_index": 0,
+            "ultima_comida_completada": None,
+            "macros_consumidos": macros_consumidos,
+            "inicio_dia": None,
+            "fin_dia": None,
+            "activo": True,
+            "dieta": {
+                "calorias_totales": dia_doc["calorias_totales"],
+                "proteinas_totales": dia_doc["proteinas_totales"],
+                "carbohidratos_totales": dia_doc["carbohidratos_totales"],
+                "grasas_totales": dia_doc["grasas_totales"],
+                "completado": False,
+                "comidas": comidas
+            },
+            "created_at": datetime.now(ZoneInfo("America/Bogota")),
+            "updated_at":datetime.now(ZoneInfo("America/Bogota"))
+
+        }
+
+        return await db.estados_dia.insert_one(doc)
+        

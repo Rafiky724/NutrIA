@@ -183,6 +183,14 @@ class ComidasController:
         hoy = datetime.now(ZoneInfo("America/Bogota")).date()
         inicio, fin = get_day_range_bogota(hoy)
 
+        info_doc_aux = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+
+        if not info_doc_aux:
+            raise HTTPException(400, "No hay información del día actual para completar la comida.")
+        
+        if info_doc_aux["enDiaAnterior"]:
+            inicio, fin = get_day_range_bogota(hoy - timedelta(days=1))
+
         plan = await PlanModel.get_plan_usuario(user_id)
 
         if not plan:
@@ -311,6 +319,14 @@ class ComidasController:
         hoy = datetime.now(ZoneInfo("America/Bogota")).date()
         inicio, fin = get_day_range_bogota(hoy)
 
+        info_doc_aux = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+
+        if not info_doc_aux:
+            raise HTTPException(400, "No hay información del día actual para completar la comida.")
+        
+        if info_doc_aux["enDiaAnterior"]:
+            inicio, fin = get_day_range_bogota(hoy - timedelta(days=1))
+
         plan = await PlanModel.get_plan_usuario(user_id)
 
         if not plan:
@@ -418,11 +434,28 @@ class ComidasController:
         user_id = ObjectId(current_user["_id"])
         gemas_usuario = current_user["gemas_acumuladas"]
         
-        if gemas_usuario < 50:
+        if gemas_usuario < 100:
             raise HTTPException(400, "No tienes suficientes gemas para pagar")
         
         hoy = datetime.now(ZoneInfo("America/Bogota")).date()
         inicio, fin = get_day_range_bogota(hoy)
+
+        info_doc_aux = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+
+        if info_doc_aux.get("tomarDecisionMantenerRacha", False):
+            await db.users.update_one(
+                {"_id": user_id},
+                {"$set": {"dias_racha": current_user["dias_racha"], "gemas_acumuladas": current_user["gemas_acumuladas"]-100}}
+            )
+
+            await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, {"tomarDecisionMantenerRacha": False})
+            return {"mensaje": "Racha salvada correctamente", "racha_actual": current_user["dias_racha"], "gemas_acumuladas": current_user["gemas_acumuladas"]-100}
+
+        if not info_doc_aux:
+            raise HTTPException(400, "No hay información del día actual para perder la racha.")
+        
+        if info_doc_aux["enDiaAnterior"]:
+            inicio, fin = get_day_range_bogota(hoy - timedelta(days=1))
 
         plan = await PlanModel.get_plan_usuario(user_id)
 
@@ -475,6 +508,10 @@ class ComidasController:
                 {"$set": {"dias_racha": current_user["dias_racha"], "gemas_acumuladas": current_user["gemas_acumuladas"]-100}}
             )
 
+            if info_doc_aux["enDiaAnterior"]:
+                inicio, fin = get_day_range_bogota(hoy)
+                await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, {"enDiaAnterior": False})
+
             return {"mensaje": "Racha salvada correctamente", "racha_actual": current_user["dias_racha"], "gemas_acumuladas": current_user["gemas_acumuladas"]-100}
 
         except Exception as e:
@@ -495,6 +532,23 @@ class ComidasController:
         
         hoy = datetime.now(ZoneInfo("America/Bogota")).date()
         inicio, fin = get_day_range_bogota(hoy)
+
+        info_doc_aux = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+
+        if info_doc_aux.get("tomarDecisionMantenerRacha", False):
+            await db.users.update_one(
+                {"_id": user_id},
+                {"$set": {"dias_racha": 0}}
+            )
+
+            await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, {"tomarDecisionMantenerRacha": False})
+            return {"mensaje": "Racha perdida", "racha_actual": 0}
+
+        if not info_doc_aux:
+            raise HTTPException(400, "No hay información del día actual para perder la racha.")
+        
+        if info_doc_aux["enDiaAnterior"]:
+            inicio, fin = get_day_range_bogota(hoy - timedelta(days=1))
 
         plan = await PlanModel.get_plan_usuario(user_id)
 
@@ -536,6 +590,10 @@ class ComidasController:
                 {"_id": user_id},
                 {"$set": {"dias_racha": 0}}
             )
+
+            if info_doc_aux["enDiaAnterior"]:
+                inicio, fin = get_day_range_bogota(hoy)
+                await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, {"enDiaAnterior": False})
 
             return {"mensaje": "Racha perdida", "racha_actual": 0}
 
@@ -615,6 +673,14 @@ REGLAS:
         # 1. obtener estado actual
         hoy = datetime.now(ZoneInfo("America/Bogota")).date()
         inicio, fin = get_day_range_bogota(hoy)
+
+        info_doc_aux = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+
+        if not info_doc_aux:
+            raise HTTPException(400, "No hay información del día actual para completar la comida.")
+        
+        if info_doc_aux["enDiaAnterior"]:
+            inicio, fin = get_day_range_bogota(hoy - timedelta(days=1))
 
         plan = await PlanModel.get_plan_usuario(user_id)
 
@@ -737,6 +803,18 @@ REGLAS:
                     {"_id": user_id},
                     {"$set": {"dias_racha": current_user["dias_racha"]+1}}
                 )
+
+                hoy = datetime.now(ZoneInfo("America/Bogota")).date()
+                inicio_aux, fin_aux = get_day_range_bogota(hoy)
+
+                info_doc_aux = await InfoModel.get_info_day_por_fecha(user_id, inicio_aux, fin_aux)
+
+                if not info_doc_aux:
+                    raise HTTPException(400, "No hay información del día actual para perder la racha.")
+
+                if info_doc_aux["enDiaAnterior"]:
+                    inicio_aux, fin_aux = get_day_range_bogota(hoy)
+                    await InfoModel.update_info_day_por_fecha(user_id, inicio_aux, fin_aux, {"enDiaAnterior": False})
                 
             else:
                 data = {
