@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { categories as ingredientsAvailable } from "../../data/ingredients";
 import { useNavigate } from "react-router-dom";
-import type { Days, TypeFood } from "../../types";
+import type { Days, HomeResponse, TypeFood } from "../../types";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ModalEditIngredients from "../../components/Modals/ModalEditIngredients";
@@ -35,6 +35,8 @@ export default function WeeklyMealPlan() {
     handleRegenerateDish,
     handleConfirmIngredients,
   } = useDayPlan(dayActive, foodActive, setFoodActive);
+
+  const [homeData] = useState<HomeResponse>();
 
   const { showOpinion, progress } = useOpinionTimer(dayPlan?.opinion_ia);
 
@@ -115,13 +117,16 @@ export default function WeeklyMealPlan() {
           <FruitRight />
         </div>
 
-        <ModalEditIngredients
-          isOpen={showModal}
-          currentIngredients={dish.ingredientes}
-          ingredientsAvailable={ingredientsAvailable}
-          onClose={() => setShowModal(false)}
-          onConfirm={handleConfirmIngredients}
-        />
+        {homeData && (
+          <ModalEditIngredients
+            isOpen={showModal}
+            currentIngredients={dish.ingredientes}
+            ingredientsAvailable={ingredientsAvailable}
+            onClose={() => setShowModal(false)}
+            onConfirm={handleConfirmIngredients}
+            homeData={homeData}
+          />
+        )}
       </div>
     </div>
   );
