@@ -40,11 +40,11 @@ export default function WorkoutTypeForm({
     "Cardio (correr, nadar, bici...)",
     "Funcional / CrossFit",
     "Yoga / Movilidad",
+    "Ninguna",
   ];
 
   return (
     <div className="px-4 sm:px-6 md:px-10">
-      {/* Encabezado */}
       <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0">
         <div className="w-12 sm:w-20">
           <img
@@ -58,14 +58,12 @@ export default function WorkoutTypeForm({
         </div>
       </div>
 
-      {/* Descripción */}
-      <div className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
+      <div className="ft-light text-justify text-gray my-4 md:my-6 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Esto nos ayudará a ajustar tu plan alimenticio para que tengas la
         energía y los nutrientes necesarios según tu estilo de entrenamiento.
       </div>
 
-      {/* Opciones */}
-      <div className="flex flex-col gap-3 sm:gap-4 mt-6 sm:mt-8">
+      <div className="flex flex-col gap-2">
         {options.map((option) => (
           <button
             key={option}
@@ -80,8 +78,7 @@ export default function WorkoutTypeForm({
         ))}
       </div>
 
-      {/* Botón de regresar */}
-      <div className="mt-6">
+      <div className="flex justify-start px-2 sm:px-6">
         <ArrowReturn onClick={handlePrevStep} />
       </div>
     </div>
