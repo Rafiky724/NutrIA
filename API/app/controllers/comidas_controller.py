@@ -9,6 +9,8 @@ from app.core.database import db
 from app.core.helpers import get_day_range_bogota
 from app.core.llm import ask_llm
 from app.models.estado_model import EstadoModel
+from app.models.info_model import InfoModel
+from app.models.objetivo_model import ObjetivoModel
 from app.models.plan_model import PlanModel
 from app.models.user_model import UserModel
 
@@ -225,6 +227,47 @@ class ComidasController:
             # Actualizar index
             nuevo_index = index + 1
 
+            # Si era la última comida
+            if nuevo_index >= len(comidas):
+
+                #todas_completadas = all(c.get("completada") for c in comidas)
+
+                #if todas_completadas:
+                #    nueva_racha = (original_user.get("dias_racha", 0) if original_user else 0) + 1
+                #else:
+                #    nueva_racha = 0
+
+                #await db.users.update_one(
+                #    {"_id": user_id},
+                #    {"$set": {"dias_racha": nueva_racha, "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5}}
+                #)
+
+                await db.estados_dia.update_one(
+                    {"_id": estado["_id"]},
+                    {
+                        "$set": {
+                            "macros_consumidos": nuevos_macros,
+                            "ultima_comida_completada": comida_actual["tipo_comida"],
+                            "comida_actual_index": nuevo_index,
+                            "dieta.comidas": comidas,
+                            "dieta.completado": True
+                        }
+                    }
+                )
+
+                estado["dieta"]["completado"] = True
+                estado["macros_consumidos"] = nuevos_macros
+
+                await ComidasController.verificar_dia_completado(current_user, estado, inicio, fin)
+
+                return {
+                    "mensaje": "Día completado correctamente",
+                    "comida_completada": comida_actual["tipo_comida"],
+                    "nueva_comida_actual": None,
+                    "racha_actual": original_user.get("dias_racha", 0),
+                    "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5,
+                }
+
             await db.estados_dia.update_one(
                 {"_id": estado["_id"]},
                 {
@@ -236,29 +279,6 @@ class ComidasController:
                     }
                 }
             )
-
-            # Si era la última comida
-            if nuevo_index >= len(comidas):
-
-                todas_completadas = all(c.get("completada") for c in comidas)
-
-                if todas_completadas:
-                    nueva_racha = (original_user.get("dias_racha", 0) if original_user else 0) + 1
-                else:
-                    nueva_racha = 0
-
-                await db.users.update_one(
-                    {"_id": user_id},
-                    {"$set": {"dias_racha": nueva_racha, "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5}}
-                )
-
-                return {
-                    "mensaje": "Día completado correctamente",
-                    "comida_completada": comida_actual["tipo_comida"],
-                    "nueva_comida_actual": None,
-                    "racha_actual": nueva_racha,
-                    "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5,
-                }
 
             await UserModel.actualizar_gemas(user_id, original_user.get("gemas_acumuladas", 0) + 5)
 
@@ -327,6 +347,39 @@ class ComidasController:
             # Actualizar index
             nuevo_index = index + 1
 
+            # Si era la última comida
+            if nuevo_index >= len(comidas):
+                
+                """
+                await db.users.update_one(
+                    {"_id": user_id},
+                    {"$set": {"dias_racha": 0}}
+                )"""
+
+                await db.estados_dia.update_one(
+                    {"_id": estado["_id"]},
+                    {
+                        "$set": {
+                            "ultima_comida_completada": comida_actual["tipo_comida"],
+                            "comida_actual_index": nuevo_index,
+                            "dieta.comidas": comidas,
+                            "dieta.completado": True
+                        }
+                    }
+                )
+
+                estado["dieta"]["completado"] = True
+
+                await ComidasController.verificar_dia_completado(current_user, estado, inicio, fin)
+
+                return {
+                    "mensaje": "Día completado correctamente",
+                    "comida_completada": comida_actual["tipo_comida"],
+                    "nueva_comida_actual": None,
+                    "racha_actual": original_user.get("dias_racha", 0),
+                    "gemas_acumuladas": original_user.get("gemas_acumuladas", 0),
+                }
+            
             await db.estados_dia.update_one(
                 {"_id": estado["_id"]},
                 {
@@ -337,22 +390,6 @@ class ComidasController:
                     }
                 }
             )
-
-            # Si era la última comida
-            if nuevo_index >= len(comidas):
-
-                await db.users.update_one(
-                    {"_id": user_id},
-                    {"$set": {"dias_racha": 0}}
-                )
-
-                return {
-                    "mensaje": "Día completado correctamente",
-                    "comida_completada": comida_actual["tipo_comida"],
-                    "nueva_comida_actual": None,
-                    "racha_actual": 0,
-                    "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5,
-                }
 
             # Si NO era la última
             return {
@@ -409,6 +446,12 @@ class ComidasController:
         original_user = await db.users.find_one({"_id": user_id})
 
         try:
+            
+            info_doc = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+            if not info_doc:
+                raise HTTPException(400, "No hay información de que el día haya terminado.")
+            
+            """
             await db.estados_dia.update_one(
                 {"_id": estado["_id"]},
                 {
@@ -416,14 +459,23 @@ class ComidasController:
                         "dieta.completado": True
                     }
                 }
-            )
+            )"""
+
+            if info_doc["estado_dia"] != -1:
+                raise HTTPException(400, "No hay información de que se pueda salvar la racha en este momento.")
+
+            data = {
+                "estado_dia": 2
+            }
+
+            await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, data)
 
             await db.users.update_one(
                 {"_id": user_id},
-                {"$set": {"dias_racha": current_user["dias_racha"]+1, "gemas_acumuladas": current_user["gemas_acumuladas"]-50}}
+                {"$set": {"dias_racha": current_user["dias_racha"], "gemas_acumuladas": current_user["gemas_acumuladas"]-100}}
             )
 
-            return {"mensaje": "Racha salvada correctamente", "racha_actual": current_user["dias_racha"]+1, "gemas_acumuladas": current_user["gemas_acumuladas"]-50}
+            return {"mensaje": "Racha salvada correctamente", "racha_actual": current_user["dias_racha"], "gemas_acumuladas": current_user["gemas_acumuladas"]-100}
 
         except Exception as e:
             # Intentar rollback de cambios parciales
@@ -437,7 +489,6 @@ class ComidasController:
 
             raise HTTPException(500, f"Error al pagar por racha: {str(e)}")
         
-    
     @staticmethod
     async def perder_racha(current_user: dict):
         user_id = ObjectId(current_user["_id"])
@@ -467,14 +518,19 @@ class ComidasController:
         original_user = await db.users.find_one({"_id": user_id})
 
         try:
-            await db.estados_dia.update_one(
-                {"_id": estado["_id"]},
-                {
-                    "$set": {
-                        "dieta.completado": False
-                    }
-                }
-            )
+            
+            info_doc = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+            if not info_doc:
+                raise HTTPException(400, "No hay información de que el día haya terminado.")
+            
+            if info_doc["estado_dia"] != -1:
+                raise HTTPException(400, "No hay información de que se pueda perder la racha en este momento.")
+
+            data = {
+                "estado_dia": 3
+            }
+
+            await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, data)
 
             await db.users.update_one(
                 {"_id": user_id},
@@ -532,8 +588,7 @@ REGLAS:
 - NO agregues texto fuera del JSON
 - Las calorías deben ser coherentes con los macros
 - Estima cantidades realistas
-"""
-    
+"""    
         
     def parse_llm_json(response):
         # Si ya es dict, devolverlo directamente
@@ -644,6 +699,11 @@ REGLAS:
         carbs_total = sum(c["carbohidratos"] for c in comidas)
         grasas_total = sum(c["grasas"] for c in comidas)"""
 
+        if estado["comida_actual_index"] >= len(comidas):
+            estado["dieta"]["completado"] = True
+
+            await ComidasController.verificar_dia_completado(current_user, estado, inicio, fin)
+
         await EstadoModel.update_estado_completo(plan["_id"], estado["dia_semana"], estado)
 
         return {
@@ -656,3 +716,42 @@ REGLAS:
                 "grasas": nueva_comida["grasas"]
             }
         }
+    
+    @staticmethod
+    async def verificar_dia_completado(current_user: dict, estado: dict, inicio, fin):
+        user_id = ObjectId(current_user["_id"])
+
+        if estado["dieta"]["completado"]:
+
+            calorias_consumidas_totales = estado["macros_consumidos"]["calorias"]
+            
+            objetivo_doc = await ObjetivoModel.get_objetivo_usuario(user_id)
+            calorias_objetivo = objetivo_doc["calorias_diarias"]
+            if (calorias_objetivo * 0.85) <= calorias_consumidas_totales <= (calorias_objetivo * 1.15):
+                
+                data = {
+                   "estado_dia": 1,
+                }
+
+                await db.users.update_one(
+                    {"_id": user_id},
+                    {"$set": {"dias_racha": current_user["dias_racha"]+1}}
+                )
+                
+            else:
+                data = {
+                   "estado_dia": -1,
+                }
+
+            info_day = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+
+            if not info_day:
+
+                await InfoModel.crear_info_day(user_id, data)
+                return
+                
+            else:
+                await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, data)
+                return
+        else:
+            raise HTTPException(500, f"El día no fue completado")
