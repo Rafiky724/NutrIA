@@ -176,11 +176,18 @@ export interface Estado {
   estado: number;
 }
 
+export interface Modals {
+  mostrar_pagar_racha: boolean;
+  mostrar_perder_racha: boolean;
+  mostrar_subir_racha: boolean;
+}
+
 export interface HomeResponse {
   usuario: User;
   macros_consumidos_hoy: MacrosConsumedToday;
   proxima_comida: NextMeal | null;
   dia_actual: DayPlan;
+  modals: Modals;
   hay_dieta_hoy?: boolean;
   mensaje?: string;
 }
