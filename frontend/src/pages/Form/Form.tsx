@@ -153,26 +153,23 @@ export default function Form() {
 
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
-      {/* Progress bar */}
       <div className="absolute top-6 left-1/2 -translate-x-1/2 w-40 sm:w-60 md:w-80 lg:w-96 h-3 bg-brown rounded-full">
         <ProgressBar progress={progress} />
       </div>
 
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
+      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-10">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center z-50"
         >
           {steps[step]}
 
-          {/* Back Arrow */}
           {step === 0 ? (
             <ArrowReturn />
           ) : step !== 6 && step !== 8 ? (
             <ArrowReturn onClick={prevStep} />
           ) : null}
 
-          {/* Buttons */}
           <div className="flex justify-center pt-6">
             {(step === 0 ||
               step === 2 ||
@@ -200,7 +197,6 @@ export default function Form() {
         </form>
       </div>
 
-      {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
