@@ -58,13 +58,29 @@ export default function TodaySummary({ homeData }: Props) {
     );
   }
 
-  const currentday = homeData.dia_actual;
-  const macros = homeData.macros_consumidos_hoy;
-
-  const caloriesTotal = currentday?.calorias_totales || 0;
-  const proteinsTotal = currentday?.proteinas_totales || 0;
-  const carbohydratesTotal = currentday?.carbohidratos_totales || 0;
-  const fatsTotal = currentday?.grasas_totales || 0;
+  const macrosData = [
+    {
+      label: "Proteínas",
+      value: homeData.macros_consumidos_hoy.proteinas,
+      max: homeData.macros_consumidos_hoy.proteinas_objetivo || 0,
+      unit: "g",
+    },
+    {
+      label: "Carbohidratos",
+      value: homeData.macros_consumidos_hoy.carbohidratos,
+      max: homeData.macros_consumidos_hoy.carbohidratos_objetivo || 0,
+      unit: "g",
+    },
+    {
+      label: "Grasas",
+      value: homeData.macros_consumidos_hoy.grasas,
+      max: homeData.macros_consumidos_hoy.grasas_objetivo || 0,
+      unit: "g",
+    },
+  ].map((item) => ({
+    ...item,
+    percentage: item.max ? Math.min((item.value / item.max) * 100, 100) : 0,
+  }));
 
   return (
     <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:w-sm h-95">
@@ -106,7 +122,8 @@ export default function TodaySummary({ homeData }: Props) {
       <div className="flex mt-4 gap-4 md:gap-6 items-center">
         <div className="relative w-35 md:w-45 h-35 md:h-45 flex items-center justify-center bg-white rounded-full">
           <span className="absolute text-center text-sm ft-light text-gray">
-            {caloriesTotal}/{macros?.calorias_objetivo}
+            {homeData.macros_consumidos_hoy.calorias}/
+            {homeData.macros_consumidos_hoy.calorias_objetivo}
             <br />
             kcal
           </span>
@@ -114,35 +131,23 @@ export default function TodaySummary({ homeData }: Props) {
         </div>
 
         <div className="flex flex-col items-center md:justify-center gap-6 flex-1">
-          {["Proteínas", "Carbohidratos", "Grasas"].map((macro, idx) => {
-            const value =
-              [proteinsTotal, carbohydratesTotal, fatsTotal][idx] || 0;
-            const max =
-              [
-                macros?.proteinas_objetivo,
-                macros?.carbohidratos_objetivo,
-                macros?.grasas_objetivo,
-              ][idx] || 100;
-            const percentage = Math.min((value / max) * 100, 100);
-
-            return (
-              <div key={macro}>
-                <div className="flex flex-col text-xs ft-light text-gray w-20 text-center md:text-left items-center">
-                  <span>{macro}</span>
-                  <span>
-                    {Math.round(value)}/{max} g
-                  </span>
-                </div>
-
-                <div className="w-full bg-gray h-1 md:h-2 rounded-full mt-1">
-                  <div
-                    className="h-1 md:h-2 bg-yellow rounded-full"
-                    style={{ width: `${percentage}%` }}
-                  ></div>
-                </div>
+          {macrosData.map((macro) => (
+            <div key={macro.label}>
+              <div className="flex flex-col text-xs ft-light text-gray w-20 text-center md:text-left items-center">
+                <span>{macro.label}</span>
+                <span>
+                  {macro.value.toFixed(2)}/{macro.max} {macro.unit}
+                </span>
               </div>
-            );
-          })}
+
+              <div className="w-full bg-gray h-1 md:h-2 rounded-full mt-1">
+                <div
+                  className="h-1 md:h-2 bg-yellow rounded-full"
+                  style={{ width: `${macro.percentage}%` }}
+                ></div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
