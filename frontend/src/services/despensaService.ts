@@ -73,18 +73,11 @@ export interface VerificarIngredienteResponse {
 export const verificarIngredienteUsuario = async (
     payload: VerificarIngredienteRequest
 ): Promise<VerificarIngredienteResponse> => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-        throw new Error("Usuario no autenticado");
-    }
-
     const { data } = await axiosClient.post<VerificarIngredienteResponse>(
         DESPENSA_ENDPOINTS.VERIFICAR_INGREDIENTE,
         payload,
         {
             headers: {
-                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         }
