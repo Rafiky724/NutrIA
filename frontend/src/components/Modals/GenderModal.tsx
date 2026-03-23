@@ -11,20 +11,17 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-      {/* Fondo */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <div className="relative z-10 bg-white w-full max-w-sm sm:max-w-md rounded-2xl shadow-xl p-6 sm:p-8">
         <h2 className="text-lg sm:text-xl md:text-2xl ft-bold text-brown mb-8 text-center">
           Selecciona tu género
         </h2>
 
         <div className="flex flex-col gap-4">
-          {/* Masculino */}
           <button
             type="button"
             onClick={() => setSelected("Masculino")}
@@ -37,7 +34,6 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
             Masculino
           </button>
 
-          {/* Femenino */}
           <button
             type="button"
             onClick={() => setSelected("Femenino")}
@@ -50,7 +46,6 @@ export default function GenderModal({ onSelectGender, onClose }: Props) {
             Femenino
           </button>
 
-          {/* Aceptar */}
           <button
             type="button"
             disabled={!selected}
