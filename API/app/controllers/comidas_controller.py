@@ -696,6 +696,12 @@ REGLAS:
             )
 
         index_comida = estado["comida_actual_index"]
+        
+        if index_comida >= len(estado["dieta"]["comidas"]):
+            raise HTTPException(
+                status_code=400,
+                detail="No hay más comidas para completar"
+            )
 
         comidas = estado["dieta"]["comidas"]
 
