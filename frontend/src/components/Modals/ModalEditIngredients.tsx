@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import type { Ingredient, IngredientCategory } from "../../types";
+import type { HomeResponse, Ingredient, IngredientCategory } from "../../types";
+import { DaysService } from "../../services/daysService";
 
 type Props = {
   isOpen: boolean;
@@ -7,6 +8,7 @@ type Props = {
   ingredientsAvailable: IngredientCategory[];
   onClose: () => void;
   onConfirm: (ingredientsFinals: Ingredient[]) => void;
+  homeData: HomeResponse;
 };
 
 export default function ModalEditIngredients({
@@ -15,6 +17,7 @@ export default function ModalEditIngredients({
   ingredientsAvailable,
   onClose,
   onConfirm,
+  homeData,
 }: Props) {
   const [selected, setSelected] = useState<string[]>(
     currentIngredients.map((ing) => ing.nombre),
@@ -36,19 +39,41 @@ export default function ModalEditIngredients({
     setSelected(selected.filter((i) => i !== name));
   };
 
-  const confirm = () => {
-    onConfirm(
-      selected.map((nombre) => ({
-        nombre,
-        tipo: "",
-        cantidad: "",
-        calorias_ingrediente: 0,
-        proteinas_ingrediente: 0,
-        carbohidratos_ingrediente: 0,
-        grasas_ingrediente: 0,
-      })),
-    );
-    onClose();
+  const confirm = async () => {
+    try {
+      const dia_actual = homeData?.dia_actual.dia_semana;
+      const comida_actual = homeData.dia_actual.comidas.find(
+        (comida) => comida.hora_real === null,
+      );
+
+      if (!comida_actual) {
+        console.error("No hay comidas pendientes hoy");
+        return;
+      }
+
+      await DaysService.editFood(
+        dia_actual,
+        comida_actual.tipo_comida,
+        selected,
+      );
+
+      onConfirm(
+        selected.map((nombre) => ({
+          nombre,
+          tipo: "",
+          cantidad: "",
+          calorias_ingrediente: 0,
+          proteinas_ingrediente: 0,
+          carbohidratos_ingrediente: 0,
+          grasas_ingrediente: 0,
+        })),
+      );
+
+      onClose();
+    } catch (error) {
+      console.error("Error editando ingredientes:", error);
+      alert("No se pudieron actualizar los ingredientes. Intenta de nuevo.");
+    }
   };
 
   return (
