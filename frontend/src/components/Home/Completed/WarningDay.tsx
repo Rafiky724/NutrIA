@@ -1,11 +1,21 @@
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onSelectOption: () => void;
+  onRefetch: () => void;
 };
 
-export default function WarningDay({ isOpen, onClose, onSelectOption }: Props) {
+export default function WarningDay({ isOpen, onClose, onRefetch }: Props) {
   if (!isOpen) return null;
+
+  const handleClick = async () => {
+    try {
+      console.log("advertencia tienes comidas pendientes");
+      onRefetch();
+      onClose();
+    } catch (err) {
+      console.error("Error ejecutando la acción de racha:", err);
+    }
+  };
 
   return (
     <div
@@ -33,11 +43,9 @@ export default function WarningDay({ isOpen, onClose, onSelectOption }: Props) {
         </p>
 
         <button
+          type="button"
+          onClick={handleClick}
           className="w-3xs mx-auto bg-yellow text-brown py-2 rounded-4xl mt-10 md:mt-30 ft-medium text-xs hover:scale-105 transition cursor-pointer"
-          onClick={() => {
-            onSelectOption();
-            onClose();
-          }}
         >
           Aceptar
         </button>
