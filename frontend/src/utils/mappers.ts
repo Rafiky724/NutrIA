@@ -13,14 +13,14 @@ const nivelActividadMap: Record<string, LevelActivity> = {
 };
 
 const generoMap: Record<string, Gender> = {
-  Mujer: "Femenino",
-  Hombre: "Masculino"
+  Femenino: "Femenino",
+  Masculino: "Masculino"
 };
 
 const objetivoMap: Record<string, TargetType> = {
-  Perder: "PerderPeso",
-  Mantener: "MantenerPeso",
-  Ganar: "GanarMasaMuscular"
+  PerderPeso: "PerderPeso",
+  MantenerPeso: "MantenerPeso",
+  GanarMasaMuscular: "GanarMasaMuscular"
 };
 
 const velocidadMap: Record<string, SpeedDiet> = {
@@ -47,7 +47,7 @@ export const mapToRegisterRequest = (
     nivelActividadMap[form.nivel_actividad] ?? "NoHace",
 
   tipo_objetivo:
-    objetivoMap[form.tipo_objetivo] ?? "MantenerPeso",
+    objetivoMap[form.tipo_objetivo],
 
   peso_objetivo: form.peso_objetivo,
 

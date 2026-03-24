@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 type Props = {
   register: UseFormRegister<FormData>;
-  onSelectObjective: (objective: string) => void;
+  onSelectObjective: (objective: TargetType) => void;
   nextStep: () => void;
 };
 

@@ -7,16 +7,19 @@ type Props = {
 
 const options = [
   {
+    value: "Lenta",
     label: "Lento y constante",
     description:
       "Cambios graduales y fáciles de mantener. Ideal para largo plazo y hábitos sostenibles",
   },
   {
+    value: "Moderada",
     label: "Equilibrado (recomendado)",
     description:
       "Un punto medio entre rapidez y sostenibilidad. Resultados visibles sin ser demasiado exigente.",
   },
   {
+    value: "Rápida",
     label: "Rápido",
     description:
       "Resultados en menos tiempo. Requiere más disciplina y ajustes estrictor.",
@@ -49,7 +52,7 @@ export default function ModalSpeed({ onSelectSpeed, onClose }: Props) {
               key={index}
               type="button"
               onClick={() => {
-                onSelectSpeed(op.label);
+                onSelectSpeed(op.value);
                 onClose();
               }}
               className="w-full sm:w-md mx-auto px-4 py-2 rounded-xl custom-bg transition cursor-pointer hover:scale-105"
