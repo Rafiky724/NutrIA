@@ -44,7 +44,7 @@ export default function WeeklyMealPlan() {
     return (
       <LoadingScreen
         title="CARGANDO DIETA"
-        subtitle="Bienvenido a la sección de tu dieta"
+        subtitle="Bienvenido a la sección de tu dieta. Estamos cargando tu información."
         Icon={LoadingIcon}
       />
     );
@@ -53,7 +53,7 @@ export default function WeeklyMealPlan() {
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
       <div className="min-h-screen flex flex-col items-center justify-center py-8">
-        <div className="w-full md:w-4xl xl:w-6xl max-w-6xl bg-white p-6 rounded-3xl shadow-md text-center relative z-20">
+        <div className="w-full md:w-4xl xl:w-6xl max-w-6xl bg-white p-6 rounded-4xl shadow-md text-center relative z-20">
           <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-4">
             Dieta semanal
           </h1>
@@ -106,7 +106,6 @@ export default function WeeklyMealPlan() {
           </button>
         </div>
 
-        {/* Decorations */}
         <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
           <FruitLeft />
         </div>
