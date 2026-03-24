@@ -35,19 +35,15 @@ export default function CustomIngredientModal({
       const payload: VerificarIngredienteRequest = { ingrediente: trimmed };
       const response = await verificarIngredienteUsuario(payload);
 
-      if (!response.existe) {
+      if (!response.esIngrediente) {
         showToast("Este no es un ingrediente válido.");
-        return;
-      }
-
-      if (response.existe) {
-        console.log(response.mensaje || "El ingrediente ya existe.");
         return;
       }
 
       if (!customIngredients.includes(trimmed)) {
         setCustomIngredients([...customIngredients, trimmed]);
       }
+
       setNewIngredient("");
     } catch (err) {
       console.error(err);
@@ -142,7 +138,7 @@ export default function CustomIngredientModal({
       <Toast
         message={toastMessage}
         isOpen={toastOpen}
-        onClose={() => setToastOpen}
+        onClose={() => setToastOpen(false)}
         type="error"
       ></Toast>
     </div>
