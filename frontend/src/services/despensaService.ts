@@ -66,7 +66,7 @@ export interface VerificarIngredienteRequest {
 }
 
 export interface VerificarIngredienteResponse {
-    existe: boolean;
+    esIngrediente: boolean;
     mensaje: string;
 }
 
