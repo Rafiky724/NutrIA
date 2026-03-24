@@ -175,11 +175,11 @@ export default function DailyDiet({
           </div>
 
           <div className="lg:w-4/5 bg-input p-4 sm:p-6 rounded-2xl flex flex-col lg:flex-row gap-4 lg:gap-6">
-            <div className="flex flex-col items-center w-full lg:w-2/4 gap-4 sm:gap-6">
+            <div className="flex flex-col items-center gap-4">
               <img
                 src="/SVG/ejemploPlato.jpeg"
                 alt="Plato"
-                className="rounded-3xl w-150 h-40"
+                className="w-60 h-50 object-cover rounded-3xl"
               />
 
               <div className="flex justify-between w-full text-brown ft-medium text-xs">
