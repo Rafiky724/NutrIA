@@ -5,6 +5,8 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import { crearMascota } from "../../services/mascotaService";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function PetName() {
   const navigate = useNavigate();
@@ -16,6 +18,7 @@ export default function PetName() {
     message: "",
     type: "success" as "success" | "error" | "info" | "warning",
   });
+  const [loading, setLoading] = useState(false);
 
   if (!tipo_mascota) {
     navigate("/adoptMoment");
@@ -40,6 +43,7 @@ export default function PetName() {
       return;
     }
 
+    setLoading(true);
     try {
       await crearMascota({
         tipo_mascota,
@@ -53,6 +57,8 @@ export default function PetName() {
         message: error?.response?.data?.detail || "Error al crear la mascota",
         type: "error",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,6 +67,16 @@ export default function PetName() {
     gato: "/SVG/Pets/Shop/Mascotas/gato.svg",
     nutria: "/SVG/Pets/Shop/Mascotas/nutria.svg",
   };
+
+  if (loading) {
+    return (
+      <LoadingScreen
+        Icon={LoadingIcon}
+        title="CARGANDO"
+        subtitle={`Esto puede tardar un momento.\nEstas adoptando tu mascota.`}
+      />
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
