@@ -14,7 +14,7 @@ export default function DaySelector({ days, dayActive, setDayActive }: Props) {
         <button
           key={day}
           onClick={() => setDayActive(day)}
-          className={`px-3 sm:px-4 md:px-5 py-1 rounded-4xl ft-medium transition-all ${
+          className={`px-4 md:px-10 py-1 rounded-4xl ft-medium transition-all ${
             dayActive === day
               ? "bg-yellow text-brown shadow"
               : "bg-input text-gray"
