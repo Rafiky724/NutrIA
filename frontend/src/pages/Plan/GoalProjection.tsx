@@ -29,7 +29,7 @@ export default function GoalProjection() {
       navigate("/weeklyMealPlan");
     } catch (error) {
       console.error("Error al obtener el día del plan:", error);
-      alert("No se pudo cargar el plan del día");
+      console.log("No se pudo cargar el plan del día");
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,17 @@ export default function GoalProjection() {
     return (
       <LoadingScreen
         title="CARGANDO DIETA"
-        subtitle="Estamos preparando tu plan semanal.\nEsto puede tardar unos segundos."
+        subtitle="Estamos preparando tu plan semanal. Esto puede tardar unos segundos."
+        Icon={LoadingIcon}
+      />
+    );
+  }
+
+  if (loading) {
+    return (
+      <LoadingScreen
+        title="CARGANDO DIETA"
+        subtitle="Estamos preparando tu plan semanal. Esto puede tardar unos segundos."
         Icon={LoadingIcon}
       />
     );
@@ -57,7 +67,6 @@ export default function GoalProjection() {
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
       <div className="min-h-screen flex flex-col items-center justify-center py-8">
         <div className="w-full max-w-3xl bg-white p-6 sm:p-10 rounded-3xl shadow-md text-center">
-          {/* Título */}
           <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
             <div className="w-12 sm:w-20">
               <img
@@ -76,7 +85,6 @@ export default function GoalProjection() {
             estas fechas.
           </p>
 
-          {/* LÍNEA DE PROGRESO */}
           <div className="w-full flex justify-center">
             <div className="relative flex flex-col items-center justify-center w-full max-w-xl h-32 sm:h-36">
               <svg width="100%" height="60">
@@ -93,7 +101,6 @@ export default function GoalProjection() {
                 <circle cx="83%" cy="30" r="8" fill="#FFD600" />
               </svg>
 
-              {/* Iconos */}
               <img
                 src="/SVG/IconsGeneral/Location.svg"
                 className="absolute top-[25px] left-[10%] -translate-x-1/2 w-6 sm:w-8 h-6 sm:h-8"
@@ -103,7 +110,6 @@ export default function GoalProjection() {
                 className="absolute top-[25px] left-[85%] -translate-x-1/2 w-6 sm:w-8 h-6 sm:h-8"
               />
 
-              {/* Fechas */}
               <div className="absolute top-[85px] left-[10%] -translate-x-1/2 flex flex-col items-center">
                 <span className="font-medium text-xs sm:text-sm text-brown">
                   {formatDate(dates.fecha_inicio)}
@@ -120,17 +126,15 @@ export default function GoalProjection() {
 
           <button
             onClick={handleContinue}
-            disabled={loading}
             className="w-2xs md:w-xs mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
           >
-            {loading ? "Calculando..." : "Continuar"}
+            Continuar
           </button>
         </div>
       </div>
 
       <ArrowReturn to={"/dailyNutritionPlan"} />
 
-      {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
