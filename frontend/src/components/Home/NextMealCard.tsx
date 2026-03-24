@@ -120,7 +120,7 @@ export default function NextMealCard({
   return (
     <>
       <div
-        className={`w-2xs md:w-lg xl:w-4xl md:h-95 rounded-3xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center ${
+        className={`w-2xs md:w-lg xl:w-4xl md:h-95 rounded-4xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center ${
           isDark ? "text-white" : "text-brown"
         }`}
         style={{
@@ -138,7 +138,7 @@ export default function NextMealCard({
             <img
               src="/SVG/ejemploPlato.jpeg"
               alt="Próxima comida"
-              className="w-60 h-50 object-cover rounded-xl"
+              className="w-60 h-50 object-cover rounded-3xl"
             />
             <span className="ft-medium text-sm md:text-md">
               {nextFood.tipo_comida} ≈ ${nextFood.precio_estimado} COP
