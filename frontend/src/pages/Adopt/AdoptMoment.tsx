@@ -37,7 +37,7 @@ export default function AdoptMoment() {
     if (!selectedOption) {
       setToast({
         open: true,
-        message: "Debes seleccionar una opción",
+        message: "Debes adoptar una mascota.",
         type: "error",
       });
       return;
@@ -57,7 +57,7 @@ export default function AdoptMoment() {
         <ArrowReturn to="/weeklyMealPlan" />
       </div>
 
-      <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 py-10 xl:py-24">
+      <div className="flex items-center justify-center min-h-screen px-4 sm:px-6">
         <div className="w-3xl max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center z-50 flex flex-col gap-6">
           <div className="flex flex-row justify-center items-center gap-8">
             <img
@@ -132,7 +132,6 @@ export default function AdoptMoment() {
         onClose={() => setToast({ ...toast, open: false })}
       />
 
-      {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
