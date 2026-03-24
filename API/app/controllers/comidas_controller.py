@@ -10,6 +10,7 @@ from app.core.helpers import get_day_range_bogota
 from app.core.llm import ask_llm
 from app.models.estado_model import EstadoModel
 from app.models.info_model import InfoModel
+from app.models.logros_model import LogrosModel
 from app.models.objetivo_model import ObjetivoModel
 from app.models.plan_model import PlanModel
 from app.models.user_model import UserModel
@@ -217,6 +218,8 @@ class ComidasController:
         original_estado = deepcopy(estado)
         original_user = await db.users.find_one({"_id": user_id})
 
+        logros_usuario = await LogrosModel.get_logros_usuario(user_id)
+
         try:
             # Marcar comida como completada
             #comida_actual["completada"] = True
@@ -262,11 +265,18 @@ class ComidasController:
                         }
                     }
                 )
+                
+                await LogrosModel.actualizar_logros_por_categoria(user_id, "completar_comidas", logros_usuario["logros"][3]["progreso_actual"]+1)
 
                 estado["dieta"]["completado"] = True
                 estado["macros_consumidos"] = nuevos_macros
 
+
+                await UserModel.actualizar_gemas(user_id, original_user.get("gemas_acumuladas", 0) + 5)
                 await ComidasController.verificar_dia_completado(current_user, estado, inicio, fin)
+
+                logros_usuario = await LogrosModel.get_logros_usuario(user_id)
+                await LogrosModel.actualizar_logros_por_categoria(user_id, "conseguir_gemas", logros_usuario["logros"][9]["progreso_actual"]+5)
 
                 return {
                     "mensaje": "Día completado correctamente",
@@ -275,7 +285,7 @@ class ComidasController:
                     "racha_actual": original_user.get("dias_racha", 0),
                     "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5,
                 }
-
+            
             await db.estados_dia.update_one(
                 {"_id": estado["_id"]},
                 {
@@ -287,8 +297,10 @@ class ComidasController:
                     }
                 }
             )
-
+            await LogrosModel.actualizar_logros_por_categoria(user_id, "completar_comidas", logros_usuario["logros"][3]["progreso_actual"]+1)
+            
             await UserModel.actualizar_gemas(user_id, original_user.get("gemas_acumuladas", 0) + 5)
+            await LogrosModel.actualizar_logros_por_categoria(user_id, "conseguir_gemas", logros_usuario["logros"][9]["progreso_actual"]+5)
 
             # Si NO era la última
             return {
@@ -541,6 +553,8 @@ class ComidasController:
                 {"$set": {"dias_racha": 0}}
             )
 
+            await LogrosModel.actualizar_logros_por_categoria(user_id, "dias_racha", 0)
+
             await InfoModel.update_info_day_por_fecha(user_id, inicio, fin, {"tomarDecisionMantenerRacha": False})
             return {"mensaje": "Racha perdida", "racha_actual": 0}
 
@@ -590,6 +604,8 @@ class ComidasController:
                 {"_id": user_id},
                 {"$set": {"dias_racha": 0}}
             )
+
+            await LogrosModel.actualizar_logros_por_categoria(user_id, "dias_racha", 0)
 
             if info_doc_aux["enDiaAnterior"]:
                 inicio, fin = get_day_range_bogota(hoy)
@@ -809,6 +825,15 @@ REGLAS:
                     {"_id": user_id},
                     {"$set": {"dias_racha": current_user["dias_racha"]+1}}
                 )
+
+                await LogrosModel.actualizar_logros_por_categoria(user_id, "dias_racha", current_user["dias_racha"]+1)
+
+                user = await UserModel.get_usuario_por_id(user_id)
+                await UserModel.actualizar_gemas(user_id, user.get("gemas_acumuladas", 0) + 15)
+
+                logros_usuario = await LogrosModel.get_logros_usuario(user_id)
+
+                await LogrosModel.actualizar_logros_por_categoria(user_id, "conseguir_gemas", logros_usuario["logros"][9]["progreso_actual"]+15)
 
                 hoy = datetime.now(ZoneInfo("America/Bogota")).date()
                 inicio_aux, fin_aux = get_day_range_bogota(hoy)

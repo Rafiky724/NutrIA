@@ -269,9 +269,9 @@ class DiasController:
         "precio_estimado": number,
         "ingredientes": [
         {{
-            "nombre": string,
+            "nombre": string (NO MUY EXTENSO, MÁXIMO 3 PALABRAS),
             "tipo": string,
-            "cantidad": string,
+            "cantidad": string (NO MUY EXTENSO, MÁXIMO 3 PALABRAS, EJ: 10 gr, 50 ml),
             "calorias_ingrediente": number,
             "proteinas_ingrediente": number,
             "carbohidratos_ingrediente": number,
@@ -447,9 +447,9 @@ class DiasController:
         "precio_estimado": number,
         "ingredientes": [
         {{
-            "nombre": string,
+            "nombre": string (NO MUY EXTENSO, MÁXIMO 3 PALABRAS),
             "tipo": string,
-            "cantidad": string,
+            "cantidad": string (NO MUY EXTENSO, MÁXIMO 3 PALABRAS, EJ: 10 gr, 50 ml),
             "calorias_ingrediente": number,
             "proteinas_ingrediente": number,
             "carbohidratos_ingrediente": number,

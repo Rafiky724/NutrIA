@@ -3,6 +3,7 @@ from bson import ObjectId
 from fastapi import HTTPException
 from datetime import datetime
 from app.controllers.logros_controller import LogrosController
+from app.models.logros_model import LogrosModel
 from app.models.mascota_model import MascotaModel
 from app.models.user_model import UserModel
 from app.core.database import db
@@ -408,6 +409,9 @@ class MascotasController:
 
         # Session rollback
 
+        logros_usuario = await LogrosController.obtener_logros_usuario(current_user)
+        
+
         try:
             session = await db.client.start_session()
             async with session:
@@ -415,7 +419,7 @@ class MascotasController:
                     # solo actualizamos gemas si hubo un gasto real
                     if gemas_usuario != original_gemas:
                         await UserModel.actualizar_gemas(user_id, gemas_usuario, session=session)
-
+                        await LogrosModel.actualizar_logros_por_categoria(user_id, "comprar_articulos", logros_usuario["logros"][12]["progreso_actual"]+1)
                     await MascotaModel.actualizar_mascota_usuario(
                         user_id,
                         {

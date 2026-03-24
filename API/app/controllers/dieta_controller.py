@@ -170,7 +170,7 @@ class DietaController:
                 {{
                     "nombre": "",
                     "tipo": "" (poner el mismo tipo que en la despensa, por ejemplo: vegetal, fruta, cereal, legumbre, proteína animal, lácteo, etc.),
-                    "cantidad": "" (poner con string la cantidad con unidad, por ejemplo: 100g, 1 taza, 2 unidades, etc.),
+                    "cantidad": "" (poner con string la cantidad con unidad, por ejemplo: 100g, 1 taza, 2 unidades, etc. NO SEAS MUY EXTENSO, MÁXIMO 3 PALABRAS),
                     "calorias": "" (cantidad de calorías del total del ingrediente),
                     "proteina": "",
                     "carbs": "",
