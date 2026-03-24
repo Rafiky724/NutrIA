@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import type { UseFormSetValue } from "react-hook-form";
 import type { CategoryWithIngredients, FormData } from "../../types";
-
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { categories } from "../../data/ingredients";
 import ArrowNavigation from "../Decoration/ArrowNavigation";
 import CustomIngredientModal from "../Modals/CustomIngredientModal";
+import { buildStructuredIngredients } from "../../utils/buildStructuredIngredients";
+import Toast from "../Toast/Toast";
 
 type Props = {
   setValue: UseFormSetValue<FormData>;
@@ -22,27 +21,13 @@ export default function IngredientsSelectionForm({
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [currentCategory, setCurrentCategory] = useState(0);
   const [showModal, setShowModal] = useState(false);
-
   const category = categories[currentCategory];
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
-  const buildStructuredIngredients = (
-    ingredients: string[],
-    custom: string[],
-  ): [string, string][] => {
-    const result: [string, string][] = [];
-    categories.forEach((category) => {
-      ingredients.forEach((ing) => {
-        if (category.items.some((item) => item.nombre === ing)) {
-          let kind = category.nombre;
-          if (kind === "Proteínas") kind = "Proteinas";
-          if (kind === "Bebidas y Lácteos") kind = "Bebidas";
-          if (kind === "Grasas saludables") kind = "Grasas";
-          result.push([ing, kind]);
-        }
-      });
-    });
-    custom.forEach((ing) => result.push([ing, "Otros"]));
-    return result;
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setToastOpen(true);
   };
 
   const toggleSelect = (ingredient: string) => {
@@ -69,7 +54,7 @@ export default function IngredientsSelectionForm({
         category.items.some((item) => item.nombre === i),
       );
       if (selected.length < category.minimo) {
-        toast.error(
+        showToast(
           `Debes seleccionar al menos ${category.minimo} de ${category.nombre}`,
         );
         valid = false;
@@ -130,7 +115,7 @@ export default function IngredientsSelectionForm({
       </div>
 
       <div className="relative w-2xs md:w-lg mb-2 mx-auto">
-        <div className="flex flex-wrap justify-center content-center gap-1 sm:gap-3 md:gap-4 h-50 overflow-y-auto mb-6 md:mb-8">
+        <div className="flex flex-wrap justify-center items-center gap-2 h-40 overflow-y-auto px-4 mb-8">
           {category.items.map((item, index) => {
             const isSelected = selectedIngredients.includes(item.nombre);
             return (
@@ -172,18 +157,11 @@ export default function IngredientsSelectionForm({
         </button>
       </div>
 
-      {/* Toast */}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
+      <Toast
+        message={toastMessage}
+        isOpen={toastOpen}
+        onClose={() => setToastOpen(false)}
+        type="error"
       />
 
       <CustomIngredientModal
