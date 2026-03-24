@@ -77,11 +77,11 @@ export default function MainMenu({ onNavigate, onLogout, options }: Props) {
         </div>
 
         <div className="hidden sm:block">
-          <div className="w-lg xl:w-2xl flex flex-col items-center">
+          <div className="w-lg xl:w-xl flex flex-col items-center">
             <object
               type="image/svg+xml"
               data="/Background/NutriaConfig.svg"
-              className="w-full h-auto"
+              className="w-full h-auto transition-all duration-300 ease-in-out"
             />
           </div>
         </div>
