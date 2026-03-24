@@ -10,8 +10,8 @@ export const useOpinionTimer = (opinion_ia?: string) => {
         setShowOpinion(true);
         setProgress(0);
 
-        const interval = 50; // ms
-        const duration = 10000; // total 4 segundos
+        const interval = 50;
+        const duration = 4000; 
         const increment = 100 / (duration / interval);
 
         const timer = setInterval(() => {
