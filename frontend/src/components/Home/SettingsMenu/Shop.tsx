@@ -88,6 +88,7 @@ export default function Shop({ categories = categoriesData }: Props) {
         item_id: item.id,
         categoria: activeCategory,
       };
+
       if (activeCategory === "mascotas" && !item.comprado) {
         const nombre = prompt("Ponle un nombre a tu mascota 🐾");
         if (!nombre) return;
@@ -100,13 +101,22 @@ export default function Shop({ categories = categoriesData }: Props) {
         const tienda = await getTiendaMascotas();
         setItems(tienda.mascotas_tienda);
         setMascotaActual(tienda.mascota_actual);
-      } else {
-        const data = await getItemsCategoria(activeCategory);
-        setItems(data.items);
-
-        const tienda = await getTiendaMascotas();
-        setMascotaActual(tienda.mascota_actual);
+        return;
       }
+
+      const newMascota = {
+        ...mascotaActual,
+        [`${activeCategory.slice(0, -1)}_puesto`]:
+          mascotaActual?.[`${activeCategory.slice(0, -1)}_puesto`] ===
+          item.imagen.replace(".svg", "")
+            ? null
+            : item.imagen.replace(".svg", ""),
+      };
+
+      setMascotaActual(newMascota);
+
+      const data = await getItemsCategoria(activeCategory);
+      setItems(mapEquipados(data.items, newMascota, activeCategory));
     } catch (error) {
       console.error(error);
     }
@@ -218,7 +228,7 @@ export default function Shop({ categories = categoriesData }: Props) {
       </div>
 
       <div className="relative flex flex-col ml-10 md:ml-0 md:h-130 justify-around md:mt-8 items-center">
-        {loading || !mascotaActual ? (
+        {!mascotaActual ? (
           <>
             <Skeleton height={192} width={192} />
             <Skeleton height={32} width={160} className="mt-2" />
