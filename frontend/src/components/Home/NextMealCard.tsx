@@ -175,7 +175,7 @@ export default function NextMealCard({
 
         <button
           onClick={() => setOpenModal(true)}
-          className="bg-yellow text-brown ft-medium px-6 self-center py-2 rounded-3xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition"
+          className="bg-yellow text-brown ft-medium px-6 self-center py-2 rounded-3xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition text-xs"
         >
           ¡Completar comida!
         </button>
