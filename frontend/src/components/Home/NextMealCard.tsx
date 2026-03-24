@@ -1,7 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import type { Estado, HomeResponse, Ingredient, NextMeal } from "../../types";
-import { categories as ingredientsAvailable } from "../../data/ingredients";
+import type { Estado, HomeResponse, NextMeal } from "../../types";
 import { getIngredientIcon } from "../../utils/ingredients";
 import { useState } from "react";
 import CompleteMeal from "./Completed/CompleteMeal";
