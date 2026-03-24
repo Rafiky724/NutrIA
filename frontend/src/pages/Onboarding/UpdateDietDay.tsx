@@ -4,11 +4,14 @@ import { DietService } from "../../services/dietaService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import { daysWeek } from "../../data/days";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function UpdateDietDay() {
   const navigate = useNavigate();
   const location = useLocation();
   const [daySelected, setDaySelected] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const state = location.state as {
     tipo_inicio: "hoy" | "manana" | "fecha";
@@ -33,15 +36,29 @@ export default function UpdateDietDay() {
       payload.fecha_inicio = state.fecha_inicio;
     }
 
+    setLoading(true);
+
     try {
       const respuesta = await DietService.iniciarDieta(payload);
       console.log("Dieta iniciada:", respuesta);
       navigate("/adoptMoment");
     } catch (error) {
       console.error("Error iniciando dieta:", error);
-      alert("Ocurrió un error al iniciar la dieta");
+      console.log("Ocurrió un error al iniciar la dieta");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <LoadingScreen
+        Icon={LoadingIcon}
+        title="CARGANDO"
+        subtitle={`Esto puede tardar un momento.\nEstamos actualizando tu dieta.`}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center p-6">
@@ -78,7 +95,6 @@ export default function UpdateDietDay() {
         </button>
       </div>
 
-      {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
