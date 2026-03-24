@@ -53,8 +53,8 @@ export default function DietPlanReady() {
 
   return (
     <>
-      <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center px-4 sm:px-6">
-        <div className="w-full max-w-3xl text-center bg-white p-6 sm:p-10 rounded-3xl shadow-md flex flex-col gap-6 z-50">
+      <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center px-4 sm:px-6 md:px-10">
+        <div className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-md text-center flex flex-col gap-4 z-50">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-brown">
             ¡Tu dieta ha sido creada!
           </h1>
@@ -92,10 +92,11 @@ export default function DietPlanReady() {
         </div>
       </div>
 
-      <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+      <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
-      <div className="absolute right-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
+
+      <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
     </>
