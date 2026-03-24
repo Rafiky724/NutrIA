@@ -7,9 +7,12 @@ import { mapToRegisterRequest } from "../../utils/mappers";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function Register() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState<RegisterForm>({
     nombre: "",
@@ -29,15 +32,23 @@ export default function Register() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
 
     const nutriaRaw = localStorage.getItem("datosNutrIA");
-    if (!nutriaRaw) return console.error("No existen datos en datosNutrIA");
+
+    if (!nutriaRaw) {
+      console.error("No existen datos en datosNutrIA");
+      setLoading(false);
+      return;
+    }
 
     let nutriaForm: NutriaFormData;
     try {
       nutriaForm = JSON.parse(nutriaRaw);
     } catch {
-      return console.error("datosNutrIA está corrupto");
+      console.error("datosNutrIA está corrupto");
+      setLoading(false);
+      return;
     }
 
     try {
@@ -54,10 +65,22 @@ export default function Register() {
       localStorage.removeItem("datosNutrIA");
 
       navigate("/dietCreationReady");
+      setLoading(false);
     } catch (error) {
       console.error("Error en registro:", error);
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <LoadingScreen
+        title="CREANDO CUENTA"
+        subtitle="Estamos preparando todo para ti. Esto tomará unos segundos..."
+        Icon={LoadingIcon}
+      />
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center px-4 sm:px-6 md:px-10">
@@ -65,7 +88,6 @@ export default function Register() {
         onSubmit={handleSubmit}
         className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-md text-center flex flex-col gap-4 z-50"
       >
-        {/* Header con icono */}
         <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
           <div className="w-12 sm:w-20">
             <img
@@ -79,7 +101,6 @@ export default function Register() {
           </div>
         </div>
 
-        {/* Inputs */}
         <div className="flex flex-col gap-4 w-full">
           <div className="flex flex-col">
             <label
@@ -158,10 +179,9 @@ export default function Register() {
           </div>
         </div>
 
-        {/* Botón Crear Cuenta */}
         <button
           type="submit"
-          className="w-full sm:w-64 md:w-72 mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl mt-6 cursor-pointer text-sm sm:text-base"
+          className="w-full sm:w-64 md:w-72 mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl mt-6 text-sm sm:text-base hover:scale-105 transition cursor-pointer"
         >
           Crear Cuenta
         </button>
@@ -169,7 +189,6 @@ export default function Register() {
 
       <ArrowReturn />
 
-      {/* Frutas decorativas */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
