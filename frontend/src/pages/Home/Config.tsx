@@ -33,7 +33,13 @@ export default function Config() {
 
   const handleNavigate = (newView: ViewType) => {
     setView(newView);
+    navigate(`/config?view=${newView}`);
   };
+
+  useEffect(() => {
+    const viewFromUrl = (searchParams.get("view") as ViewType) || "main";
+    setView(viewFromUrl);
+  }, [searchParams]);
 
   const menuOptions = [
     { label: "Editar perfil", onClick: () => setProfileView("edit") },
@@ -86,15 +92,17 @@ export default function Config() {
             <Profile
               profileView={profileView}
               setProfileView={setProfileView}
-              onBack={() => setView("main")}
-              onGoToShop={() => setView("shop")}
+              onBack={() => handleNavigate("main")}
+              onGoToShop={() => handleNavigate("shop")}
               menuOptions={menuOptions}
             />
           )}
           {view === "shop" && <Shop />}
-          {view === "contact" && <Contact onBack={() => setView("main")} />}
+          {view === "contact" && (
+            <Contact onBack={() => handleNavigate("main")} />
+          )}
           {view === "achievements" && (
-            <AchievementsList onBack={() => setView("main")} />
+            <AchievementsList onBack={() => handleNavigate("main")} />
           )}
         </div>
       </div>
