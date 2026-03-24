@@ -54,7 +54,7 @@ export default function WeeklyMealPlan() {
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
       <div className="min-h-screen flex flex-col items-center justify-center py-8">
         <div className="w-full md:w-4xl xl:w-6xl max-w-6xl bg-white p-6 rounded-4xl shadow-md text-center relative z-20">
-          <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-4">
+          <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-2">
             Dieta semanal
           </h1>
 
