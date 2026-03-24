@@ -3,6 +3,26 @@ import { PlanService } from "../../services/planService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import { useState } from "react";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
+import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
+
+const dietPlanOptions = [
+  {
+    icon: "/SVG/IconsGeneral/FireStreak.svg",
+    text: "Los macronutrientes diarios recomendados.",
+    alt: "Macronutrientes",
+  },
+  {
+    icon: "/SVG/IconsGeneral/Calendar.svg",
+    text: "El día estimado en que alcanzarás tu objetivo.",
+    alt: "Calendario",
+  },
+  {
+    icon: "/SVG/IconsGeneral/CupFruits.svg",
+    text: "Tu dieta semanal personalizada.",
+    alt: "Copa de frutas",
+  },
+];
 
 export default function DietPlanReady() {
   const navigate = useNavigate();
@@ -21,6 +41,16 @@ export default function DietPlanReady() {
     }
   };
 
+  if (loading) {
+    return (
+      <LoadingScreen
+        title="CALCULANDO PLAN"
+        subtitle="Estamos calculando tus macronutrientes diarios. Esto tomará unos segundos..."
+        Icon={LoadingIcon}
+      />
+    );
+  }
+
   return (
     <>
       <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center px-4 sm:px-6">
@@ -36,23 +66,7 @@ export default function DietPlanReady() {
           </p>
 
           <div className="flex flex-col gap-4 mt-4">
-            {[
-              {
-                icon: "/SVG/IconsGeneral/FireStreak.svg",
-                text: "Los macronutrientes diarios recomendados.",
-                alt: "Macronutrientes",
-              },
-              {
-                icon: "/SVG/IconsGeneral/Calendar.svg",
-                text: "El día estimado en que alcanzarás tu objetivo.",
-                alt: "Calendario",
-              },
-              {
-                icon: "/SVG/IconsGeneral/CupFruits.svg",
-                text: "Tu dieta semanal personalizada.",
-                alt: "Copa de frutas",
-              },
-            ].map((item, index) => (
+            {dietPlanOptions.map((item, index) => (
               <div
                 key={index}
                 className="flex items-center gap-3 sm:gap-4 bg-input p-3 sm:p-4 rounded-3xl justify-center mx-auto w-full sm:w-80 md:w-96"
@@ -74,12 +88,11 @@ export default function DietPlanReady() {
             disabled={loading}
             className="w-2xs md:w-xs mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
           >
-            {loading ? "Calculando..." : "Continuar"}
+            Continuar
           </button>
         </div>
       </div>
 
-      {/* Decoraciones */}
       <div className="absolute left-0 bottom-0 z-10 w-24 sm:w-36 md:w-48">
         <FruitLeft />
       </div>
