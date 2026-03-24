@@ -46,13 +46,13 @@ export default function ConfirmMeal({
         className="bg-white rounded-4xl p-10 px-35 flex flex-col items-center gap-6 w-[90%] max-w-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="text-brown ft-bold py-2 px-6 rounded-full hover:scale-105 transition cursor-pointer text-lg pb-10">
+        <button className="text-brown ft-bold py-2 px-6 rounded-full  text-lg pb-10">
           Confirmar
         </button>
 
         <div
           onClick={handleConfirm}
-          className="relative bg-input rounded-2xl p-4 flex flex-col items-center gap-4 w-3xs md:w-4xs"
+          className="relative bg-input rounded-2xl p-4 flex flex-col items-center gap-4 w-3xs md:w-4xs hover:scale-105 transition cursor-pointer"
         >
           <img src={option.image} className="w-22 mb-5" />
 
