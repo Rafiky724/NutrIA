@@ -11,15 +11,12 @@ import NotCompletedMeal from "./Completed/NotCompletedMeal";
 import AbsentMeal from "./Completed/AbsentMeal";
 import EstimateMeal from "./Completed/EstimateMeal";
 import { cancelarComida } from "../../services/comidaService";
-import { DaysService } from "../../services/daysService";
-import ModalEditIngredients from "../Modals/ModalEditIngredients";
 
 type Props = {
   homeData: HomeResponse | null;
   nextFood?: NextMeal | null;
   estado?: Estado | null;
   onRefetch: () => void;
-  activeFoodIndex: number;
 };
 
 export default function NextMealCard({
@@ -27,9 +24,8 @@ export default function NextMealCard({
   nextFood,
   estado,
   onRefetch,
-  activeFoodIndex,
 }: Props) {
-  const [showModal, setShowModal] = useState(false);
+
   const [openModal, setOpenModal] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openVerify, setOpenVerify] = useState(false);
@@ -74,29 +70,6 @@ export default function NextMealCard({
     );
   }
 
-  const comidaActual = homeData.dia_actual.comidas?.[activeFoodIndex];
-
-  const handleConfirmIngredients = async (
-    selectedIngredients: Ingredient[],
-  ) => {
-    if (!comidaActual) {
-      console.error("No hay comida pendiente hoy");
-      return;
-    }
-
-    try {
-      await DaysService.editFood(
-        homeData.dia_actual.dia_semana,
-        comidaActual.tipo_comida,
-        selectedIngredients.map((ing) => ing.nombre),
-      );
-
-      onRefetch();
-      setShowModal(false);
-    } catch (error) {
-      console.error("Error editando ingredientes:", error);
-    }
-  };
 
   if (!nextFood) {
     return (
@@ -201,13 +174,6 @@ export default function NextMealCard({
               )}
             </div>
 
-            <button
-              type="button"
-              className="mt-2 bg-yellow text-brown ft-medium py-2 px-2 rounded-4xl w-40 mx-auto text-sm hover:scale-105 transition cursor-pointer"
-              onClick={() => setShowModal(true)}
-            >
-              Editar plato
-            </button>
           </div>
         </div>
 
@@ -281,15 +247,6 @@ export default function NextMealCard({
           setOpenFinalOptionsModal(false);
         }}
       /> */}
-
-      <ModalEditIngredients
-        isOpen={showModal}
-        currentIngredients={comidaActual?.ingredientes || []}
-        ingredientsAvailable={ingredientsAvailable}
-        onClose={() => setShowModal(false)}
-        onConfirm={handleConfirmIngredients}
-        homeData={homeData}
-      />
     </>
   );
 }

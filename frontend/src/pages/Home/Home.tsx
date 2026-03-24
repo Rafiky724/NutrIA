@@ -61,7 +61,6 @@ export default function Home() {
             nextFood={homeData?.proxima_comida}
             estado={homeData?.proxima_comida?.estado}
             onRefetch={fetchHomeData}
-            activeFoodIndex={activeFoodIndex}
           />
         </div>
 
