@@ -44,7 +44,7 @@ export default function WeeklyMealPlan() {
     return (
       <LoadingScreen
         title="CARGANDO DIETA"
-        subtitle="Estamos recargando la información."
+        subtitle="Bienvenido a la sección de tu dieta"
         Icon={LoadingIcon}
       />
     );
