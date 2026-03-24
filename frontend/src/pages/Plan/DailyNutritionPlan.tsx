@@ -37,7 +37,7 @@ export default function DailyNutritionPlan() {
     return (
       <LoadingScreen
         title="CARGANDO PLAN NUTRICIONAL"
-        subtitle="Cargando tu plan nutricional..."
+        subtitle="Cargando tu proyección objetivo..."
         Icon={LoadingIcon}
       />
     );
