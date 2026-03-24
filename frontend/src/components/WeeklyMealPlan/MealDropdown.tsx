@@ -15,7 +15,6 @@ export default function MealDropdown({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Cerrar al hacer click fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -50,7 +49,7 @@ export default function MealDropdown({
       className="relative bg-input ft-medium px-4 sm:px-5 md:px-6 py-3 sm:py-4 rounded-4xl cursor-pointer flex justify-between items-center text-gray text-xs w-full md:w-50 mx-auto"
     >
       <div className="w-full flex justify-between items-center">
-        <span>
+        <span className="text-[11px] ft-medium">
           {activeDish.tipo_comida} - {activeDish.hora_sugerida || "—"}
         </span>
 
