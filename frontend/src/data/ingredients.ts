@@ -27,7 +27,7 @@ export const categories = [
     },
     {
         nombre: "Verduras",
-        minimo: 5,
+        minimo: 3,
         items: [
             {
                 nombre: "Espinaca",
