@@ -11,7 +11,6 @@ export default function DietCreationReady() {
 
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const savedname = localStorage.getItem("nombreUsuario");
@@ -20,14 +19,13 @@ export default function DietCreationReady() {
 
   const handleCreateDiet = async () => {
     setLoading(true);
-    setError(null);
     try {
       const message = await DietService.createDiet();
       console.log("Dieta creada:", message);
       navigate("/dietPlanReady");
     } catch (err: any) {
       console.error("Error al crear dieta:", err);
-      setError("No se pudo crear la dieta. Intenta de nuevo.");
+      console.log("No se pudo crear la dieta. Intenta de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -38,7 +36,7 @@ export default function DietCreationReady() {
       <LoadingScreen
         Icon={LoadingIcon}
         title="CARGANDO"
-        subtitle={`Esto puede tardar unos segundos.\nEstamos creando tu dieta personalizada.`}
+        subtitle={`Esto puede tardar un momento.\nEstamos creando tu dieta personalizada.`}
       />
     );
   }
@@ -66,14 +64,9 @@ export default function DietCreationReady() {
           >
             Crear dieta
           </button>
-
-          {error && (
-            <p className="text-red-500 mt-3 text-sm sm:text-base">{error}</p>
-          )}
         </div>
       </div>
 
-      {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
