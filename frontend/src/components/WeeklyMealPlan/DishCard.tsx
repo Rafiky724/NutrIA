@@ -20,7 +20,6 @@ export default function DishCard({
 
   return (
     <div className="bg-input p-4 rounded-2xl flex flex-col lg:flex-row gap-6 w-full max-w-4xl mx-auto">
-      {/* IZQUIERDA */}
       <div className="flex flex-col items-center justify-center gap-4 lg:w-4xs">
         <div className="w-full object-cover">
           <img
@@ -62,7 +61,6 @@ export default function DishCard({
         />
       </div>
 
-      {/* DERECHA */}
       <div className="flex flex-col w-full gap-3">
         <div className="flex justify-between items-center">
           <h2 className="text-sm ft-bold text-brown">Ingredientes</h2>
