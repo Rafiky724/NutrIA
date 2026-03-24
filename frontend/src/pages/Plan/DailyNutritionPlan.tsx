@@ -43,6 +43,16 @@ export default function DailyNutritionPlan() {
     );
   }
 
+  if (loading) {
+    return (
+      <LoadingScreen
+        title="CARGANDO PLAN NUTRICIONAL"
+        subtitle="Cargando tu proyección objetivo..."
+        Icon={LoadingIcon}
+      />
+    );
+  }
+
   const idealKcal = macros.calorias_diarias;
   const rangeMin = Math.round(idealKcal * 0.9);
   const rangeMax = Math.round(idealKcal * 1.1);
