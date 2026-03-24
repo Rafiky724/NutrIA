@@ -24,7 +24,6 @@ export default function NextMealCard({
   estado,
   onRefetch,
 }: Props) {
-
   const [openModal, setOpenModal] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openVerify, setOpenVerify] = useState(false);
@@ -68,7 +67,6 @@ export default function NextMealCard({
       </div>
     );
   }
-
 
   if (!nextFood) {
     return (
@@ -172,13 +170,12 @@ export default function NextMealCard({
                 </p>
               )}
             </div>
-
           </div>
         </div>
 
         <button
           onClick={() => setOpenModal(true)}
-          className="bg-yellow text-brown ft-medium py-2 px-6 rounded-4xl self-center hover:scale-105 transition cursor-pointer"
+          className="bg-yellow text-brown ft-medium px-6 self-center py-2 rounded-3xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition"
         >
           ¡Completar comida!
         </button>
