@@ -25,7 +25,7 @@ export default function DishCard({
           <img
             src="/SVG/ejemploPlato.jpeg"
             alt="Plato"
-            className="w-auto h-auto"
+            className="w-150 h-50 rounded-4xl"
           />
         </div>
 
