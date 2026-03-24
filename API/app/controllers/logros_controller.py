@@ -130,12 +130,15 @@ class LogrosController:
                         gemas_recompensa + current_user["gemas_acumuladas"],
                         session=session
                     )
+                    
+
         except Exception as e:
             raise HTTPException(
                 status_code=500,
                 detail="Error al reclamar el logro"
             )
-
+        logros_usuario = await LogrosModel.get_logros_usuario(user_id)
+        await LogrosModel.actualizar_logros_por_categoria(user_id, "conseguir_gemas", logros_usuario["logros"][9]["progreso_actual"]+gemas_recompensa)
         return {
             "mensaje": "Recompensa reclamada correctamente",
             "gemas_recibidas": gemas_recompensa,
