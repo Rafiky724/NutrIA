@@ -138,7 +138,7 @@ export default function DailyDiet({
 
   return (
     <>
-      <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
+      <div className="bg-white rounded-4xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <h2 className="text-brown ft-bold text-lg">Dieta de hoy</h2>
 
         <div className="flex flex-wrap md:flex-nowrap gap-3 overflow-x-auto text-[10px] justify-between">
