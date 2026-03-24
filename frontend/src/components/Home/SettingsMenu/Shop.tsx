@@ -39,31 +39,18 @@ export default function Shop({ categories = categoriesData }: Props) {
   const skeletonGrid = Array.from({ length: SKELETON_COUNT });
 
   useEffect(() => {
+    if (mascotaActual) {
+      console.log("Mascota actual:", mascotaActual);
+    }
+  }, [mascotaActual]);
+
+  useEffect(() => {
     const fetchInicial = async () => {
       setLoading(true);
       try {
-        const cacheMascotaActual = sessionStorage.getItem("mascotaActual");
-        const cacheItemsMascotas = sessionStorage.getItem("items_mascotas");
-
-        let tienda: any;
-
-        if (cacheMascotaActual && cacheItemsMascotas) {
-          setMascotaActual(JSON.parse(cacheMascotaActual));
-          setItems(JSON.parse(cacheItemsMascotas));
-        } else {
-          tienda = await getTiendaMascotas();
-          setMascotaActual(tienda.mascota_actual);
-          setItems(tienda.mascotas_tienda);
-
-          sessionStorage.setItem(
-            "mascotaActual",
-            JSON.stringify(tienda.mascota_actual),
-          );
-          sessionStorage.setItem(
-            "items_mascotas",
-            JSON.stringify(tienda.mascotas_tienda),
-          );
-        }
+        const tienda = await getTiendaMascotas();
+        setMascotaActual(tienda.mascota_actual);
+        setItems(tienda.mascotas_tienda);
       } catch (error) {
         console.error(error);
       } finally {
@@ -80,31 +67,13 @@ export default function Shop({ categories = categoriesData }: Props) {
     setLoading(true);
 
     try {
-      const cacheKey = `items_${category}`;
-      const cached = sessionStorage.getItem(cacheKey);
-
-      if (cached) {
-        setItems(JSON.parse(cached));
+      if (category === "mascotas") {
+        const tienda = await getTiendaMascotas();
+        setMascotaActual(tienda.mascota_actual);
+        setItems(tienda.mascotas_tienda);
       } else {
-        let data: any;
-        if (category === "mascotas") {
-          const tienda = await getTiendaMascotas();
-          setMascotaActual(tienda.mascota_actual);
-          setItems(tienda.mascotas_tienda);
-
-          sessionStorage.setItem(
-            "mascotaActual",
-            JSON.stringify(tienda.mascota_actual),
-          );
-          sessionStorage.setItem(
-            "items_mascotas",
-            JSON.stringify(tienda.mascotas_tienda),
-          );
-        } else {
-          data = await getItemsCategoria(category);
-          setItems(data.items);
-          sessionStorage.setItem(cacheKey, JSON.stringify(data.items));
-        }
+        const data = await getItemsCategoria(category);
+        setItems(mapEquipados(data.items, mascotaActual, category));
       }
     } catch (error) {
       console.error(error);
@@ -131,22 +100,9 @@ export default function Shop({ categories = categoriesData }: Props) {
         const tienda = await getTiendaMascotas();
         setItems(tienda.mascotas_tienda);
         setMascotaActual(tienda.mascota_actual);
-
-        sessionStorage.setItem(
-          "mascotaActual",
-          JSON.stringify(tienda.mascota_actual),
-        );
-        sessionStorage.setItem(
-          "items_mascotas",
-          JSON.stringify(tienda.mascotas_tienda),
-        );
       } else {
         const data = await getItemsCategoria(activeCategory);
         setItems(data.items);
-        sessionStorage.setItem(
-          `items_${activeCategory}`,
-          JSON.stringify(data.items),
-        );
 
         const tienda = await getTiendaMascotas();
         setMascotaActual(tienda.mascota_actual);
@@ -154,6 +110,38 @@ export default function Shop({ categories = categoriesData }: Props) {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const mapEquipados = (items: any[], mascota: any, categoria: string) => {
+    return items.map((item) => {
+      let equipado = false;
+
+      if (categoria === "gorras") {
+        equipado = mascota?.gorra_puesto === item.imagen.replace(".svg", "");
+      }
+
+      if (categoria === "gafas") {
+        equipado = mascota?.gafa_puesto === item.imagen.replace(".svg", "");
+      }
+
+      if (categoria === "accesorios") {
+        equipado =
+          mascota?.accesorio_puesto === item.imagen.replace(".svg", "");
+      }
+
+      if (categoria === "marcos") {
+        equipado = mascota?.marco_puesto === item.imagen.replace(".svg", "");
+      }
+
+      if (categoria === "fondos") {
+        equipado = mascota?.fondo_puesto === item.imagen.replace(".svg", "");
+      }
+
+      return {
+        ...item,
+        equipado,
+      };
+    });
   };
 
   return (
@@ -229,7 +217,7 @@ export default function Shop({ categories = categoriesData }: Props) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 ml-10 md:ml-0 md:h-130 justify-around md:mt-8">
+      <div className="relative flex flex-col ml-10 md:ml-0 md:h-130 justify-around md:mt-8 items-center">
         {loading || !mascotaActual ? (
           <>
             <Skeleton height={192} width={192} />
@@ -237,14 +225,62 @@ export default function Shop({ categories = categoriesData }: Props) {
           </>
         ) : (
           <>
-            <img
-              src={`/SVG/Pets/Shop/Mascotas/${mascotaActual?.tipo}.svg`}
-              alt="Mascota"
-              className="w-65 sm:w-72 md:w-80 lg:w-96 h-auto object-contain"
-            />
-            <h3 className="ft-medium text-xl md:text-2xl text-center text-white bg-brown rounded-full py-1">
+            {/* MASCOTA */}
+            {mascotaActual?.tipo && (
+              <img
+                src={`/SVG/Pets/Shop/EditMascota/${mascotaActual?.tipo}.svg`}
+                alt="Mascota"
+                className="w-65 sm:w-72 md:w-80 lg:w-96 h-auto object-contain z-50"
+              />
+            )}
+            <h3 className="ft-medium text-xl md:text-2xl text-center text-white bg-brown rounded-full px-20">
               {mascotaActual?.nombre || "Mascota"}
             </h3>
+
+            {/* GORRA */}
+            {mascotaActual?.gorra_puesto && (
+              <img
+                src={`/SVG/Pets/Shop/Gorras/${mascotaActual.gorra_puesto}.svg`}
+                className="absolute w-30 md:w-45 h-auto object-contain -top-10 z-50"
+                alt="Gorra"
+              />
+            )}
+
+            {/* GAFAS */}
+            {mascotaActual?.gafa_puesto && (
+              <img
+                src={`/SVG/Pets/Shop/Gafas/${mascotaActual.gafa_puesto}.svg`}
+                className="absolute w-65 sm:w-72 md:w-80 lg:w-96 h-auto object-contain"
+                alt="Gafas"
+              />
+            )}
+
+            {/* ACCESORIOS */}
+            {mascotaActual?.accesorio_puesto && (
+              <img
+                src={`/SVG/Pets/Shop/Accesorios/${mascotaActual.accesorio_puesto}.svg`}
+                className="absolute w-65 sm:w-72 md:w-80 lg:w-96 h-auto object-contain"
+                alt="Accesorio"
+              />
+            )}
+
+            {/* MARCO */}
+            {mascotaActual?.marco_puesto && (
+              <img
+                src={`/SVG/Pets/Shop/Marcos/${mascotaActual.marco_puesto}.svg`}
+                className="absolute w-65 sm:w-72 md:w-80 lg:w-96 h-auto object-contain top-0"
+                alt="Marco"
+              />
+            )}
+
+            {/* FONDO */}
+            {mascotaActual?.fondo_puesto && (
+              <img
+                src={`/SVG/Pets/Shop/Fondos/${mascotaActual.fondo_puesto}.svg`}
+                className="absolute w-65 md:w-120 h-auto object-contain top-0 rounded-4xl"
+                alt="Fondo"
+              />
+            )}
           </>
         )}
       </div>
