@@ -53,12 +53,30 @@ export default function DailyNutritionPlan() {
   const yellowWidth = ((rangeMax - rangeMin) / totalBar) * 100;
   const idealPos = ((idealKcal - barraMin) / totalBar) * 100;
 
+  const macroItems = [
+    { label: "Proteína", value: macros.proteinas_diarias, unit: "g" },
+    {
+      label: "Carbohidratos",
+      value: macros.carbohidratos_diarios,
+      unit: "g",
+    },
+    { label: "Grasas", value: macros.grasas_diarias, unit: "g" },
+  ];
+
+  if (loading) {
+    return (
+      <LoadingScreen
+        title="CALCULANDO PLAN"
+        subtitle="Estamos calculando tus macronutrientes diarios. Esto tomará unos segundos..."
+        Icon={LoadingIcon}
+      />
+    );
+  }
+
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
       <div className="min-h-screen flex flex-col items-center justify-center py-8">
-        {/* CARD PRINCIPAL */}
         <div className="w-full max-w-3xl bg-white p-6 sm:p-10 rounded-3xl shadow-md text-center relative z-20">
-          {/* Título */}
           <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0 mb-4">
             <div className="w-12 sm:w-20">
               <img
@@ -76,14 +94,12 @@ export default function DailyNutritionPlan() {
             Basado en tu objetivo, nivel de actividad física y preferencias,
             estas son las cantidades recomendadas para cada día.
           </p>
-          {/* BARRA DE CALORÍAS */}
           <div className="relative w-full h-4 sm:h-6 rounded-full mb-10">
             <div className="absolute h-full bg-brown rounded-full w-full" />
             <div
               className="absolute h-full bg-yellow"
               style={{ left: `${yellowStart}%`, width: `${yellowWidth}%` }}
             />
-            {/* Líneas de inicio y fin del rango recomendado */}
             <div
               className="absolute top-[-5px] h-6 md:h-8 w-1.5 bg-yellow rounded"
               style={{ left: `${yellowStart}%` }}
@@ -92,7 +108,6 @@ export default function DailyNutritionPlan() {
               className="absolute top-[-5px] h-6 md:h-8 w-1.5 bg-yellow rounded"
               style={{ left: `${yellowStart + yellowWidth}%` }}
             />
-            {/* Etiquetas de calorías */}
             <span
               className="absolute -bottom-8 text-gray text-xs sm:text-sm"
               style={{ left: `${yellowStart}%`, transform: "translateX(-50%)" }}
@@ -115,17 +130,8 @@ export default function DailyNutritionPlan() {
               {idealKcal} kcal
             </span>
           </div>
-          {/* MACRONUTRIENTES */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-8">
-            {[
-              { label: "Proteína", value: macros.proteinas_diarias, unit: "g" },
-              {
-                label: "Carbohidratos",
-                value: macros.carbohidratos_diarios,
-                unit: "g",
-              },
-              { label: "Grasas", value: macros.grasas_diarias, unit: "g" },
-            ].map((item, i) => (
+            {macroItems.map((item, i) => (
               <div
                 key={i}
                 className="bg-input p-4 sm:p-5 w-full sm:w-32 rounded-xl text-center flex flex-row justify-center items-center md:flex-col gap-2"
@@ -141,17 +147,15 @@ export default function DailyNutritionPlan() {
           </div>
           <button
             onClick={handleContinue}
-            disabled={loading}
             className="w-2xs md:w-xs mx-auto bg-yellow text-brown font-medium px-4 sm:px-6 py-3 sm:py-3 rounded-3xl cursor-pointer hover:scale-105 transition"
           >
-            {loading ? "Calculando..." : "Continuar"}
+            Continuar
           </button>
         </div>
       </div>
 
       <ArrowReturn to={"/dietPlanReady"} />
 
-      {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
