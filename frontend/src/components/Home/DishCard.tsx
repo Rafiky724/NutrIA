@@ -19,14 +19,14 @@ export default function DishCard({
   const { protein, carbs, fats } = calculateMacroPercentages(dish);
 
   return (
-    <div className="bg-input p-4 rounded-2xl flex flex-col lg:flex-row gap-6 w-full max-w-8xl mx-auto h-full">
+    <div className="bg-input p-4 rounded-4xl flex flex-col lg:flex-row gap-6 w-full max-w-8xl mx-auto h-full">
       {/* IZQUIERDA */}
       <div className="flex flex-col items-center justify-center gap-4 lg:w-4xs">
         <div className="w-full object-cover">
           <img
             src="/SVG/ejemploPlato.jpeg"
             alt="Plato"
-            className="w-auto xl:w-2xl h-auto"
+            className="w-auto xl:w-2xl h-auto rounded-3xl"
           />
         </div>
 
