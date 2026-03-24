@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import type { HomeResponse } from "../../types";
 import { HomeService } from "../../services/homeService";
 import NavBar from "../../components/Home/NavBar";
@@ -14,7 +14,9 @@ type ViewType = "main" | "profile" | "achievements" | "contact" | "shop";
 export default function Config() {
   const navigate = useNavigate();
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
-  const [view, setView] = useState<ViewType>("main");
+  const [searchParams] = useSearchParams();
+  const initialView = (searchParams.get("view") as ViewType) || "main";
+  const [view, setView] = useState<ViewType>(initialView);
   const [profileView, setProfileView] = useState<"menu" | "edit">("menu");
 
   useEffect(() => {

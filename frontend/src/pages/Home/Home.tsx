@@ -48,10 +48,6 @@ export default function Home() {
     fetchHomeData();
   }, []);
 
-  if (!homeData) {
-    return;
-  }
-
   return (
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">

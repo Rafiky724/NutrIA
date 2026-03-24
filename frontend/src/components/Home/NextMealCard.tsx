@@ -15,7 +15,7 @@ import { DaysService } from "../../services/daysService";
 import ModalEditIngredients from "../Modals/ModalEditIngredients";
 
 type Props = {
-  homeData: HomeResponse;
+  homeData: HomeResponse | null;
   nextFood?: NextMeal | null;
   estado?: Estado | null;
   onRefetch: () => void;
@@ -30,10 +30,48 @@ export default function NextMealCard({
   activeFoodIndex,
 }: Props) {
   const [showModal, setShowModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [openVerify, setOpenVerify] = useState(false);
+  const [openNotCompleted, setOpenNotCompleted] = useState(false);
+  const [openAbsentMeal, setOpenAbsentMeal] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<any>(null);
+  const [, setAbsentText] = useState("");
+  const [openEstimateModal, setOpenEstimateModal] = useState(false);
+  const [, setOpenFinalOptionsModal] = useState(false);
+  const [, setComidaId] = useState<string | null>(null);
 
   if (!homeData) {
-    console.error("No hay datos de la comida o del día actual");
-    return;
+    return (
+      <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center">
+        <Skeleton width={200} height={20} />
+
+        <div className="w-full flex gap-4 flex-col md:flex-row">
+          <div className="flex flex-col items-center gap-4">
+            <Skeleton width={240} height={200} borderRadius={12} />
+            <Skeleton width={140} height={16} />
+          </div>
+
+          <div className="flex flex-4 flex-col w-full">
+            <Skeleton width={200} height={14} className="mx-auto mb-3" />
+
+            <div className="flex flex-col gap-2">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2 bg-gray p-2 rounded-xl"
+                >
+                  <Skeleton circle width={24} height={24} />
+                  <Skeleton width={120} height={14} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <Skeleton width={180} height={40} />
+      </div>
+    );
   }
 
   const comidaActual = homeData.dia_actual.comidas?.[activeFoodIndex];
@@ -94,17 +132,6 @@ export default function NextMealCard({
   }
 
   const isDark = estado?.color === "#260B01";
-
-  const [openModal, setOpenModal] = useState(false);
-  const [openConfirm, setOpenConfirm] = useState(false);
-  const [openVerify, setOpenVerify] = useState(false);
-  const [openNotCompleted, setOpenNotCompleted] = useState(false);
-  const [openAbsentMeal, setOpenAbsentMeal] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<any>(null);
-  const [, setAbsentText] = useState("");
-  const [openEstimateModal, setOpenEstimateModal] = useState(false);
-  const [, setOpenFinalOptionsModal] = useState(false);
-  const [, setComidaId] = useState<string | null>(null);
 
   const handleRetry = async () => {
     if (!selectedOption) return;

@@ -6,6 +6,7 @@ import {
   getUserProgress,
   type UserProgressResponse,
 } from "../../services/userService";
+import { Link } from "react-router-dom";
 
 type Props = {
   user?: User;
@@ -61,7 +62,10 @@ export default function NavBar({ user, title, subtitle }: Props) {
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-1 hover:scale-105 transition cursor-pointer">
+        <Link
+          to={"/config?view=shop"}
+          className="flex items-center gap-1 hover:scale-105 transition cursor-pointer"
+        >
           {loading ? (
             <Skeleton
               circle
@@ -82,7 +86,7 @@ export default function NavBar({ user, title, subtitle }: Props) {
               {progress?.cantidad_gemas ?? 0}
             </p>
           )}
-        </div>
+        </Link>
 
         <div className="flex items-center gap-1 hover:scale-105 transition cursor-pointer">
           {loading ? (
