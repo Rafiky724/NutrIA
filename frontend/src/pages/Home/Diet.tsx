@@ -113,7 +113,7 @@ export default function Diet() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-center">
-          <div className="max-w-5xl flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[650px] max-h-[1250px] overflow-y-auto mt-0 md:mt-5">
+          <div className="max-w-5xl flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-2 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[650px] max-h-[1250px] overflow-y-auto">
             {loadingPage ? (
               <>
                 <Skeleton height={40} width="100%" className="mb-4" />
