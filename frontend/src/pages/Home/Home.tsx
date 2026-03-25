@@ -17,7 +17,7 @@ export default function Home() {
   const [openRachaWarningModal, setOpenRachaWarningModal] = useState(false);
   const [openWarningDayModal, setOpenWarningDayModal] = useState(false);
   const [openExcelentDayModal, setOpenExcelentDayModal] = useState(false);
-  const [openFailedDayModal, setOpenFailedDayModal] = useState(false);
+  const [openFailedDayModal, setOpenFailedDayModal] = useState(true);
 
   console.log(homeData);
 
@@ -92,7 +92,7 @@ export default function Home() {
 
       <FailedDay
         isOpen={openFailedDayModal}
-        onClose={() => setOpenWarningDayModal(false)}
+        onClose={() => setOpenFailedDayModal(false)}
         onRefetch={fetchHomeData}
       />
     </div>
