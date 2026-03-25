@@ -108,12 +108,12 @@ export default function Diet() {
           <NavBar
             user={homeData?.usuario}
             title="Dieta semanal"
-            subtitle={`Esta es tu dieta del ${homeData?.mensaje}`}
+            subtitle={`Esta es tu dieta ${homeData?.usuario.nombre}`}
           />
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-center">
-          <div className="max-w-5xl flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-2 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[650px] max-h-[1250px] overflow-y-auto">
+          <div className="max-w-5xl flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-2 ml-10 w-2xs md:ml-0 h-1250 md:w-full md:h-[500px] xl:h-[580px] max-h-[1250px] overflow-y-auto">
             {loadingPage ? (
               <>
                 <Skeleton height={40} width="100%" className="mb-4" />
