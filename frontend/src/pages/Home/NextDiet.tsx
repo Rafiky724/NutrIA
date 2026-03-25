@@ -1,8 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
+import { actualizarDieta } from "../../services/planService";
 
 export default function NextDiet() {
+  const navigate = useNavigate();
+
+  const handleMantenerDieta = async () => {
+    try {
+      await actualizarDieta();
+      navigate("/home");
+    } catch (error) {
+      console.error("Error al mantener dieta actual:", error);
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
       <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
@@ -38,14 +50,14 @@ export default function NextDiet() {
               </h4>
             </Link>
 
-            <Link
-              to={"/home"}
+            <button
+              onClick={handleMantenerDieta}
               className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
             >
               <h4 className="ft-medium text-center text-xs sm:text-md xl:text-lg">
                 Mantener mi dieta actual
               </h4>
-            </Link>
+            </button>
 
             <Link
               to={"/home"}
