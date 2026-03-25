@@ -30,7 +30,7 @@ export default function NextDiet() {
 
           <div className="flex flex-col gap-4">
             <Link
-              to={"/home"}
+              to={"/pantry"}
               className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
             >
               <h4 className="ft-medium text-center text-xs sm:text-md xl:text-lg">
