@@ -19,8 +19,6 @@ export default function Home() {
   const [openExcelentDayModal, setOpenExcelentDayModal] = useState(false);
   const [openFailedDayModal, setOpenFailedDayModal] = useState(false);
 
-  const hayDietaHoy = !!homeData?.dia_actual?.comidas?.length;
-
   console.log(homeData);
 
   const fetchHomeData = async () => {
@@ -72,12 +70,6 @@ export default function Home() {
             onRefetch={fetchHomeData}
           />
         </div>
-
-        {!hayDietaHoy && homeData && (
-          <div className="flex justify-center items-center h-full text-center text-sm md:text-lg font-semibold">
-            {homeData?.mensaje || "No tienes dieta asignada hoy"}
-          </div>
-        )}
       </div>
 
       <RachaWarning
