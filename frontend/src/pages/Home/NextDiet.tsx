@@ -18,7 +18,7 @@ export default function NextDiet() {
   const handleGenerarNuevaDieta = async () => {
     try {
       await createDiet();
-      navigate("/home");
+      navigate("/diet");
     } catch (error) {
       console.error("Error creando nueva dieta:", error);
       alert("No se pudo generar la nueva dieta. Intenta nuevamente.");
