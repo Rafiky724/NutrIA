@@ -10,7 +10,7 @@ export default function TodaySummary({ homeData }: Props) {
   const quantityDays = 7;
   const today = new Date();
   const daysBefore = 2;
-  const daysWeek = ["D", "L", "M", "M", "J", "V", "S"];
+  const daysWeek = ["L", "M", "M", "J", "V", "S", "D"];
   const daysLetter: string[] = [];
   const numbersDays: number[] = [];
 
