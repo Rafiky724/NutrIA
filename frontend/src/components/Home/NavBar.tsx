@@ -88,7 +88,10 @@ export default function NavBar({ user, title, subtitle }: Props) {
           )}
         </Link>
 
-        <div className="flex items-center gap-1 hover:scale-105 transition cursor-pointer">
+        <Link
+          to={"/config?view=achievements"}
+          className="flex items-center gap-1 hover:scale-105 transition cursor-pointer"
+        >
           {loading ? (
             <Skeleton
               circle
@@ -109,7 +112,7 @@ export default function NavBar({ user, title, subtitle }: Props) {
               {progress?.numero_racha ?? 0}
             </p>
           )}
-        </div>
+        </Link>
 
         {loading ? (
           <Skeleton
