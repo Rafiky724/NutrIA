@@ -32,7 +32,7 @@ class HomeController:
         modal_advertencia_racha = False
         modal_dia_actualizar_dieta = False
 
-        plan = None
+        
 
         user_id = ObjectId(current_user["_id"])
         hoy = datetime.now(ZoneInfo("America/Bogota")).date()
@@ -43,6 +43,38 @@ class HomeController:
 
         if not info_doc_hoy:
             
+            plan = await PlanModel.get_plan_usuario(user_id)
+            fecha = plan["fecha_inicio"]
+            comparacion = comparar_con_hoy_bogota(fecha)
+
+            if comparacion == "despues":
+                usuario = {
+
+                    "nombre": current_user["apodo"],
+                    "cantidad_gemas": current_user.get("gemas_acumuladas", 0),
+                    "numero_racha": current_user.get("dias_racha", 0)
+                }
+
+                modals = {
+
+                    "mostrar_subir_racha": modal_subir_racha,
+                    "mostrar_pagar_racha": modal_pagar_racha,
+                    "mostrar_perder_racha": modal_perder_racha,
+                    "mostrar_advertencia_racha": modal_advertencia_racha,
+                    "mostrar_actualizar_dieta": modal_dia_actualizar_dieta
+
+                }
+
+                return {
+                    "usuario": usuario,
+                    "hay_dieta_hoy": False,
+                    "mensaje": f"No existe un plan alimenticio para hoy. Tu dieta inicia el {fecha.day} de {HomeController.meses[fecha.month -1]} de {fecha.year}.",
+                    "macros_consumidos_hoy": None,
+                    "proxima_comida": None,
+                    "dia_actual": None,
+                    "modals": modals
+                }
+                        
             ayer = hoy - timedelta(days=1)
             inicio_ayer, fin_ayer = get_day_range_bogota(ayer)
 
