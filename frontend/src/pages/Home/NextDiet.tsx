@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import { actualizarDieta } from "../../services/planService";
+import { DietService } from "../../services/dietaService";
 
 export default function NextDiet() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function NextDiet() {
 
   const handleGenerarNuevaDieta = async () => {
     try {
-      await createDiet();
+      await DietService.createDiet();
       navigate("/diet");
     } catch (error) {
       console.error("Error creando nueva dieta:", error);
@@ -91,7 +92,4 @@ export default function NextDiet() {
       </div>
     </div>
   );
-}
-function createDiet() {
-  throw new Error("Function not implemented.");
 }
