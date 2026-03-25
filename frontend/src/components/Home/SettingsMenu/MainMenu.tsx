@@ -29,7 +29,7 @@ export default function MainMenu({ onNavigate, onLogout, options }: Props) {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center gap-6 w-full md:justify-around xl:justify-center xl:gap-20 xl:mt-15">
+      <div className="flex flex-col md:flex-row items-center gap-6 w-full md:justify-around xl:justify-center xl:gap-20">
         <div className="bg-white rounded-4xl shadow-lg p-6 sm:p-8 w-2xs md:w-md xl:w-lg flex flex-col gap-2 ml-10 md:ml-0 h-130">
           {menuOptions.map((option, index) => {
             if (option.link) {
