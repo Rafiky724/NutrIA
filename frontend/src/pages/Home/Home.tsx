@@ -17,7 +17,7 @@ export default function Home() {
   const [openRachaWarningModal, setOpenRachaWarningModal] = useState(false);
   const [openWarningDayModal, setOpenWarningDayModal] = useState(false);
   const [openExcelentDayModal, setOpenExcelentDayModal] = useState(false);
-  const [openFailedDayModal, setOpenFailedDayModal] = useState(true);
+  const [openFailedDayModal, setOpenFailedDayModal] = useState(false);
 
   console.log(homeData);
 
