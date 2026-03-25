@@ -15,8 +15,7 @@ export default function Config() {
   const navigate = useNavigate();
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [searchParams] = useSearchParams();
-  const initialView = (searchParams.get("view") as ViewType) || "main";
-  const [view, setView] = useState<ViewType>(initialView);
+  const [view, setView] = useState<ViewType>("main");
   const [profileView, setProfileView] = useState<"menu" | "edit">("menu");
 
   useEffect(() => {
@@ -38,11 +37,23 @@ export default function Config() {
 
   useEffect(() => {
     const viewFromUrl = (searchParams.get("view") as ViewType) || "main";
+    const modeFromUrl = (searchParams.get("mode") as "menu" | "edit") || "menu";
+
     setView(viewFromUrl);
+
+    if (viewFromUrl === "profile") {
+      setProfileView(modeFromUrl);
+    }
   }, [searchParams]);
 
+  const handleProfileNavigation = (mode: "menu" | "edit") => {
+    setView("profile");
+    setProfileView(mode);
+    navigate(`/config?view=profile&mode=${mode}`);
+  };
+
   const menuOptions = [
-    { label: "Editar perfil", onClick: () => setProfileView("edit") },
+    { label: "Editar perfil", onClick: () => handleProfileNavigation("edit") },
     {
       label: "Cambiar tipo de dieta",
       onClick: () => navigate("/updateTypeDiet"),

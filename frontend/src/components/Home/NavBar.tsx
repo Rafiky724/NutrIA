@@ -114,19 +114,21 @@ export default function NavBar({ user, title, subtitle }: Props) {
           )}
         </Link>
 
-        {loading ? (
-          <Skeleton
-            circle
-            width={skeletonAvatarSize}
-            height={skeletonAvatarSize}
-          />
-        ) : (
-          <img
-            src="/Background/LogoIcono.png"
-            alt="Usuario"
-            className="w-12 h-12 hover:scale-105 transition cursor-pointer"
-          />
-        )}
+        <Link to={"/config?view=profile&mode=edit"}>
+          {loading ? (
+            <Skeleton
+              circle
+              width={skeletonAvatarSize}
+              height={skeletonAvatarSize}
+            />
+          ) : (
+            <img
+              src="/Background/LogoIcono.png"
+              alt="Usuario"
+              className="w-12 h-12 hover:scale-105 transition cursor-pointer"
+            />
+          )}
+        </Link>
       </div>
     </nav>
   );

@@ -8,8 +8,8 @@ export type MenuOption = {
 };
 
 type Props = {
-  profileView?: "menu" | "edit";
-  setProfileView?: Dispatch<SetStateAction<"menu" | "edit">>;
+  profileView: "menu" | "edit";
+  setProfileView: Dispatch<SetStateAction<"menu" | "edit">>;
   onBack: () => void;
   menuOptions?: MenuOption[];
   onGoToShop?: () => void;
@@ -30,7 +30,7 @@ export default function Profile({
 
       {profileView === "edit" && (
         <ProfileEdit
-          onBack={() => setProfileView?.("menu")}
+          onBack={() => setProfileView("menu")}
           onGoToShop={onGoToShop}
         />
       )}
