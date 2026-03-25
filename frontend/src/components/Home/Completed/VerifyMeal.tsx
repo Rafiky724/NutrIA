@@ -79,7 +79,7 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
       <input
         type="file"
         accept="image/*"
-        capture="user"
+        capture="environment"
         ref={cameraInputRef}
         style={{ display: "none" }}
         onChange={handleFileChange}
