@@ -24,3 +24,7 @@ async def cambiar_tipo_dieta(data: CambiarTipoDietaRequest, current_user: dict =
 @router.put("/cambiar_dia_actualizar")
 async def cambiar_dia_actualizar(data: CambiarDiaActualizarRequest, current_user: dict = Depends(get_current_user)):
     return await PlanController.cambiar_dia_actualizar(current_user, data)
+
+@router.post("/actualizar_dieta")
+async def actualizar_dieta(current_user: dict = Depends(get_current_user)):
+    return await PlanController.actualizar_dieta(current_user)

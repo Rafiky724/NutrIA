@@ -116,6 +116,24 @@ class InfoModel:
             })
 
         return resultado
+    
+    @staticmethod
+    async def actualizar_ya_actualizo_dieta(user_id, ya_actualizo_dieta: bool):
+        tz = ZoneInfo("America/Bogota")
+        today = datetime.now(tz).date()
+        datetime_bogota = datetime.combine(today, time(0, 0, 0), tz)
+
+        await db.infos_day.update_one(
+            {
+                "user_id": user_id,
+                "fecha": datetime_bogota
+            },
+            {
+                "$set": {
+                    "YaActualizoDieta": ya_actualizo_dieta
+                }
+            }
+        )
 
 #-1: Dia no completado, no ha pagado por mantener
 #1: Completado satisfactoriamente
