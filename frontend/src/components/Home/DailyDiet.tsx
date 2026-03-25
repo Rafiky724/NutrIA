@@ -28,7 +28,7 @@ export default function DailyDiet({
     setShowModal(false);
   };
 
-  if (!homeData) {
+  if (!homeData || !homeData.dia_actual) {
     return (
       <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <Skeleton width={150} height={22} />
@@ -93,7 +93,9 @@ export default function DailyDiet({
   }
 
   const food = homeData.dia_actual.comidas?.[activeFoodIndex];
-  if (!food) return null;
+  if (!homeData.dia_actual.comidas?.length) {
+    return null;
+  }
 
   const macroPercentage = (value: number, total: number) => {
     if (!total) return 0;

@@ -70,33 +70,10 @@ export default function NextMealCard({
 
   if (!nextFood) {
     return (
-      <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-4 shadow flex flex-col gap-4 ml-10 md:ml-0 items-center">
-        <Skeleton width={200} height={20} />
-
-        <div className="w-full flex gap-4 flex-col md:flex-row">
-          <div className="flex flex-col items-center gap-4">
-            <Skeleton width={240} height={200} borderRadius={12} />
-            <Skeleton width={140} height={16} />
-          </div>
-
-          <div className="flex flex-4 flex-col w-full">
-            <Skeleton width={200} height={14} className="mx-auto mb-3" />
-
-            <div className="flex flex-col gap-2">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-2 bg-gray p-2 rounded-xl"
-                >
-                  <Skeleton circle width={24} height={24} />
-                  <Skeleton width={120} height={14} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <Skeleton width={180} height={40} />
+      <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-6 shadow flex items-center justify-center text-center ml-10 md:ml-0">
+        <p className="text-sm md:text-lg font-semibold text-brown">
+          {homeData?.mensaje || "No tienes comidas programadas"}
+        </p>
       </div>
     );
   }

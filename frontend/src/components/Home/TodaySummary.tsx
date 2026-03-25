@@ -21,7 +21,7 @@ export default function TodaySummary({ homeData }: Props) {
     numbersDays.push(date.getDate());
   }
 
-  if (!homeData) {
+  if (!homeData || !homeData.macros_consumidos_hoy) {
     return (
       <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:w-sm h-95">
         {/* Header */}
