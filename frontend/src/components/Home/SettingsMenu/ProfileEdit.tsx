@@ -79,7 +79,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
 
   return (
     <div className="flex flex-col md:flex-row items-center gap-6 w-full md:justify-around xl:justify-center xl:gap-20">
-      <div className="bg-white rounded-4xl shadow-lg p-6 md:p-12 xl:p-18 w-2xs md:w-4xl xl:w-7xl flex flex-col md:flex-row gap-6 overflow-y-auto h-auto justify-between ml-10 md:ml-0 ">
+      <div className="bg-white rounded-4xl shadow-lg p-6 md:p-8 xl:p-10 w-2xs md:w-xl xl:w-4xl h-[580px] flex flex-col md:flex-row gap-6 overflow-y-auto justify-between ml-10 md:ml-0 ">
         {perfil === null ? (
           <div className="w-full flex flex-col md:flex-row gap-6">
             <div className="md:w-xl flex flex-col gap-4 w-full">
@@ -223,14 +223,14 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
               <img
                 src={`/SVG/Pets/Shop/Mascotas/${perfil?.mascota?.tipo}.svg`}
                 alt={`${perfil?.mascota?.tipo}`}
-                className="w-md h-auto rounded-2xl object-cover"
+                className="w-100 h-100 rounded-2xl object-cover"
               />
 
               <input
                 type="text"
                 value={editableValues.nombre_mascota}
                 onChange={(e) => handleChange("nombre_mascota", e.target.value)}
-                className="text-center ft-bold text-2xl text-brown bg-transparent border-b-2 border-brown outline-none"
+                className="w-full text-center ft-bold text-2xl text-brown bg-transparent border-b-2 border-brown outline-none"
               />
 
               {onGoToShop && (
