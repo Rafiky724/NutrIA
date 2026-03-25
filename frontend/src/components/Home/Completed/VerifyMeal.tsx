@@ -21,6 +21,7 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
   const [, setResult] = useState<AnalizarComidaResponse | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const options: VerifyOption[] = [
     { id: "1", image: "/SVG/Menu/Racha/Verificar.svg", label: "Tomar foto" },
@@ -39,6 +40,11 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
       fileInputRef.current.value = "";
       fileInputRef.current.click();
     }
+
+    if (opt.label === "Tomar foto" && cameraInputRef.current) {
+      cameraInputRef.current.value = "";
+      cameraInputRef.current.click();
+    }
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,13 +58,12 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
       const res = await analizarComida(file);
       console.log("Resultado del servicio:", res);
       setResult(res);
-      onClose();
       alert(res.match ? "¡La comida coincide!" : "No coincide con lo esperado");
     } catch (err: any) {
       console.error(err);
       alert(err.message);
     } finally {
-      if (fileInputRef.current) fileInputRef.current.value = "";
+      if (e.target) e.target.value = "";
     }
   };
 
@@ -68,6 +73,14 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
         type="file"
         accept="image/*"
         ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={handleFileChange}
+      />
+      <input
+        type="file"
+        accept="image/*"
+        capture="environment"
+        ref={cameraInputRef}
         style={{ display: "none" }}
         onChange={handleFileChange}
       />
