@@ -179,7 +179,7 @@ export default function DailyDiet({
           <div className="lg:w-4/5 bg-input p-4 sm:p-6 rounded-4xl flex flex-col lg:flex-row gap-4 lg:gap-6">
             <div className="flex flex-col items-center gap-4">
               <img
-                src="/SVG/ejemploPlato.jpeg"
+                src="/SVG/Emotions/nutria/nutria_almuerzo.svg"
                 alt="Plato"
                 className="w-60 h-50 object-cover rounded-3xl"
               />

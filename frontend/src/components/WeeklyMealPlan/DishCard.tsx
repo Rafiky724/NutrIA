@@ -23,7 +23,7 @@ export default function DishCard({
       <div className="flex flex-col items-center justify-center gap-4 lg:w-4xs">
         <div className="w-full object-cover">
           <img
-            src="/SVG/ejemploPlato.jpeg"
+            src="/SVG/Emotions/nutria/nutria_almuerzo.svg"
             alt="Plato"
             className="w-150 h-50 rounded-3xl"
           />

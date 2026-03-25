@@ -111,7 +111,7 @@ export default function NextMealCard({
         <div className="w-full flex gap-4 overflow-hidden flex-col md:flex-row">
           <div className="flex flex-col items-center gap-4">
             <img
-              src="/SVG/ejemploPlato.jpeg"
+              src="/SVG/Emotions/nutria/nutria_desayuno.svg"
               alt="Próxima comida"
               className="w-60 h-50 object-cover rounded-3xl"
             />
