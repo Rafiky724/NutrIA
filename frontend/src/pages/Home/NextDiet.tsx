@@ -1,11 +1,33 @@
 import { Link, useNavigate } from "react-router-dom";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
-import { actualizarDieta } from "../../services/planService";
+import {
+  actualizarDieta,
+  getUserActualizarDia,
+} from "../../services/planService";
 import { DietService } from "../../services/dietaService";
+import { useEffect, useState } from "react";
 
 export default function NextDiet() {
   const navigate = useNavigate();
+  const [puedeGenerar, setPuedeGenerar] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const verificarDieta = async () => {
+      try {
+        const { es_dia_actualizar_dieta } = await getUserActualizarDia();
+        setPuedeGenerar(es_dia_actualizar_dieta);
+      } catch (error) {
+        console.error("Error verificando si se puede generar dieta:", error);
+        setPuedeGenerar(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    verificarDieta();
+  }, []);
 
   const handleMantenerDieta = async () => {
     try {
@@ -19,10 +41,10 @@ export default function NextDiet() {
   const handleGenerarNuevaDieta = async () => {
     try {
       await DietService.createDiet();
-      navigate("/diet");
+      navigate("/home");
     } catch (error) {
       console.error("Error creando nueva dieta:", error);
-      alert("No se pudo generar la nueva dieta. Intenta nuevamente.");
+      console.log("No se pudo generar la nueva dieta. Intenta nuevamente.");
     }
   };
 
@@ -54,7 +76,7 @@ export default function NextDiet() {
           <div className="flex flex-col gap-4">
             <Link
               to={"/pantry"}
-              className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
+              className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg  p-4 custom-bg transition hover:scale-105"
             >
               <h4 className="ft-medium text-center text-xs sm:text-md xl:text-lg">
                 Editar despensa
@@ -63,7 +85,7 @@ export default function NextDiet() {
 
             <button
               onClick={handleMantenerDieta}
-              className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
+              className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg p-4 custom-bg transition hover:scale-105"
             >
               <h4 className="ft-medium text-center text-xs sm:text-md xl:text-lg">
                 Mantener mi dieta actual
@@ -72,7 +94,10 @@ export default function NextDiet() {
 
             <button
               onClick={handleGenerarNuevaDieta}
-              className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
+              disabled={!puedeGenerar || loading}
+              className={`w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg p-4 bg-yellow transition hover:scale-105 ${
+                (!puedeGenerar || loading) && "opacity-50 cursor-not-allowed"
+              }`}
             >
               <h4 className="ft-medium text-center text-xs sm:text-md xl:text-lg">
                 Generar nueva dieta semanal
