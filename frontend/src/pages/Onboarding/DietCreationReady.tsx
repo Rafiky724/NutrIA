@@ -5,33 +5,16 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
 import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
-import { getUserActualizarDia } from "../../services/planService";
 
 export default function DietCreationReady() {
   const navigate = useNavigate();
 
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [puedeCrear, setPuedeCrear] = useState(true);
-  const [verificando, setVerificando] = useState(true);
 
   useEffect(() => {
     const savedname = localStorage.getItem("nombreUsuario");
     if (savedname) setName(savedname);
-
-    const verificarDieta = async () => {
-      try {
-        const { es_dia_actualizar_dieta } = await getUserActualizarDia();
-        setPuedeCrear(es_dia_actualizar_dieta);
-      } catch (error) {
-        console.error("Error verificando dieta existente:", error);
-        setPuedeCrear(false);
-      } finally {
-        setVerificando(false);
-      }
-    };
-
-    verificarDieta();
   }, []);
 
   const handleCreateDiet = async () => {
@@ -42,13 +25,13 @@ export default function DietCreationReady() {
       navigate("/dietPlanReady");
     } catch (err: any) {
       console.error("Error al crear dieta:", err);
-      alert("No se pudo crear la dieta. Intenta nuevamente.");
+      console.log("No se pudo crear la dieta. Intenta de nuevo.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading || verificando) {
+  if (loading) {
     return (
       <LoadingScreen
         Icon={LoadingIcon}
@@ -74,14 +57,12 @@ export default function DietCreationReady() {
 
           <button
             onClick={handleCreateDiet}
-            disabled={loading || !puedeCrear}
-            className={`w-3xs md:w-80 bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl hover:scale-105 transition ${
-              loading || !puedeCrear
-                ? "opacity-50 cursor-not-allowed"
-                : "cursor-pointer"
+            disabled={loading}
+            className={`w-3xs md:w-80 bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl hover:scale-105 transition cursor-pointer ${
+              loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
             }`}
           >
-            {puedeCrear ? "Crear dieta" : "Ya generaste tu dieta semanal"}
+            Crear dieta
           </button>
         </div>
       </div>
