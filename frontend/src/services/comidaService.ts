@@ -113,3 +113,36 @@ export const reemplazarComidaActual = async (
 
     return data;
 };
+
+export interface AnalizarComidaResponse {
+    match: boolean;
+}
+
+export const analizarComida = async (
+    file: File
+): Promise<AnalizarComidaResponse> => {
+    if (!file.type.startsWith("image/")) {
+        throw new Error("El archivo debe ser una imagen (jpg, png, etc.)");
+    }
+
+    const MAX_SIZE = 2 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+        throw new Error("La imagen no puede superar los 2MB");
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const { data } = await axiosClient.post<AnalizarComidaResponse>(
+        COMIDAS_ENDPOINTS.ANALIZAR_COMIDA,
+        formData,
+        {
+            headers: {
+                ...getAuthHeaders(),
+                "Content-Type": "multipart/form-data",
+            },
+        }
+    );
+
+    return data;
+};
