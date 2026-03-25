@@ -13,6 +13,7 @@ export const PLAN_ENDPOINTS = {
   ACTUALIZAR_DIA: "/plan/dia_actualizar",
   CAMBIAR_TIPO_DIETA: "/plan/cambiar_tipo_dieta",
   CAMBIAR_DIA_ACTUALIZAR: "/plan/cambiar_dia_actualizar",
+  ACTUALIZAR_DIETA: "/plan/actualizar_dieta",
 } as const;
 
 export const DAYS_ENDPOINTS = {
