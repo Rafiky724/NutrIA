@@ -3,6 +3,9 @@ from zoneinfo import ZoneInfo
 from bson import ObjectId
 from fastapi import HTTPException
 from app.core.database import db
+from app.core.helpers import comparar_con_hoy_bogota, get_day_range_bogota
+from app.models.info_model import InfoModel
+from app.models.objetivo_model import ObjetivoModel
 from app.models.plan_model import PlanModel
 
 class PlanController:
@@ -57,6 +60,34 @@ class PlanController:
     
     @staticmethod
     async def get_user_actualizar_dia(current_user: dict):
+
+        objetivo_doc = await ObjetivoModel.get_objetivo_usuario(current_user["_id"])
+
+        if not objetivo_doc:
+            raise HTTPException(status_code=404, detail="Objetivo no encontrado")
+        
+        comparacion = comparar_con_hoy_bogota(objetivo_doc["fecha_inicio"])
+
+        if comparacion == "despues":
+            return {
+                "es_dia_actualizar_dieta": False,
+                "mensaje_actualizacion": "No puedes actualizar hasta que inicies tu dieta."
+            }
+        
+        hoy = datetime.now(ZoneInfo("America/Bogota")).date()
+
+        inicio, fin = get_day_range_bogota(hoy)
+
+        info_doc = await InfoModel.get_info_day_por_fecha(current_user["_id"], inicio, fin)
+
+        if not info_doc:
+            raise HTTPException(status_code=404, detail="No hay información para este día.")
+        
+        if info_doc.get("YaActualizoDieta", False):
+            return {
+                "es_dia_actualizar_dieta": False,
+                "mensaje_actualizacion": "Ya actualizaste tu dieta para el día de hoy."
+            }
 
         user_id = ObjectId(current_user["_id"])
 
@@ -174,3 +205,31 @@ class PlanController:
             "mensaje": "Día de actualización de dieta actualizado correctamente",
             "dia_actualizar_dieta": dia_actualizar
         }
+    
+    @staticmethod
+    async def actualizar_dieta(current_user: dict):
+
+        user_id = ObjectId(current_user["_id"])
+
+        hoy = datetime.now(ZoneInfo("America/Bogota")).date()
+
+        inicio, fin = get_day_range_bogota(hoy)
+
+        info_doc = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+
+        if not info_doc:
+            raise HTTPException(
+                status_code=404,
+                detail="No hay información para este día."
+            )
+
+        try:
+            await InfoModel.actualizar_ya_actualizo_dieta(user_id, True)
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail="Error al actualizar el día de actualización de dieta"
+            )
+        
+        return{200: "Ok"}
+
