@@ -111,7 +111,7 @@ export default function Pantry() {
         </div>
 
         <div className="flex gap-4 md:gap-6 flex-col md:flex-row items-center justify-center">
-          <div className="lex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-xs xl:w-sm md:h-[550px] xl:h-[580px] max-h-[800px] overflow-y-auto">
+          <div className="lex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-xs xl:w-sm md:h-[550px] xl:h-[580px] 2xl:h-[900px] overflow-y-auto">
             {loadingData ? (
               <>
                 <Skeleton height={24} width={150} className="mb-2" />
@@ -170,7 +170,7 @@ export default function Pantry() {
             )}
           </div>
 
-          <div className="flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-2/2 md:h-[550px] xl:h-[500px] max-h-[800px] overflow-y-auto">
+          <div className="flex flex-col bg-white rounded-4xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:ml-0 h-95 md:w-1/2 xl:w-2/2 md:h-[550px] xl:h-[500px] 2xl:h-[900px] overflow-y-auto">
             {loadingData ? (
               <>
                 <Skeleton height={24} width={200} className="mb-2" />
