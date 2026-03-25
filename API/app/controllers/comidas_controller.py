@@ -6,7 +6,7 @@ from bson import ObjectId
 from fastapi import HTTPException, UploadFile
 import json
 from app.core.database import db
-from app.core.helpers import get_day_range_bogota
+from app.core.helpers import es_mismo_dia_colombia, get_day_range_bogota
 from app.core.llm import ask_llm
 from app.models.estado_model import EstadoModel
 from app.models.info_model import InfoModel
@@ -810,12 +810,17 @@ REGLAS:
         user_id = ObjectId(current_user["_id"])
 
         if estado["dieta"]["completado"]:
-
+            
+            DiaIniciar = False
             calorias_consumidas_totales = estado["macros_consumidos"]["calorias"]
             
             objetivo_doc = await ObjetivoModel.get_objetivo_usuario(user_id)
             calorias_objetivo = objetivo_doc["calorias_diarias"]
-            if (calorias_objetivo * 0.85) <= calorias_consumidas_totales <= (calorias_objetivo * 1.15):
+
+            if es_mismo_dia_colombia(objetivo_doc["fecha_inicio"]):
+                DiaIniciar = True
+
+            if ((calorias_objetivo * 0.85) <= calorias_consumidas_totales <= (calorias_objetivo * 1.15)) or DiaIniciar:
                 
                 data = {
                    "estado_dia": 1,
