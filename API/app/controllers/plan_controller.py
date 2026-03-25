@@ -61,12 +61,12 @@ class PlanController:
     @staticmethod
     async def get_user_actualizar_dia(current_user: dict):
 
-        objetivo_doc = await ObjetivoModel.get_objetivo_usuario(current_user["_id"])
+        plan_doc = await PlanModel.get_plan_usuario(current_user["_id"])
 
-        if not objetivo_doc:
+        if not plan_doc:
             raise HTTPException(status_code=404, detail="Objetivo no encontrado")
         
-        comparacion = comparar_con_hoy_bogota(objetivo_doc["fecha_inicio"])
+        comparacion = comparar_con_hoy_bogota(plan_doc["fecha_inicio"])
 
         if comparacion == "despues":
             return {
