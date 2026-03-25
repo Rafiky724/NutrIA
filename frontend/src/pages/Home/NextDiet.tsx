@@ -15,6 +15,16 @@ export default function NextDiet() {
     }
   };
 
+  const handleGenerarNuevaDieta = async () => {
+    try {
+      await createDiet();
+      navigate("/home");
+    } catch (error) {
+      console.error("Error creando nueva dieta:", error);
+      alert("No se pudo generar la nueva dieta. Intenta nuevamente.");
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
       <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 xl:py-24">
@@ -59,14 +69,14 @@ export default function NextDiet() {
               </h4>
             </button>
 
-            <Link
-              to={"/home"}
+            <button
+              onClick={handleGenerarNuevaDieta}
               className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
             >
               <h4 className="ft-medium text-center text-xs sm:text-md xl:text-lg">
                 Generar nueva dieta semanal
               </h4>
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -81,4 +91,7 @@ export default function NextDiet() {
       </div>
     </div>
   );
+}
+function createDiet() {
+  throw new Error("Function not implemented.");
 }
