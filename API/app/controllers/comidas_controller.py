@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import re
 from zoneinfo import ZoneInfo
 from bson import ObjectId
-from fastapi import HTTPException
+from fastapi import HTTPException, UploadFile
 import json
 from app.core.database import db
 from app.core.helpers import get_day_range_bogota
@@ -864,3 +864,22 @@ REGLAS:
                 return
         else:
             raise HTTPException(500, f"El día no fue completado")
+        
+    @staticmethod
+    async def analizar_comida_modelo(file: UploadFile, user: dict):
+
+        # 🔥 Validación básica (importante para frontend)
+        if not file.content_type.startswith("image/"):
+            return {
+                "match": False
+            }
+
+        # Aquí luego irá:
+        # - lectura de imagen
+        # - modelo
+        # - LLM
+
+        # Por ahora SIEMPRE falso (mock)
+        return {
+            "match": False
+        }
