@@ -9,7 +9,7 @@ export default function ProfileMenu({ onBack, menuOptions }: Props) {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-6 w-full md:justify-around xl:justify-center xl:gap-20">
-        <div className="bg-white rounded-4xl shadow-lg p-6 sm:px-12 w-2xs md:w-md xl:w-lg flex flex-col gap-6 ml-10 md:ml-0 h-130 overflow-y-auto">
+        <div className="bg-white rounded-4xl shadow-lg p-6 sm:p-8 w-2xs md:w-md xl:w-lg flex flex-col gap-2 ml-10 md:ml-0 h-130">
           <button
             onClick={onBack}
             className="w-full rounded-4xl bg-gray-200 p-2 px-4 transition hover:scale-105 flex items-center justify-between cursor-pointer"
