@@ -69,7 +69,7 @@ export default function Login() {
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center px-4 sm:px-6 md:px-10">
       <div className="w-screen min-h-screen flex items-center justify-center px-4 sm:px-6 ">
         {/* CONTENEDOR 1 — CARD ORIGINAL */}
-        <div className="flex flex-col bg-white w-sm lg:w-md xl:w-lg xl:h-120 p-6 sm:p-8 rounded-3xl shadow-lg text-center justify-center">
+        <div className="flex flex-col bg-white w-sm lg:w-md xl:w-lg xl:h-120 p-6 sm:p-8 rounded-3xl shadow-lg text-center justify-center z-50">
           {/* Header */}
           <div className="flex items-center justify-center gap-4 mb-8">
             <img
@@ -162,7 +162,6 @@ export default function Login() {
 
       <ResetModal isOpen={viewModal} onClose={() => setViewModal(false)} />
 
-      {/* Decorations */}
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
       </div>
