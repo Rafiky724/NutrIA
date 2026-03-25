@@ -141,7 +141,7 @@ export default function Login() {
 
         {/* CONTENEDOR 2 — SVG ANIMADO */}
         <div className="w-lg hidden sm:block">
-          <div className="w-md md:w-lg xl:w-2xl">
+          <div className="w-md md:w-lg1 xl:w-xl">
             <object
               type="image/svg+xml"
               data="/Background/NutriaLogin.svg"
