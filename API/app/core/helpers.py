@@ -79,3 +79,21 @@ def comparar_con_hoy_bogota(fecha_mongo) -> str:
         return "despues"
     else:
         return "hoy"
+    
+def es_mismo_dia_colombia(fecha_mongo: datetime) -> bool:
+
+    # Zona horaria de Colombia
+    tz_colombia = ZoneInfo("America/Bogota")
+
+    # Convertir fecha de Mongo (UTC) a hora Colombia
+    fecha_col = fecha_mongo.astimezone(tz_colombia)
+
+    # Obtener fecha actual en Colombia
+    ahora_col = datetime.now(tz_colombia)
+
+    # Comparar solo año, mes y día
+    return (
+        fecha_col.year == ahora_col.year and
+        fecha_col.month == ahora_col.month and
+        fecha_col.day == ahora_col.day
+    )
