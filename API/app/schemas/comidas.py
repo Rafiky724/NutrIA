@@ -11,3 +11,6 @@ class VerificarComidaResponse(BaseModel):
 class VerificarComidaRequest(BaseModel):
 
     descripcion: str
+
+class ComidaAnalysisResponse(BaseModel):
+    match: bool
