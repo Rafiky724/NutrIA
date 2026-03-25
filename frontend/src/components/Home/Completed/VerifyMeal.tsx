@@ -16,6 +16,47 @@ type Props = {
   option?: VerifyOption;
 };
 
+const resizeImage = (
+  file: File,
+  maxWidth: number,
+  quality: number,
+): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      if (!e.target) return reject("Error leyendo archivo");
+      img.src = e.target.result as string;
+    };
+    reader.onerror = reject;
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return reject("Error con canvas");
+
+      const scale = maxWidth / img.width;
+      canvas.width = maxWidth;
+      canvas.height = img.height * scale;
+
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) return reject("Error generando blob");
+          resolve(blob);
+        },
+        "image/jpeg",
+        quality,
+      );
+    };
+    img.onerror = reject;
+
+    reader.readAsDataURL(file);
+  });
+};
+
 export default function VerifyMeal({ isOpen, onClose }: Props) {
   const [, setSelectedOption] = useState<string | null>(null);
   const [, setResult] = useState<AnalizarComidaResponse | null>(null);
@@ -48,20 +89,33 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleFileChange triggered");
     const file = e.target.files?.[0];
     if (!file) return;
 
     console.log("Archivo seleccionado:", file);
 
     try {
-      const res = await analizarComida(file);
+      let processedFile: File = file;
+
+      if (file.size > 2 * 1024 * 1024) {
+        const blob = await resizeImage(file, 1024, 0.7);
+        processedFile = new File([blob], file.name, { type: "image/jpeg" });
+        console.log(
+          "Archivo redimensionado:",
+          processedFile,
+          "tamaño aprox:",
+          processedFile.size / 1024 / 1024,
+          "MB",
+        );
+      }
+
+      const res = await analizarComida(processedFile);
       console.log("Resultado del servicio:", res);
       setResult(res);
       alert(res.match ? "¡La comida coincide!" : "No coincide con lo esperado");
     } catch (err: any) {
       console.error(err);
-      alert(err.message);
+      alert(err.message || "Error procesando imagen");
     } finally {
       if (e.target) e.target.value = "";
     }
