@@ -5,6 +5,9 @@ from zoneinfo import ZoneInfo
 from bson import ObjectId
 from fastapi import HTTPException, UploadFile
 import json
+
+import httpx
+from app.core.config import settings
 from app.core.database import db
 from app.core.helpers import es_mismo_dia_colombia, get_day_range_bogota
 from app.core.llm import ask_llm
@@ -871,20 +874,264 @@ REGLAS:
             raise HTTPException(500, f"El día no fue completado")
         
     @staticmethod
-    async def analizar_comida_modelo(file: UploadFile, user: dict):
+    async def analizar_comida_modelo(file: UploadFile, current_user: dict):
 
-        # 🔥 Validación básica (importante para frontend)
         if not file.content_type.startswith("image/"):
             return {
                 "match": False
             }
 
-        # Aquí luego irá:
-        # - lectura de imagen
-        # - modelo
-        # - LLM
+        user_id = ObjectId(current_user["_id"])
+        
+        hoy = datetime.now(ZoneInfo("America/Bogota")).date()
+        inicio, fin = get_day_range_bogota(hoy)
 
-        # Por ahora SIEMPRE falso (mock)
-        return {
-            "match": False
+        info_doc_aux = await InfoModel.get_info_day_por_fecha(user_id, inicio, fin)
+
+        if not info_doc_aux:
+            raise HTTPException(400, "No hay información del día actual para completar la comida.")
+        
+        if info_doc_aux["enDiaAnterior"]:
+            inicio, fin = get_day_range_bogota(hoy - timedelta(days=1))
+
+        plan = await PlanModel.get_plan_usuario(user_id)
+
+        if not plan:
+            raise HTTPException(400, "No hay un plan activo para el usuario")
+
+        estado = await EstadoModel.get_estado_dia_por_fecha_id(plan["_id"], inicio, fin)
+        #estado = await EstadoModel.get_estado_dia_por_dia(plan["_id"], ComidasController.dias[hoy.weekday()])
+
+        if not estado:
+            raise HTTPException(400, "No hay dieta activa hoy")
+
+        comidas = estado["dieta"]["comidas"]
+        index = estado["comida_actual_index"]
+
+        if index >= len(comidas):
+            raise HTTPException(400, "No hay más comidas para completar")
+
+        comida_actual = comidas[index]
+
+        if comida_actual.get("completada"):
+            raise HTTPException(400, "La comida ya fue completada")
+
+        # Guardar copias para posible rollback (deep copy para que no se modifique por referencia)
+        original_estado = deepcopy(estado)
+        original_user = await db.users.find_one({"_id": user_id})
+
+        logros_usuario = await LogrosModel.get_logros_usuario(user_id)
+
+        comprobar_comida = await ComidasController.comprobar_comida(comida_actual, file)
+        if not comprobar_comida:
+            return {
+                "match": False
+            }
+
+        try:
+            # Marcar comida como completada
+            #comida_actual["completada"] = True
+            #comida_actual["verificada"] = False
+            comidas[index]["completada"] = True
+            comidas[index]["verificada"] = False
+
+            # Sumar macros a estado_dia
+            nuevos_macros = {
+                "calorias": estado["macros_consumidos"]["calorias"] + comida_actual.get("calorias", 0),
+                "proteinas": estado["macros_consumidos"]["proteinas"] + comida_actual.get("proteinas", 0),
+                "carbohidratos": estado["macros_consumidos"]["carbohidratos"] + comida_actual.get("carbohidratos", 0),
+                "grasas": estado["macros_consumidos"]["grasas"] + comida_actual.get("grasas", 0),
+            }
+
+            # Actualizar index
+            nuevo_index = index + 1
+
+            # Si era la última comida
+            if nuevo_index >= len(comidas):
+
+                #todas_completadas = all(c.get("completada") for c in comidas)
+
+                #if todas_completadas:
+                #    nueva_racha = (original_user.get("dias_racha", 0) if original_user else 0) + 1
+                #else:
+                #    nueva_racha = 0
+
+                #await db.users.update_one(
+                #    {"_id": user_id},
+                #    {"$set": {"dias_racha": nueva_racha, "gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 5}}
+                #)
+
+                await db.estados_dia.update_one(
+                    {"_id": estado["_id"]},
+                    {
+                        "$set": {
+                            "macros_consumidos": nuevos_macros,
+                            "ultima_comida_completada": comida_actual["tipo_comida"],
+                            "comida_actual_index": nuevo_index,
+                            "dieta.comidas": comidas,
+                            "dieta.completado": True
+                        }
+                    }
+                )
+                
+                await LogrosModel.actualizar_logros_por_categoria(user_id, "validar_comidas", logros_usuario["logros"][8]["progreso_actual"]+1)
+
+                estado["dieta"]["completado"] = True
+                estado["macros_consumidos"] = nuevos_macros
+
+
+                await UserModel.actualizar_gemas(user_id, original_user.get("gemas_acumuladas", 0) + 10)
+                await ComidasController.verificar_dia_completado(current_user, estado, inicio, fin)
+
+                logros_usuario = await LogrosModel.get_logros_usuario(user_id)
+                await LogrosModel.actualizar_logros_por_categoria(user_id, "conseguir_gemas", logros_usuario["logros"][9]["progreso_actual"]+10)
+
+                return {
+                    #"mensaje": "Día completado correctamente",
+                    #"comida_completada": comida_actual["tipo_comida"],
+                    #"nueva_comida_actual": None,
+                    #"racha_actual": original_user.get("dias_racha", 0),
+                    #"gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 10,
+                    "match": True
+                }
+            
+            await db.estados_dia.update_one(
+                {"_id": estado["_id"]},
+                {
+                    "$set": {
+                        "macros_consumidos": nuevos_macros,
+                        "ultima_comida_completada": comida_actual["tipo_comida"],
+                        "comida_actual_index": nuevo_index,
+                        "dieta.comidas": comidas
+                    }
+                }
+            )
+            await LogrosModel.actualizar_logros_por_categoria(user_id, "validar_comidas", logros_usuario["logros"][8]["progreso_actual"]+1)
+            
+            await UserModel.actualizar_gemas(user_id, original_user.get("gemas_acumuladas", 0) + 10)
+            await LogrosModel.actualizar_logros_por_categoria(user_id, "conseguir_gemas", logros_usuario["logros"][9]["progreso_actual"]+10)
+
+            # Si NO era la última
+            return {
+                #"mensaje": "Comida completada correctamente",
+                #"comida_completada": comida_actual["tipo_comida"],
+                #"nueva_comida_actual": comidas[nuevo_index]["tipo_comida"],
+                #"racha_actual": original_user.get("dias_racha", 0) if original_user else 0,
+                #"gemas_acumuladas": original_user.get("gemas_acumuladas", 0) + 10
+                "match": True
+            }
+
+        except Exception as e:
+            # Intentar rollback de cambios parciales
+            try:
+                if original_estado:
+                    await db.estados_dia.replace_one({"_id": original_estado["_id"]}, original_estado)
+                if original_user:
+                    await db.users.replace_one({"_id": original_user["_id"]}, original_user)
+            except Exception:
+                pass
+
+            raise HTTPException(500, f"Error al completar comida: {str(e)}")
+        
+    @staticmethod
+    async def comprobar_comida(comida_actual: dict, file: UploadFile) -> bool:
+
+        image_bytes = await file.read()
+        
+        # 2. Preparamos el archivo para enviarlo por httpx
+        # El formato es: "nombre_parametro": ("nombre_archivo", bytes, "tipo_mime")
+        files_payload = {
+            "file": (file.filename, image_bytes, file.content_type)
         }
+        
+        # 3. Hacemos la petición POST al microservicio
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.post(
+                    f"{settings.MICROSERVICE_URL}/predict",
+                    files=files_payload,
+                    # Opcional: Aumentar el timeout si el modelo de ML tarda en responder
+                    timeout=30.0 
+                )
+                
+                # Si el microservicio responde con un error (ej. 400 o 413), lo atrapamos
+                response.raise_for_status()
+                
+                # Retornamos la predicción al cliente
+                print(response.json())
+                
+            except httpx.HTTPStatusError as exc:
+                # Reenviamos el error exacto que dio el microservicio
+                raise HTTPException(
+                    status_code=exc.response.status_code, 
+                    detail=exc.response.json().get("detail", "Error en el modelo predictivo")
+                )
+            except httpx.RequestError:
+                raise HTTPException(status_code=503, detail="El microservicio de predicción no está disponible")
+
+        promt = ComidasController.build_prompt_comprobar_comida(comida_actual, response.json())
+
+        try:
+
+            response_text = await ask_llm(promt, model="gemini-2.5-flash-lite")
+
+            if response_text.lower() == "t":
+                return True
+            elif response_text.lower() == "f":
+                return False
+            else:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Respuesta inválida del LLM"
+                )
+        
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error al verificar ingrediente: {str(e)}"
+            )
+
+    def build_prompt_comprobar_comida(comida: str, descripcion: str):
+
+        return f"""
+Eres un verificador binario cuya tarea es decidir si una imagen de comida corresponde razonablemente a una comida esperada por el usuario.
+
+Entrada:
+
+1. Comida esperada:
+{comida}
+
+2. Resultados del modelo de segmentación:
+{descripcion}
+
+Tu tarea:
+Determinar si la descripción generada por el modelo es suficientemente consistente con la comida esperada.
+
+Criterios de decisión:
+
+- Responde únicamente con:
+  T  (True)
+  F  (False)
+
+- Responde T (True) si:
+  - Los ingredientes detectados coinciden total o parcialmente con la comida esperada.
+  - Los ingredientes son similares o plausibles (aunque no sean exactos).
+  - Hay errores razonables del modelo (confusiones entre ingredientes visualmente parecidos).
+  - La comida general parece correcta aunque falten o se confundan algunos ingredientes.
+  - El modelo devuelve al menos algunos elementos coherentes con la comida esperada.
+
+- Responde F (False) si:
+  - Los ingredientes no tienen relación con la comida esperada.
+  - La descripción es completamente inconsistente.
+  - No hay suficiente información o la salida está vacía.
+  - La diferencia entre lo esperado y lo detectado es claramente incompatible.
+
+Notas importantes:
+- Sé tolerante con errores del modelo (fue entrenado con FoodSeg103 y puede confundir ingredientes).
+- Prioriza la plausibilidad general sobre la exactitud perfecta.
+- No exijas coincidencia exacta de ingredientes.
+- Evalúa el contexto completo, no solo ingredientes individuales.
+
+Salida:
+Responde solo con "T" o "F", sin explicaciones.
+"""

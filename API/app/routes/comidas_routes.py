@@ -40,5 +40,5 @@ async def analizar_comida(
 
     return await ComidasController.analizar_comida_modelo(
         file=file,
-        user=current_user
+        current_user=current_user
     )
