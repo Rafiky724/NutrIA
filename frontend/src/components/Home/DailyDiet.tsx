@@ -1,13 +1,13 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { categories as ingredientsAvailable } from "../../data/ingredients";
-import type { HomeResponse } from "../../types";
+import type { Days, HomeResponse, TypeFood } from "../../types";
 import DonutChart from "../Decoration/DonutChart";
 import { getIngredientIcon } from "../../utils/ingredients";
 import ModalEditIngredients from "../Modals/ModalEditIngredients";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { DaysService } from "../../services/daysService";
 import { useProgress } from "../../Context/ProgressContext";
+import { useDayPlan } from "../../hooks/useDayPlan";
 
 type Props = {
   homeData: HomeResponse | null;
@@ -20,23 +20,52 @@ export default function DailyDiet({
   homeData,
   activeFoodIndex,
   setActiveFoodIndex,
-  onRefetch,
+  // onRefetch,
 }: Props) {
   const { refreshProgress } = useProgress();
   const [showModal, setShowModal] = useState(false);
 
-  const handleConfirmIngredients = async (ingredients: any[]) => {
-    console.log("Ingredientes nuevos:", ingredients);
-    setShowModal(false);
-
-    try {
-      await onRefetch();
-    } catch (error) {
-      console.error("Error actualizando ingredientes:", error);
-    }
+  const getCurrentDay = (): Days => {
+    const today = new Date();
+    const jsDay = today.getDay();
+    const daysMap: Record<number, Days> = {
+      1: "Lunes",
+      2: "Martes",
+      3: "Miercoles",
+      4: "Jueves",
+      5: "Viernes",
+      6: "Sabado",
+      0: "Domingo",
+    };
+    return daysMap[jsDay];
   };
 
-  if (!homeData || !homeData.dia_actual) {
+  const dayActive = homeData?.dia_actual?.dia_semana || getCurrentDay();
+  // const currentFood = homeData?.dia_actual.comidas[activeFoodIndex];
+  const foodActive =
+    (homeData?.dia_actual.comidas[activeFoodIndex]?.tipo_comida as TypeFood) ||
+    "";
+
+  const {
+    dayPlan,
+    dish,
+    loadingAction,
+    handleRegenerateDish,
+    handleConfirmIngredients,
+  } = useDayPlan(dayActive, foodActive, () => {});
+
+  useEffect(() => {
+    if (dayPlan && dayPlan.comidas) {
+      const newIndex = dayPlan.comidas.findIndex(
+        (comida) => comida.tipo_comida === foodActive,
+      );
+      if (newIndex !== -1 && newIndex !== activeFoodIndex) {
+        setActiveFoodIndex(newIndex);
+      }
+    }
+  }, [dayPlan, foodActive, activeFoodIndex, setActiveFoodIndex]);
+
+  if (!homeData || !homeData.dia_actual || !dish || loadingAction) {
     return (
       <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <Skeleton width={150} height={22} />
@@ -100,10 +129,7 @@ export default function DailyDiet({
     );
   }
 
-  const food = homeData.dia_actual.comidas?.[activeFoodIndex];
-  if (!homeData.dia_actual.comidas?.length) {
-    return null;
-  }
+  const food = dish;
 
   const macroPercentage = (value: number, total: number) => {
     if (!total) return 0;
@@ -114,9 +140,12 @@ export default function DailyDiet({
   const carbs = food.carbohidratos || 0;
   const fats = food.grasas || 0;
 
-  const totalProteins = homeData.dia_actual.proteinas_totales;
-  const totalCarbs = homeData.dia_actual.carbohidratos_totales;
-  const totalFats = homeData.dia_actual.grasas_totales;
+  const totalProteins =
+    dayPlan?.proteinas_totales || homeData.dia_actual.proteinas_totales;
+  const totalCarbs =
+    dayPlan?.carbohidratos_totales || homeData.dia_actual.carbohidratos_totales;
+  const totalFats =
+    dayPlan?.grasas_totales || homeData.dia_actual.grasas_totales;
 
   const percentageProteins = macroPercentage(proteins, totalProteins);
   const percentageCarbs = macroPercentage(carbs, totalCarbs);
@@ -124,27 +153,14 @@ export default function DailyDiet({
 
   const handleRegenerate = async () => {
     try {
-      if (
-        activeFoodIndex === null ||
-        !homeData.dia_actual.comidas[activeFoodIndex]
-      ) {
-        throw new Error("No hay comida seleccionada");
-      }
-
-      const comidaSeleccionada = homeData.dia_actual.comidas[activeFoodIndex];
-
-      const response = await DaysService.regenerateFood(
-        homeData.dia_actual.dia_semana,
-        comidaSeleccionada.tipo_comida,
-      );
-
-      await onRefetch();
+      await handleRegenerateDish();
       await refreshProgress();
-      console.log("Plato regenerado:", response);
     } catch (error) {
       console.error("Error regenerando plato:", error);
     }
   };
+
+  const comidasActualizadas = dayPlan?.comidas || homeData.dia_actual.comidas;
 
   return (
     <>
@@ -152,7 +168,7 @@ export default function DailyDiet({
         <h2 className="text-brown ft-bold text-lg">Dieta de hoy</h2>
 
         <div className="flex flex-wrap md:flex-nowrap gap-3 overflow-x-auto text-[10px] justify-between">
-          {homeData.dia_actual.comidas?.map((comida, idx) => (
+          {comidasActualizadas.map((comida, idx) => (
             <button
               key={idx}
               onClick={() => setActiveFoodIndex(idx)}
@@ -182,6 +198,15 @@ export default function DailyDiet({
                 />
               </div>
             </button>
+
+            {dayPlan?.opinion_ia && (
+              <div className="mt-4 p-4 bg-yellow rounded-2xl">
+                <p className="text-brown text-sm ft-medium">
+                  Opinión de la IA:
+                </p>
+                <p className="text-brown text-sm">{dayPlan.opinion_ia}</p>
+              </div>
+            )}
           </div>
 
           <div className="lg:w-4/5 bg-input p-4 sm:p-6 rounded-4xl flex flex-col lg:flex-row gap-4 lg:gap-6">

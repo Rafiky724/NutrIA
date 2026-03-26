@@ -36,7 +36,7 @@ export function useDayPlan(
                 setDayPlan(data);
                 setFoodActive(data.comidas[0]?.tipo_comida as TypeFood);
             } catch (error) {
-                console.error("Error cargando el día:", error);
+                console.error("Error cargando el día actual:", error);
             }
         };
 
