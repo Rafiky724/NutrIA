@@ -17,7 +17,7 @@ export default function TodaySummary({ homeData }: Props) {
   for (let i = 0; i < quantityDays; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() - daysBefore + i);
-    daysLetter.push(daysWeek[date.getDay()]);
+    daysLetter.push(daysWeek[i]);
     numbersDays.push(date.getDate());
   }
 
