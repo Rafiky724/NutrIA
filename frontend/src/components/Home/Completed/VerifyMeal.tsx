@@ -3,6 +3,7 @@ import {
   analizarComida,
   type AnalizarComidaResponse,
 } from "../../../services/comidaService";
+import Toast from "../../Toast/Toast";
 
 type VerifyOption = {
   id: string;
@@ -61,6 +62,12 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
   const [, setSelectedOption] = useState<string | null>(null);
   const [, setResult] = useState<AnalizarComidaResponse | null>(null);
 
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: "",
+    type: "success" as "success" | "error",
+  });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
 
@@ -99,7 +106,7 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
 
       if (file.size > 2 * 1024 * 1024) {
         const blob = await resizeImage(file, 1024, 0.7);
-        processedFile = new File([blob], file.name, { type: "image/jpeg" });
+        processedFile = new File([blob], file.name, { type: file.type });
         console.log(
           "Archivo redimensionado:",
           processedFile,
@@ -112,10 +119,20 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
       const res = await analizarComida(processedFile);
       console.log("Resultado del servicio:", res);
       setResult(res);
-      alert(res.match ? "¡La comida coincide!" : "No coincide con lo esperado");
+      setToast({
+        isOpen: true,
+        message: res.match
+          ? "¡La comida coincide!"
+          : "No coincide con lo esperado",
+        type: res.match ? "success" : "error",
+      });
     } catch (err: any) {
       console.error(err);
-      alert(err.message || "Error procesando imagen");
+      setToast({
+        isOpen: true,
+        message: err.message || "Error procesando imagen",
+        type: "error",
+      });
     } finally {
       if (e.target) e.target.value = "";
     }
@@ -169,6 +186,13 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
           </div>
         </div>
       )}
+
+      <Toast
+        isOpen={toast.isOpen}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast((t) => ({ ...t, isOpen: false }))}
+      />
     </>
   );
 }
