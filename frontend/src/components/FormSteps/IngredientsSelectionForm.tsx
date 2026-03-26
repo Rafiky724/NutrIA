@@ -48,19 +48,35 @@ export default function IngredientsSelectionForm({
   }, [selectedIngredients, setValue]);
 
   const handleContinue = () => {
-    let valid = true;
-    categories.forEach((category) => {
+    const errors: string[] = [];
+    let firstInvalidIndex: number | null = null;
+
+    categories.forEach((category, index) => {
       const selected = selectedIngredients.filter((i) =>
         category.items.some((item) => item.nombre === i),
       );
+
       if (selected.length < category.minimo) {
-        showToast(
-          `Debes seleccionar al menos ${category.minimo} de ${category.nombre}`,
+        errors.push(
+          `• ${category.nombre}: mínimo ${category.minimo} (llevas ${selected.length})`,
         );
-        valid = false;
+
+        if (firstInvalidIndex === null) {
+          firstInvalidIndex = index;
+        }
       }
     });
-    if (!valid) return;
+
+    if (errors.length > 0) {
+      showToast(`Te falta completar:\n${errors.join("\n")}`);
+
+      if (firstInvalidIndex !== null) {
+        setCurrentCategory(firstInvalidIndex);
+      }
+
+      return;
+    }
+
     const structured = buildStructuredIngredients(selectedIngredients, []);
     setValue("ingredientes", structured);
     onSelectIngredients(structured);
