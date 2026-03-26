@@ -189,6 +189,7 @@ export default function Diet() {
                 <ModalEditIngredients
                   isOpen={showModal}
                   currentIngredients={dish.ingredientes}
+                  tipoComida={dish.tipo_comida}
                   ingredientsAvailable={ingredientsAvailable}
                   onClose={() => setShowModal(false)}
                   onConfirm={handleConfirmIngredients}

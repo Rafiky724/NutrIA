@@ -25,9 +25,15 @@ export default function DailyDiet({
   const { refreshProgress } = useProgress();
   const [showModal, setShowModal] = useState(false);
 
-  const handleConfirmIngredients = (ingredients: any[]) => {
+  const handleConfirmIngredients = async (ingredients: any[]) => {
     console.log("Ingredientes nuevos:", ingredients);
     setShowModal(false);
+
+    try {
+      await onRefetch();
+    } catch (error) {
+      console.error("Error actualizando ingredientes:", error);
+    }
   };
 
   if (!homeData || !homeData.dia_actual) {
@@ -274,6 +280,7 @@ export default function DailyDiet({
           isOpen={showModal}
           currentIngredients={food.ingredientes}
           ingredientsAvailable={ingredientsAvailable}
+          tipoComida={food.tipo_comida}
           onClose={() => setShowModal(false)}
           onConfirm={handleConfirmIngredients}
           homeData={homeData}

@@ -6,6 +6,7 @@ type Props = {
   isOpen: boolean;
   currentIngredients: Ingredient[];
   ingredientsAvailable: IngredientCategory[];
+  tipoComida: string;
   onClose: () => void;
   onConfirm: (ingredientsFinals: Ingredient[]) => void;
   homeData: HomeResponse;
@@ -15,6 +16,7 @@ export default function ModalEditIngredients({
   isOpen,
   currentIngredients,
   ingredientsAvailable,
+  tipoComida,
   onClose,
   onConfirm,
   homeData,
@@ -43,14 +45,13 @@ export default function ModalEditIngredients({
     try {
       const dia_actual = homeData?.dia_actual.dia_semana;
       const comida_actual = homeData.dia_actual.comidas.find(
-        (comida) => comida.hora_real === null,
+        (comida) => comida.tipo_comida === tipoComida,
       );
 
       if (!comida_actual) {
-        console.error("No hay comidas pendientes hoy");
+        console.error(`No hay ${tipoComida} pendiente hoy`);
         return;
       }
-
       await DaysService.editFood(
         dia_actual,
         comida_actual.tipo_comida,
