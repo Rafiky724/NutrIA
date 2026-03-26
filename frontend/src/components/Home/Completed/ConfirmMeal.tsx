@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { completarComida } from "../../../services/comidaService";
 import { type Option } from "../../../types";
+import { useProgress } from "../../../Context/ProgressContext";
 
 type Props = {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export default function ConfirmMeal({
   onSuccess,
 }: Props) {
   const [loading, setLoading] = useState(false);
+  const { refreshProgress } = useProgress();
 
   if (!isOpen || !option) return null;
 
@@ -29,6 +31,7 @@ export default function ConfirmMeal({
       });
 
       onSuccess();
+      await refreshProgress();
       onClose();
     } catch (error) {
       console.error("Error al completar comida:", error);

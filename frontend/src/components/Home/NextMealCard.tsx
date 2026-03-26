@@ -10,6 +10,7 @@ import NotCompletedMeal from "./Completed/NotCompletedMeal";
 import AbsentMeal from "./Completed/AbsentMeal";
 import EstimateMeal from "./Completed/EstimateMeal";
 import { cancelarComida } from "../../services/comidaService";
+import { useProgress } from "../../Context/ProgressContext";
 
 type Props = {
   homeData: HomeResponse | null;
@@ -24,6 +25,7 @@ export default function NextMealCard({
   estado,
   onRefetch,
 }: Props) {
+  const { refreshProgress } = useProgress();
   const [openModal, setOpenModal] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openVerify, setOpenVerify] = useState(false);
@@ -86,6 +88,7 @@ export default function NextMealCard({
       await cancelarComida({ comida_id: selectedOption.id });
       setComidaId(selectedOption.id);
       onRefetch();
+      await refreshProgress();
       setOpenFinalOptionsModal(true);
     } catch (err) {
       console.error("Error al cancelar comida:", err);

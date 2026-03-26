@@ -7,6 +7,7 @@ import ModalEditIngredients from "../Modals/ModalEditIngredients";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { DaysService } from "../../services/daysService";
+import { useProgress } from "../../Context/ProgressContext";
 
 type Props = {
   homeData: HomeResponse | null;
@@ -21,6 +22,7 @@ export default function DailyDiet({
   setActiveFoodIndex,
   onRefetch,
 }: Props) {
+  const { refreshProgress } = useProgress();
   const [showModal, setShowModal] = useState(false);
 
   const handleConfirmIngredients = (ingredients: any[]) => {
@@ -131,7 +133,7 @@ export default function DailyDiet({
       );
 
       await onRefetch();
-
+      await refreshProgress();
       console.log("Plato regenerado:", response);
     } catch (error) {
       console.error("Error regenerando plato:", error);

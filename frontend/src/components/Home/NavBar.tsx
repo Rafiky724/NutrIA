@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import type { User } from "../../types";
-import {
-  getUserProgress,
-  type UserProgressResponse,
-} from "../../services/userService";
 import { Link } from "react-router-dom";
+import { useProgress } from "../../Context/ProgressContext";
 
 type Props = {
   user?: User;
@@ -15,26 +11,10 @@ type Props = {
 };
 
 export default function NavBar({ user, title, subtitle }: Props) {
-  const [progress, setProgress] = useState<UserProgressResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { progress, loading } = useProgress();
 
   const defaultTitle = `Hola, ${user?.nombre}`;
   const defaultSubtitle = "¿Cómo va tu día?";
-
-  useEffect(() => {
-    const fetchProgress = async () => {
-      try {
-        const data = await getUserProgress();
-        setProgress(data);
-      } catch (error) {
-        console.error("Error obteniendo progreso del usuario:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProgress();
-  }, []);
 
   const skeletonTextHeight = 24;
   const skeletonSubtitleHeight = 16;
@@ -61,56 +41,61 @@ export default function NavBar({ user, title, subtitle }: Props) {
         )}
       </div>
 
+      {/* ICONOS */}
       <div className="flex items-center gap-4">
+        {/* GEMAS */}
         <Link
           to={"/config?view=shop"}
           className="flex items-center gap-1 hover:scale-105 transition cursor-pointer"
         >
           {loading ? (
-            <Skeleton
-              circle
-              width={skeletonIconSize}
-              height={skeletonIconSize}
-            />
+            <>
+              <Skeleton
+                circle
+                width={skeletonIconSize}
+                height={skeletonIconSize}
+              />
+              <Skeleton width={skeletonIconSize} height={skeletonIconSize} />
+            </>
           ) : (
-            <img
-              src="/SVG/IconsGeneral/GemsIcon.svg"
-              alt="Gemas"
-              className="w-3 md:w-5 h-3 md:h-5"
-            />
-          )}
-          {loading ? (
-            <Skeleton width={skeletonIconSize} height={skeletonIconSize} />
-          ) : (
-            <p className="ft-bold text-md md:text-2xl">
-              {progress?.cantidad_gemas ?? 0}
-            </p>
+            <>
+              <img
+                src="/SVG/IconsGeneral/GemsIcon.svg"
+                alt="Gemas"
+                className="w-3 md:w-5 h-3 md:h-5"
+              />
+              <p className="ft-bold text-md md:text-2xl">
+                {progress?.cantidad_gemas ?? 0}
+              </p>
+            </>
           )}
         </Link>
 
+        {/* RACHA */}
         <Link
           to={"/config?view=achievements"}
           className="flex items-center gap-1 hover:scale-105 transition cursor-pointer"
         >
           {loading ? (
-            <Skeleton
-              circle
-              width={skeletonIconSize}
-              height={skeletonIconSize}
-            />
+            <>
+              <Skeleton
+                circle
+                width={skeletonIconSize}
+                height={skeletonIconSize}
+              />
+              <Skeleton width={skeletonIconSize} height={skeletonIconSize} />
+            </>
           ) : (
-            <img
-              src="/SVG/IconsGeneral/FireStreak.svg"
-              alt="Racha"
-              className="w-4 md:w-6 h-4 md:h-6"
-            />
-          )}
-          {loading ? (
-            <Skeleton width={skeletonIconSize} height={skeletonIconSize} />
-          ) : (
-            <p className="ft-bold text-md md:text-2xl">
-              {progress?.numero_racha ?? 0}
-            </p>
+            <>
+              <img
+                src="/SVG/IconsGeneral/FireStreak.svg"
+                alt="Racha"
+                className="w-4 md:w-6 h-4 md:h-6"
+              />
+              <p className="ft-bold text-md md:text-2xl">
+                {progress?.numero_racha ?? 0}
+              </p>
+            </>
           )}
         </Link>
 
