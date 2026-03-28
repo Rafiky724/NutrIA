@@ -49,10 +49,15 @@ class UserResponse(BaseModel):
 
 class UserTienePlanResponse(BaseModel):
     tiene_plan: bool
+    dia_iniciado: bool
+    tiene_mascota: bool
+
 
 class UserProgressResponse(BaseModel):
     numero_racha: int
     cantidad_gemas: int
+    mascota: dict
+
 
 class UserPesoResponse(BaseModel):
     peso_actual: float
