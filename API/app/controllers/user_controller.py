@@ -6,6 +6,7 @@ from fastapi import HTTPException
 from app.controllers.despensa_controller import DespensaController
 from app.controllers.plan_controller import PlanController
 from app.models.mascota_model import MascotaModel
+from app.models.plan_model import PlanModel
 from app.schemas.user import EditarPerfilRequest, UserCreate, UserResponse, UserLogin
 from app.core.database import db
 from app.core.security import hash_password, verify_password
@@ -97,6 +98,10 @@ class UserController:
 
     @staticmethod
     async def get_tiene_plan(user_id: ObjectId) -> dict:
+        
+        dia_iniciado = False
+        tiene_mascota = False
+
         user = await db.users.find_one(
             {"_id": user_id},
             {"_id": 0, "tiene_plan": 1}
@@ -108,17 +113,49 @@ class UserController:
                 detail="Usuario no encontrado"
             )
 
+        plan_doc = await PlanModel.get_plan_by_user_id(user_id)
+
+        if not plan_doc:
+            raise HTTPException(
+                status_code=404,
+                detail="Plan no encontrado"
+            )
+
+        if plan_doc.get("dia_actualizar_dieta", False):
+            dia_iniciado = True
+
+        mascota_doc = await MascotaModel.get_mascotas_usuario(user_id)
+
+        if mascota_doc:
+            tiene_mascota = True
+
         # Fallback defensivo
         return {
-            "tiene_plan": bool(user.get("tiene_plan", False))
+            "tiene_plan": bool(user.get("tiene_plan", False)),
+            "dia_iniciado": dia_iniciado,
+            "tiene_mascota": tiene_mascota
         }
     
     @staticmethod
     async def get_user_progress(current_user: dict):
 
+        mascotas_usuario = await MascotaModel.get_mascotas_usuario(current_user["_id"])
+
+        mascota_activa = None
+
+        if mascotas_usuario:
+
+            tipo_activa = mascotas_usuario["mascota_activa"]
+
+            mascota_activa = next(
+                (m for m in mascotas_usuario["mascotas"] if m["tipo"] == tipo_activa),
+                None
+            )
+
         return {
             "numero_racha": current_user.get("dias_racha", 0),
-            "cantidad_gemas": current_user.get("gemas_acumuladas", 0)
+            "cantidad_gemas": current_user.get("gemas_acumuladas", 0),
+            "mascota": mascota_activa
         }
     
     @staticmethod
@@ -248,3 +285,4 @@ class UserController:
             )
 
         return perfil
+        

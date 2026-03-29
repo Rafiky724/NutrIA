@@ -32,7 +32,11 @@ class HomeController:
         modal_advertencia_racha = False
         modal_dia_actualizar_dieta = False
 
-        
+        informacion_dia = {
+            "dia": "Hoy",
+            "fecha": "",
+            "dia_semana": ""
+        }
 
         user_id = ObjectId(current_user["_id"])
         hoy = datetime.now(ZoneInfo("America/Bogota")).date()
@@ -93,6 +97,7 @@ class HomeController:
                             "estado_dia": 4,
                             "enDiaAnterior": True
                         }
+                        informacion_dia["dia"] = "Ayer"
                         await InfoModel.crear_info_day(user_id, data)
                     
                     except Exception as e:
@@ -126,7 +131,7 @@ class HomeController:
                             "estado_dia": 4,
                             "enDiaAnterior": True
                         }
-
+                        informacion_dia["dia"] = "Ayer"
                         data2 = {
                             "estado_dia": 4
                         }
@@ -180,6 +185,7 @@ class HomeController:
         if info_doc_hoy["enDiaAnterior"]:
             ayer = hoy - timedelta(days=1)
             inicio, fin = get_day_range_bogota(ayer)
+            informacion_dia["dia"] = "Ayer"
 
         if info_doc_hoy.get("tomarDecisionMantenerRacha", False):
             modal_pagar_racha = True
@@ -199,6 +205,8 @@ class HomeController:
 
         
         estado = await EstadoModel.get_estado_dia_por_fecha(plan["_id"], inicio, fin)
+        informacion_dia["fecha"] = estado.get("fecha", None)
+        informacion_dia["dia_semana"] = estado.get("dia_semana", None)
         #print(estado)
         #return {200: "ok"}
         """
@@ -236,7 +244,8 @@ class HomeController:
                     "macros_consumidos_hoy": None,
                     "proxima_comida": None,
                     "dia_actual": None,
-                    "modals": modals
+                    "modals": modals,
+                    "info_dia": informacion_dia
                 }
             
             else:
@@ -332,7 +341,8 @@ class HomeController:
             "macros_consumidos_hoy": macros_consumidos,
             "proxima_comida": proxima,
             "dia_actual": DiaResponse(**dia),
-            "modals": modals
+            "modals": modals,
+            "info_dia": informacion_dia
 
         }
 

@@ -257,7 +257,7 @@ class DiasController:
     3. Calcula los totales del plato.
     4. Estima un precio aproximado del plato en pesos COLOMBIANOS.
     5. Mantén coherencia nutricional con el objetivo del usuario.
-    6. Da una breve opinión profesional (máx 3 líneas) sobre el cambio realizado.
+    6. Da una breve opinión profesional (máx 3 líneas) sobre el cambio realizado. Debe ser crítico y objetivo, da una recomendación si consideras que algo no está muy bien.
 
     Devuelve EXCLUSIVAMENTE un JSON con esta estructura exacta:
     {{
@@ -435,7 +435,7 @@ class DiasController:
     3. Calcula macros por ingrediente y totales del plato.
     4. Estima precio en pesos COLOMBIANOS.
     5. Mantén coherencia con el objetivo del usuario.
-    6. Da una breve opinión profesional (máx 3 líneas).
+    6. Da una breve opinión profesional (máx 3 líneas) sobre el cambio realizado y porqué es una buena comida.
 
     Devuelve EXCLUSIVAMENTE un JSON con esta estructura exacta:
     {{
