@@ -6,7 +6,7 @@ client = genai.Client(api_key=settings.GOOGLE_API_KEY)
 
 async def ask_llm(prompt: str, model: str) -> str:
 
-    response = client.models.generate_content(
+    response = await client.aio.models.generate_content(
         model=model,
         contents=prompt
     )
