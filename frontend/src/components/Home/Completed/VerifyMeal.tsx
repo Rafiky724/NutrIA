@@ -4,6 +4,7 @@ import {
   type AnalizarComidaResponse,
 } from "../../../services/comidaService";
 import Toast from "../../Toast/Toast";
+import { useProgress } from "../../../Context/ProgressContext";
 
 type VerifyOption = {
   id: string;
@@ -59,6 +60,7 @@ const resizeImage = (
 };
 
 export default function VerifyMeal({ isOpen, onClose }: Props) {
+  const { refreshProgress } = useProgress();
   const [, setSelectedOption] = useState<string | null>(null);
   const [, setResult] = useState<AnalizarComidaResponse | null>(null);
 
@@ -126,6 +128,10 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
           : "No coincide con lo esperado",
         type: res.match ? "success" : "error",
       });
+
+      if (res.match) {
+        await refreshProgress();
+      }
     } catch (err: any) {
       console.error(err);
       setToast({
