@@ -70,11 +70,13 @@ export default function NextMealCard({
     );
   }
 
-  if (!nextFood) {
+  if (!nextFood?.ingredientes || !nextFood) {
     return (
       <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-6 shadow flex items-center justify-center text-center ml-10 md:ml-0">
         <p className="text-sm md:text-lg font-semibold text-brown">
-          {homeData?.mensaje || "No tienes comidas programadas"}
+          {typeof homeData?.proxima_comida === "string"
+            ? homeData.proxima_comida
+            : "No tienes comidas programadas"}
         </p>
       </div>
     );
@@ -144,11 +146,7 @@ export default function NextMealCard({
                     {item.cantidad} {item.nombre}
                   </span>
                 </div>
-              )) || (
-                <p className="text-center text-sm text-gray-500">
-                  No hay ingredientes
-                </p>
-              )}
+              ))}
             </div>
           </div>
         </div>

@@ -188,7 +188,7 @@ export interface Modals {
 export interface HomeResponse {
   usuario: User;
   macros_consumidos_hoy: MacrosConsumedToday;
-  proxima_comida: NextMeal | null;
+  proxima_comida: NextMeal | string | null;
   dia_actual: DayPlan;
   modals: Modals;
   hay_dieta_hoy?: boolean;

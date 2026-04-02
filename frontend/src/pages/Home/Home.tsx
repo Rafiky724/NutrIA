@@ -46,6 +46,13 @@ export default function Home() {
     fetchHomeData();
   }, []);
 
+  const nextMeal =
+    homeData?.proxima_comida && typeof homeData.proxima_comida === "object"
+      ? homeData.proxima_comida
+      : null;
+
+  const estado = nextMeal?.estado;
+
   return (
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
@@ -56,8 +63,8 @@ export default function Home() {
 
           <NextMealCard
             homeData={homeData}
-            nextFood={homeData?.proxima_comida}
-            estado={homeData?.proxima_comida?.estado}
+            nextFood={nextMeal}
+            estado={estado}
             onRefetch={fetchHomeData}
           />
         </div>
