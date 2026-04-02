@@ -8,7 +8,6 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -77,7 +76,6 @@ export default function Register() {
       <LoadingScreen
         title="CREANDO CUENTA"
         subtitle="Estamos preparando todo para ti. Esto tomará unos segundos..."
-        Icon={LoadingIcon}
       />
     );
   }

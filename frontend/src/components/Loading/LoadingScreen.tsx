@@ -5,7 +5,7 @@ import FruitRight from "../Decoration/FruitRight";
 type Props = {
   title?: string;
   subtitle?: string;
-  icon: string;
+  icon?: string;
 };
 
 export default function LoadingScreen({

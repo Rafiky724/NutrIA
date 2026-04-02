@@ -5,7 +5,6 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import type { TargetDates } from "../../types";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 
 export default function GoalProjection() {
@@ -48,7 +47,6 @@ export default function GoalProjection() {
       <LoadingScreen
         title="CARGANDO DIETA"
         subtitle="Estamos preparando tu plan semanal. Esto puede tardar unos segundos."
-        Icon={LoadingIcon}
       />
     );
   }
@@ -58,7 +56,6 @@ export default function GoalProjection() {
       <LoadingScreen
         title="CARGANDO DIETA"
         subtitle="Estamos preparando tu plan semanal. Esto puede tardar unos segundos."
-        Icon={LoadingIcon}
       />
     );
   }

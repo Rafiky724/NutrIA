@@ -4,7 +4,6 @@ import { DietService } from "../../services/dietaService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function DietCreationReady() {
   const navigate = useNavigate();
@@ -34,7 +33,6 @@ export default function DietCreationReady() {
   if (loading) {
     return (
       <LoadingScreen
-        Icon={LoadingIcon}
         title="CARGANDO"
         subtitle={`Esto puede tardar un momento.\nEstamos creando tu dieta personalizada.`}
       />

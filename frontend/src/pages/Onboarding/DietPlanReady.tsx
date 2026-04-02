@@ -4,7 +4,6 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import { useState } from "react";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 const dietPlanOptions = [
   {
@@ -46,7 +45,6 @@ export default function DietPlanReady() {
       <LoadingScreen
         title="CALCULANDO PLAN"
         subtitle="Estamos calculando tus macronutrientes diarios. Esto tomará unos segundos..."
-        Icon={LoadingIcon}
       />
     );
   }

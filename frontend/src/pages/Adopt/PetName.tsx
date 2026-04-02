@@ -6,7 +6,6 @@ import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import { crearMascota } from "../../services/mascotaService";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function PetName() {
   const navigate = useNavigate();
@@ -71,7 +70,6 @@ export default function PetName() {
   if (loading) {
     return (
       <LoadingScreen
-        Icon={LoadingIcon}
         title="CARGANDO"
         subtitle={`Esto puede tardar un momento.\nEstas adoptando tu mascota.`}
       />

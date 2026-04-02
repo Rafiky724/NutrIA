@@ -10,7 +10,6 @@ import DishCard from "../../components/WeeklyMealPlan/DishCard";
 import { useOpinionTimer } from "../../hooks/useOpinionTimer";
 import { useDayPlan } from "../../hooks/useDayPlan";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 import ModalEditIngrediente2 from "../../components/Modals/ModalEditIngrediente2";
 
 export default function WeeklyMealPlan() {
@@ -45,7 +44,6 @@ export default function WeeklyMealPlan() {
       <LoadingScreen
         title="CARGANDO DIETA"
         subtitle="Bienvenido a la sección de tu dieta. Estamos cargando tu información."
-        Icon={LoadingIcon}
       />
     );
   }

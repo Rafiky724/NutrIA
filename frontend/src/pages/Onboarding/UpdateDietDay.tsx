@@ -5,7 +5,6 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import { daysWeek } from "../../data/days";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 
 export default function UpdateDietDay() {
   const navigate = useNavigate();
@@ -53,7 +52,6 @@ export default function UpdateDietDay() {
   if (loading) {
     return (
       <LoadingScreen
-        Icon={LoadingIcon}
         title="CARGANDO"
         subtitle={`Esto puede tardar un momento.\nEstamos actualizando tu dieta.`}
       />

@@ -5,7 +5,6 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import { objectiveService } from "../../services/ObjectiveService";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
-import LoadingIcon from "../../assets/Loading/LoadingIcon.svg?react";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 
 export default function DailyNutritionPlan() {
@@ -38,7 +37,6 @@ export default function DailyNutritionPlan() {
       <LoadingScreen
         title="CARGANDO PLAN NUTRICIONAL"
         subtitle="Cargando tu proyección objetivo..."
-        Icon={LoadingIcon}
       />
     );
   }
@@ -48,7 +46,6 @@ export default function DailyNutritionPlan() {
       <LoadingScreen
         title="CARGANDO PLAN NUTRICIONAL"
         subtitle="Cargando tu proyección objetivo..."
-        Icon={LoadingIcon}
       />
     );
   }
@@ -78,7 +75,6 @@ export default function DailyNutritionPlan() {
       <LoadingScreen
         title="CALCULANDO PLAN"
         subtitle="Estamos calculando tus macronutrientes diarios. Esto tomará unos segundos..."
-        Icon={LoadingIcon}
       />
     );
   }
