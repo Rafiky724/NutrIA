@@ -10,8 +10,10 @@ import RachaWarning from "../../components/Home/Completed/RachaWarning";
 import WarningDay from "../../components/Home/Completed/WarningDay";
 import ExcelentDay from "../../components/Home/Completed/ExcelentDay";
 import FailedDay from "../../components/Home/Completed/FailedDay";
+import { useProgress } from "../../Context/ProgressContext";
 
 export default function Home() {
+  const { refreshProgress } = useProgress();
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [activeFoodIndex, setActiveFoodIndex] = useState(0);
   const [openRachaWarningModal, setOpenRachaWarningModal] = useState(false);
@@ -23,8 +25,11 @@ export default function Home() {
 
   const fetchHomeData = async () => {
     try {
+      await refreshProgress();
+
       const data = await HomeService.getHome();
       setHomeData(data);
+
       if (data.modals.mostrar_pagar_racha) {
         setOpenRachaWarningModal(true);
       }

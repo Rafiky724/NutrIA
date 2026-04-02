@@ -6,6 +6,7 @@ import {
   getTiendaMascotas,
   getItemsCategoria,
   comprarOEquiparItem,
+  type ComprarMascotaRequest,
 } from "../../../services/mascotaService";
 
 type Category = {
@@ -34,6 +35,11 @@ export default function Shop({ categories = categoriesData }: Props) {
   const [items, setItems] = useState<any[] | null>(null);
   const [mascotaActual, setMascotaActual] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Estados para modal de nombre
+  const [showNombreModal, setShowNombreModal] = useState(false);
+  const [nuevoItem, setNuevoItem] = useState<any>(null);
+  const [nombreMascota, setNombreMascota] = useState("");
 
   const SKELETON_COUNT = 8;
   const skeletonGrid = Array.from({ length: SKELETON_COUNT });
@@ -83,17 +89,17 @@ export default function Shop({ categories = categoriesData }: Props) {
   };
 
   const handleItemClick = async (item: any) => {
+    if (activeCategory === "mascotas" && !item.comprado) {
+      setNuevoItem(item);
+      setShowNombreModal(true);
+      return;
+    }
+
     try {
       const payload: any = {
         item_id: item.id,
         categoria: activeCategory,
       };
-
-      if (activeCategory === "mascotas" && !item.comprado) {
-        const nombre = prompt("Ponle un nombre a tu mascota 🐾");
-        if (!nombre) return;
-        payload.nombre_mascota = nombre;
-      }
 
       await comprarOEquiparItem(payload);
 
@@ -122,35 +128,47 @@ export default function Shop({ categories = categoriesData }: Props) {
     }
   };
 
+  const confirmarNombreMascota = async () => {
+    if (!nombreMascota.trim() || !nuevoItem) return;
+
+    try {
+      const payload: ComprarMascotaRequest = {
+        item_id: nuevoItem.id,
+        categoria: activeCategory,
+        nombre_mascota: nombreMascota.trim(),
+      };
+
+      await comprarOEquiparItem(payload);
+
+      const tienda = await getTiendaMascotas();
+      setItems(tienda.mascotas_tienda);
+      setMascotaActual(tienda.mascota_actual);
+
+      setShowNombreModal(false);
+      setNombreMascota("");
+      setNuevoItem(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const mapEquipados = (items: any[], mascota: any, categoria: string) => {
     return items.map((item) => {
       let equipado = false;
 
-      if (categoria === "gorras") {
+      if (categoria === "gorras")
         equipado = mascota?.gorra_puesto === item.imagen.replace(".svg", "");
-      }
-
-      if (categoria === "gafas") {
+      if (categoria === "gafas")
         equipado = mascota?.gafa_puesto === item.imagen.replace(".svg", "");
-      }
-
-      if (categoria === "accesorios") {
+      if (categoria === "accesorios")
         equipado =
           mascota?.accesorio_puesto === item.imagen.replace(".svg", "");
-      }
-
-      if (categoria === "marcos") {
+      if (categoria === "marcos")
         equipado = mascota?.marco_puesto === item.imagen.replace(".svg", "");
-      }
-
-      if (categoria === "fondos") {
+      if (categoria === "fondos")
         equipado = mascota?.fondo_puesto === item.imagen.replace(".svg", "");
-      }
 
-      return {
-        ...item,
-        equipado,
-      };
+      return { ...item, equipado };
     });
   };
 
@@ -159,7 +177,7 @@ export default function Shop({ categories = categoriesData }: Props) {
       <div className="relative bg-white rounded-b-4xl shadow-lg p-6 sm:p-8 w-2xs md:w-md xl:w-lg flex flex-col gap-6 ml-10 md:ml-0 h-100 mb-10 justify-center">
         <div className="flex flex-wrap gap-4 justify-center mt-10 md:mt-15 overflow-y-auto p-1 max-h-96">
           <img
-            className="absolute top-0 left-0 w-80 md:w-125 xl:w-145 "
+            className="absolute top-0 left-0 w-80 md:w-125 xl:w-145"
             src="/SVG/Pets/Shop/Roof.svg"
             alt="Techo"
           />
@@ -235,7 +253,6 @@ export default function Shop({ categories = categoriesData }: Props) {
           </>
         ) : (
           <>
-            {/* MASCOTA */}
             {mascotaActual?.tipo && (
               <img
                 src={`/SVG/Pets/Shop/EditMascota/${mascotaActual?.tipo}.svg`}
@@ -247,7 +264,6 @@ export default function Shop({ categories = categoriesData }: Props) {
               {mascotaActual?.nombre || "Mascota"}
             </h3>
 
-            {/* GORRA */}
             {mascotaActual?.gorra_puesto && (
               <img
                 src={`/SVG/Pets/Shop/Gorras/${mascotaActual.gorra_puesto}.svg`}
@@ -255,8 +271,6 @@ export default function Shop({ categories = categoriesData }: Props) {
                 alt="Gorra"
               />
             )}
-
-            {/* GAFAS */}
             {mascotaActual?.gafa_puesto && (
               <img
                 src={`/SVG/Pets/Shop/Gafas/${mascotaActual.gafa_puesto}.svg`}
@@ -264,8 +278,6 @@ export default function Shop({ categories = categoriesData }: Props) {
                 alt="Gafas"
               />
             )}
-
-            {/* ACCESORIOS */}
             {mascotaActual?.accesorio_puesto && (
               <img
                 src={`/SVG/Pets/Shop/Accesorios/${mascotaActual.accesorio_puesto}.svg`}
@@ -273,8 +285,6 @@ export default function Shop({ categories = categoriesData }: Props) {
                 alt="Accesorio"
               />
             )}
-
-            {/* MARCO */}
             {mascotaActual?.marco_puesto && (
               <img
                 src={`/SVG/Pets/Shop/Marcos/${mascotaActual.marco_puesto}.svg`}
@@ -282,8 +292,6 @@ export default function Shop({ categories = categoriesData }: Props) {
                 alt="Marco"
               />
             )}
-
-            {/* FONDO */}
             {mascotaActual?.fondo_puesto && (
               <img
                 src={`/SVG/Pets/Shop/Fondos/${mascotaActual.fondo_puesto}.svg`}
@@ -294,6 +302,46 @@ export default function Shop({ categories = categoriesData }: Props) {
           </>
         )}
       </div>
+
+      {/* MODAL DE NOMBRE DE MASCOTA */}
+      {showNombreModal && (
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-5"
+          onClick={() => setShowNombreModal(false)}
+        >
+          <div
+            className="bg-white rounded-4xl p-10 flex flex-col gap-6 md:gap-8 w-full md:w-2xl max-h-[600px] overflow-y-auto items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-center text-lg ft-bold text-brown md:mb-10">
+              ¡Ponle un nombre a tu mascota!
+            </h2>
+
+            <input
+              type="text"
+              value={nombreMascota}
+              onChange={(e) => setNombreMascota(e.target.value)}
+              placeholder="Nombre de la mascota"
+              className="border p-4 rounded-4xl text-center w-full text-md"
+            />
+
+            <div className="flex justify-between w-full mt-6 md:mt-8">
+              <button
+                onClick={() => setShowNombreModal(false)}
+                className="px-6 py-3 rounded-4xl bg-gray-300 hover:bg-gray-400 text-md transition"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmarNombreMascota}
+                className="px-6 py-3 rounded-4xl bg-yellow-400 hover:bg-yellow-500 text-white text-md transition"
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

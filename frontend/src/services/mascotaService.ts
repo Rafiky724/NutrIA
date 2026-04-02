@@ -50,6 +50,10 @@ export interface GetTiendaResponse {
     mascotas_tienda: MascotaTienda[];
 }
 
+export interface ComprarMascotaRequest extends ComprarItemRequest {
+  nombre_mascota?: string;
+}
+
 export const getTiendaMascotas = async (): Promise<GetTiendaResponse> => {
     const token = localStorage.getItem("token");
 
