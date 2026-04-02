@@ -70,7 +70,7 @@ export default function AchievementsList({ onBack }: Props) {
         <div className="bg-white rounded-4xl shadow-lg p-6 sm:px-12 w-2xs md:w-md xl:w-lg flex flex-col gap-6 ml-10 md:ml-0 h-130 overflow-y-auto">
           {/* Botón volver skeleton */}
           <div className="w-full">
-            <div className="h-10 rounded-2xl bg-gray-200 animate-pulse" />
+            <div className="h-10 rounded-2xl bg-gray-200" />
           </div>
 
           {/* Lista skeleton */}
@@ -78,7 +78,7 @@ export default function AchievementsList({ onBack }: Props) {
             {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="flex items-center gap-4 p-3 rounded-3xl bg-gray-100 animate-pulse"
+                className="flex items-center gap-4 p-3 rounded-3xl bg-gray-100"
                 style={{ minHeight: "60px" }}
               >
                 {/* barra izquierda fake */}
@@ -99,7 +99,7 @@ export default function AchievementsList({ onBack }: Props) {
 
         {/* imagen derecha skeleton */}
         <div className="hidden sm:block w-lg xl:w-xl">
-          <div className="w-full h-80 bg-gray-200 rounded-3xl animate-pulse" />
+          <div className="w-full h-80 bg-gray-200 rounded-3xl " />
         </div>
       </div>
     );
@@ -124,7 +124,7 @@ export default function AchievementsList({ onBack }: Props) {
           {logros.map((logro) => {
             const isComplete = logro.completado;
 
-            // 🎨 colores dinámicos
+            // colores dinámicos
             const baseColor = getColorByLogro(logro);
             const colorLeft = baseColor;
             const colorCard = isComplete
@@ -153,7 +153,7 @@ export default function AchievementsList({ onBack }: Props) {
                   backgroundColor: colorCard,
                 }}
               >
-                {/* 🔥 BARRA IZQUIERDA CON COLOR DINÁMICO */}
+                {/* BARRA IZQUIERDA CON COLOR DINÁMICO */}
                 <div
                   className="absolute left-0 top-0 bottom-0 w-6 rounded-l-2xl"
                   style={{ backgroundColor: colorLeft }}
