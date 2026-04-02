@@ -4,6 +4,7 @@ import {
   reclamarLogro,
   type Logro as LogroService,
 } from "../../../services/logrosService";
+import { useProgress } from "../../../Context/ProgressContext";
 
 type Props = {
   onBack: () => void;
@@ -27,6 +28,7 @@ function getColorByLogro(logro: LogroService) {
 }
 
 export default function AchievementsList({ onBack }: Props) {
+  const { refreshProgress } = useProgress();
   const [logros, setLogros] = useState<LogroService[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,6 +57,8 @@ export default function AchievementsList({ onBack }: Props) {
           l.id_logro === logro.id_logro ? { ...l, reclamado: true } : l,
         ),
       );
+
+      await refreshProgress();
     } catch (error) {
       console.error("Error al reclamar logro", error);
     }
