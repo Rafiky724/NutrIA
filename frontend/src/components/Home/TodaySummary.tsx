@@ -24,13 +24,11 @@ export default function TodaySummary({ homeData }: Props) {
   if (!homeData || !homeData.macros_consumidos_hoy) {
     return (
       <div className="flex flex-col bg-white rounded-3xl p-4 md:p-6 shadow gap-4 ml-10 w-2xs md:w-sm h-95">
-        {/* Header */}
         <div className="flex justify-center gap-2">
           <Skeleton circle width={20} height={20} />
           <Skeleton width={40} height={16} />
         </div>
 
-        {/* Calendario */}
         <div className="flex justify-between mt-2">
           {Array.from({ length: 7 }).map((_, i) => (
             <div key={i} className="flex flex-col items-center gap-1">
@@ -40,11 +38,9 @@ export default function TodaySummary({ homeData }: Props) {
           ))}
         </div>
 
-        {/* Calorías */}
         <div className="flex mt-4 gap-4 md:gap-6 items-center">
           <Skeleton circle width={140} height={140} />
 
-          {/* Macros */}
           <div className="flex flex-col gap-6 flex-1">
             {Array.from({ length: 3 }).map((_, i) => (
               <div key={i}>
@@ -120,14 +116,25 @@ export default function TodaySummary({ homeData }: Props) {
       </div>
 
       <div className="flex mt-4 gap-4 md:gap-6 items-center">
-        <div className="relative w-35 md:w-45 h-35 md:h-45 flex items-center justify-center bg-white rounded-full">
-          <span className="absolute text-center text-sm ft-light text-gray">
-            {homeData.macros_consumidos_hoy.calorias}/
-            {homeData.macros_consumidos_hoy.calorias_objetivo}
-            <br />
-            kcal
-          </span>
-          <div className="w-full h-full rounded-full border-8 border-yellow-500 border-t-gray-200 animate-spin-slow"></div>
+        <div className="relative w-36 h-36 flex items-center justify-center">
+          <div
+            className="w-full h-full rounded-full"
+            style={{
+              background: `conic-gradient(
+        #FBBF24 ${(homeData.macros_consumidos_hoy.calorias / homeData.macros_consumidos_hoy.calorias_objetivo) * 360}deg,
+        #E5E7EB 0deg
+      )`,
+            }}
+          ></div>
+
+          <div className="absolute w-32 h-32 bg-white rounded-full flex items-center justify-center text-center">
+            <span className="text-sm ft-light text-gray">
+              {homeData.macros_consumidos_hoy.calorias}/
+              {homeData.macros_consumidos_hoy.calorias_objetivo}
+              <br />
+              kcal
+            </span>
+          </div>
         </div>
 
         <div className="flex flex-col items-center md:justify-center gap-6 flex-1">
