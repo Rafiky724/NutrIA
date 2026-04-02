@@ -32,10 +32,15 @@ export default function NextMealCard({
   const [openNotCompleted, setOpenNotCompleted] = useState(false);
   const [openAbsentMeal, setOpenAbsentMeal] = useState(false);
   const [selectedOption, setSelectedOption] = useState<any>(null);
-  const [, setAbsentText] = useState("");
   const [openEstimateModal, setOpenEstimateModal] = useState(false);
   const [, setOpenFinalOptionsModal] = useState(false);
   const [, setComidaId] = useState<string | null>(null);
+  const [replacedMeal, setReplacedMeal] = useState<{
+    calorias: number;
+    proteinas: number;
+    carbohidratos: number;
+    grasas: number;
+  } | null>(null);
 
   if (!homeData) {
     return (
@@ -198,8 +203,14 @@ export default function NextMealCard({
       <AbsentMeal
         isOpen={openAbsentMeal}
         onClose={() => setOpenAbsentMeal(false)}
-        onSubmit={(text) => {
-          setAbsentText(text);
+        onSubmit={(response) => {
+          const { comida } = response;
+          setReplacedMeal({
+            calorias: comida.calorias,
+            proteinas: comida.proteinas,
+            carbohidratos: comida.carbohidratos,
+            grasas: comida.grasas,
+          });
           setOpenAbsentMeal(false);
           setOpenEstimateModal(true);
         }}
@@ -212,15 +223,9 @@ export default function NextMealCard({
           setOpenEstimateModal(false);
           setOpenFinalOptionsModal(true);
         }}
+        nutrients={replacedMeal}
+        onSuccess={onRefetch}
       />
-
-      {/* <FinalOptions
-        isOpen={openFinalOptionsModal}
-        onClose={() => setOpenFinalOptionsModal(false)}
-        onSelectOption={() => {
-          setOpenFinalOptionsModal(false);
-        }}
-      /> */}
     </>
   );
 }

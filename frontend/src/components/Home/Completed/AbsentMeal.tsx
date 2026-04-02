@@ -2,12 +2,14 @@ import { useState } from "react";
 import {
   reemplazarComidaActual,
   type ReemplazarComidaRequest,
+  type ReemplazarComidaResponse,
 } from "../../../services/comidaService";
+import { useProgress } from "../../../Context/ProgressContext";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (text: string) => void;
+  onSubmit: (text: ReemplazarComidaResponse) => void;
   title?: string;
   description?: string;
 };
@@ -19,6 +21,7 @@ export default function AbsentMeal({
   title = "Cuéntanos qué comiste",
   description = "Con la información que nos proporciones, haremos una estimación aproximada de los macronutrientes consumidos. Sé lo más preciso posible para obtener mejores resultados.",
 }: Props) {
+  const { refreshProgress } = useProgress();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -38,8 +41,9 @@ export default function AbsentMeal({
       const payload: ReemplazarComidaRequest = { descripcion: text.trim() };
       const response = await reemplazarComidaActual(payload);
 
-      onSubmit(response.mensaje);
+      onSubmit(response);
       setText("");
+      await refreshProgress();
       onClose();
     } catch (err: any) {
       console.error("Error reemplazando comida:", err);

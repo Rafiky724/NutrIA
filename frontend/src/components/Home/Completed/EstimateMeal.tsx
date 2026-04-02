@@ -2,33 +2,47 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   onContinue: () => void;
+  nutrients: {
+    calorias: number;
+    proteinas: number;
+    carbohidratos: number;
+    grasas: number;
+  } | null;
+  onSuccess: () => void;
 };
 
-export default function EstimateMeal({ isOpen, onClose, onContinue }: Props) {
-  if (!isOpen) return null;
+export default function EstimateMeal({
+  isOpen,
+  onClose,
+  onContinue,
+  nutrients,
+  onSuccess,
+}: Props) {
+  if (!isOpen || !nutrients) return null;
 
-  const data = [
-    { label: "Proteína", value: 14.8, color: "bg-yellow-500" },
-    { label: "Carbs", value: 9.8, color: "bg-yellow-700" },
-    { label: "Grasas", value: 16.8, color: "bg-yellow-900" },
-  ];
-
-  const maxValue = Math.max(...data.map((d) => d.value));
-
-  const protein = 10;
-  const carbs = 10;
-  const fats = 20;
-  const calories = 50;
-
-  const total = protein + carbs + fats;
-  const proteinDeg = (protein / total) * 360;
-  const carbsDeg = (carbs / total) * 360;
+  const { proteinas, carbohidratos, grasas, calorias } = nutrients;
+  const total = proteinas + carbohidratos + grasas;
+  const proteinDeg = (proteinas / total) * 360 || 0;
+  const carbsDeg = (carbohidratos / total) * 360 || 0;
 
   const gradient = `conic-gradient(
     #F59E0B 0deg ${proteinDeg}deg,
     #B45309 ${proteinDeg}deg ${proteinDeg + carbsDeg}deg,
     #78350F ${proteinDeg + carbsDeg}deg 360deg
   )`;
+
+  const data = [
+    { label: "Proteína", value: proteinas, color: "bg-yellow-500" },
+    { label: "Carbs", value: carbohidratos, color: "bg-yellow-700" },
+    { label: "Grasas", value: grasas, color: "bg-yellow-900" },
+  ];
+
+  const maxValue = Math.max(...data.map((d) => d.value)) || 1;
+
+  const handleContinue = () => {
+    onContinue();
+    onSuccess();
+  };
 
   return (
     <div
@@ -50,18 +64,16 @@ export default function EstimateMeal({ isOpen, onClose, onContinue }: Props) {
                 className="w-full h-full rounded-full"
                 style={{ background: gradient }}
               ></div>
-
               <div className="absolute w-20 xl:w-20 h-20 xl:h-20 bg-white rounded-full flex items-center justify-center text-sm ft-medium text-brown text-center">
-                {calories} <br />
-                Kcal
+                {calorias} <br /> Kcal
               </div>
             </div>
           </div>
 
           <div className="h-32 rounded-xl flex items-end justify-center gap-8">
             {data.map((item, idx) => {
-              const heightPercent = (item.value / maxValue) * 100;
-
+              const heightMaxPx = 100;
+              const heightPercent = (item.value / maxValue) * heightMaxPx;
               return (
                 <div
                   key={idx}
@@ -73,10 +85,9 @@ export default function EstimateMeal({ isOpen, onClose, onContinue }: Props) {
                       style={{ height: `${heightPercent}%` }}
                     />
                   </div>
-
                   <div className="flex flex-col mt-2 items-center">
                     <span className="text-xs ft-medium text-brown">
-                      {item.value}g (19%)
+                      {item.value.toFixed(1)}g
                     </span>
                     <span className="text-[10px] text-center text-gray ft-light">
                       {item.label}
@@ -90,7 +101,7 @@ export default function EstimateMeal({ isOpen, onClose, onContinue }: Props) {
 
         <button
           className="w-3xs mx-auto bg-yellow text-brown py-2 rounded-4xl mt-4 ft-medium text-xs hover:scale-105 transition cursor-pointer"
-          onClick={onContinue}
+          onClick={handleContinue}
         >
           Continuar
         </button>
