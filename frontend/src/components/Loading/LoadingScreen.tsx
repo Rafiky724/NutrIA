@@ -10,13 +10,13 @@ type Props = {
 
 export default function LoadingScreen({
   title = "CARGANDO",
-  subtitle = "Esto puede tardar unos segundos.\nEstamos creando tu dieta personalizada.",
+  subtitle = "Esto puede tardar unos minutos.\nEstamos creando tu dieta personalizada.",
   icon = "/LoadingIcon.svg",
 }: Props) {
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden z-50">
       <div className="flex flex-col items-center justify-center min-h-screen px-6 text-center">
-        <div className="mb-6 w-16 sm:w-20 md:w-24 xl:w-xs">
+        <div className="mb-6 w-30 xl:w-xs">
           <object type="image/svg+xml" data={icon} className="w-full h-auto" />
         </div>
 
