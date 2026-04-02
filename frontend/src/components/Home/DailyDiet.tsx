@@ -63,13 +63,7 @@ export default function DailyDiet({
     }
   }, [dayPlan, foodActive, activeFoodIndex, setActiveFoodIndex]);
 
-  if (
-    !homeData ||
-    !homeData.dia_actual ||
-    !homeData.hay_dieta_hoy ||
-    !dish ||
-    loadingAction
-  ) {
+  if (!homeData || !homeData.dia_actual || !dish || loadingAction) {
     return (
       <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <Skeleton width={150} height={22} />
