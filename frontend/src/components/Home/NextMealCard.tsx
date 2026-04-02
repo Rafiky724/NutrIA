@@ -81,7 +81,7 @@ export default function NextMealCard({
         <p className="text-sm md:text-lg font-semibold text-brown">
           {typeof homeData?.proxima_comida === "string"
             ? homeData.proxima_comida
-            : "No tienes comidas programadas"}
+            : homeData.mensaje}
         </p>
       </div>
     );

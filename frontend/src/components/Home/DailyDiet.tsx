@@ -20,7 +20,6 @@ export default function DailyDiet({
   homeData,
   activeFoodIndex,
   setActiveFoodIndex,
-  // onRefetch,
 }: Props) {
   const { refreshProgress } = useProgress();
   const [showModal, setShowModal] = useState(false);
@@ -41,10 +40,9 @@ export default function DailyDiet({
   };
 
   const dayActive = homeData?.dia_actual?.dia_semana || getCurrentDay();
-  // const currentFood = homeData?.dia_actual.comidas[activeFoodIndex];
   const foodActive =
-    (homeData?.dia_actual.comidas[activeFoodIndex]?.tipo_comida as TypeFood) ||
-    "";
+    (homeData?.dia_actual?.comidas?.[activeFoodIndex]
+      ?.tipo_comida as TypeFood) || "";
 
   const {
     dayPlan,
@@ -65,7 +63,13 @@ export default function DailyDiet({
     }
   }, [dayPlan, foodActive, activeFoodIndex, setActiveFoodIndex]);
 
-  if (!homeData || !homeData.dia_actual || !dish || loadingAction) {
+  if (
+    !homeData ||
+    !homeData.dia_actual ||
+    !homeData.hay_dieta_hoy ||
+    !dish ||
+    loadingAction
+  ) {
     return (
       <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <Skeleton width={150} height={22} />
