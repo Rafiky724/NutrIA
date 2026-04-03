@@ -61,7 +61,7 @@ export default function Contact({ onBack }: Props) {
               </p>
 
               <p className="ft-light text-xs md:text-sm">
-                jafuentesp@correo.usbcali.edu.co
+                jafuentes@correo.usbcali.edu.co
               </p>
             </div>
 
