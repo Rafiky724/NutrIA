@@ -106,7 +106,7 @@ export default function Shop({ categories = categoriesData }: Props) {
 
       await comprarOEquiparItem(payload);
 
-      if (!item.comprado) {
+      if (!item.comprado || activeCategory === "fondos") {
         refreshProgress();
       }
 
@@ -114,6 +114,7 @@ export default function Shop({ categories = categoriesData }: Props) {
         const tienda = await getTiendaMascotas();
         setItems(tienda.mascotas_tienda);
         setMascotaActual(tienda.mascota_actual);
+        refreshProgress();
         return;
       }
 
@@ -185,7 +186,6 @@ export default function Shop({ categories = categoriesData }: Props) {
     });
   };
 
-  // 🔥 CLAVE: SIEMPRE SACAR EQUIPADOS DESDE mascotaActual
   const getEquippedItemsFromMascota = (mascota: any) => {
     if (!mascota) return [];
 
