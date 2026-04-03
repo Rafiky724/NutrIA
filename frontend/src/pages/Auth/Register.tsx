@@ -76,6 +76,7 @@ export default function Register() {
       <LoadingScreen
         title="CREANDO CUENTA"
         subtitle="Estamos preparando todo para ti. Esto tomará unos segundos..."
+        loading={loading}
       />
     );
   }
