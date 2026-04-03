@@ -7,7 +7,6 @@ import FruitRight from "../../components/Decoration/FruitRight";
 import DaySelector from "../../components/WeeklyMealPlan/DaySelector";
 import MealDropdown from "../../components/WeeklyMealPlan/MealDropdown";
 import DishCard from "../../components/WeeklyMealPlan/DishCard";
-import { useOpinionTimer } from "../../hooks/useOpinionTimer";
 import { useDayPlan } from "../../hooks/useDayPlan";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
 import ModalEditIngrediente2 from "../../components/Modals/ModalEditIngrediente2";
@@ -35,7 +34,7 @@ export default function WeeklyMealPlan() {
     handleConfirmIngredients,
   } = useDayPlan(dayActive, foodActive, setFoodActive);
 
-  const { showOpinion, progress } = useOpinionTimer(dayPlan?.opinion_ia);
+  const showOpinion = !!dayPlan?.opinion_ia;
 
   const handleStartDiet = () => navigate("/startDiet");
 
@@ -70,14 +69,8 @@ export default function WeeklyMealPlan() {
                 setFoodActive={setFoodActive}
               />
 
-              {showOpinion && dayPlan?.opinion_ia && (
+              {showOpinion && (
                 <div className="mt-3 bg-yellow px-4 py-3 rounded-2xl text-sm sm:text-base text-brown ft-light flex flex-col gap-2 max-h-90 overflow-y-auto text-left">
-                  <div className="w-full bg-gray-300 h-2 rounded-full mt-2">
-                    <div
-                      className="bg-brown h-2 rounded-full transition-all"
-                      style={{ width: `${progress}%` }}
-                    ></div>
-                  </div>
                   <span className="ft-medium">Opinión de la IA:</span>
                   <span className="text-sm whitespace-pre-line">
                     {dayPlan.opinion_ia}
