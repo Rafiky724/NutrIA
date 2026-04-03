@@ -41,9 +41,7 @@ export default function NavBar({ user, title, subtitle }: Props) {
         )}
       </div>
 
-      {/* ICONOS */}
       <div className="flex items-center gap-4">
-        {/* GEMAS */}
         <Link
           to={"/config?view=shop"}
           className="flex items-center gap-1 hover:scale-105 transition cursor-pointer"
@@ -71,7 +69,6 @@ export default function NavBar({ user, title, subtitle }: Props) {
           )}
         </Link>
 
-        {/* RACHA */}
         <Link
           to={"/config?view=achievements"}
           className="flex items-center gap-1 hover:scale-105 transition cursor-pointer"
@@ -107,11 +104,31 @@ export default function NavBar({ user, title, subtitle }: Props) {
               height={skeletonAvatarSize}
             />
           ) : (
-            <img
-              src="/Background/LogoIcono.png"
-              alt="Usuario"
-              className="w-12 h-12 hover:scale-105 transition cursor-pointer"
-            />
+            <>
+              <div className="relative">
+                <div className="relative z-50">
+                  <img
+                    src={`/SVG/Pets/Shop/EditMascota/${progress?.mascota.tipo}.svg`}
+                    alt="Usuario"
+                    className={`w-12 h-12 p-1 hover:scale-105 transition cursor-pointer rounded-full`}
+                  />
+                </div>
+
+                <div
+                  className={`absolute top-0 z-10 w-12 h-12 rounded-full ${
+                    progress?.mascota?.fondo_puesto ? "" : "bg-[#A09B33]"
+                  }`}
+                >
+                  {progress?.mascota?.fondo_puesto && (
+                    <img
+                      src={`/SVG/Pets/Shop/Fondos/${progress.mascota.fondo_puesto}.svg`}
+                      alt="Fondo"
+                      className="w-12 h-12 hover:scale-105 transition cursor-pointer rounded-full"
+                    />
+                  )}
+                </div>
+              </div>
+            </>
           )}
         </Link>
       </div>
