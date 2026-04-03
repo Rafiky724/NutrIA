@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Toast from "../../components/Toast/Toast";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
+import { getHasPlan } from "../../services/userService";
+import LoadingScreen from "../../components/Loading/LoadingScreen";
 
 export default function AdoptMoment() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [checkingPlan, setCheckingPlan] = useState(true);
 
   const [toast, setToast] = useState({
     open: false,
@@ -33,6 +37,24 @@ export default function AdoptMoment() {
     },
   ];
 
+  useEffect(() => {
+    const checkMascota = async () => {
+      try {
+        setLoading(true);
+        const { tiene_mascota } = await getHasPlan();
+        if (tiene_mascota) {
+          navigate("/home");
+        }
+      } catch (err) {
+        console.error("Error al verificar si tiene mascota:", err);
+      } finally {
+        setCheckingPlan(false);
+        setLoading(false);
+      }
+    };
+    checkMascota();
+  }, [navigate]);
+
   const handleContinue = () => {
     if (!selectedOption) {
       setToast({
@@ -50,6 +72,16 @@ export default function AdoptMoment() {
       },
     });
   };
+
+  if (loading || checkingPlan) {
+    return (
+      <LoadingScreen
+        title="CARGANDO"
+        subtitle={`Verificando a tu mascota.`}
+        loading={loading}
+      />
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">

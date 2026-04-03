@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Toast from "../../components/Toast/Toast";
 import FruitLeft from "../../components/Decoration/FruitLeft";
@@ -6,6 +6,7 @@ import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import { crearMascota } from "../../services/mascotaService";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
+import { getHasPlan } from "../../services/userService";
 
 export default function PetName() {
   const navigate = useNavigate();
@@ -18,6 +19,23 @@ export default function PetName() {
     type: "success" as "success" | "error" | "info" | "warning",
   });
   const [loading, setLoading] = useState(false);
+  const [checkingMascota, setCheckingMascota] = useState(true);
+
+  useEffect(() => {
+    const checkMascota = async () => {
+      try {
+        const { tiene_mascota } = await getHasPlan();
+        if (tiene_mascota) {
+          navigate("/home");
+        }
+      } catch (err) {
+        console.error("Error al verificar si tiene mascota:", err);
+      } finally {
+        setCheckingMascota(false);
+      }
+    };
+    checkMascota();
+  }, [navigate]);
 
   if (!tipo_mascota) {
     navigate("/adoptMoment");
@@ -67,7 +85,7 @@ export default function PetName() {
     nutria: "/SVG/Pets/Shop/Mascotas/nutria.svg",
   };
 
-  if (loading) {
+  if (loading || checkingMascota) {
     return (
       <LoadingScreen
         title="CARGANDO"

@@ -4,17 +4,34 @@ import { DietService } from "../../services/dietaService";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
+import { getHasPlan } from "../../services/userService";
 
 export default function DietCreationReady() {
   const navigate = useNavigate();
 
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [checkingPlan, setCheckingPlan] = useState(true);
 
   useEffect(() => {
     const savedname = localStorage.getItem("nombreUsuario");
     if (savedname) setName(savedname);
-  }, []);
+
+    const checkPlan = async () => {
+      try {
+        const { dia_iniciado } = await getHasPlan();
+        if (dia_iniciado) {
+          navigate("/home");
+        }
+      } catch (err) {
+        console.error("Error al verificar plan:", err);
+      } finally {
+        setCheckingPlan(false);
+      }
+    };
+
+    checkPlan();
+  }, [navigate]);
 
   const handleCreateDiet = async () => {
     setLoading(true);
@@ -30,7 +47,7 @@ export default function DietCreationReady() {
     }
   };
 
-  if (loading) {
+  if (loading || checkingPlan) {
     return (
       <LoadingScreen
         title="CARGANDO"

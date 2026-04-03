@@ -3,6 +3,8 @@ import { USER_ENDPOINTS } from "../api/endpoints";
 
 export interface HasPlanResponse {
     tiene_plan: boolean;
+    dia_iniciado: boolean,
+    tiene_mascota: boolean
 }
 
 export const getHasPlan = async (): Promise<HasPlanResponse> => {
