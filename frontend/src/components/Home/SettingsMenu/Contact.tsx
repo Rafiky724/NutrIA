@@ -57,10 +57,12 @@ export default function Contact({ onBack }: Props) {
               </h2>
 
               <p className="ft-light text-xs md:text-sm">
-                contacto@tusitio.com
+                jaortegac@correo.usbcali.edu.co
               </p>
 
-              <p className="ft-light text-xs md:text-sm">soporte@tusitio.com</p>
+              <p className="ft-light text-xs md:text-sm">
+                jafuentesp@correo.usbcali.edu.co
+              </p>
             </div>
 
             <div className="flex justify-center mt-2">
