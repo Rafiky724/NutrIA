@@ -54,6 +54,7 @@ export default function UpdateDietDay() {
       <LoadingScreen
         title="CARGANDO"
         subtitle={`Esto puede tardar un momento.\nEstamos actualizando tu dieta.`}
+        loading={loading}
       />
     );
   }
