@@ -43,6 +43,7 @@ export default function WeeklyMealPlan() {
       <LoadingScreen
         title="CARGANDO DIETA"
         subtitle="Bienvenido a la sección de tu dieta. Estamos cargando tu información."
+        loading={loadingAction}
       />
     );
   }
