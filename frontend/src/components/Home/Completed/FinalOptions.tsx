@@ -1,21 +1,30 @@
+import { useNavigate } from "react-router-dom";
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onSelectOption: (option: string) => void;
+  onRefetch: () => void;
 };
 
-export default function FinalOptions({
-  isOpen,
-  onClose,
-  onSelectOption,
-}: Props) {
+export default function FinalOptions({ isOpen, onClose, onRefetch }: Props) {
   if (!isOpen) return null;
+  const navigate = useNavigate();
 
-  const options = [
-    { label: "Ir a tu plan semanal", value: "go_plan" },
-    { label: "La actualizaré después", value: "update_plan" },
-    { label: "Cambiar día para actualizar dieta", value: "change_day" },
-  ];
+  const handleGoPlan = () => {
+    onRefetch();
+    onClose();
+    navigate("/diet");
+  };
+
+  const handleUpdateLater = () => {
+    onClose();
+  };
+
+  const handleChangeDay = () => {
+    onRefetch();
+    onClose();
+    navigate("/updateDate");
+  };
 
   return (
     <div
@@ -38,18 +47,26 @@ export default function FinalOptions({
         </p>
 
         <div className="w-3xs md:w-sm mx-auto flex flex-col gap-3 mt-4">
-          {options.map((opt) => (
-            <button
-              key={opt.value}
-              className="bg-yellow text-brown py-3 px-4 rounded-2xl text-left ft-medium text-xs hover:scale-105 transition cursor-pointer"
-              onClick={() => {
-                onSelectOption(opt.value);
-                onClose();
-              }}
-            >
-              {opt.label}
-            </button>
-          ))}
+          <button
+            className="bg-yellow text-brown py-3 px-4 rounded-2xl text-left ft-medium text-xs hover:scale-105 transition cursor-pointer"
+            onClick={handleGoPlan}
+          >
+            Ir a tu plan semanal
+          </button>
+
+          <button
+            className="bg-yellow text-brown py-3 px-4 rounded-2xl text-left ft-medium text-xs hover:scale-105 transition cursor-pointer"
+            onClick={handleUpdateLater}
+          >
+            La actualizaré después
+          </button>
+
+          <button
+            className="bg-yellow text-brown py-3 px-4 rounded-2xl text-left ft-medium text-xs hover:scale-105 transition cursor-pointer"
+            onClick={handleChangeDay}
+          >
+            Cambiar día para actualizar dieta
+          </button>
         </div>
       </div>
     </div>
