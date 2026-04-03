@@ -52,15 +52,15 @@ export default function GoalProjection() {
     );
   }
 
-  if (loading) {
-    return (
-      <LoadingScreen
-        title="CARGANDO DIETA"
-        subtitle="Estamos preparando tu plan semanal. Esto puede tardar unos segundos."
-        loading={loading}
-      />
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <LoadingScreen
+  //       title="CARGANDO DIETA"
+  //       subtitle="Estamos preparando tu plan semanal. Esto puede tardar unos segundos."
+  //       loading={loading}
+  //     />
+  //   );
+  // }
 
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
