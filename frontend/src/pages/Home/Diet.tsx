@@ -8,7 +8,6 @@ import type { Days, TypeFood, HomeResponse } from "../../types";
 import NavBar from "../../components/Home/NavBar";
 import ModalEditIngredients from "../../components/Modals/ModalEditIngredients";
 import { useDayPlan } from "../../hooks/useDayPlan";
-import { useOpinionTimer } from "../../hooks/useOpinionTimer";
 import { HomeService } from "../../services/homeService";
 import MealDropdown from "../../components/Home/MealDropdown";
 import DaySelector from "../../components/Home/DaySelector";
@@ -92,7 +91,7 @@ export default function Diet() {
     handleConfirmIngredients,
   } = useDayPlan(dayActive, foodActive, setFoodActive);
 
-  const { showOpinion, progress } = useOpinionTimer(dayPlan?.opinion_ia);
+  const showOpinion = !!dayPlan?.opinion_ia;
 
   const handleStartDiet = () => navigate("/nextDiet");
 
@@ -142,14 +141,8 @@ export default function Diet() {
                       setFoodActive={setFoodActive}
                     />
 
-                    {showOpinion && dayPlan.opinion_ia && (
-                      <div className="w-full md:w-50 xl:w-70 mx-auto h-auto bg-yellow px-4 py-3 rounded-2xl text-brown text-left text-sm flex flex-col gap-2 overflow-y-auto">
-                        <div className="w-full bg-gray-300 h-2 rounded-full mt-2">
-                          <div
-                            className="bg-brown h-2 rounded-full transition-all"
-                            style={{ width: `${progress}%` }}
-                          ></div>
-                        </div>
+                    {showOpinion && (
+                      <div className="mt-3 bg-yellow px-4 py-3 rounded-2xl text-sm sm:text-base text-brown ft-light flex flex-col gap-2 max-h-90 overflow-y-auto text-left">
                         <span className="ft-medium">Opinión de la IA:</span>
                         <span className="text-sm whitespace-pre-line">
                           {dayPlan.opinion_ia}
