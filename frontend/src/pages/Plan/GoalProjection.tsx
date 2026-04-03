@@ -47,6 +47,7 @@ export default function GoalProjection() {
       <LoadingScreen
         title="CARGANDO DIETA"
         subtitle="Estamos preparando tu plan semanal. Esto puede tardar unos segundos."
+        loading={loading}
       />
     );
   }
@@ -56,6 +57,7 @@ export default function GoalProjection() {
       <LoadingScreen
         title="CARGANDO DIETA"
         subtitle="Estamos preparando tu plan semanal. Esto puede tardar unos segundos."
+        loading={loading}
       />
     );
   }
