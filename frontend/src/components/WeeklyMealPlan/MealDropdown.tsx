@@ -45,10 +45,12 @@ export default function MealDropdown({
   return (
     <div
       ref={dropdownRef}
-      onClick={toggleDropdown}
       className="relative bg-input ft-medium px-4 sm:px-5 md:px-6 py-3 sm:py-4 rounded-4xl cursor-pointer flex justify-between items-center text-gray text-xs w-full md:w-50 mx-auto"
     >
-      <div className="w-full flex justify-between items-center">
+      <div
+        onClick={toggleDropdown}
+        className="w-full flex justify-between items-center"
+      >
         <span className="text-[11px] ft-medium">
           {activeDish.tipo_comida} - {activeDish.hora_sugerida || "—"}
         </span>
@@ -68,7 +70,10 @@ export default function MealDropdown({
             <div
               key={com.tipo_comida}
               className="p-2 hover:bg-gray-300 rounded-xl cursor-pointer text-xs w-full md:w-50"
-              onClick={() => handleSelectFood(com.tipo_comida as TypeFood)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSelectFood(com.tipo_comida as TypeFood);
+              }}
             >
               {com.tipo_comida} — {com.hora_sugerida || "—"}
             </div>
