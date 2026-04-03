@@ -23,9 +23,15 @@ export const getHasPlan = async (): Promise<HasPlanResponse> => {
     return data;
 };
 
+type MascotaNav = {
+    tipo: string
+    fondo_puesto: string,
+}
+
 export interface UserProgressResponse {
     numero_racha: number;
     cantidad_gemas: number;
+    mascota: MascotaNav;
 }
 
 export const getUserProgress = async (): Promise<UserProgressResponse> => {
