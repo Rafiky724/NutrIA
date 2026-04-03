@@ -2,6 +2,7 @@ import "./LoadingScreen.css";
 import FruitLeft from "../Decoration/FruitLeft";
 import FruitRight from "../Decoration/FruitRight";
 import { useEffect, useState } from "react";
+import { nutritionFacts } from "../../data/nutritionFacts";
 
 type Props = {
   title?: string;
@@ -16,28 +17,25 @@ export default function LoadingScreen({
   icon = "/LoadingIcon.svg",
   loading,
 }: Props) {
-  const nutritionFacts = [
-    "La avena ayuda a reducir el colesterol.",
-    "Tomar agua antes de comer puede mejorar la digestión.",
-    "Las proteínas ayudan a mantener la masa muscular.",
-    "Dormir bien también influye en tu metabolismo.",
-    "Las frutas contienen antioxidantes esenciales.",
-    "Comer despacio ayuda a sentirte lleno más rápido.",
-  ];
-
   const [currentSubtitle, setCurrentSubtitle] = useState(subtitle);
   const [progress, setProgress] = useState(0);
   const [fade, setFade] = useState(true);
 
   useEffect(() => {
-    let index = 0;
+    let lastIndex = -1;
 
     const interval = setInterval(() => {
       setFade(false);
 
       setTimeout(() => {
-        index = (index + 1) % nutritionFacts.length;
-        setCurrentSubtitle(nutritionFacts[index]);
+        let newIndex;
+
+        do {
+          newIndex = Math.floor(Math.random() * nutritionFacts.length);
+        } while (newIndex === lastIndex);
+
+        lastIndex = newIndex;
+        setCurrentSubtitle(nutritionFacts[newIndex]);
         setFade(true);
       }, 300);
     }, 8000);
