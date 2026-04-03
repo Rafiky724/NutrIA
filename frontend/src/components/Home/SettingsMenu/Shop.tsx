@@ -8,6 +8,8 @@ import {
   comprarOEquiparItem,
   type ComprarMascotaRequest,
 } from "../../../services/mascotaService";
+import { useProgress } from "../../../Context/ProgressContext";
+import EquippedItems from "./EquippedItem/EquippedItems";
 
 type Category = {
   name: string;
@@ -20,6 +22,8 @@ type Props = {
 };
 
 export default function Shop({ categories = categoriesData }: Props) {
+  const { refreshProgress } = useProgress();
+
   const folderMap: Record<string, string> = {
     mascotas: "Mascotas",
     gafas: "Gafas",
@@ -36,19 +40,13 @@ export default function Shop({ categories = categoriesData }: Props) {
   const [mascotaActual, setMascotaActual] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Estados para modal de nombre
+  // Modal nombre mascota
   const [showNombreModal, setShowNombreModal] = useState(false);
   const [nuevoItem, setNuevoItem] = useState<any>(null);
   const [nombreMascota, setNombreMascota] = useState("");
 
-  const SKELETON_COUNT = 8;
+  const SKELETON_COUNT = 10;
   const skeletonGrid = Array.from({ length: SKELETON_COUNT });
-
-  useEffect(() => {
-    if (mascotaActual) {
-      console.log("Mascota actual:", mascotaActual);
-    }
-  }, [mascotaActual]);
 
   useEffect(() => {
     const fetchInicial = async () => {
@@ -79,7 +77,12 @@ export default function Shop({ categories = categoriesData }: Props) {
         setItems(tienda.mascotas_tienda);
       } else {
         const data = await getItemsCategoria(category);
-        setItems(mapEquipados(data.items, mascotaActual, category));
+
+        if (mascotaActual) {
+          setItems(mapEquipados(data.items, mascotaActual, category));
+        } else {
+          setItems(data.items);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -102,6 +105,10 @@ export default function Shop({ categories = categoriesData }: Props) {
       };
 
       await comprarOEquiparItem(payload);
+
+      if (!item.comprado) {
+        refreshProgress();
+      }
 
       if (activeCategory === "mascotas") {
         const tienda = await getTiendaMascotas();
@@ -140,6 +147,8 @@ export default function Shop({ categories = categoriesData }: Props) {
 
       await comprarOEquiparItem(payload);
 
+      refreshProgress();
+
       const tienda = await getTiendaMascotas();
       setItems(tienda.mascotas_tienda);
       setMascotaActual(tienda.mascota_actual);
@@ -168,12 +177,72 @@ export default function Shop({ categories = categoriesData }: Props) {
       if (categoria === "fondos")
         equipado = mascota?.fondo_puesto === item.imagen.replace(".svg", "");
 
-      return { ...item, equipado };
+      return {
+        ...item,
+        equipado,
+        type: categoria,
+      };
     });
   };
 
+  // 🔥 CLAVE: SIEMPRE SACAR EQUIPADOS DESDE mascotaActual
+  const getEquippedItemsFromMascota = (mascota: any) => {
+    if (!mascota) return [];
+
+    const equipped: any[] = [];
+
+    if (mascota.gorra_puesto) {
+      equipped.push({
+        id: `gorra-${mascota.gorra_puesto}`,
+        imagen: `${mascota.gorra_puesto}.svg`,
+        type: "gorras",
+        equipado: true,
+      });
+    }
+
+    if (mascota.gafa_puesto) {
+      equipped.push({
+        id: `gafa-${mascota.gafa_puesto}`,
+        imagen: `${mascota.gafa_puesto}.svg`,
+        type: "gafas",
+        equipado: true,
+      });
+    }
+
+    if (mascota.accesorio_puesto) {
+      equipped.push({
+        id: `accesorio-${mascota.accesorio_puesto}`,
+        imagen: `${mascota.accesorio_puesto}.svg`,
+        type: "accesorios",
+        equipado: true,
+      });
+    }
+
+    if (mascota.marco_puesto) {
+      equipped.push({
+        id: `marco-${mascota.marco_puesto}`,
+        imagen: `${mascota.marco_puesto}.svg`,
+        type: "marcos",
+        equipado: true,
+      });
+    }
+
+    if (mascota.fondo_puesto) {
+      equipped.push({
+        id: `fondo-${mascota.fondo_puesto}`,
+        imagen: `${mascota.fondo_puesto}.svg`,
+        type: "fondos",
+        equipado: true,
+      });
+    }
+
+    return equipped;
+  };
+
+  const equippedItems = getEquippedItemsFromMascota(mascotaActual);
+
   return (
-    <div className="w-full flex flex-col-reverse lg:flex-row items-center justify-between xl:justify-center gap-5 xl:gap-20 px-4">
+    <div className="w-full flex flex-col-reverse lg:flex-row items-center justify-between xl:justify-center gap-5 xl:gap-20 px-0 md:px-4">
       <div className="relative bg-white rounded-b-4xl shadow-lg p-6 sm:p-8 w-2xs md:w-md xl:w-lg flex flex-col gap-6 ml-10 md:ml-0 h-100 mb-10 justify-center">
         <div className="flex flex-wrap gap-4 justify-center mt-10 md:mt-15 overflow-y-auto p-1 max-h-96">
           <img
@@ -205,12 +274,9 @@ export default function Shop({ categories = categoriesData }: Props) {
                       className="w-18 h-18 object-contain"
                     />
                   </div>
+
                   <div className="flex items-center gap-1 mt-1">
-                    {item.equipado ? (
-                      <span className="text-xs text-green-500 font-bold"></span>
-                    ) : item.comprado ? (
-                      <span className="text-xs text-yellow-500 font-bold"></span>
-                    ) : (
+                    {item.equipado ? null : item.comprado ? null : (
                       <>
                         <img
                           src="/SVG/IconsGeneral/GemsIcon.svg"
@@ -245,65 +311,26 @@ export default function Shop({ categories = categoriesData }: Props) {
         </div>
       </div>
 
-      <div className="relative flex flex-col ml-10 md:ml-0 md:h-130 justify-around md:mt-8 items-center">
-        {!mascotaActual ? (
-          <>
-            <Skeleton height={192} width={192} />
-            <Skeleton height={32} width={160} className="mt-2" />
-          </>
-        ) : (
-          <>
-            {mascotaActual?.tipo && (
-              <img
-                src={`/SVG/Pets/Shop/EditMascota/${mascotaActual?.tipo}.svg`}
-                alt="Mascota"
-                className="w-65 sm:w-72 md:w-80 lg:w-96 h-auto object-contain z-50"
-              />
-            )}
-            <h3 className="ft-medium text-xl md:text-2xl text-center text-white bg-brown rounded-full px-20">
-              {mascotaActual?.nombre || "Mascota"}
-            </h3>
-
-            {mascotaActual?.gorra_puesto && (
-              <img
-                src={`/SVG/Pets/Shop/Gorras/${mascotaActual.gorra_puesto}.svg`}
-                className="absolute w-30 md:w-45 h-auto object-contain -top-10 z-50"
-                alt="Gorra"
-              />
-            )}
-            {mascotaActual?.gafa_puesto && (
-              <img
-                src={`/SVG/Pets/Shop/Gafas/${mascotaActual.gafa_puesto}.svg`}
-                className="absolute w-65 sm:w-72 md:w-80 lg:w-96 h-auto object-contain"
-                alt="Gafas"
-              />
-            )}
-            {mascotaActual?.accesorio_puesto && (
-              <img
-                src={`/SVG/Pets/Shop/Accesorios/${mascotaActual.accesorio_puesto}.svg`}
-                className="absolute w-65 sm:w-72 md:w-80 lg:w-96 h-auto object-contain"
-                alt="Accesorio"
-              />
-            )}
-            {mascotaActual?.marco_puesto && (
-              <img
-                src={`/SVG/Pets/Shop/Marcos/${mascotaActual.marco_puesto}.svg`}
-                className="absolute w-65 sm:w-72 md:w-80 lg:w-96 h-auto object-contain top-0"
-                alt="Marco"
-              />
-            )}
-            {mascotaActual?.fondo_puesto && (
-              <img
-                src={`/SVG/Pets/Shop/Fondos/${mascotaActual.fondo_puesto}.svg`}
-                className="absolute w-65 md:w-120 h-auto object-contain top-0 rounded-4xl"
-                alt="Fondo"
-              />
-            )}
-          </>
-        )}
+      <div className="flex flex-col items-center justify-center">
+        <div className="relative flex flex-col ml-10 md:ml-0 md:h-100 justify-center md:mt-20 items-center">
+          {!mascotaActual ? (
+            <>
+              <Skeleton height={192} width={192} />
+              <Skeleton height={192} width={160} className="mt-2" />
+            </>
+          ) : (
+            <>
+              <EquippedItems mascota={mascotaActual} items={equippedItems} />
+            </>
+          )}
+        </div>
+        <div className="ml-10 md:ml-0 z-50">
+          <h3 className="ft-medium text-xl md:text-2xl text-center text-white bg-brown rounded-full px-20">
+            {mascotaActual?.nombre || "Mascota"}
+          </h3>
+        </div>
       </div>
 
-      {/* MODAL DE NOMBRE DE MASCOTA */}
       {showNombreModal && (
         <div
           className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-5"
