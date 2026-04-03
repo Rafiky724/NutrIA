@@ -11,6 +11,7 @@ import WarningDay from "../../components/Home/Completed/WarningDay";
 import ExcelentDay from "../../components/Home/Completed/ExcelentDay";
 import FailedDay from "../../components/Home/Completed/FailedDay";
 import { useProgress } from "../../Context/ProgressContext";
+import FinalOptions from "../../components/Home/Completed/FinalOptions";
 
 export default function Home() {
   const { refreshProgress } = useProgress();
@@ -20,6 +21,7 @@ export default function Home() {
   const [openWarningDayModal, setOpenWarningDayModal] = useState(false);
   const [openExcelentDayModal, setOpenExcelentDayModal] = useState(false);
   const [openFailedDayModal, setOpenFailedDayModal] = useState(false);
+  const [openFinalOptionsModal, setOpenFinalOptionsModal] = useState(false);
 
   console.log(homeData);
 
@@ -41,6 +43,9 @@ export default function Home() {
       }
       if (data.modals.mostrar_advertencia_racha) {
         setOpenWarningDayModal(true);
+      }
+      if (data.modals.mostrar_actualizar_dieta) {
+        setOpenFinalOptionsModal(true);
       }
     } catch (err) {
       console.error("Error al cargar datos del home", err);
@@ -105,6 +110,12 @@ export default function Home() {
       <FailedDay
         isOpen={openFailedDayModal}
         onClose={() => setOpenFailedDayModal(false)}
+        onRefetch={fetchHomeData}
+      />
+
+      <FinalOptions
+        isOpen={openFinalOptionsModal}
+        onClose={() => setOpenFinalOptionsModal(false)}
         onRefetch={fetchHomeData}
       />
     </div>
