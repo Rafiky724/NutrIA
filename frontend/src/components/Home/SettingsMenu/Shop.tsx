@@ -332,15 +332,12 @@ export default function Shop({ categories = categoriesData }: Props) {
       </div>
 
       {showNombreModal && (
-        <div
-          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-5"
-          onClick={() => setShowNombreModal(false)}
-        >
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
           <div
-            className="bg-white rounded-4xl p-10 flex flex-col gap-6 md:gap-8 w-full md:w-2xl max-h-[600px] overflow-y-auto items-center"
+            className="flex flex-col justify-center w-md bg-white rounded-4xl p-8 md:p-10 max-w-2xl shadow-lg relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-center text-lg ft-bold text-brown md:mb-10">
+            <h2 className="ft-bold text-xl md:text-2xl text-brown text-center mb-10">
               ¡Ponle un nombre a tu mascota!
             </h2>
 
@@ -349,19 +346,13 @@ export default function Shop({ categories = categoriesData }: Props) {
               value={nombreMascota}
               onChange={(e) => setNombreMascota(e.target.value)}
               placeholder="Nombre de la mascota"
-              className="border p-4 rounded-4xl text-center w-full text-md"
+              className="bg-input p-4 rounded-4xl text-center w-2xs text-md mx-auto"
             />
 
             <div className="flex justify-between w-full mt-6 md:mt-8">
               <button
-                onClick={() => setShowNombreModal(false)}
-                className="px-6 py-3 rounded-4xl bg-gray-300 hover:bg-gray-400 text-md transition"
-              >
-                Cancelar
-              </button>
-              <button
                 onClick={confirmarNombreMascota}
-                className="px-6 py-3 rounded-4xl bg-yellow-400 hover:bg-yellow-500 text-white text-md transition"
+                className="bg-yellow text-white ft-medium px-10 py-2 rounded-4xl shadow-md cursor-pointer text-sm sm:text-base hover:scale-105 transition mx-auto"
               >
                 Confirmar
               </button>
