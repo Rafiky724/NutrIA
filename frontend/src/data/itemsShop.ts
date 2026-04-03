@@ -162,72 +162,72 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         // Fondos
         fondo1: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo2: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo3: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo4: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo5: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo6: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
@@ -235,7 +235,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         // Marcos
         marco1: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -247,7 +247,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco2: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -259,7 +259,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco3: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -271,7 +271,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco4: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -283,7 +283,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco5: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -295,7 +295,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco6: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -506,72 +506,72 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         // Fondos
         fondo1: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo2: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo3: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo4: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo5: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
         },
         fondo6: {
             desktop: {
-                position: { x: 0, y: -128 },
+                position: { x: 0, y: -118 },
                 size: { width: 380, height: 380 },
                 zIndex: { z: 5 },
             },
             mobile: {
-                position: { x: 20, y: 0 },
+                position: { x: 20, y: 20 },
                 size: { width: 280, height: 263.5 },
                 zIndex: { z: 5 },
             },
@@ -579,7 +579,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         // Marcos
         marco1: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -591,7 +591,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco2: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -603,7 +603,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco3: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -615,7 +615,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco4: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -627,7 +627,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco5: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
@@ -639,7 +639,7 @@ export const itemSettings: Record<string, Record<string, ItemConfig>> = {
         },
         marco6: {
             desktop: {
-                position: { x: -3.5, y: -141 },
+                position: { x: -3.5, y: -125 },
                 size: { width: 390, height: 390 },
                 zIndex: { z: 40 },
             },
