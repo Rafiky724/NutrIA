@@ -72,6 +72,7 @@ export default function PetName() {
       <LoadingScreen
         title="CARGANDO"
         subtitle={`Esto puede tardar un momento.\nEstas adoptando tu mascota.`}
+        loading={loading}
       />
     );
   }
