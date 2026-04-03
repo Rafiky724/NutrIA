@@ -142,7 +142,7 @@ export default function Diet() {
                     />
 
                     {showOpinion && (
-                      <div className="mt-3 bg-yellow px-4 py-3 rounded-2xl text-sm sm:text-base text-brown ft-light flex flex-col gap-2 max-h-90 overflow-y-auto text-left">
+                      <div className="w-2xs mt-3 bg-yellow px-4 py-3 rounded-2xl text-sm sm:text-base text-brown ft-light flex flex-col gap-2 max-h-90 overflow-y-auto text-left">
                         <span className="ft-medium">Opinión de la IA:</span>
                         <span className="text-sm whitespace-pre-line">
                           {dayPlan.opinion_ia}
