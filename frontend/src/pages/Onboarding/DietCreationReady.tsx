@@ -35,6 +35,7 @@ export default function DietCreationReady() {
       <LoadingScreen
         title="CARGANDO"
         subtitle={`Esto puede tardar un momento.\nEstamos creando tu dieta personalizada.`}
+        loading={loading}
       />
     );
   }
