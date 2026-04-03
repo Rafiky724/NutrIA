@@ -37,6 +37,7 @@ export default function DailyNutritionPlan() {
       <LoadingScreen
         title="CARGANDO PLAN NUTRICIONAL"
         subtitle="Cargando tu proyección objetivo..."
+        loading={loading}
       />
     );
   }
@@ -46,6 +47,7 @@ export default function DailyNutritionPlan() {
       <LoadingScreen
         title="CARGANDO PLAN NUTRICIONAL"
         subtitle="Cargando tu proyección objetivo..."
+        loading={loading}
       />
     );
   }
@@ -75,6 +77,7 @@ export default function DailyNutritionPlan() {
       <LoadingScreen
         title="CALCULANDO PLAN"
         subtitle="Estamos calculando tus macronutrientes diarios. Esto tomará unos segundos..."
+        loading={loading}
       />
     );
   }
