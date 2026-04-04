@@ -205,8 +205,7 @@ class HomeController:
 
         
         estado = await EstadoModel.get_estado_dia_por_fecha(plan["_id"], inicio, fin)
-        informacion_dia["fecha"] = estado.get("fecha", None)
-        informacion_dia["dia_semana"] = estado.get("dia_semana", None)
+        
         #print(estado)
         #return {200: "ok"}
         """
@@ -253,9 +252,10 @@ class HomeController:
                 try:
 
                     await EstadoModel.create_estado_model_today(user_id, plan["_id"], HomeController.dias[hoy.weekday()])
-
                     estado = await EstadoModel.get_estado_dia_por_fecha(plan["_id"], inicio, fin)
-                
+                    informacion_dia["fecha"] = estado.get("fecha", None)
+                    informacion_dia["dia_semana"] = estado.get("dia_semana", None)
+
                 except Exception as e:
                     raise HTTPException(
                         status_code=500,
