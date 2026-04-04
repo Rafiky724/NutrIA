@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class VerificarComidaResponse(BaseModel):
@@ -10,7 +10,7 @@ class VerificarComidaResponse(BaseModel):
 
 class VerificarComidaRequest(BaseModel):
 
-    descripcion: str
+    descripcion: str = Field(..., min_length=10, max_length=1000)
 
 class ComidaAnalysisResponse(BaseModel):
     match: bool
