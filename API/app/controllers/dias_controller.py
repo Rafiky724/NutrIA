@@ -334,7 +334,7 @@ class DiasController:
                     id_plan = dia_doc["id_plan"]
                     dia_doc.pop("id_plan")
 
-                    await EstadoModel.edit_estado_dia(
+                    await EstadoModel.edit_estado_dia_dia_mas_cercano(
                         plan_id=id_plan,
                         estado=dia_doc,
                         dia_semana=dia_semana,
