@@ -74,10 +74,6 @@ class ObjetivoController:
         current_user["nivel_actividad"] = data.nivel_actividad
         current_user["tipo_actividad"] = data.tipo_actividad
 
-        print("Objetivo actualizado:", objetivo)
-        print("Plan actualizado:", plan)
-        print("Usuario actualizado:", current_user)
-
         try:
             session = await db.client.start_session()
             async with session:

@@ -2,6 +2,8 @@ from copy import deepcopy
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 
+from pymongo import ReturnDocument
+
 from app.core.database import db
 from app.models.dias_model import DiaModel
 
@@ -54,6 +56,45 @@ class EstadoModel:
             session=session
         )
     
+    @staticmethod
+    async def edit_estado_dia_dia_mas_cercano(plan_id, estado, dia_semana, session=None):
+
+        hoy = datetime.now(ZoneInfo("America/Bogota"))
+
+        # 1. Buscar el documento más cercano
+        docs = await db.estados_dia.aggregate([
+            {
+                "$match": {
+                    "plan_id": plan_id,
+                    "dia_semana": dia_semana,
+                    "activo": True
+                }
+            },
+            {
+                "$addFields": {
+                    "diff": {
+                        "$abs": {
+                            "$subtract": ["$fecha", hoy]
+                        }
+                    }
+                }
+            },
+            {"$sort": {"diff": 1}},
+            {"$limit": 1}
+        ]).to_list(1)
+
+        if not docs:
+            return None
+
+        doc_id = docs[0]["_id"]
+
+        # 2. Actualizar ese documento
+        return await db.estados_dia.update_one(
+            {"_id": doc_id},
+            {"$set": {"dieta": estado}},
+            session=session
+        )
+        
 
     """
     async def actualizar_estado_dia(user_id, estado, session=None):
