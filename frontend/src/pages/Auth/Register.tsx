@@ -12,6 +12,7 @@ import LoadingScreen from "../../components/Loading/LoadingScreen";
 export default function Register() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState<RegisterForm>({
     nombre: "",
@@ -158,7 +159,7 @@ export default function Register() {
             />
           </div>
 
-          <div className="flex flex-col">
+          <div className="relative flex flex-col">
             <label
               htmlFor="contraseña"
               className="block text-brown ft-medium text-left mb-1"
@@ -168,13 +169,29 @@ export default function Register() {
             <input
               id="contraseña"
               name="contraseña"
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={formData.contraseña}
               onChange={handleChange}
               placeholder="Ingresa tu contraseña"
               required
               className="w-full px-4 py-2 rounded-3xl bg-input ft-light text-sm sm:text-base"
             />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-9 transform cursor-pointer"
+            >
+              <img
+                src={
+                  showPassword
+                    ? "/SVG/IconsGeneral/eyeOpen.svg"
+                    : "/SVG/IconsGeneral/eyeClosed.svg"
+                }
+                alt="toggle password visibility"
+                className="w-6 h-6"
+              />
+            </button>
           </div>
         </div>
 
