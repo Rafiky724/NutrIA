@@ -10,6 +10,7 @@ import {
   actualizarIngredientesUsuario,
   type Ingrediente,
 } from "../../services/despensaService";
+import Toast from "../../components/Toast/Toast";
 
 interface IngredientWithCategory {
   nombre: string;
@@ -21,6 +22,12 @@ export default function Pantry() {
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [pantry, setPantry] = useState<IngredientWithCategory[]>([]);
   const [loadingData, setLoadingData] = useState(true);
+
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: "",
+    type: "success" as "success" | "error" | "warning" | "info",
+  });
 
   const toggleIngredient = (ingredient: IngredientWithCategory) => {
     setPantry((prev) =>
@@ -87,10 +94,19 @@ export default function Pantry() {
         ingredientes: pantry.map((i) => ({ nombre: i.nombre })),
       };
 
-      const data = await actualizarIngredientesUsuario(payload);
-      console.log("Despensa actualizada:", data);
+      await actualizarIngredientesUsuario(payload);
+
+      setToast({
+        isOpen: true,
+        message: "Despensa actualizada correctamente",
+        type: "success",
+      });
     } catch (err) {
-      console.error("Error al actualizar la despensa:", err);
+      setToast({
+        isOpen: true,
+        message: "Error al actualizar la despensa",
+        type: "error",
+      });
     } finally {
       setLoadingData(false);
     }
@@ -244,6 +260,13 @@ export default function Pantry() {
           </div>
         </div>
       </div>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isOpen={toast.isOpen}
+        onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }
