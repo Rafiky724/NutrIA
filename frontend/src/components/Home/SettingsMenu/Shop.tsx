@@ -352,7 +352,7 @@ export default function Shop({ categories = categoriesData }: Props) {
             <div className="flex justify-between w-full mt-6 md:mt-8">
               <button
                 onClick={confirmarNombreMascota}
-                className="bg-yellow text-white ft-medium px-10 py-2 rounded-4xl shadow-md cursor-pointer text-sm sm:text-base hover:scale-105 transition mx-auto"
+                className="bg-yellow text-brown ft-medium px-10 py-2 rounded-4xl shadow-md cursor-pointer text-sm sm:text-base hover:scale-105 transition mx-auto"
               >
                 Confirmar
               </button>
