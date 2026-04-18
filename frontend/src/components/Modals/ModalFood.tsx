@@ -48,6 +48,13 @@ export default function ModalFood({
           >
             Aceptar
           </button>
+
+          <button
+            onClick={onClose}
+            className="w-3xs sm:w-xs bg-brown text-white font-semibold py-2 rounded-full shadow text-md mx-auto cursor-pointer hover:scale-105 transition"
+          >
+            Cancelar
+          </button>
         </div>
       </div>
     </div>
