@@ -126,6 +126,14 @@ export default function ModalStartDate({ onSelectDate, onClose }: Props) {
         >
           Confirmar fecha
         </button>
+
+        <button
+          type="button"
+          onClick={onClose}
+          className="w-3xs md:w-xs bg-brown text-white ft-medium py-2 rounded-full shadow cursor-pointer mx-auto block hover:scale-105 transition mt-4 md:mt-0"
+        >
+          Cancelar
+        </button>
       </div>
 
       <Toast
