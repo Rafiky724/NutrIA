@@ -5,10 +5,15 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
 import { getHasPlan } from "../../services/userService";
+import Toast from "../../components/Toast/Toast";
 
 export default function DietCreationReady() {
   const navigate = useNavigate();
-
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: "",
+    type: "error" as "error" | "success" | "warning" | "info",
+  });
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [checkingPlan, setCheckingPlan] = useState(true);
@@ -41,7 +46,11 @@ export default function DietCreationReady() {
       navigate("/dietPlanReady");
     } catch (err: any) {
       console.error("Error al crear dieta:", err);
-      console.log("No se pudo crear la dieta. Intenta de nuevo.");
+      setToast({
+        isOpen: true,
+        message: "Hubo un problema al crear tu dieta. Intenta nuevamente.",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -90,6 +99,13 @@ export default function DietCreationReady() {
       <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isOpen={toast.isOpen}
+        onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }
