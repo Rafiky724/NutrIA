@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import type { HomeResponse, Ingredient, IngredientCategory } from "../../types";
 import { DaysService } from "../../services/daysService";
 import Toast from "../Toast/Toast";
-import SpinnerOverlay from "../Loading/SpinnerOverlay";
 
 type Props = {
   isOpen: boolean;
@@ -12,6 +11,7 @@ type Props = {
   onClose: () => void;
   onConfirm: (ingredientsFinals: Ingredient[]) => void;
   homeData: HomeResponse;
+  setLoadingEdit: (value: boolean) => void;
 };
 
 export default function ModalEditIngredients({
@@ -22,8 +22,8 @@ export default function ModalEditIngredients({
   onClose,
   onConfirm,
   homeData,
+  setLoadingEdit,
 }: Props) {
-  const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<string[]>(
     currentIngredients.map((ing) => ing.nombre),
   );
@@ -50,9 +50,9 @@ export default function ModalEditIngredients({
   };
 
   const confirm = async () => {
-    if (loading) return;
+    onClose();
 
-    setLoading(true);
+    setLoadingEdit(true);
     try {
       const dia_actual = homeData?.dia_actual.dia_semana;
       const comida_actual = homeData.dia_actual.comidas.find(
@@ -84,14 +84,6 @@ export default function ModalEditIngredients({
           grasas_ingrediente: 0,
         })),
       );
-
-      setToast({
-        isOpen: true,
-        message: "Ingredientes actualizados correctamente",
-        type: "success",
-      });
-
-      onClose();
     } catch (error) {
       console.error("Error editando ingredientes:", error);
       setToast({
@@ -101,7 +93,7 @@ export default function ModalEditIngredients({
         type: "error",
       });
     } finally {
-      setLoading(false);
+      setLoadingEdit(false);
     }
   };
 
@@ -205,8 +197,6 @@ export default function ModalEditIngredients({
         isOpen={toast.isOpen}
         onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
       />
-
-      <SpinnerOverlay isOpen={loading} />
     </div>
   );
 }
