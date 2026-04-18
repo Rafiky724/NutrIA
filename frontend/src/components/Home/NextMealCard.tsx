@@ -77,7 +77,10 @@ export default function NextMealCard({
 
   if (!nextFood?.ingredientes || !nextFood) {
     return (
-      <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-6 shadow flex items-center justify-center text-center ml-10 md:ml-0">
+      <div className="w-2xs md:w-lg xl:w-4xl md:h-95 bg-white rounded-3xl p-6 shadow flex flex-col items-center justify-center text-center ml-10 md:ml-0">
+        <div className="w-full p-4 md:p-8">
+          <img src="/Background/NutriaDescansando.svg" alt="Nutria Dormida" />
+        </div>
         <p className="text-sm md:text-lg font-semibold text-brown">
           {typeof homeData?.proxima_comida === "string"
             ? homeData.proxima_comida
