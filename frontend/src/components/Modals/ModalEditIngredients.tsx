@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import type { HomeResponse, Ingredient, IngredientCategory } from "../../types";
 import { DaysService } from "../../services/daysService";
+import Toast from "../Toast/Toast";
+import SpinnerOverlay from "../Loading/SpinnerOverlay";
 
 type Props = {
   isOpen: boolean;
@@ -21,9 +23,15 @@ export default function ModalEditIngredients({
   onConfirm,
   homeData,
 }: Props) {
+  const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<string[]>(
     currentIngredients.map((ing) => ing.nombre),
   );
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: "",
+    type: "error" as "error" | "success" | "warning" | "info",
+  });
 
   useEffect(() => {
     setSelected(currentIngredients.map((ing) => ing.nombre));
@@ -42,6 +50,9 @@ export default function ModalEditIngredients({
   };
 
   const confirm = async () => {
+    if (loading) return;
+
+    setLoading(true);
     try {
       const dia_actual = homeData?.dia_actual.dia_semana;
       const comida_actual = homeData.dia_actual.comidas.find(
@@ -49,7 +60,11 @@ export default function ModalEditIngredients({
       );
 
       if (!comida_actual) {
-        console.error(`No hay ${tipoComida} pendiente hoy`);
+        setToast({
+          isOpen: true,
+          message: `No hay ${tipoComida} pendiente hoy`,
+          type: "warning",
+        });
         return;
       }
       await DaysService.editFood(
@@ -70,18 +85,28 @@ export default function ModalEditIngredients({
         })),
       );
 
+      setToast({
+        isOpen: true,
+        message: "Ingredientes actualizados correctamente",
+        type: "success",
+      });
+
       onClose();
     } catch (error) {
       console.error("Error editando ingredientes:", error);
-      alert("No se pudieron actualizar los ingredientes. Intenta de nuevo.");
+      setToast({
+        isOpen: true,
+        message:
+          "No se pudieron actualizar los ingredientes. Intenta de nuevo.",
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
       <div
         onClick={(e) => e.stopPropagation()}
         className="bg-white rounded-4xl p-6 w-full max-w-4xl shadow-lg overflow-auto max-h-[85vh]"
@@ -157,15 +182,31 @@ export default function ModalEditIngredients({
           </div>
         </div>
 
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-6 gap-4">
           <button
             onClick={confirm}
             className="px-8 py-2 rounded-full bg-yellow font-medium text-brown hover:scale-105 transition cursor-pointer"
           >
             Aceptar
           </button>
+
+          <button
+            onClick={onClose}
+            className="px-8 py-2 rounded-full bg-brown font-medium text-white hover:scale-105 transition cursor-pointer"
+          >
+            Cancelar
+          </button>
         </div>
       </div>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isOpen={toast.isOpen}
+        onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
+      />
+
+      <SpinnerOverlay isOpen={loading} />
     </div>
   );
 }
