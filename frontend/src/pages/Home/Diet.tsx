@@ -22,6 +22,8 @@ export default function Diet() {
   const [updateMessage, setUpdateMessage] = useState<string | null>(null);
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
 
+  const [isMounted, setIsMounted] = useState(false);
+
   const daysIndex: Record<Days, number> = {
     Lunes: 0,
     Martes: 1,
@@ -99,9 +101,15 @@ export default function Diet() {
 
   const loadingPage = !dish || !dayPlan || !homeData;
 
+  useEffect(() => {
+    if (dish && dayPlan && homeData) {
+      setIsMounted(true);
+    }
+  }, [dish, dayPlan, homeData]);
+
   return (
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
-      <SpinnerOverlay isOpen={loadingAction || loadingEdit} />
+      <SpinnerOverlay isOpen={isMounted && (loadingAction || loadingEdit)} />
 
       <div className="flex-1 py-6 flex flex-col gap-6">
         <div className="block md:hidden">
