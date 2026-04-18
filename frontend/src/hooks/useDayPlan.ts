@@ -19,10 +19,12 @@ export function useDayPlan(
     const [dayPlan, setDayPlan] = useState<DayPlan | null>(null);
     const [cachedDays, setCachedDays] = useState<Record<string, DayPlan>>({});
     const [loadingAction, setLoadingAction] = useState(false);
+    const [loadingDay, setLoadingDay] = useState(false);
 
     useEffect(() => {
         const fetchDay = async () => {
             try {
+                setLoadingDay(true);
                 const nameDay = dayActive.toLowerCase();
 
                 let data: DayPlan;
@@ -37,6 +39,8 @@ export function useDayPlan(
                 setFoodActive(data.comidas[0]?.tipo_comida as TypeFood);
             } catch (error) {
                 console.error("Error cargando el día actual:", error);
+            } finally {
+                setLoadingDay(false);
             }
         };
 
@@ -105,5 +109,13 @@ export function useDayPlan(
         }
     };
 
-    return { dayPlan, dish, loadingAction, handleRegenerateDish, handleConfirmIngredients };
+    const loading = loadingAction || loadingDay;
+
+    return {
+        dayPlan,
+        dish,
+        loadingAction: loading,
+        handleRegenerateDish,
+        handleConfirmIngredients
+    };
 }
