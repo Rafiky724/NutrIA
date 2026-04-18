@@ -9,7 +9,8 @@ type TypeActivity =
   | "Pesas / Gimnasio"
   | "Cardio (correr, nadar, bici...)"
   | "Funcional / CrossFit"
-  | "Yoga / Movilidad";
+  | "Yoga / Movilidad"
+  | "Ninguna";
 
 export default function Workout() {
   const { updateData } = useObjetiveFlow();
@@ -25,6 +26,7 @@ export default function Workout() {
     "Cardio (correr, nadar, bici...)",
     "Funcional / CrossFit",
     "Yoga / Movilidad",
+    "Ninguna",
   ];
 
   return (
@@ -34,7 +36,7 @@ export default function Workout() {
           <div className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center z-50">
             <div className="px-4 sm:px-6 md:px-10">
               <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-4 space-y-2 sm:space-y-0">
-                <div className="w-12 sm:w-20">
+                <div className="w-10 sm:w-20">
                   <img
                     src="/SVG/IconsGeneral/RunnerIcon.svg"
                     alt="Tipo Actividad Física"
@@ -42,7 +44,7 @@ export default function Workout() {
                   />
                 </div>
 
-                <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
+                <div className="ft-bold text-sm sm:text-xl md:text-2xl text-brown text-center md:text-left">
                   <h2>
                     ¿Qué tipo de actividad física realizas con más frecuencia?
                   </h2>
@@ -78,7 +80,7 @@ export default function Workout() {
             <div className="flex justify-center pt-6">
               <Link
                 to={"/meal"}
-                className="w-3xs sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-3xl hover:scale-105 transition cursor-pointer"
+                className="w-35 sm:w-72 bg-yellow text-brown ft-medium py-2.5 rounded-4xl hover:scale-105 transition cursor-pointer text-sm"
               >
                 Continuar
               </Link>
