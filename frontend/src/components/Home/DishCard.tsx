@@ -5,22 +5,15 @@ import DonutChart from "../Decoration/DonutChart";
 
 type Props = {
   dish: MealData;
-  loading: boolean;
   onRegenerate: () => void;
   onEdit: () => void;
 };
 
-export default function DishCard({
-  dish,
-  loading,
-  onRegenerate,
-  onEdit,
-}: Props) {
+export default function DishCard({ dish, onRegenerate, onEdit }: Props) {
   const { protein, carbs, fats } = calculateMacroPercentages(dish);
 
   return (
     <div className="bg-input p-4 rounded-4xl flex flex-col lg:flex-row gap-6 w-full max-w-8xl mx-auto h-full">
-      {/* IZQUIERDA */}
       <div className="flex flex-col items-center justify-center gap-4 lg:w-4xs">
         <div className="w-full object-cover">
           <img
@@ -62,7 +55,6 @@ export default function DishCard({
         />
       </div>
 
-      {/* DERECHA */}
       <div className="flex flex-col w-full gap-3">
         <div className="flex justify-between items-center">
           <h2 className="text-sm ft-bold text-brown">Ingredientes</h2>
@@ -116,7 +108,6 @@ export default function DishCard({
 
             <button
               onClick={onRegenerate}
-              disabled={loading}
               className="relative bg-brown text-white rounded-3xl ft-medium text-xs shadow text-center cursor-pointer hover:scale-105 transition p-3 px-8 pl-3"
             >
               Regenerar plato
