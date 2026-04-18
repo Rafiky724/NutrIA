@@ -8,6 +8,7 @@ import {
 } from "../../../../services/planService";
 import FruitLeft from "../../../Decoration/FruitLeft";
 import FruitRight from "../../../Decoration/FruitRight";
+import Toast from "../../../Toast/Toast";
 
 const options: { label: Budget; price: string }[] = [
   { label: "Muy bajo", price: "$80.000 COP" },
@@ -19,7 +20,11 @@ const options: { label: Budget; price: string }[] = [
 
 export default function BasedBudget() {
   const navigate = useNavigate();
-
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: "",
+    type: "error" as "error" | "success" | "warning" | "info",
+  });
   const [selected, setSelected] = useState<Budget>("Estándar");
 
   const handleContinuar = async () => {
@@ -27,6 +32,15 @@ export default function BasedBudget() {
       const presupuesto_num = options
         .find((o) => o.label === selected)
         ?.price.replace(/[^0-9]/g, "");
+
+      if (!presupuesto_num) {
+        setToast({
+          isOpen: true,
+          message: "No se pudo determinar el presupuesto",
+          type: "error",
+        });
+        return;
+      }
 
       const payload: CambiarTipoDietaRequest = {
         tipo_dieta: "Presupuesto",
@@ -36,10 +50,23 @@ export default function BasedBudget() {
       const response = await cambiarTipoDieta(payload);
       console.log("Tipo de dieta actualizado:", response);
 
+      setToast({
+        isOpen: true,
+        message: "Tipo de dieta actualizado correctamente",
+        type: "success",
+      });
+
       navigate("/home");
     } catch (error: any) {
       console.error("Error al actualizar tipo de dieta:", error);
-      alert(error.response?.data?.detail || "Error al cambiar tipo de dieta");
+
+      setToast({
+        isOpen: true,
+        message:
+          error.response?.data?.detail ||
+          "Error al cambiar tipo de dieta. Intenta de nuevo.",
+        type: "error",
+      });
     }
   };
 
@@ -112,6 +139,13 @@ export default function BasedBudget() {
           <FruitRight />
         </div>
       </div>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isOpen={toast.isOpen}
+        onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }
