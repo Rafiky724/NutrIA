@@ -7,11 +7,17 @@ import type { DayPlan, TypeFood } from "../../types";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ModalFood from "../../components/Modals/ModalFood";
+import Toast from "../../components/Toast/Toast";
 
 type HomeOption = "hoy" | "mañana" | "otro";
 
 export default function StartDiet() {
   const navigate = useNavigate();
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: "",
+    type: "error" as "error" | "success" | "warning" | "info",
+  });
   const [option, setOption] = useState<HomeOption | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [dayPlan, setDayPlan] = useState<DayPlan | null>(null);
@@ -32,6 +38,12 @@ export default function StartDiet() {
         setDayPlan(data);
       } catch (error) {
         console.error("Error cargando día actual:", error);
+
+        setToast({
+          isOpen: true,
+          message: "No se pudo cargar tu plan del día",
+          type: "error",
+        });
       }
     };
 
@@ -43,15 +55,30 @@ export default function StartDiet() {
     : [];
 
   const handleNext = () => {
-    if (!option) return;
+    if (!option) {
+      setToast({
+        isOpen: true,
+        message: "Selecciona cuándo quieres empezar",
+        type: "warning",
+      });
+      return;
+    }
 
     if (option === "hoy" && !selectedFood) {
-      alert("Selecciona en qué comida estás ahora");
+      setToast({
+        isOpen: true,
+        message: "Selecciona en qué comida estás ahora",
+        type: "warning",
+      });
       return;
     }
 
     if (option === "otro" && !selectedDate) {
-      alert("Selecciona la fecha de inicio");
+      setToast({
+        isOpen: true,
+        message: "Selecciona la fecha de inicio",
+        type: "warning",
+      });
       return;
     }
 
@@ -173,6 +200,13 @@ export default function StartDiet() {
       <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isOpen={toast.isOpen}
+        onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }
