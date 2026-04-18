@@ -3,18 +3,36 @@ import ArrowReturn from "../../../Decoration/ArrowReturn";
 import { cambiarTipoDieta } from "../../../../services/planService";
 import FruitLeft from "../../../Decoration/FruitLeft";
 import FruitRight from "../../../Decoration/FruitRight";
+import { useState } from "react";
+import Toast from "../../../Toast/Toast";
 
 export default function UpdateTypeDiet() {
   const navigate = useNavigate();
-
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: "",
+    type: "error" as "error" | "success" | "info" | "warning",
+  });
   const handleDisponible = async () => {
     try {
       await cambiarTipoDieta({ tipo_dieta: "Disponible" });
-      console.log("Actualizado");
-      navigate("/config");
+      setToast({
+        isOpen: true,
+        message: "Tipo de dieta actualizado correctamente",
+        type: "success",
+      });
+
+      setTimeout(() => {
+        navigate("/config");
+      }, 800);
     } catch (error: any) {
-      console.error("Error al actualizar tipo de dieta:", error);
-      alert(error.response?.data?.detail || "Error al cambiar tipo de dieta");
+      setToast({
+        isOpen: true,
+        message:
+          error.response?.data?.detail ||
+          "Error al cambiar tipo de dieta. Intenta de nuevo.",
+        type: "error",
+      });
     }
   };
 
@@ -86,6 +104,13 @@ export default function UpdateTypeDiet() {
           <FruitRight />
         </div>
       </div>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isOpen={toast.isOpen}
+        onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }
