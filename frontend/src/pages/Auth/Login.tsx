@@ -11,6 +11,7 @@ import FruitRight from "../../components/Decoration/FruitRight";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const navigate = useNavigate();
   const [toast, setToast] = useState({
@@ -101,7 +102,7 @@ export default function Login() {
               />
             </div>
 
-            <div className="text-left">
+            <div className="relative text-left">
               <label
                 htmlFor="password"
                 className="text-sm ft-medium text-brown ml-2"
@@ -110,12 +111,28 @@ export default function Login() {
               </label>
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 placeholder="*********"
                 onChange={(event) => setPassword(event.target.value)}
                 className="w-full px-4 py-2 rounded-full bg-input focus:outline-none focus:ring-2 focus:ring-yellow"
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-8 transform cursor-pointer"
+              >
+                <img
+                  src={
+                    showPassword
+                      ? "/SVG/IconsGeneral/eyeOpen.svg"
+                      : "/SVG/IconsGeneral/eyeClosed.svg"
+                  }
+                  alt="toggle password visibility"
+                  className="w-6 h-6"
+                />
+              </button>
             </div>
 
             <button
