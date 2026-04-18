@@ -10,6 +10,7 @@ import DishCard from "../../components/WeeklyMealPlan/DishCard";
 import { useDayPlan } from "../../hooks/useDayPlan";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
 import ModalEditIngrediente2 from "../../components/Modals/ModalEditIngrediente2";
+import SpinnerOverlay from "../../components/Loading/SpinnerOverlay";
 
 export default function WeeklyMealPlan() {
   const days: Days[] = [
@@ -38,7 +39,7 @@ export default function WeeklyMealPlan() {
 
   const handleStartDiet = () => navigate("/startDiet");
 
-  if (!dish || !dayPlan || loadingAction) {
+  if (!dish || !dayPlan) {
     return (
       <LoadingScreen
         title="CARGANDO DIETA"
@@ -50,6 +51,8 @@ export default function WeeklyMealPlan() {
 
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center px-4 sm:px-6">
+      <SpinnerOverlay isOpen={loadingAction} />
+
       <div className="min-h-screen flex flex-col items-center justify-center py-8">
         <div className="w-full md:w-4xl xl:w-6xl max-w-6xl bg-white p-6 rounded-4xl shadow-md text-center relative z-20">
           <h1 className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left mb-2">
