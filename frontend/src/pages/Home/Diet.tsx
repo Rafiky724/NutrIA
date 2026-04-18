@@ -13,9 +13,11 @@ import MealDropdown from "../../components/Home/MealDropdown";
 import DaySelector from "../../components/Home/DaySelector";
 import DishCard from "../../components/Home/DishCard";
 import { getUserActualizarDia } from "../../services/planService";
+import SpinnerOverlay from "../../components/Loading/SpinnerOverlay";
 
 export default function Diet() {
   const navigate = useNavigate();
+  const [loadingEdit, setLoadingEdit] = useState(false);
   const [canUpdateDiet, setCanUpdateDiet] = useState<boolean>(false);
   const [updateMessage, setUpdateMessage] = useState<string | null>(null);
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
@@ -95,10 +97,12 @@ export default function Diet() {
 
   const handleStartDiet = () => navigate("/nextDiet");
 
-  const loadingPage = !dish || !dayPlan || loadingAction || !homeData;
+  const loadingPage = !dish || !dayPlan || !homeData;
 
   return (
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
+      <SpinnerOverlay isOpen={loadingAction || loadingEdit} />
+
       <div className="flex-1 py-6 flex flex-col gap-6">
         <div className="block md:hidden">
           <NavBar user={homeData?.usuario} subtitle="Estás en la despensa" />
@@ -154,7 +158,6 @@ export default function Diet() {
                   <div className="flex-1">
                     <DishCard
                       dish={dish}
-                      loading={loadingAction}
                       onRegenerate={handleRegenerateDish}
                       onEdit={() => setShowModal(true)}
                     />
@@ -187,6 +190,7 @@ export default function Diet() {
                   onClose={() => setShowModal(false)}
                   onConfirm={handleConfirmIngredients}
                   homeData={homeData}
+                  setLoadingEdit={setLoadingEdit}
                 />
               </>
             )}
