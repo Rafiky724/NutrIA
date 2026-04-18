@@ -8,6 +8,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useProgress } from "../../Context/ProgressContext";
 import { useDayPlan } from "../../hooks/useDayPlan";
+import SpinnerOverlay from "../Loading/SpinnerOverlay";
 
 type Props = {
   homeData: HomeResponse | null;
@@ -22,6 +23,7 @@ export default function DailyDiet({
   setActiveFoodIndex,
 }: Props) {
   const { refreshProgress } = useProgress();
+  const [loadingEdit, setLoadingEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const getCurrentDay = (): Days => {
@@ -63,7 +65,7 @@ export default function DailyDiet({
     }
   }, [dayPlan, foodActive, activeFoodIndex, setActiveFoodIndex]);
 
-  if (!homeData || !homeData.dia_actual || !dish || loadingAction) {
+  if (!homeData || !homeData.dia_actual || !dish) {
     return (
       <div className="bg-white rounded-3xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <Skeleton width={150} height={22} />
@@ -162,6 +164,8 @@ export default function DailyDiet({
 
   return (
     <>
+      <SpinnerOverlay isOpen={loadingAction || loadingEdit} />
+
       <div className="bg-white rounded-4xl p-6 shadow flex flex-col gap-4 ml-10 w-2xs md:w-4xl xl:w-7xl">
         <h2 className="text-brown ft-bold text-lg">Dieta de hoy</h2>
 
@@ -307,6 +311,7 @@ export default function DailyDiet({
           onClose={() => setShowModal(false)}
           onConfirm={handleConfirmIngredients}
           homeData={homeData}
+          setLoadingEdit={setLoadingEdit}
         />
       </div>
     </>
