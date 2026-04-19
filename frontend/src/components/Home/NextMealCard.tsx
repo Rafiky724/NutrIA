@@ -11,6 +11,7 @@ import AbsentMeal from "./Completed/AbsentMeal";
 import EstimateMeal from "./Completed/EstimateMeal";
 import { cancelarComida } from "../../services/comidaService";
 import { useProgress } from "../../Context/ProgressContext";
+import Toast from "../Toast/Toast";
 
 type Props = {
   homeData: HomeResponse | null;
@@ -41,6 +42,16 @@ export default function NextMealCard({
     carbohidratos: number;
     grasas: number;
   } | null>(null);
+
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error" | "warning" | "info";
+    isOpen: boolean;
+  }>({
+    message: "",
+    type: "success",
+    isOpen: false,
+  });
 
   if (!homeData) {
     return (
@@ -184,7 +195,15 @@ export default function NextMealCard({
         isOpen={openConfirm}
         onClose={() => setOpenConfirm(false)}
         option={selectedOption}
-        onSuccess={onRefetch}
+        onSuccess={() => {
+          onRefetch();
+
+          setToast({
+            message: "Comida completada con éxito 🎉",
+            type: "success",
+            isOpen: true,
+          });
+        }}
       />
 
       <VerifyMeal
@@ -228,6 +247,13 @@ export default function NextMealCard({
         }}
         nutrients={replacedMeal}
         onSuccess={onRefetch}
+      />
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isOpen={toast.isOpen}
+        onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
       />
     </>
   );
