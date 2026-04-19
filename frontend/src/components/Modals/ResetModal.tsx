@@ -34,11 +34,11 @@ export default function ResetModal({ isOpen, onClose }: Props) {
   return (
     <>
       {/* Fondo oscuro */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-10" />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-20" />
 
       {/* Modal */}
       <div
-        className="fixed inset-0 flex items-center justify-center z-20 px-4 sm:px-6"
+        className="fixed inset-0 flex items-center justify-center z-50 px-4 sm:px-6"
         onClick={onClose}
       >
         <div
