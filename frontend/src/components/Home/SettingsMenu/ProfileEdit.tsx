@@ -21,6 +21,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
     nombre_mascota: "",
   });
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchPerfil = async () => {
@@ -30,7 +31,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
         setEditableValues({
           nombre: data.nombre,
           apodo: data.apodo,
-          altura: data.altura,
+          altura: String(data.altura),
           nombre_mascota: data.mascota?.nombre || "",
         });
       } catch (error) {
@@ -50,7 +51,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
       payload.nombre_usuario = editableValues.nombre;
     if (editableValues.apodo !== perfil?.apodo)
       payload.apodo_usuario = editableValues.apodo;
-    if (editableValues.altura !== perfil?.altura)
+    if (editableValues.altura !== String(perfil?.altura))
       payload.altura_usuario = parseInt(editableValues.altura);
     if (editableValues.nombre_mascota !== perfil?.mascota?.nombre)
       payload.nombre_mascota = editableValues.nombre_mascota;
@@ -61,20 +62,35 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
     try {
       setLoading(true);
       const payload = buildPayload();
-      if (Object.keys(payload).length === 0) return;
+
+      if (Object.keys(payload).length === 0) {
+        setIsEditing(false);
+        return;
+      }
+
       const updated = await updateUserPerfil(payload);
       setPerfil(updated);
       setEditableValues({
         nombre: updated.nombre,
         apodo: updated.apodo,
-        altura: updated.altura,
+        altura: String(updated.altura),
         nombre_mascota: updated.mascota?.nombre || "",
       });
+
+      setIsEditing(false);
     } catch (error) {
       console.error("Error al actualizar perfil:", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleButtonClick = async () => {
+    if (!isEditing) {
+      setIsEditing(true);
+      return;
+    }
+    await handleSave();
   };
 
   return (
@@ -128,7 +144,10 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="text"
                     value={editableValues.nombre}
                     onChange={(e) => handleChange("nombre", e.target.value)}
-                    className="w-full p-3 rounded-full bg-input pl-4"
+                    disabled={!isEditing}
+                    className={`w-full p-3 rounded-full pl-4 ${
+                      isEditing ? "bg-input" : "bg-gray-200 text-gray-400"
+                    }`}
                   />
                 </div>
 
@@ -140,7 +159,10 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="text"
                     value={editableValues.apodo}
                     onChange={(e) => handleChange("apodo", e.target.value)}
-                    className="w-full p-3 rounded-full bg-input pl-4"
+                    disabled={!isEditing}
+                    className={`w-full p-3 rounded-full pl-4 ${
+                      isEditing ? "bg-input" : "bg-gray-200 text-gray-400"
+                    }`}
                   />
                 </div>
 
@@ -152,7 +174,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="email"
                     value={perfil?.correo || ""}
                     disabled
-                    className="w-full p-3 rounded-full bg-input pl-4 text-gray-400"
+                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400"
                   />
                 </div>
               </div>
@@ -166,7 +188,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="text"
                     value={perfil?.genero || ""}
                     disabled
-                    className="w-full p-3 rounded-full bg-input pl-4 text-gray-400"
+                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400"
                   />
                 </div>
 
@@ -178,7 +200,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="text"
                     value={perfil?.edad || ""}
                     disabled
-                    className="w-full p-3 rounded-full bg-input pl-4 text-gray-400"
+                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400"
                   />
                 </div>
               </div>
@@ -192,7 +214,10 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="text"
                     value={editableValues.altura}
                     onChange={(e) => handleChange("altura", e.target.value)}
-                    className="w-full p-3 rounded-full bg-input pl-4"
+                    disabled={!isEditing}
+                    className={`w-full p-3 rounded-full pl-4 ${
+                      isEditing ? "bg-input" : "bg-gray-200 text-gray-400"
+                    }`}
                   />
                 </div>
 
@@ -204,17 +229,21 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="text"
                     value={perfil?.peso || ""}
                     disabled
-                    className="w-full p-3 rounded-full bg-input pl-4 text-gray-400 cursor-pointer"
+                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400"
                   />
                 </div>
               </div>
 
               <button
-                onClick={handleSave}
+                onClick={handleButtonClick}
                 disabled={loading}
-                className="w-full ft-medium bg-yellow text-brown p-3 rounded-full mt-4 hover:scale-105 transition disabled:opacity-50 cursor-pointer"
+                className="w-xs mx-auto ft-medium bg-yellow text-brown p-3 rounded-full mt-4 hover:scale-105 transition disabled:opacity-50 cursor-pointer text-xs"
               >
-                {loading ? "Guardando..." : "Editar información"}
+                {loading
+                  ? "Guardando..."
+                  : isEditing
+                    ? "Guardar"
+                    : "Editar información"}
               </button>
             </div>
 
@@ -230,7 +259,12 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                 type="text"
                 value={editableValues.nombre_mascota}
                 onChange={(e) => handleChange("nombre_mascota", e.target.value)}
-                className="w-full text-center ft-bold text-2xl text-brown bg-transparent border-b-2 border-brown outline-none"
+                disabled={!isEditing}
+                className={`w-full text-center ft-bold text-2xl outline-none border-b-2 ${
+                  isEditing
+                    ? "text-brown border-brown"
+                    : "text-gray-400 border-gray-300"
+                }`}
               />
 
               {onGoToShop && (
