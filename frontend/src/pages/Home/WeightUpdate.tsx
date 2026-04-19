@@ -6,8 +6,10 @@ import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import { useNavigate } from "react-router-dom";
 import { getUserPeso, updateUserPeso } from "../../services/userService";
+import SpinnerOverlay from "../../components/Loading/SpinnerOverlay";
 
 export default function WeightUpdate() {
+  const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentWeight, setCurrentWeight] = useState<number | null>(null);
   const [selectedWeight, setSelectedWeight] = useState<number | null>(null);
@@ -27,6 +29,8 @@ export default function WeightUpdate() {
 
   const handleAccept = async () => {
     const weight = weights[weightRoulette.selectedIndex];
+
+    setLoading(true);
 
     try {
       await updateUserPeso({ peso_actual: weight });
@@ -49,6 +53,8 @@ export default function WeightUpdate() {
         message: "Error al actualizar el peso",
         type: "error",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -127,6 +133,8 @@ export default function WeightUpdate() {
 
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center overflow-hidden">
+      <SpinnerOverlay isOpen={loading} />
+
       <div className="flex items-center justify-center min-h-screen px-4 sm:px-6 py-10 xl:py-24">
         <div className="w-xl max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-3xl bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center z-50 flex flex-col gap-6">
           <div className="flex flex-row justify-center items-center gap-8">
