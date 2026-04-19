@@ -29,9 +29,7 @@ export default function ProfileMenu({ onBack, menuOptions }: Props) {
                 onClick={option.onClick}
                 className="w-full rounded-2xl bg-input p-3 px-4 transition hover:scale-105 flex items-center justify-between cursor-pointer"
               >
-                <h4 className="ft-light text-xs sm:text-md xl:text-lg">
-                  {option.label}
-                </h4>
+                <h4 className="ft-light text-xs md:text-md">{option.label}</h4>
                 <img
                   src="/SVG/IconsGeneral/ArrowOptionIcon.svg"
                   alt="arrow"
