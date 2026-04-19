@@ -1,19 +1,22 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import ResetModal from "../../components/Modals/ResetModal";
+// import ResetModal from "../../components/Modals/ResetModal";
 import { loginUser } from "../../services/authService";
 import { getHasPlan } from "../../services/userService";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import Toast from "../../components/Toast/Toast";
 import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
+import SpinnerOverlay from "../../components/Loading/SpinnerOverlay";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [viewModal, setViewModal] = useState(false);
+  // const [viewModal, setViewModal] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const [toast, setToast] = useState({
     open: false,
     message: "",
@@ -37,6 +40,8 @@ export default function Login() {
     }
 
     try {
+      setLoading(true);
+
       const response = await loginUser({ email, password });
       localStorage.setItem("token", response.access_token);
 
@@ -50,28 +55,27 @@ export default function Login() {
     } catch (error: unknown) {
       localStorage.removeItem("token");
 
-      const status =
-        typeof error === "object" && error !== null && "response" in error
-          ? (error as { response: { status: number } }).response.status
-          : null;
+      // const status =
+      //   typeof error === "object" && error !== null && "response" in error
+      //     ? (error as { response: { status: number } }).response.status
+      //     : null;
 
       setToast({
         open: true,
-        message:
-          status === 401
-            ? "Correo o contraseña incorrectos."
-            : "Ocurrió un error. Intenta nuevamente.",
+        message: "Correo o contraseña incorrectos.",
         type: "error",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="relative min-h-screen bg-[url('/Background/Back.png')] bg-cover bg-center flex items-center justify-center px-4 sm:px-6 md:px-10">
+      <SpinnerOverlay isOpen={loading} />
+
       <div className="w-screen min-h-screen flex items-center justify-center px-4 sm:px-6 ">
-        {/* CONTENEDOR 1 — CARD ORIGINAL */}
-        <div className="flex flex-col bg-white w-sm lg:w-md xl:w-lg xl:h-120 p-6 sm:p-8 rounded-3xl shadow-lg text-center justify-center z-50">
-          {/* Header */}
+        <div className="flex flex-col bg-white w-sm lg:w-md xl:w-lg xl:h-120 p-6 sm:p-8 rounded-3xl shadow-lg text-center justify-center ">
           <div className="flex items-center justify-center gap-4 mb-8">
             <img
               className="w-10 sm:w-12"
@@ -83,7 +87,6 @@ export default function Login() {
             </h2>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="text-left">
               <label
@@ -143,20 +146,18 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Reset */}
           <p className="mt-6 text-sm text-brown ft-light">
-            ¿Has olvidado la contraseña?{" "}
+            {/* ¿Has olvidado la contraseña?{" "}
             <button
               type="button"
               onClick={() => setViewModal(true)}
               className="ft-medium hover:underline cursor-pointer"
             >
               Restablecer
-            </button>
+            </button> */}
           </p>
         </div>
 
-        {/* CONTENEDOR 2 — SVG ANIMADO */}
         <div className="w-lg hidden sm:block">
           <div className="w-md md:w-lg1 xl:w-xl">
             <object
@@ -177,7 +178,7 @@ export default function Login() {
         onClose={() => setToast({ ...toast, open: false })}
       />
 
-      <ResetModal isOpen={viewModal} onClose={() => setViewModal(false)} />
+      {/* <ResetModal isOpen={viewModal} onClose={() => setViewModal(false)} /> */}
 
       <div className="absolute bottom-0 left-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitLeft />
