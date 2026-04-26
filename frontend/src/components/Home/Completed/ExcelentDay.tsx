@@ -30,16 +30,16 @@ export default function ExcelentDay({ isOpen, onClose, onRefetch }: Props) {
           ¡Felicidades! Tu racha ha aumentado.
         </h2>
 
-        <img
-          src="SVG/IconsGeneral/FireStreak.svg"
-          alt="Advertencia"
-          className="w-35 h-35 object-contain"
+        <object
+          type="image/svg+xml"
+          data="/Background/Racha.svg"
+          className="w-50 h-50 object-contain"
         />
 
         <button
           type="button"
           onClick={handleClick}
-          className="w-3xs mx-auto bg-yellow text-brown py-2 rounded-4xl mt-10 md:mt-20 ft-medium text-xs hover:scale-105 transition cursor-pointer"
+          className="w-3xs mx-auto bg-yellow text-brown py-2 rounded-4xl mt-10 ft-medium text-xs hover:scale-105 transition cursor-pointer"
         >
           Continuar
         </button>
