@@ -5,6 +5,7 @@ import {
 } from "../../../services/comidaService";
 import Toast from "../../Toast/Toast";
 import { useProgress } from "../../../Context/ProgressContext";
+import SpinnerOverlay from "../../Loading/SpinnerOverlay";
 
 type VerifyOption = {
   id: string;
@@ -60,6 +61,7 @@ const resizeImage = (
 };
 
 export default function VerifyMeal({ isOpen, onClose }: Props) {
+  const [loading, setLoading] = useState(false);
   const { refreshProgress } = useProgress();
   const [, setSelectedOption] = useState<string | null>(null);
   const [, setResult] = useState<AnalizarComidaResponse | null>(null);
@@ -104,6 +106,8 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
     console.log("Archivo seleccionado:", file);
 
     try {
+      setLoading(true);
+
       let processedFile: File = file;
 
       if (file.size > 2 * 1024 * 1024) {
@@ -131,6 +135,9 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
 
       if (res.match) {
         await refreshProgress();
+        setTimeout(() => {
+          onClose();
+        }, 800);
       }
     } catch (err: any) {
       console.error(err);
@@ -140,12 +147,15 @@ export default function VerifyMeal({ isOpen, onClose }: Props) {
         type: "error",
       });
     } finally {
+      setLoading(false);
       if (e.target) e.target.value = "";
     }
   };
 
   return (
     <>
+      <SpinnerOverlay isOpen={loading} />
+
       <input
         type="file"
         accept="image/*"
