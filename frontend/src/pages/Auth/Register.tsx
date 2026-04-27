@@ -8,8 +8,15 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import FruitRight from "../../components/Decoration/FruitRight";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import LoadingScreen from "../../components/Loading/LoadingScreen";
+import Toast from "../../components/Toast/Toast";
 
 export default function Register() {
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    type: "error" as "error" | "success" | "warning" | "info",
+  });
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -54,7 +61,6 @@ export default function Register() {
     try {
       const payload = mapToRegisterRequest(nutriaForm, formData);
       await registerUser(payload);
-
       const loginResponse = await loginUser({
         email: formData.correo,
         password: formData.contraseña,
@@ -66,8 +72,23 @@ export default function Register() {
 
       navigate("/dietCreationReady");
       setLoading(false);
-    } catch (error) {
-      console.error("Error en registro:", error);
+    } catch (error: any) {
+      const backendMessage = error.response?.data?.detail;
+
+      let message = "Error en el registro";
+
+      if (backendMessage?.toLowerCase().includes("correo")) {
+        message = "Este correo ya está registrado";
+      } else if (backendMessage) {
+        message = backendMessage;
+      }
+
+      setToast({
+        open: true,
+        message,
+        type: "error",
+      });
+    } finally {
       setLoading(false);
     }
   };
@@ -212,6 +233,13 @@ export default function Register() {
       <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
+
+      <Toast
+        isOpen={toast.open}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, open: false })}
+      />
     </div>
   );
 }
