@@ -38,8 +38,7 @@ export default function UpdateDietDay() {
     setLoading(true);
 
     try {
-      const respuesta = await DietService.iniciarDieta(payload);
-      console.log("Dieta iniciada:", respuesta);
+      await DietService.iniciarDieta(payload);
       navigate("/adoptMoment");
     } catch (error) {
       console.error("Error iniciando dieta:", error);
