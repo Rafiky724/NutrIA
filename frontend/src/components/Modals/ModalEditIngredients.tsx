@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import type { HomeResponse, Ingredient, IngredientCategory } from "../../types";
 import { DaysService } from "../../services/daysService";
 import Toast from "../Toast/Toast";
+import CustomIngredientModal from "./CustomIngredientModal";
 
 type Props = {
   isOpen: boolean;
@@ -27,6 +28,9 @@ export default function ModalEditIngredients({
   const [selected, setSelected] = useState<string[]>(
     currentIngredients.map((ing) => ing.nombre),
   );
+
+  const [showCustomModal, setShowCustomModal] = useState(false);
+
   const [toast, setToast] = useState({
     isOpen: false,
     message: "",
@@ -133,9 +137,19 @@ export default function ModalEditIngredients({
           </div>
 
           <div>
-            <h3 className="font-medium mb-2 text-brown text-center md:text-left">
-              Nuevos ingredientes
-            </h3>
+            <div className="flex justify-end items-center mb-3 gap-10">
+              <h3 className="font-medium mb-2 text-brown text-center md:text-left">
+                Nuevos ingredientes
+              </h3>
+
+              <button
+                type="button"
+                onClick={() => setShowCustomModal(true)}
+                className="bg-yellow text-brown px-4 py-2 rounded-full mb-4 hover:scale-105 transition cursor-pointer"
+              >
+                + Agregar
+              </button>
+            </div>
 
             <div className="bg-input rounded-2xl p-4 h-65 max-h-65 overflow-y-auto flex flex-col gap-4">
               {ingredientsAvailable.map((category) => (
@@ -196,6 +210,20 @@ export default function ModalEditIngredients({
         type={toast.type}
         isOpen={toast.isOpen}
         onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
+      />
+
+      <CustomIngredientModal
+        show={showCustomModal}
+        onClose={() => setShowCustomModal(false)}
+        onAccept={(ingredients) => {
+          setSelected((prev) => {
+            const updated = [...prev, ...ingredients];
+
+            return updated;
+          });
+
+          setShowCustomModal(false);
+        }}
       />
     </div>
   );
