@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Ingredient, IngredientCategory } from "../../types";
+import CustomIngredientModal from "./CustomIngredientModal";
 
 type Props = {
   isOpen: boolean;
@@ -19,6 +20,8 @@ export default function ModalEditIngrediente2({
   const [selected, setSelected] = useState<string[]>(
     currentIngredients.map((ing) => ing.nombre),
   );
+
+  const [showCustomModal, setShowCustomModal] = useState(false);
 
   useEffect(() => {
     setSelected(currentIngredients.map((ing) => ing.nombre));
@@ -90,9 +93,18 @@ export default function ModalEditIngrediente2({
           </div>
 
           <div>
-            <h3 className="font-medium mb-2 text-brown text-center md:text-left">
-              Nuevos ingredientes
-            </h3>
+            <div className="flex justify-end mb-3 gap-10">
+              <h3 className="font-medium mb-2 text-brown text-center md:text-left">
+                Nuevos ingredientes
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowCustomModal(true)}
+                className="bg-yellow text-brown px-4 py-1 rounded-full text-sm hover:scale-105 transition cursor-pointer"
+              >
+                + Agregar
+              </button>
+            </div>
 
             <div className="bg-input rounded-2xl p-4 h-65 max-h-65 overflow-y-auto flex flex-col gap-4">
               {ingredientsAvailable.map((category) => (
@@ -140,6 +152,19 @@ export default function ModalEditIngrediente2({
           </button>
         </div>
       </div>
+
+      <CustomIngredientModal
+        show={showCustomModal}
+        onClose={() => setShowCustomModal(false)}
+        onAccept={(ingredients) => {
+          setSelected((prev) => {
+            const updated = Array.from(new Set([...prev, ...ingredients]));
+            return Array.from(new Set(updated));
+          });
+
+          setShowCustomModal(false);
+        }}
+      />
     </div>
   );
 }
