@@ -110,7 +110,7 @@ export default function NavBar({ user, title, subtitle }: Props) {
                   <img
                     src={`/SVG/Pets/Shop/EditMascota/${progress?.mascota.tipo}.svg`}
                     alt="Usuario"
-                    className={`w-12 h-12 p-1 hover:scale-105 transition cursor-pointer rounded-full`}
+                    className={`w-12 h-12 hover:scale-105 transition cursor-pointer rounded-full`}
                   />
                 </div>
 
