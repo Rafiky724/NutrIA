@@ -75,8 +75,6 @@ export default function PersonalDataForm({
     },
   ];
 
-  console.log(getValues());
-  
   return (
     <>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
