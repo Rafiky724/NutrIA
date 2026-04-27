@@ -41,8 +41,8 @@ export default function DietCreationReady() {
   const handleCreateDiet = async () => {
     setLoading(true);
     try {
-      const message = await DietService.createDiet();
-      console.log("Dieta creada:", message);
+      await DietService.createDiet();
+
       navigate("/dietPlanReady");
     } catch (err: any) {
       console.error("Error al crear dieta:", err);
