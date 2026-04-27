@@ -119,9 +119,40 @@ export default function GoalDetailsForm({
 
       {showModalTargetWeight && (
         <ModalWeightTarget
-          onSelectTargetWeight={(weight) =>
-            setValue("peso_objetivo", weight, { shouldValidate: true })
-          }
+          onSelectTargetWeight={(weight) => {
+            const pesoActual = getValues("peso_actual");
+            const objetivo = getValues("tipo_objetivo");
+
+            if (weight < 40 || weight > 100) {
+              setToast({
+                open: true,
+                message: "El peso debe estar entre 40 y 100 kg",
+                type: "error",
+              });
+              return;
+            }
+
+            if (objetivo === "PerderPeso" && weight >= pesoActual) {
+              setToast({
+                open: true,
+                message: "Debe ser menor que tu peso actual",
+                type: "error",
+              });
+              return;
+            }
+
+            if (objetivo === "GanarMasaMuscular" && weight <= pesoActual) {
+              setToast({
+                open: true,
+                message: "Debe ser mayor que tu peso actual",
+                type: "error",
+              });
+              return;
+            }
+
+            setValue("peso_objetivo", weight, { shouldValidate: true });
+            setShowModalTargetWeight(false);
+          }}
           onClose={() => setShowModalTargetWeight(false)}
         />
       )}
