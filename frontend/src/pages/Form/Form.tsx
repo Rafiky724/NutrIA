@@ -19,6 +19,7 @@ import FruitLeft from "../../components/Decoration/FruitLeft";
 import ProgressBar from "../../components/Decoration/ProgressBar";
 import ArrowReturn from "../../components/Decoration/ArrowReturn";
 import { useState } from "react";
+import Toast from "../../components/Toast/Toast";
 
 export default function Form() {
   const {
@@ -48,6 +49,12 @@ export default function Form() {
     navigate("/register");
   };
 
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    type: "error" as "error" | "success" | "warning" | "info",
+  });
+
   const fieldNames: (keyof FormData)[][] = [
     ["fecha_nacimiento", "genero", "peso_actual", "altura_cm"],
     ["tipo_objetivo"],
@@ -65,6 +72,39 @@ export default function Form() {
   const handleNext = async () => {
     const currentField = fieldNames[step];
     const isValid = await trigger(currentField);
+
+    if (step === 2) {
+      const pesoActual = getValues("peso_actual");
+      const objetivo = getValues("tipo_objetivo");
+      const pesoObjetivo = getValues("peso_objetivo");
+
+      if (pesoObjetivo < 40 || pesoObjetivo > 100) {
+        setToast({
+          open: true,
+          message: "El peso debe estar entre 40 y 100 kg",
+          type: "error",
+        });
+        return;
+      }
+
+      if (objetivo === "PerderPeso" && pesoObjetivo >= pesoActual) {
+        setToast({
+          open: true,
+          message: "El peso objetivo debe ser menor que tu peso actual",
+          type: "error",
+        });
+        return;
+      }
+
+      if (objetivo === "GanarMasaMuscular" && pesoObjetivo <= pesoActual) {
+        setToast({
+          open: true,
+          message: "El peso objetivo debe ser mayor que tu peso actual",
+          type: "error",
+        });
+        return;
+      }
+    }
 
     if (!isValid) {
       if (step === 0) setShowPersonalDataError((prev) => prev + 1);
@@ -204,6 +244,13 @@ export default function Form() {
       <div className="absolute bottom-0 right-0 z-10 w-24 sm:w-40 md:w-52 2xl:w-80">
         <FruitRight />
       </div>
+
+      <Toast
+        isOpen={toast.open}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, open: false })}
+      />
     </div>
   );
 }
