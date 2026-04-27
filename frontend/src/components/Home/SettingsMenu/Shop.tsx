@@ -10,6 +10,8 @@ import {
 } from "../../../services/mascotaService";
 import { useProgress } from "../../../Context/ProgressContext";
 import EquippedItems from "./EquippedItem/EquippedItems";
+import { getUserProgress } from "../../../services/userService";
+import Toast from "../../Toast/Toast";
 
 type Category = {
   name: string;
@@ -33,6 +35,14 @@ export default function Shop({ categories = categoriesData }: Props) {
     accesorios: "Accesorios",
   };
 
+  const [toast, setToast] = useState({
+    isOpen: false,
+    message: "",
+    type: "error" as "success" | "error" | "warning" | "info",
+  });
+
+  const [gemas, setGemas] = useState<number>(0);
+
   const [activeCategory, setActiveCategory] = useState<string>(
     categories[0]?.type ?? "mascotas",
   );
@@ -40,7 +50,6 @@ export default function Shop({ categories = categoriesData }: Props) {
   const [mascotaActual, setMascotaActual] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Modal nombre mascota
   const [showNombreModal, setShowNombreModal] = useState(false);
   const [nuevoItem, setNuevoItem] = useState<any>(null);
   const [nombreMascota, setNombreMascota] = useState("");
@@ -52,9 +61,15 @@ export default function Shop({ categories = categoriesData }: Props) {
     const fetchInicial = async () => {
       setLoading(true);
       try {
-        const tienda = await getTiendaMascotas();
+        const [tienda, progress] = await Promise.all([
+          getTiendaMascotas(),
+          getUserProgress(),
+        ]);
+
         setMascotaActual(tienda.mascota_actual);
         setItems(tienda.mascotas_tienda);
+
+        setGemas(progress.cantidad_gemas);
       } catch (error) {
         console.error(error);
       } finally {
@@ -92,6 +107,15 @@ export default function Shop({ categories = categoriesData }: Props) {
   };
 
   const handleItemClick = async (item: any) => {
+    if (!item.comprado && gemas < item.precio_gemas) {
+      setToast({
+        isOpen: true,
+        message: "No tienes suficientes gemas",
+        type: "error",
+      });
+      return;
+    }
+
     if (activeCategory === "mascotas" && !item.comprado) {
       setNuevoItem(item);
       setShowNombreModal(true);
@@ -157,6 +181,9 @@ export default function Shop({ categories = categoriesData }: Props) {
       setShowNombreModal(false);
       setNombreMascota("");
       setNuevoItem(null);
+
+      const progress = await getUserProgress();
+      setGemas(progress.cantidad_gemas);
     } catch (error) {
       console.error(error);
     }
@@ -360,6 +387,13 @@ export default function Shop({ categories = categoriesData }: Props) {
           </div>
         </div>
       )}
+
+      <Toast
+        isOpen={toast.isOpen}
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast((t) => ({ ...t, isOpen: false }))}
+      />
     </div>
   );
 }
