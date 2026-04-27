@@ -12,6 +12,7 @@ import EstimateMeal from "./Completed/EstimateMeal";
 import { cancelarComida } from "../../services/comidaService";
 import { useProgress } from "../../Context/ProgressContext";
 import Toast from "../Toast/Toast";
+import SpinnerOverlay from "../Loading/SpinnerOverlay";
 
 type Props = {
   homeData: HomeResponse | null;
@@ -36,6 +37,7 @@ export default function NextMealCard({
   const [openEstimateModal, setOpenEstimateModal] = useState(false);
   const [, setOpenFinalOptionsModal] = useState(false);
   const [, setComidaId] = useState<string | null>(null);
+  const [loadingRetry, setLoadingRetry] = useState(false);
   const [replacedMeal, setReplacedMeal] = useState<{
     calorias: number;
     proteinas: number;
@@ -108,17 +110,23 @@ export default function NextMealCard({
 
   const handleRetry = async () => {
     if (!selectedOption) return;
+
+    setLoadingRetry(true);
     try {
       await cancelarComida({ comida_id: selectedOption.id });
       setComidaId(selectedOption.id);
+
       onRefetch();
       await refreshProgress();
+
       setOpenFinalOptionsModal(true);
+      setOpenNotCompleted(false);
     } catch (err) {
       console.error("Error al cancelar comida:", err);
+    } finally {
+      setLoadingRetry(false);
     }
   };
-
   return (
     <>
       <div
@@ -219,9 +227,14 @@ export default function NextMealCard({
         isOpen={openNotCompleted}
         onClose={() => setOpenNotCompleted(false)}
         onAction={(action) => {
-          setOpenNotCompleted(false);
-          if (action === "absent") setOpenAbsentMeal(true);
-          if (action === "retry") handleRetry();
+          if (action === "absent") {
+            setOpenNotCompleted(false);
+            setOpenAbsentMeal(true);
+          }
+
+          if (action === "retry") {
+            handleRetry();
+          }
         }}
       />
 
@@ -258,6 +271,8 @@ export default function NextMealCard({
         isOpen={toast.isOpen}
         onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
       />
+
+      <SpinnerOverlay isOpen={loadingRetry} />
     </>
   );
 }
