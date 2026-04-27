@@ -11,6 +11,7 @@ import {
   type Ingrediente,
 } from "../../services/despensaService";
 import Toast from "../../components/Toast/Toast";
+import CustomIngredientModal from "../../components/Modals/CustomIngredientModal";
 
 interface IngredientWithCategory {
   nombre: string;
@@ -19,6 +20,8 @@ interface IngredientWithCategory {
 }
 
 export default function Pantry() {
+  const [showModal, setShowModal] = useState(false);
+
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
   const [pantry, setPantry] = useState<IngredientWithCategory[]>([]);
   const [loadingData, setLoadingData] = useState(true);
@@ -201,9 +204,18 @@ export default function Pantry() {
               </>
             ) : (
               <>
-                <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
-                  Agregar nuevos ingredientes
-                </h3>
+                <div className="flex  items-center mb-3 gap-10">
+                  <h3 className="ft-bold text-lg text-brown mb-0 md:mb-2">
+                    Agregar nuevos ingredientes
+                  </h3>
+
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="bg-yellow text-brown px-4 py-2 rounded-full mb-3 hover:scale-105 transition cursor-pointer"
+                  >
+                    + Agregar
+                  </button>
+                </div>
 
                 <div className="overflow-y-auto flex-1 mb-4 pr-2">
                   {categories.map((cat) => {
@@ -266,6 +278,28 @@ export default function Pantry() {
         type={toast.type}
         isOpen={toast.isOpen}
         onClose={() => setToast((prev) => ({ ...prev, isOpen: false }))}
+      />
+
+      <CustomIngredientModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onAccept={(ingredients) => {
+          setPantry((prev) => {
+            const nuevos = ingredients.map((name) => ({
+              nombre: name,
+              icono: getIngredientIcon(name),
+              categoria: "Otros",
+            }));
+
+            const filtrados = nuevos.filter(
+              (n) => !prev.some((p) => p.nombre === n.nombre),
+            );
+
+            return [...prev, ...filtrados];
+          });
+
+          setShowModal(false);
+        }}
       />
     </div>
   );
