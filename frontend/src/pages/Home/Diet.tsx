@@ -14,6 +14,7 @@ import DaySelector from "../../components/Home/DaySelector";
 import DishCard from "../../components/Home/DishCard";
 import { getUserActualizarDia } from "../../services/planService";
 import SpinnerOverlay from "../../components/Loading/SpinnerOverlay";
+import { getPetImage } from "../../utils/petImage";
 
 export default function Diet() {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ export default function Diet() {
   const [canUpdateDiet, setCanUpdateDiet] = useState<boolean>(false);
   const [updateMessage, setUpdateMessage] = useState<string | null>(null);
   const [homeData, setHomeData] = useState<HomeResponse | null>(null);
+
+  const petInfo = homeData?.mascota ?? null;
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -166,6 +169,15 @@ export default function Diet() {
                   <div className="flex-1">
                     <DishCard
                       dish={dish}
+                      petImage={
+                        petInfo && dish
+                          ? getPetImage(
+                              petInfo.mascota,
+                              dish.tipo_comida,
+                              petInfo.estado,
+                            )
+                          : "/SVG/Emotions/nutria/nutria-desayuno-feliz.svg"
+                      }
                       onRegenerate={handleRegenerateDish}
                       onEdit={() => setShowModal(true)}
                     />
