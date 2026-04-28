@@ -63,6 +63,8 @@ export default function Home() {
 
   const estado = nextMeal?.estado;
 
+  const petInfo = homeData?.mascota ?? null;
+
   return (
     <div className="flex min-h-screen bg-input pl-0 md:pl-20 pr-0 md:pr-10">
       <div className="flex-1 py-6 flex flex-col gap-6">
@@ -76,6 +78,7 @@ export default function Home() {
             nextFood={nextMeal}
             estado={estado}
             onRefetch={fetchHomeData}
+            petInfo={petInfo}
           />
         </div>
 
@@ -85,6 +88,7 @@ export default function Home() {
             activeFoodIndex={activeFoodIndex}
             setActiveFoodIndex={setActiveFoodIndex}
             onRefetch={fetchHomeData}
+            petInfo={petInfo}
           />
         </div>
       </div>
