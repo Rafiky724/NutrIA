@@ -1,6 +1,11 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import type { Estado, HomeResponse, NextMeal } from "../../types";
+import type {
+  Estado,
+  HomeResponse,
+  MascotaEstado,
+  NextMeal,
+} from "../../types";
 import { getIngredientIcon } from "../../utils/ingredients";
 import { useState } from "react";
 import CompleteMeal from "./Completed/CompleteMeal";
@@ -13,12 +18,14 @@ import { cancelarComida } from "../../services/comidaService";
 import { useProgress } from "../../Context/ProgressContext";
 import Toast from "../Toast/Toast";
 import SpinnerOverlay from "../Loading/SpinnerOverlay";
+import { getPetImage } from "../../utils/petImage";
 
 type Props = {
   homeData: HomeResponse | null;
   nextFood?: NextMeal | null;
   estado?: Estado | null;
   onRefetch: () => void;
+  petInfo: MascotaEstado | null;
 };
 
 export default function NextMealCard({
@@ -26,6 +33,7 @@ export default function NextMealCard({
   nextFood,
   estado,
   onRefetch,
+  petInfo,
 }: Props) {
   const { refreshProgress } = useProgress();
   const [openModal, setOpenModal] = useState(false);
@@ -127,6 +135,7 @@ export default function NextMealCard({
       setLoadingRetry(false);
     }
   };
+  
   return (
     <>
       <div
@@ -146,7 +155,16 @@ export default function NextMealCard({
         <div className="w-full flex gap-4 overflow-hidden flex-col md:flex-row">
           <div className="flex flex-col items-center gap-4">
             <img
-              src="/SVG/Emotions/nutria/nutria_desayuno.svg"
+              src={
+                petInfo && nextFood
+                  ? getPetImage(
+                      petInfo.mascota,
+                      nextFood.tipo_comida,
+                      petInfo.estado,
+                      
+                    )
+                  : "/SVG/Emotions/nutria/nutria-desayuno-feliz.svg"
+              }
               alt="Próxima comida"
               className="w-60 h-50 object-cover rounded-3xl"
             />
