@@ -185,6 +185,11 @@ export interface Modals {
   mostrar_advertencia_racha: boolean;
 }
 
+export interface MascotaEstado {
+  mascota: "nutria" | "perro" | "gato" | "dinosaurio";
+  estado: string;
+}
+
 export interface HomeResponse {
   usuario: User;
   macros_consumidos_hoy: MacrosConsumedToday;
@@ -193,6 +198,7 @@ export interface HomeResponse {
   modals: Modals;
   hay_dieta_hoy?: boolean;
   mensaje?: string;
+  mascota: MascotaEstado
 }
 
 export type EditFoodResponse = {
