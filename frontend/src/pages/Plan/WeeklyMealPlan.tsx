@@ -89,6 +89,7 @@ export default function WeeklyMealPlan() {
                 loading={loadingAction}
                 onRegenerate={handleRegenerateDish}
                 onEdit={() => setShowModal(true)}
+                foodActive={foodActive}
               />
             </div>
           </div>
