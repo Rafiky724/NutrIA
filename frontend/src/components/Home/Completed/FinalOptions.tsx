@@ -7,8 +7,9 @@ type Props = {
 };
 
 export default function FinalOptions({ isOpen, onClose, onRefetch }: Props) {
-  if (!isOpen) return null;
   const navigate = useNavigate();
+
+  if (!isOpen) return null;
 
   const handleGoPlan = () => {
     onRefetch();
