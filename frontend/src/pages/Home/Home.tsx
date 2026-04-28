@@ -23,7 +23,7 @@ export default function Home() {
   const [openFailedDayModal, setOpenFailedDayModal] = useState(false);
   const [openFinalOptionsModal, setOpenFinalOptionsModal] = useState(false);
 
-  console.log(homeData);
+  // console.log(homeData);
 
   const fetchHomeData = async () => {
     try {
