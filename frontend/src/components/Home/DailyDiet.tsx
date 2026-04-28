@@ -21,6 +21,7 @@ export default function DailyDiet({
   homeData,
   activeFoodIndex,
   setActiveFoodIndex,
+  onRefetch,
 }: Props) {
   const { refreshProgress } = useProgress();
   const [loadingEdit, setLoadingEdit] = useState(false);
@@ -42,9 +43,9 @@ export default function DailyDiet({
   };
 
   const dayActive = homeData?.dia_actual?.dia_semana || getCurrentDay();
-  const foodActive =
-    (homeData?.dia_actual?.comidas?.[activeFoodIndex]
-      ?.tipo_comida as TypeFood) || "";
+  const currentMeal = homeData?.dia_actual?.comidas?.[activeFoodIndex];
+  const isMealCompleted = currentMeal?.completada ?? false;
+  const foodActive = (currentMeal?.tipo_comida as TypeFood) || "";
 
   const {
     dayPlan,
@@ -155,6 +156,7 @@ export default function DailyDiet({
     try {
       await handleRegenerateDish();
       await refreshProgress();
+      onRefetch();
     } catch (error) {
       console.error("Error regenerando plato:", error);
     }
@@ -190,7 +192,13 @@ export default function DailyDiet({
             <button
               type="button"
               onClick={handleRegenerate}
-              className="relative bg-brown text-white py-2 rounded-3xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition"
+              disabled={isMealCompleted}
+              className={`relative bg-brown text-white py-2 rounded-3xl ft-medium shadow text-center transition
+    ${
+      isMealCompleted
+        ? "opacity-40 cursor-not-allowed"
+        : "cursor-pointer hover:scale-105"
+    }`}
             >
               Regenerar plato
               <div className="absolute top-2 right-5 w-4">
@@ -290,7 +298,13 @@ export default function DailyDiet({
                 <div className="flex flex-col gap-3 mt-4 md:mt-8 w-[200px] md:w-2xs mx-auto">
                   <button
                     onClick={() => setShowModal(true)}
-                    className="relative bg-yellow text-brown py-2 rounded-4xl ft-medium shadow text-center cursor-pointer hover:scale-105 transition"
+                    disabled={isMealCompleted}
+                    className={`relative bg-yellow text-brown py-2 rounded-4xl ft-medium shadow text-center transition
+    ${
+      isMealCompleted
+        ? "opacity-40 cursor-not-allowed"
+        : "cursor-pointer hover:scale-105"
+    }`}
                   >
                     Editar ingredientes
                     <div className="absolute top-2 right-4 w-4">
@@ -309,7 +323,10 @@ export default function DailyDiet({
           ingredientsAvailable={ingredientsAvailable}
           tipoComida={food.tipo_comida}
           onClose={() => setShowModal(false)}
-          onConfirm={handleConfirmIngredients}
+          onConfirm={async (ingredients) => {
+            await handleConfirmIngredients(ingredients);
+            onRefetch();
+          }}
           homeData={homeData}
           setLoadingEdit={setLoadingEdit}
         />
