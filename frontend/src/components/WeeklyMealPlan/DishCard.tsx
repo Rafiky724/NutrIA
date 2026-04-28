@@ -8,6 +8,7 @@ type Props = {
   loading: boolean;
   onRegenerate: () => void;
   onEdit: () => void;
+  foodActive: string;
 };
 
 export default function DishCard({
@@ -15,16 +16,25 @@ export default function DishCard({
   loading,
   onRegenerate,
   onEdit,
+  foodActive,
 }: Props) {
   const { protein, carbs, fats } = calculateMacroPercentages(dish);
+
+  const getMealImage = (food: string) => {
+    const normalized = food.toLowerCase();
+    if (normalized.includes("snack")) return "snack";
+    return normalized;
+  };
+
+  const mealImage = getMealImage(foodActive);
 
   return (
     <div className="bg-input p-4 rounded-4xl flex flex-col lg:flex-row gap-6 w-full max-w-4xl mx-auto">
       <div className="flex flex-col items-center justify-center gap-4 lg:w-4xs">
         <div className="w-full object-cover">
           <img
-            src="/SVG/Emotions/nutria/nutria-almuerzo-feliz.svg"
-            alt="Plato"
+            src={`/SVG/Emotions/nutria/nutria-${mealImage}-feliz.svg`}
+            alt="NutrIA Plato"
             className="w-150 h-50 rounded-3xl"
           />
         </div>
