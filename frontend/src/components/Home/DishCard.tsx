@@ -5,11 +5,17 @@ import DonutChart from "../Decoration/DonutChart";
 
 type Props = {
   dish: MealData;
+  petImage: string;
   onRegenerate: () => void;
   onEdit: () => void;
 };
 
-export default function DishCard({ dish, onRegenerate, onEdit }: Props) {
+export default function DishCard({
+  dish,
+  petImage,
+  onRegenerate,
+  onEdit,
+}: Props) {
   const { protein, carbs, fats } = calculateMacroPercentages(dish);
 
   return (
@@ -17,7 +23,7 @@ export default function DishCard({ dish, onRegenerate, onEdit }: Props) {
       <div className="flex flex-col items-center justify-center gap-4 lg:w-4xs">
         <div className="w-full object-cover">
           <img
-            src="/SVG/Emotions/nutria/nutria_almuerzo.svg"
+            src={petImage}
             alt="Plato"
             className="w-auto xl:w-2xl h-auto rounded-3xl"
           />
