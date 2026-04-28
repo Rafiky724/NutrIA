@@ -1,6 +1,6 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { categories as ingredientsAvailable } from "../../data/ingredients";
-import type { Days, HomeResponse, TypeFood } from "../../types";
+import type { Days, HomeResponse, MascotaEstado, TypeFood } from "../../types";
 import DonutChart from "../Decoration/DonutChart";
 import { getIngredientIcon } from "../../utils/ingredients";
 import ModalEditIngredients from "../Modals/ModalEditIngredients";
@@ -9,12 +9,14 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useProgress } from "../../Context/ProgressContext";
 import { useDayPlan } from "../../hooks/useDayPlan";
 import SpinnerOverlay from "../Loading/SpinnerOverlay";
+import { getPetImage } from "../../utils/petImage";
 
 type Props = {
   homeData: HomeResponse | null;
   activeFoodIndex: number;
   setActiveFoodIndex: Dispatch<SetStateAction<number>>;
   onRefetch: () => Promise<void>;
+  petInfo: MascotaEstado | null;
 };
 
 export default function DailyDiet({
@@ -22,6 +24,7 @@ export default function DailyDiet({
   activeFoodIndex,
   setActiveFoodIndex,
   onRefetch,
+  petInfo,
 }: Props) {
   const { refreshProgress } = useProgress();
   const [loadingEdit, setLoadingEdit] = useState(false);
@@ -222,7 +225,11 @@ export default function DailyDiet({
           <div className="lg:w-4/5 bg-input p-4 sm:p-6 rounded-4xl flex flex-col lg:flex-row gap-4 lg:gap-6">
             <div className="flex flex-col items-center gap-4">
               <img
-                src="/SVG/Emotions/nutria/nutria_almuerzo.svg"
+                src={
+                  petInfo && foodActive
+                    ? getPetImage(petInfo.mascota, foodActive, petInfo.estado)
+                    : "/SVG/Emotions/nutria/nutria-almuerzo-feliz.svg"
+                }
                 alt="Plato"
                 className="w-60 h-50 object-cover rounded-3xl"
               />
