@@ -147,7 +147,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     disabled={!isEditing}
                     className={`w-full p-3 rounded-full pl-4 ${
                       isEditing ? "bg-input" : "bg-gray-200 text-gray-400"
-                    }`}
+                    } text-xs sm:text-md`}
                   />
                 </div>
 
@@ -162,7 +162,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     disabled={!isEditing}
                     className={`w-full p-3 rounded-full pl-4 ${
                       isEditing ? "bg-input" : "bg-gray-200 text-gray-400"
-                    }`}
+                    } text-xs sm:text-md`}
                   />
                 </div>
 
@@ -174,7 +174,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="email"
                     value={perfil?.correo || ""}
                     disabled
-                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400"
+                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400 text-xs sm:text-md"
                   />
                 </div>
               </div>
@@ -188,7 +188,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="text"
                     value={perfil?.genero || ""}
                     disabled
-                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400"
+                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400 text-xs sm:text-md"
                   />
                 </div>
 
@@ -200,7 +200,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="text"
                     value={perfil?.edad || ""}
                     disabled
-                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400"
+                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400 text-xs sm:text-md"
                   />
                 </div>
               </div>
@@ -217,7 +217,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     disabled={!isEditing}
                     className={`w-full p-3 rounded-full pl-4 ${
                       isEditing ? "bg-input" : "bg-gray-200 text-gray-400"
-                    }`}
+                    } text-xs sm:text-md`}
                   />
                 </div>
 
@@ -229,7 +229,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                     type="text"
                     value={perfil?.peso || ""}
                     disabled
-                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400"
+                    className="w-full p-3 rounded-full bg-gray-200 pl-4 text-gray-400 text-xs sm:text-md"
                   />
                 </div>
               </div>
