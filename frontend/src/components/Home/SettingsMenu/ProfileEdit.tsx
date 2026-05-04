@@ -137,7 +137,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
 
               <div className="flex flex-col mt-4 gap-2">
                 <div>
-                  <label className="ft-medium text-md text-brown ml-4">
+                  <label className="ft-medium text-xs sm:text-md text-brown ml-4">
                     Nombre
                   </label>
                   <input
@@ -152,7 +152,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                 </div>
 
                 <div>
-                  <label className="ft-medium text-md text-brown ml-4">
+                  <label className="ft-medium text-xs sm:text-md text-brown ml-4">
                     Apodo
                   </label>
                   <input
@@ -167,7 +167,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                 </div>
 
                 <div>
-                  <label className="ft-medium text-md text-brown ml-4">
+                  <label className="ft-medium text-xs sm:text-md text-brown ml-4">
                     Correo
                   </label>
                   <input
@@ -181,7 +181,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
 
               <div className="flex justify-between gap-2">
                 <div>
-                  <label className="ft-medium text-md text-brown ml-4">
+                  <label className="ft-medium text-xs sm:text-md text-brown ml-4">
                     Género
                   </label>
                   <input
@@ -193,7 +193,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                 </div>
 
                 <div>
-                  <label className="ft-medium text-md text-brown ml-4">
+                  <label className="ft-medium text-xs sm:text-md text-brown ml-4">
                     Edad
                   </label>
                   <input
@@ -207,7 +207,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
 
               <div className="flex justify-between gap-2">
                 <div>
-                  <label className="ft-medium text-md text-brown ml-4">
+                  <label className="ft-medium text-xs sm:text-md text-brown ml-4">
                     Altura
                   </label>
                   <input
@@ -222,7 +222,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                 </div>
 
                 <div>
-                  <label className="ft-medium text-md text-brown ml-4">
+                  <label className="ft-medium text-xs sm:text-md text-brown ml-4">
                     Peso
                   </label>
                   <input
