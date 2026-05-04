@@ -237,7 +237,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
               <button
                 onClick={handleButtonClick}
                 disabled={loading}
-                className="w-xs mx-auto ft-medium bg-yellow text-brown p-3 rounded-full mt-4 hover:scale-105 transition disabled:opacity-50 cursor-pointer text-xs"
+                className="md:w-xs mx-auto ft-medium bg-yellow text-brown p-3 rounded-full mt-4 hover:scale-105 transition disabled:opacity-50 cursor-pointer text-xs"
               >
                 {loading
                   ? "Guardando..."
