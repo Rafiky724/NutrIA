@@ -3,6 +3,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import type { User } from "../../types";
 import { Link } from "react-router-dom";
 import { useProgress } from "../../Context/ProgressContext";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 type Props = {
   user?: User;
@@ -10,8 +11,22 @@ type Props = {
   subtitle?: string;
 };
 
+function formatGemas(num: number, isMobile: boolean) {
+  const str = num.toString();
+
+  if (isMobile) {
+    if (num < 1000) return str;
+    return Math.floor(num / 1000) + "K";
+  }
+
+  if (str.length <= 5) return str;
+  return str.slice(0, 5) + "k";
+}
+
 export default function NavBar({ user, title, subtitle }: Props) {
   const { progress, loading } = useProgress();
+
+  const isMobile = useIsMobile();
 
   const defaultTitle = `Hola, ${user?.nombre}`;
   const defaultSubtitle = "¿Cómo va tu día?";
@@ -62,8 +77,11 @@ export default function NavBar({ user, title, subtitle }: Props) {
                 alt="Gemas"
                 className="w-3 md:w-5 h-3 md:h-5"
               />
-              <p className="ft-bold text-md md:text-2xl">
-                {progress?.cantidad_gemas ?? 0}
+              <p
+                className="ft-bold text-md md:text-2xl"
+                title={progress?.cantidad_gemas?.toString()}
+              >
+                {formatGemas(progress?.cantidad_gemas ?? 0, isMobile)}
               </p>
             </>
           )}
