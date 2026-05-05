@@ -5,6 +5,7 @@ import {
   type Logro as LogroService,
 } from "../../../services/logrosService";
 import { useProgress } from "../../../Context/ProgressContext";
+import SpinnerOverlay from "../../Loading/SpinnerOverlay";
 
 type Props = {
   onBack: () => void;
@@ -31,6 +32,7 @@ export default function AchievementsList({ onBack }: Props) {
   const { refreshProgress } = useProgress();
   const [logros, setLogros] = useState<LogroService[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingAction, setLoadingAction] = useState(false);
 
   useEffect(() => {
     const fetchLogros = async () => {
@@ -50,6 +52,8 @@ export default function AchievementsList({ onBack }: Props) {
     if (!logro.completado || logro.reclamado) return;
 
     try {
+      setLoadingAction(true);
+
       await reclamarLogro({ id_logro: logro.id_logro });
 
       setLogros((prev) =>
@@ -61,6 +65,8 @@ export default function AchievementsList({ onBack }: Props) {
       await refreshProgress();
     } catch (error) {
       console.error("Error al reclamar logro", error);
+    } finally {
+      setLoadingAction(false);
     }
   };
 
@@ -106,6 +112,8 @@ export default function AchievementsList({ onBack }: Props) {
 
   return (
     <div className="flex flex-col md:flex-row items-center gap-6 w-full md:justify-around xl:justify-center xl:gap-20">
+      <SpinnerOverlay isOpen={loadingAction} />
+
       <div className="bg-white rounded-4xl shadow-lg p-6 sm:px-12 w-2xs md:w-md xl:w-lg flex flex-col gap-6 ml-10 md:ml-0 h-130 overflow-y-auto">
         <button
           onClick={onBack}
