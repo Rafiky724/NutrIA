@@ -267,6 +267,7 @@ export default function ProfileEdit({ onBack, onGoToShop }: Props) {
                 }`}
               />
 
+
               {onGoToShop && (
                 <button
                   onClick={onGoToShop}
