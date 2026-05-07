@@ -57,7 +57,7 @@ class EstadoModel:
         )
     
     @staticmethod
-    async def edit_estado_dia_dia_mas_cercano(plan_id, estado, dia_semana, session=None, tipo_comida=None, comida_ia=None):
+    async def edit_estado_dia_dia_mas_cercano(plan_id, estado, dia_semana, session=None):
 
         hoy = datetime.now(ZoneInfo("America/Bogota"))
 
@@ -88,23 +88,10 @@ class EstadoModel:
 
         doc_id = docs[0]["_id"]
 
-        doc_dieta = docs[0].get("dieta", {})
-
-        for comida in doc_dieta.get("comidas", []):
-            if comida.get("tipo_comida") == tipo_comida.lower():
-                comida["ingredientes"] = comida_ia["ingredientes"]
-                comida["calorias"] = comida_ia["calorias"]
-                comida["proteinas"] = comida_ia["proteinas"]
-                comida["carbohidratos"] = comida_ia["carbohidratos"]
-                comida["grasas"] = comida_ia["grasas"]
-                comida["precio_estimado"] = comida_ia["precio_estimado"]
-                comida["verificada"] = False
-                comida["completada"] = False
-
         # 2. Actualizar ese documento
         return await db.estados_dia.update_one(
             {"_id": doc_id},
-            {"$set": {"dieta": doc_dieta}},
+            {"$set": {"dieta": estado}},
             session=session
         )
         

@@ -324,6 +324,8 @@ class DiasController:
                         update_data=dia_doc,
                         session=session
                     )
+                    
+                    print(dia_doc)
 
                     dia_doc.pop("_id")
                     created_at = dia_doc.pop("created_at")
@@ -336,9 +338,7 @@ class DiasController:
                         plan_id=id_plan,
                         estado=dia_doc,
                         dia_semana=dia_semana,
-                        session=session,
-                        tipo_comida=tipo_comida,
-                        comida_ia=comida_ia
+                        session=session
                     )
 
                     # Al regresar al cliente necesitamos mantener los campos esperados por el schema
