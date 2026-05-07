@@ -57,3 +57,31 @@ class MascotaModel:
             {"$set": {"mascotas": mascotas}},
             **kwargs
         )
+
+    @staticmethod
+    async def get_mascota_activa_estado(user_id: ObjectId):
+
+        mascota = await db.mascotas_usuarios.find_one({"id_usuario": user_id})
+
+        if not mascota:
+            return None
+
+        #print(mascota)
+        mascota_activa_tipo = mascota["mascota_activa"]
+        estado_mascota = mascota["mascotas"][0]['estado']
+        #mascota_activa_tipo = None
+        #estado_mascota = None
+
+        return mascota_activa_tipo, estado_mascota
+    
+    @staticmethod
+    async def actualizar_estado_mascota_usuario(user_id: ObjectId, estado):
+
+        return await db.mascotas_usuarios.update_one(
+            {"id_usuario": user_id},
+            {
+                "$set": {
+                    "mascotas.0.estado": estado
+                }
+            }
+        )

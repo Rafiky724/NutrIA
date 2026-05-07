@@ -7,6 +7,7 @@ from app.core.database import db
 from app.core.helpers import get_day_range_bogota, comparar_horas, comparar_con_hoy_bogota
 from app.models.estado_model import EstadoModel
 from app.models.info_model import InfoModel
+from app.models.mascota_model import MascotaModel
 from app.models.plan_model import PlanModel
 from app.schemas.dias import DiaResponse
 
@@ -31,6 +32,15 @@ class HomeController:
         modal_perder_racha = False
         modal_advertencia_racha = False
         modal_dia_actualizar_dieta = False
+
+        mascota_actual_usuario, estado_mascota_usuario = await MascotaModel.get_mascota_activa_estado(ObjectId(current_user["_id"]))
+
+        mascota = {
+            "mascota": mascota_actual_usuario,
+            "estado": estado_mascota_usuario,
+            "prioridad": False
+
+        }
 
         informacion_dia = {
             "dia": "Hoy",
@@ -76,7 +86,8 @@ class HomeController:
                     "macros_consumidos_hoy": None,
                     "proxima_comida": None,
                     "dia_actual": None,
-                    "modals": modals
+                    "modals": modals,
+                    "mascota": mascota,
                 }
                         
             ayer = hoy - timedelta(days=1)
@@ -90,6 +101,8 @@ class HomeController:
                     
                     if info_doc_ayer["estado_dia"] == 4:
                         modal_advertencia_racha = True
+                        mascota["estado"] = "triste"
+                        mascota["prioridad"] = True
 
                     try:
 
@@ -122,6 +135,8 @@ class HomeController:
 
                 if info_doc_antier is not None and info_doc_antier["estado_dia"] in (1, 2, 3):
                     modal_advertencia_racha = True
+                    mascota["estado"] = "triste"
+                    mascota["prioridad"] = True
 
                     ayer = hoy - timedelta(days=1)
                     inicio_ayer, fin_ayer = get_day_range_bogota(ayer)
@@ -157,6 +172,8 @@ class HomeController:
                         
                         }
                         modal_pagar_racha = True
+                        mascota["estado"] = "triste"
+                        mascota["prioridad"] = True
                     else:
                         data = {
                             "estado_dia": 4
@@ -189,6 +206,8 @@ class HomeController:
 
         if info_doc_hoy.get("tomarDecisionMantenerRacha", False):
             modal_pagar_racha = True
+            mascota["estado"] = "triste"
+            mascota["prioridad"] = True
 
         if plan is None:
             plan = await PlanModel.get_plan_usuario(user_id)
@@ -235,6 +254,8 @@ class HomeController:
             comparacion = comparar_con_hoy_bogota(fecha)
 
             if comparacion == "despues":
+                
+                await MascotaModel.actualizar_estado_mascota_usuario(user_id, mascota["estado"])
 
                 return {
                     "usuario": usuario,
@@ -244,7 +265,8 @@ class HomeController:
                     "proxima_comida": None,
                     "dia_actual": None,
                     "modals": modals,
-                    "info_dia": informacion_dia
+                    "info_dia": informacion_dia,
+                    "mascota": mascota
                 }
             
             else:
@@ -298,12 +320,24 @@ class HomeController:
         if index >= len(comidas):
             proxima = "Haz acabado tu plan alimenticio para el día de hoy. Vuelve mañana."
             modal_subir_racha, modal_pagar_racha, modal_perder_racha = await HomeController.verificar_modal_mostrar(current_user, inicio, fin)
-
+            if modal_perder_racha or modal_pagar_racha:
+                mascota["estado"] = "triste"
+                mascota["prioridad"] = True
+            elif modal_subir_racha:
+                mascota["estado"] = "feliz"
+                mascota["prioridad"] = True
 
         else:
             comida = comidas[index]
 
             urgencia_comida = comparar_horas(comida["hora_sugerida"])
+
+            if urgencia_comida["color"] == "#260B01":
+                if not mascota["prioridad"]:
+                    mascota["estado"] = "enojada"
+            else:
+                if not mascota["prioridad"]:
+                    mascota["estado"] = "feliz"
 
             inicio_aux, fin_aux = get_day_range_bogota(hoy)
 
@@ -312,6 +346,8 @@ class HomeController:
             if info_doc_aux:
                 if info_doc_aux["enDiaAnterior"]:
                     urgencia_comida = {"color": "#260B01", "mensaje": "¡Tu comida está retrasada!", "estado": 2}
+                    if not mascota["prioridad"]:
+                        mascota["estado"] = "enojada"
 
             proxima = {
                 "tipo_comida": comida["tipo_comida"],
@@ -334,6 +370,8 @@ class HomeController:
             "mostrar_actualizar_dieta": modal_dia_actualizar_dieta
 
         }
+
+        await MascotaModel.actualizar_estado_mascota_usuario(user_id, mascota["estado"])
         
         return {
 
@@ -342,7 +380,8 @@ class HomeController:
             "proxima_comida": proxima,
             "dia_actual": DiaResponse(**dia),
             "modals": modals,
-            "info_dia": informacion_dia
+            "info_dia": informacion_dia,
+            "mascota": mascota
 
         }
 
