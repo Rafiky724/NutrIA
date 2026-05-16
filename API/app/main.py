@@ -40,6 +40,8 @@ app.include_router(despensa_router)
 app.include_router(mascotas_router)
 app.include_router(logros_router)
 
+print("🚀 NUEVA VERSION DEL BACKEND DESPLEGADA EN RAILWAY")
+
 @app.get("/")
 async def read_root():
     return {"message": "NutrIA API"}
