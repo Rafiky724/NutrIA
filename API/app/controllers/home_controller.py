@@ -272,7 +272,7 @@ class HomeController:
             else:
 
                 try:
-
+                    inicio, fin = get_day_range_bogota(hoy)
                     await EstadoModel.create_estado_model_today(user_id, plan["_id"], HomeController.dias[hoy.weekday()])
                     estado = await EstadoModel.get_estado_dia_por_fecha(plan["_id"], inicio, fin)
                     informacion_dia["fecha"] = estado.get("fecha", None)
