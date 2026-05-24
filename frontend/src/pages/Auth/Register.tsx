@@ -17,10 +17,11 @@ export default function Register() {
     type: "error" as "error" | "success" | "warning" | "info",
   });
 
+  const [acceptedDisclaimer, setAcceptedDisclaimer] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [formData, setFormData] = useState<RegisterForm>({
     nombre: "",
     apodo: "",
@@ -105,6 +106,13 @@ export default function Register() {
       );
     }
 
+    if (!acceptedDisclaimer) {
+      return showToast(
+        "Debes aceptar el uso bajo tu responsabilidad antes de continuar",
+        "error",
+      );
+    }
+
     setLoading(true);
 
     const nutriaRaw = localStorage.getItem("datosNutrIA");
@@ -112,7 +120,10 @@ export default function Register() {
     if (!nutriaRaw) {
       console.error("No existen datos en datosNutrIA");
       setLoading(false);
-      return;
+      return showToast(
+        "Debes completar primero el formulario nutricional",
+        "error",
+      );
     }
 
     let nutriaForm: NutriaFormData;
@@ -281,9 +292,48 @@ export default function Register() {
           </div>
         </div>
 
+        <div className="mt-2 text-left">
+          <div className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="disclaimer"
+              checked={acceptedDisclaimer}
+              onChange={(e) => setAcceptedDisclaimer(e.target.checked)}
+              className="mt-1 w-4 h-4 cursor-pointer"
+            />
+
+            <div className="flex-1">
+              <div className="block sm:hidden">
+                <button
+                  type="button"
+                  onClick={() => setShowDisclaimer(!showDisclaimer)}
+                  className="text-xs text-brown ft-light underline"
+                >
+                  Acepto usar la app bajo mi responsabilidad
+                </button>
+
+                {showDisclaimer && (
+                  <p className="mt-2 text-[11px] leading-4 text-brown/80">
+                    Esta aplicación no cuenta con validación médica profesional
+                    y no sustituye asesoría nutricional o médica.
+                  </p>
+                )}
+              </div>
+
+              <label
+                htmlFor="disclaimer"
+                className="hidden sm:block text-xs sm:text-sm text-brown ft-light leading-5 cursor-pointer"
+              >
+                Entiendo que esta aplicación no cuenta con validación médica
+                profesional y acepto utilizarla bajo mi propia responsabilidad.
+              </label>
+            </div>
+          </div>
+        </div>
+
         <button
           type="submit"
-          className="w-full sm:w-64 md:w-72 mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl mt-6 text-sm sm:text-base hover:scale-105 transition cursor-pointer"
+          className="w-full sm:w-64 md:w-72 mx-auto bg-yellow text-brown ft-medium px-4 py-2 rounded-3xl mt-2 text-sm sm:text-base hover:scale-105 transition cursor-pointer"
         >
           Crear Cuenta
         </button>
