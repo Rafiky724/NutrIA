@@ -5,11 +5,13 @@ export default function SidebarMenu() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const currentRoute = location.pathname + location.search;
+
   return (
     <div className="bg-white rounded-tr-3xl rounded-br-3xl p-3 shadow-md fixed top-50 left-0 z-50">
-      <div className="flex flex-col gap-6 -ml-2">
+      <div className="flex flex-col gap-3 -ml-2">
         {menuItems.map((item, idx) => {
-          const isActive = location.pathname === item.path;
+          const isActive = currentRoute === item.path;
           const theme = isActive ? "Light" : "Dark";
           const iconSrc = `/SVG/Menu/${theme}/${item.nombre}.svg`;
 
