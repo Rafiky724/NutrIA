@@ -49,9 +49,15 @@ export default function HealthConditionDetailsForm({
         </div>
       </div>
 
-      <div className="ft-light text-justify text-gray my-6 md:my-10 text-sm sm:text-base md:text-md px-2 sm:px-6">
+      <div className="ft-light text-justify text-gray my-6 md:my-8 text-sm sm:text-base md:text-md px-2 sm:px-6">
         Tranquilo, esta información solo se usará para personalizar tu dieta de
         forma segura y efectiva.
+      </div>
+
+      <div className="mt-1 text-[8px] sm:text-sm text-gray-400 ft-light px-2 sm:px-6">
+        *Esta herramienta ofrece recomendaciones automáticas y no cuenta con
+        validación médica profesional. Te recomendamos consultar a un
+        especialista antes de realizar cambios importantes en tu alimentación.
       </div>
 
       <div className="mt-6 relative">
