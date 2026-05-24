@@ -80,7 +80,7 @@ export default function CustomIngredientModal({
           onClick={(e) => e.stopPropagation()}
         >
           <h3 className="ft-bold text-xl md:text-2xl text-brown text-center mb-10">
-            Agregar alimentos
+            Agregar ingredientes
           </h3>
 
           <div className="flex flex-col sm:flex-row gap-6 md:gap-10">
@@ -90,6 +90,7 @@ export default function CustomIngredientModal({
                 value={newIngredient}
                 onChange={(e) => setNewIngredient(e.target.value)}
                 placeholder="Nombre del ingrediente"
+                maxLength={10}
                 className="bg-input rounded-4xl px-4 py-3 w-full mb-4 ft-light text-sm sm:text-base"
               />
 
@@ -105,7 +106,7 @@ export default function CustomIngredientModal({
             <div className="flex-1 h-56 max-h-56 overflow-y-auto w-full bg-input px-4 py-4 rounded-4xl">
               {customIngredients.length === 0 ? (
                 <p className="text-gray ft-light text-center">
-                  No has agregado alimentos aún.
+                  No has agregado ingredientes aún.
                 </p>
               ) : (
                 <ul className="text-left text-sm sm:text-base text-gray ft-light">
