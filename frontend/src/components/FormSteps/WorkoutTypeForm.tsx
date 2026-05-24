@@ -69,7 +69,7 @@ export default function WorkoutTypeForm({
             key={option}
             type="button"
             onClick={() => handleSelect(option)}
-            className="w-full sm:w-md mx-auto py-2 rounded-3xl sm:rounded-4xl cursor-pointer ft-medium custom-bg transition hover:scale-105"
+            className="w-full mx-auto py-2 rounded-3xl sm:rounded-4xl cursor-pointer ft-medium custom-bg transition hover:scale-105"
           >
             <h4 className="text-center text-sm sm:text-base md:text-lg">
               {option}
