@@ -53,7 +53,7 @@ export default function BudgetSelectionForm({
         <p>¿Cuál es tu presupuesto semanal para alimentación?</p>
       </div>
 
-      <div className="w-full sm:w-96 mx-auto space-y-3 sm:space-y-4">
+      <div className="w-full mx-auto space-y-3 sm:space-y-4">
         {options.map(({ label, price }) => (
           <div
             key={label}
