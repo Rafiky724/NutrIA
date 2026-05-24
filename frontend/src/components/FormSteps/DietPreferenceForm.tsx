@@ -80,7 +80,7 @@ export default function DietPreferenceForm({
             key={option.value}
             type="button"
             onClick={() => handleSelect(option.value)}
-            className="w-full sm:w-lg mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
+            className="w-full mx-auto rounded-2xl cursor-pointer text-lg custom-bg p-4 custom-bg transition hover:scale-105"
           >
             <h4 className="ft-medium text-left text-xs sm:text-lg mb-1">
               {option.title}
