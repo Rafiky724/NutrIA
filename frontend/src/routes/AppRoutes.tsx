@@ -29,6 +29,7 @@ import ObjetiveSpeed from "../components/Home/SettingsMenu/UpdateObjetive/Objeti
 import Workout from "../components/Home/SettingsMenu/UpdateObjetive/Workout";
 import Meal from "../components/Home/SettingsMenu/UpdateObjetive/Meal";
 import Objetive from "../components/Home/SettingsMenu/UpdateObjetive/Objetive";
+import RegisterProtection from "../components/Protected/RegisterProtection";
 
 export default function AppRoutes() {
   return (
@@ -38,7 +39,9 @@ export default function AppRoutes() {
       <Route path="/" element={<Init />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/form" element={<Form />}></Route>
-      <Route path="/register" element={<Register />}></Route>
+      <Route element={<RegisterProtection />}>
+        <Route path="/register" element={<Register />} />
+      </Route>
 
       {/* Rutas protegidas */}
       <Route element={<RouteProtection />}>
