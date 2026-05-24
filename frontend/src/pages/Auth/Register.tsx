@@ -28,6 +28,29 @@ export default function Register() {
     contraseña: "",
   });
 
+  const showToast = (
+    message: string,
+    type: "error" | "success" | "warning" | "info" = "error",
+  ) => {
+    setToast({
+      open: true,
+      message,
+      type,
+    });
+  };
+
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-])[A-Za-z\d@$!%*?&.#_-]{8,}$/;
+
+    return regex.test(password);
+  };
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -39,6 +62,49 @@ export default function Register() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!formData.nombre.trim()) {
+      return showToast("El nombre es obligatorio");
+    }
+
+    if (formData.nombre.trim().length < 3) {
+      return showToast("El nombre debe tener mínimo 3 caracteres");
+    }
+
+    if (formData.nombre.trim().length > 30) {
+      return showToast("El nombre no puede superar los 30 caracteres");
+    }
+
+    if (!formData.apodo.trim()) {
+      return showToast("El apodo es obligatorio");
+    }
+
+    if (formData.apodo.trim().length < 3) {
+      return showToast("El apodo debe tener mínimo 3 caracteres");
+    }
+
+    if (formData.apodo.trim().length > 20) {
+      return showToast("El apodo no puede superar los 20 caracteres");
+    }
+
+    if (!formData.correo.trim()) {
+      return showToast("El correo es obligatorio");
+    }
+
+    if (!validateEmail(formData.correo)) {
+      return showToast("Ingresa un correo electrónico válido");
+    }
+
+    if (!formData.contraseña.trim()) {
+      return showToast("La contraseña es obligatoria");
+    }
+
+    if (!validatePassword(formData.contraseña)) {
+      return showToast(
+        "La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un símbolo",
+      );
+    }
+
     setLoading(true);
 
     const nutriaRaw = localStorage.getItem("datosNutrIA");
@@ -50,6 +116,7 @@ export default function Register() {
     }
 
     let nutriaForm: NutriaFormData;
+
     try {
       nutriaForm = JSON.parse(nutriaRaw);
     } catch {
@@ -60,7 +127,9 @@ export default function Register() {
 
     try {
       const payload = mapToRegisterRequest(nutriaForm, formData);
+
       await registerUser(payload);
+
       const loginResponse = await loginUser({
         email: formData.correo,
         password: formData.contraseña,
@@ -71,7 +140,6 @@ export default function Register() {
       localStorage.removeItem("datosNutrIA");
 
       navigate("/dietCreationReady");
-      setLoading(false);
     } catch (error: any) {
       const backendMessage = error.response?.data?.detail;
 
@@ -83,11 +151,7 @@ export default function Register() {
         message = backendMessage;
       }
 
-      setToast({
-        open: true,
-        message,
-        type: "error",
-      });
+      showToast(message);
     } finally {
       setLoading(false);
     }
@@ -117,6 +181,7 @@ export default function Register() {
               className="w-full h-auto"
             />
           </div>
+
           <div className="ft-bold text-lg sm:text-xl md:text-2xl text-brown text-center md:text-left">
             <h2>Crear Cuenta</h2>
           </div>
@@ -130,6 +195,7 @@ export default function Register() {
             >
               Nombre
             </label>
+
             <input
               id="nombre"
               name="nombre"
@@ -137,7 +203,6 @@ export default function Register() {
               value={formData.nombre}
               onChange={handleChange}
               placeholder="Ingresa tu nombre"
-              required
               className="w-full px-4 py-2 rounded-3xl bg-input ft-light text-sm sm:text-base"
             />
           </div>
@@ -149,6 +214,7 @@ export default function Register() {
             >
               Apodo
             </label>
+
             <input
               id="apodo"
               name="apodo"
@@ -156,7 +222,6 @@ export default function Register() {
               value={formData.apodo}
               onChange={handleChange}
               placeholder="Ingresa tu apodo"
-              required
               className="w-full px-4 py-2 rounded-3xl bg-input ft-light text-sm sm:text-base"
             />
           </div>
@@ -168,14 +233,14 @@ export default function Register() {
             >
               Correo electrónico
             </label>
+
             <input
               id="correo"
               name="correo"
-              type="email"
+              type="text"
               value={formData.correo}
               onChange={handleChange}
               placeholder="Ingresa tu correo"
-              required
               className="w-full px-4 py-2 rounded-3xl bg-input ft-light text-sm sm:text-base"
             />
           </div>
@@ -187,6 +252,7 @@ export default function Register() {
             >
               Contraseña
             </label>
+
             <input
               id="contraseña"
               name="contraseña"
@@ -194,7 +260,6 @@ export default function Register() {
               value={formData.contraseña}
               onChange={handleChange}
               placeholder="Ingresa tu contraseña"
-              required
               className="w-full px-4 py-2 rounded-3xl bg-input ft-light text-sm sm:text-base"
             />
 
