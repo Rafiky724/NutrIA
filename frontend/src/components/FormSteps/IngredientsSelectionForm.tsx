@@ -130,7 +130,7 @@ export default function IngredientsSelectionForm({
         </button>
       </div>
 
-      <div className="relative w-2xs md:w-lg mb-2 mx-auto">
+      <div className="relative w-full  mb-2 mx-auto">
         <div className="flex flex-wrap justify-center items-center gap-2 h-40 overflow-y-auto px-4 mb-8">
           {category.items.map((item, index) => {
             const isSelected = selectedIngredients.includes(item.nombre);
