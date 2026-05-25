@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function RegisterProtection() {
-  const datosNutria = localStorage.getItem("datosNutria");
+  const datosNutria = localStorage.getItem("datosNutrIA");
 
   if (!datosNutria) {
     return <Navigate to="/" replace />;
