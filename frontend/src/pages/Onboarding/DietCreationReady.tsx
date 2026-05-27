@@ -48,7 +48,7 @@ export default function DietCreationReady() {
       console.error("Error al crear dieta:", err);
       setToast({
         isOpen: true,
-        message: "Hubo un problema al crear tu dieta. Intenta nuevamente.",
+        message: "Nuestros servicios de inteligencia artificial están saturados en este momento. Por favor intenta nuevamente en unos minutos.",
         type: "error",
       });
     } finally {
