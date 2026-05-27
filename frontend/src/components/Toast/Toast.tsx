@@ -22,7 +22,7 @@ export default function Toast({
   type = "error",
   isOpen,
   onClose,
-  duration = 3000,
+  duration = 6000,
 }: ToastProps) {
   const [progressKey, setProgressKey] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
